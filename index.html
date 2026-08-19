@@ -172,16 +172,16 @@
     </section>
 
     <!-- SECTION: SELECTED WORK -->
-    <!-- STREAMING_CHUNK:Rendering selected work section with top-left slot header covering hero... -->
+    <!-- STREAMING_CHUNK:Rendering selected work section with top-left slot header positioned below logo... -->
     <section id="selected-work" class="sticky top-0 bg-black z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] w-full h-[100dvh] overflow-hidden flex flex-col">
         
-        <!-- Top Left Header with Slot Machine Text -->
-        <div class="absolute top-8 left-6 md:left-12 z-50 pointer-events-none">
+        <!-- Top Left Header with Slot Machine Text (Offset below top nav & logo) -->
+        <div class="absolute top-24 md:top-28 left-6 md:left-12 z-50 pointer-events-none">
             <h2 id="selected-title" class="font-display text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">SELECTED WORKS</h2>
         </div>
 
         <!-- Film Track Container (Extended width for blank space at start & end) -->
-        <div class="relative w-full flex-1 overflow-hidden mt-16 md:mt-20">
+        <div class="relative w-full flex-1 overflow-hidden mt-20">
             <div class="film-track w-[750vw] md:w-[380vw]" id="film-track">
                 
                 <!-- Item 1 -->
@@ -478,11 +478,11 @@
     </section>
 
     <!-- SECTION: ABOUT -->
-    <!-- STREAMING_CHUNK:Rendering about us section with top-left slot header covering selected work... -->
+    <!-- STREAMING_CHUNK:Rendering about us section with top-left slot header positioned below logo... -->
     <section id="about" class="sticky top-0 w-full h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-16 py-16 z-30 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
         
-        <!-- Top Left Header with Slot Machine Text -->
-        <div class="absolute top-8 left-6 md:left-12 z-50 pointer-events-none">
+        <!-- Top Left Header with Slot Machine Text (Offset below top nav & logo) -->
+        <div class="absolute top-24 md:top-28 left-6 md:left-12 z-50 pointer-events-none">
             <h2 id="about-title" class="font-display text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">ABOUT US</h2>
         </div>
 
@@ -518,11 +518,11 @@
     </section>
 
     <!-- SECTION: CONTACT -->
-    <!-- STREAMING_CHUNK:Rendering contact section covering about us... -->
+    <!-- STREAMING_CHUNK:Rendering contact section... -->
     <section id="contact" class="sticky top-0 w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-8 py-16 z-40 overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
         
         <!-- Top Left Header -->
-        <div class="absolute top-8 left-6 md:left-12 z-50 pointer-events-none">
+        <div class="absolute top-24 md:top-28 left-6 md:left-12 z-50 pointer-events-none">
             <h2 class="font-display text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">CONTACT</h2>
         </div>
 
@@ -562,9 +562,9 @@
             cursor.style.top = e.clientY + 'px';
         });
 
-        // Initialize Lenis Smooth Scrolling
+        // Initialize Lenis Smooth Scrolling (Faster and smoother interpolation)
         const lenis = new Lenis({
-            duration: 1.2,
+            duration: 1.0,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             direction: 'vertical',
             smooth: true,
@@ -603,7 +603,7 @@
         // 1. Hero Reveal
         const heroTl = gsap.timeline();
         heroTl.to('.hero-fade', {
-            opacity: 1, y: 0, duration: 1.5, ease: "power3.out", stagger: 0.2, delay: 0.5
+            opacity: 1, y: 0, duration: 1.2, ease: "power3.out", stagger: 0.15, delay: 0.3
         });
         gsap.to('.parallax-hero', {
             yPercent: 30, rotation: 2, ease: "none",
@@ -614,7 +614,7 @@
             scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.1 }
         });
 
-        // 2. SELECTED WORK (Horizontal Scroll with Slot Animation Trigger)
+        // 2. SELECTED WORK (Horizontal Scroll - Faster & Smoother)
         const filmTrack = document.getElementById("film-track");
         gsap.to(filmTrack, {
             x: () => -(filmTrack.scrollWidth - window.innerWidth) + "px",
@@ -622,8 +622,8 @@
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
-                end: "+=420%", 
-                scrub: 1.2,
+                end: "+=280%", // Faster horizontal scroll progression
+                scrub: 0.8,    // Smoother, snappier scrub response
                 pin: true, 
                 anticipatePin: 1
             }
@@ -636,8 +636,8 @@
             onEnter: () => {
                 gsap.to("#selected-work .slot-char", {
                     y: "0%",
-                    duration: 0.8,
-                    stagger: 0.03,
+                    duration: 0.7,
+                    stagger: 0.02,
                     ease: "power4.out",
                     overwrite: "auto"
                 });
@@ -645,7 +645,7 @@
             onLeaveBack: () => {
                 gsap.to("#selected-work .slot-char", {
                     y: "110%",
-                    duration: 0.4,
+                    duration: 0.3,
                     ease: "power2.in",
                     overwrite: "auto"
                 });
@@ -659,8 +659,8 @@
             onEnter: () => {
                 gsap.to("#about .slot-char", {
                     y: "0%",
-                    duration: 0.8,
-                    stagger: 0.03,
+                    duration: 0.7,
+                    stagger: 0.02,
                     ease: "power4.out",
                     overwrite: "auto"
                 });
@@ -668,7 +668,7 @@
             onLeaveBack: () => {
                 gsap.to("#about .slot-char", {
                     y: "110%",
-                    duration: 0.4,
+                    duration: 0.3,
                     ease: "power2.in",
                     overwrite: "auto"
                 });
