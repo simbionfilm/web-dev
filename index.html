@@ -27,13 +27,14 @@
     </script>
 
     <style>
-        /* STREAMING_CHUNK:Configuring base smooth scroll and typography... */
+        /* Base Smooth Scroll Settings */
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto; }
         .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
         .lenis.lenis-stopped { overflow: hidden; }
         .lenis.lenis-scrolling iframe { pointer-events: none; }
         
+        /* Typography System */
         body {
             font-family: "Google Sans Flex", sans-serif;
             background-color: #000000;
@@ -133,7 +134,7 @@
 </head>
 <body class="font-sans">
 
-    <!-- STREAMING_CHUNK:Initializing global interactive elements... -->
+    <!-- STREAMING_CHUNK:Initializing global elements... -->
     <div class="custom-cursor" id="custom-cursor"></div>
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
 
@@ -171,20 +172,20 @@
     </section>
 
     <!-- SECTION: SELECTED WORK -->
-    <!-- STREAMING_CHUNK:Rendering selected work section with initial blank pause... -->
+    <!-- STREAMING_CHUNK:Rendering selected work section with top-left title and blank initial canvas... -->
     <section id="selected-work" class="sticky top-0 bg-black z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] w-full h-[100dvh] overflow-hidden flex flex-col">
         
-        <!-- Top Left Header with Slot Machine Text (Offset below logo) -->
+        <!-- Top Left Header with Slot Machine Text (Aman dari logo) -->
         <div class="absolute top-24 md:top-28 left-6 md:left-12 z-50 pointer-events-none">
             <h2 id="selected-title" class="font-display text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">SELECTED WORKS</h2>
         </div>
 
-        <!-- Film Track Container (Shifted further right so items start completely off-screen during initial blank state) -->
+        <!-- Film Track Container (Item pertama diletakkan di >100vw agar layar awal bersih hitam kosong) -->
         <div class="relative w-full flex-1 overflow-hidden mt-20">
-            <div class="film-track w-[950vw] md:w-[480vw]" id="film-track">
+            <div class="film-track w-[700vw] md:w-[350vw]" id="film-track">
                 
                 <!-- Item 1 -->
-                <div class="gallery-item absolute left-[130vw] top-[40%] md:left-[120vw] md:top-[45%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[110vw] top-[40%] md:left-[105vw] md:top-[45%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="-3">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -201,7 +202,7 @@
                 </div>
 
                 <!-- Item 2 -->
-                <div class="gallery-item absolute left-[150vw] top-[65%] md:left-[135vw] md:top-[15%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[130vw] top-[65%] md:left-[120vw] md:top-[15%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="3" data-my="4">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -218,7 +219,7 @@
                 </div>
 
                 <!-- Item 3 -->
-                <div class="gallery-item absolute left-[170vw] top-[30%] md:left-[150vw] md:top-[60%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[150vw] top-[30%] md:left-[135vw] md:top-[60%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -235,7 +236,7 @@
                 </div>
 
                 <!-- Item 4 -->
-                <div class="gallery-item absolute left-[190vw] top-[70%] md:left-[165vw] md:top-[25%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[170vw] top-[70%] md:left-[150vw] md:top-[25%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="2" data-my="-4">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -252,7 +253,7 @@
                 </div>
 
                 <!-- Item 5 -->
-                <div class="gallery-item absolute left-[210vw] top-[35%] md:left-[180vw] md:top-[70%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[190vw] top-[35%] md:left-[165vw] md:top-[70%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-3" data-my="2">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -269,7 +270,7 @@
                 </div>
 
                 <!-- Item 6 -->
-                <div class="gallery-item absolute left-[230vw] top-[75%] md:left-[195vw] md:top-[15%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[210vw] top-[75%] md:left-[180vw] md:top-[15%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="5" data-my="3">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -286,7 +287,7 @@
                 </div>
 
                 <!-- Item 7 -->
-                <div class="gallery-item absolute left-[250vw] top-[25%] md:left-[210vw] md:top-[55%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[230vw] top-[25%] md:left-[195vw] md:top-[55%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="4">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -303,7 +304,7 @@
                 </div>
 
                 <!-- Item 8 -->
-                <div class="gallery-item absolute left-[270vw] top-[65%] md:left-[225vw] md:top-[25%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[250vw] top-[65%] md:left-[210vw] md:top-[25%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="3" data-my="-5">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -320,7 +321,7 @@
                 </div>
 
                 <!-- Item 9 -->
-                <div class="gallery-item absolute left-[290vw] top-[30%] md:left-[240vw] md:top-[65%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[270vw] top-[30%] md:left-[225vw] md:top-[65%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -337,7 +338,7 @@
                 </div>
 
                 <!-- Item 10 -->
-                <div class="gallery-item absolute left-[310vw] top-[70%] md:left-[255vw] md:top-[20%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[290vw] top-[70%] md:left-[240vw] md:top-[20%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="4" data-my="-3">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -354,7 +355,7 @@
                 </div>
 
                 <!-- Item 11 -->
-                <div class="gallery-item absolute left-[330vw] top-[40%] md:left-[270vw] md:top-[50%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[310vw] top-[40%] md:left-[255vw] md:top-[50%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-3" data-my="3">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -371,7 +372,7 @@
                 </div>
 
                 <!-- Item 12 -->
-                <div class="gallery-item absolute left-[350vw] top-[60%] md:left-[285vw] md:top-[20%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[330vw] top-[60%] md:left-[270vw] md:top-[20%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="2" data-my="-2">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -388,7 +389,7 @@
                 </div>
 
                 <!-- Item 13 -->
-                <div class="gallery-item absolute left-[370vw] top-[35%] md:left-[300vw] md:top-[65%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[350vw] top-[35%] md:left-[285vw] md:top-[65%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="4">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -405,7 +406,7 @@
                 </div>
 
                 <!-- Item 14 -->
-                <div class="gallery-item absolute left-[390vw] top-[70%] md:left-[315vw] md:top-[30%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[370vw] top-[70%] md:left-[300vw] md:top-[30%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="3" data-my="-3">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -422,7 +423,7 @@
                 </div>
 
                 <!-- Item 15 -->
-                <div class="gallery-item absolute left-[410vw] top-[25%] md:left-[330vw] md:top-[60%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[390vw] top-[25%] md:left-[315vw] md:top-[60%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="2">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -439,7 +440,7 @@
                 </div>
 
                 <!-- Item 16 -->
-                <div class="gallery-item absolute left-[430vw] top-[65%] md:left-[345vw] md:top-[15%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[410vw] top-[65%] md:left-[330vw] md:top-[15%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="4" data-my="-4">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -456,7 +457,7 @@
                 </div>
 
                 <!-- Item 17 -->
-                <div class="gallery-item absolute left-[450vw] top-[30%] md:left-[360vw] md:top-[55%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="gallery-item absolute left-[430vw] top-[30%] md:left-[345vw] md:top-[55%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -613,27 +614,20 @@
             scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.1 }
         });
 
-        // 2. SELECTED WORK (Timeline with Initial Blank Pause before sliding thumbnails in)
+        // 2. SELECTED WORK (Horizontal Scroll - Smooth & Clean)
         const filmTrack = document.getElementById("film-track");
-        const trackTl = gsap.timeline({
+        gsap.to(filmTrack, {
+            x: () => -(filmTrack.scrollWidth - window.innerWidth) + "px",
+            ease: "none",
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
                 end: "+=320%", 
-                scrub: 0.8,    
+                scrub: 0.8,
                 pin: true, 
                 anticipatePin: 1
             }
         });
-
-        // First 30% of scroll: Blank screen showing only black background + title
-        trackTl.to({}, { duration: 0.3 })
-               // Remaining 70% of scroll: Slide film track in from the right
-               .to(filmTrack, {
-                   x: () => -(filmTrack.scrollWidth - window.innerWidth) + "px",
-                   ease: "none",
-                   duration: 0.7
-               });
 
         // Slot Machine Animation: Selected Works
         ScrollTrigger.create({
