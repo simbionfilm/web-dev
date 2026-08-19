@@ -65,6 +65,19 @@
             transition: width 0.2s, height 0.2s;
         }
 
+        /* Slot Machine Letter Animation Styles */
+        .slot-wrapper {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+            height: 1.1em;
+            padding-bottom: 0.05em;
+        }
+        .slot-char {
+            display: inline-block;
+            transform: translateY(110%);
+        }
+
         /* Hover Text Smooth Italic & Move */
         .hover-text-fx {
             display: inline-block;
@@ -140,7 +153,7 @@
     </nav>
 
     <!-- SECTION: HERO (STICKY) -->
-    <!-- STREAMING_CHUNK:Rendering hero section with enlarged quote... -->
+    <!-- STREAMING_CHUNK:Rendering hero section with sticky parallax behavior... -->
     <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center items-center px-4 md:px-8 bg-black z-10 shadow-2xl">
         <div class="w-full max-w-2xl flex justify-center parallax-hero z-10">
             <!-- GAMBAR GIF ASLI -->
@@ -159,23 +172,19 @@
     </section>
 
     <!-- SECTION: SELECTED WORK -->
-    <!-- STREAMING_CHUNK:Rendering selected work section with black background and blank side buffers... -->
-    <section id="selected-work" class="relative bg-black z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] w-full h-[100dvh] overflow-hidden flex flex-col">
+    <!-- STREAMING_CHUNK:Rendering selected work section with top-left slot header covering hero... -->
+    <section id="selected-work" class="sticky top-0 bg-black z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] w-full h-[100dvh] overflow-hidden flex flex-col">
         
-        <!-- Top Right Header Bar -->
-        <div class="w-full flex justify-between items-start px-6 md:px-12 pt-24 md:pt-28 z-50 pointer-events-none shrink-0">
-            <div></div>
-            <div class="text-right">
-                <span class="text-[10px] tracking-[0.3em] text-mutedText font-mono uppercase">// ARCHIVE</span>
-                <h2 class="font-display text-2xl md:text-4xl font-bold tracking-tight mt-1 text-white uppercase">SELECTED WORKS</h2>
-            </div>
+        <!-- Top Left Header with Slot Machine Text -->
+        <div class="absolute top-8 left-6 md:left-12 z-50 pointer-events-none">
+            <h2 id="selected-title" class="font-display text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">SELECTED WORKS</h2>
         </div>
 
         <!-- Film Track Container (Extended width for blank space at start & end) -->
-        <div class="relative w-full flex-1 overflow-hidden">
+        <div class="relative w-full flex-1 overflow-hidden mt-16 md:mt-20">
             <div class="film-track w-[750vw] md:w-[380vw]" id="film-track">
                 
-                <!-- Item 1 (Dimulai lebih ke kanan agar ada ruang hitam kosong di awal) -->
+                <!-- Item 1 -->
                 <div class="gallery-item absolute left-[80vw] top-[40%] md:left-[70vw] md:top-[45%] w-[40vw] md:w-[20vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="-3">
                         <div class="idle-float w-full h-full">
@@ -469,19 +478,15 @@
     </section>
 
     <!-- SECTION: ABOUT -->
-    <!-- STREAMING_CHUNK:Rendering about us section with top-right structured header... -->
-    <section id="about" class="relative w-full min-h-[100dvh] bg-simbionBlue text-white flex flex-col justify-between px-6 md:px-16 py-16 z-30 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+    <!-- STREAMING_CHUNK:Rendering about us section with top-left slot header covering selected work... -->
+    <section id="about" class="sticky top-0 w-full h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-16 py-16 z-30 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
         
-        <!-- Top Right Header Bar -->
-        <div class="w-full flex justify-between items-start pt-12 md:pt-16 z-50 pointer-events-none shrink-0">
-            <div></div>
-            <div class="text-right">
-                <span class="text-[10px] tracking-[0.3em] text-white font-mono opacity-80 uppercase">// STUDIO</span>
-                <h2 class="font-display text-2xl md:text-4xl font-bold tracking-tight mt-1 text-white uppercase">ABOUT US</h2>
-            </div>
+        <!-- Top Left Header with Slot Machine Text -->
+        <div class="absolute top-8 left-6 md:left-12 z-50 pointer-events-none">
+            <h2 id="about-title" class="font-display text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">ABOUT US</h2>
         </div>
 
-        <div class="max-w-6xl w-full text-left space-y-6 md:space-y-8 my-auto py-12">
+        <div class="max-w-6xl w-full text-left space-y-6 md:space-y-8 my-auto pt-16">
             
             <div class="clip-mask">
                 <p class="font-display text-xl md:text-3xl lg:text-4xl font-bold tracking-widest leading-tight uppercase">
@@ -510,21 +515,15 @@
             </div>
 
         </div>
-
-        <div></div>
     </section>
 
     <!-- SECTION: CONTACT -->
-    <!-- STREAMING_CHUNK:Rendering contact section with top-right structured header... -->
-    <section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-8 py-16 z-40 overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+    <!-- STREAMING_CHUNK:Rendering contact section covering about us... -->
+    <section id="contact" class="sticky top-0 w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-8 py-16 z-40 overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
         
-        <!-- Top Right Header Bar -->
-        <div class="w-full flex justify-between items-start pt-12 md:pt-16 z-50 pointer-events-none shrink-0 px-2 md:px-4">
-            <div></div>
-            <div class="text-right">
-                <span class="text-[10px] tracking-[0.3em] text-white font-mono opacity-80 uppercase">// CONNECT</span>
-                <h2 class="font-display text-2xl md:text-4xl font-bold tracking-tight mt-1 text-white uppercase">CONTACT</h2>
-            </div>
+        <!-- Top Left Header -->
+        <div class="absolute top-8 left-6 md:left-12 z-50 pointer-events-none">
+            <h2 class="font-display text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">CONTACT</h2>
         </div>
 
         <div class="relative z-10 flex flex-col items-center text-center w-full my-auto">
@@ -554,7 +553,7 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Initializing GSAP animations and interactions... -->
+    <!-- STREAMING_CHUNK:Initializing GSAP animations, slot generator, and interactions... -->
     <script>
         // Custom Cursor Logic
         const cursor = document.getElementById('custom-cursor');
@@ -574,6 +573,33 @@
         gsap.ticker.add((time) => lenis.raf(time * 1000));
         gsap.ticker.lagSmoothing(0);
 
+        // Helper: Slot Machine Text Generator
+        function initSlotText(elementId, text) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            el.innerHTML = '';
+            text.split('').forEach(char => {
+                if (char === ' ') {
+                    const space = document.createElement('span');
+                    space.className = 'inline-block w-[0.3em]';
+                    el.appendChild(space);
+                    return;
+                }
+                const wrapper = document.createElement('span');
+                wrapper.className = 'slot-wrapper';
+                const inner = document.createElement('span');
+                inner.className = 'slot-char';
+                inner.textContent = char;
+                wrapper.appendChild(inner);
+                el.appendChild(wrapper);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initSlotText('selected-title', 'SELECTED WORKS');
+            initSlotText('about-title', 'ABOUT US');
+        });
+
         // 1. Hero Reveal
         const heroTl = gsap.timeline();
         heroTl.to('.hero-fade', {
@@ -588,7 +614,7 @@
             scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.1 }
         });
 
-        // 2. SELECTED WORK (Horizontal Scroll with Black Void at start & end)
+        // 2. SELECTED WORK (Horizontal Scroll with Slot Animation Trigger)
         const filmTrack = document.getElementById("film-track");
         gsap.to(filmTrack, {
             x: () => -(filmTrack.scrollWidth - window.innerWidth) + "px",
@@ -596,10 +622,56 @@
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
-                end: "+=380%", 
+                end: "+=420%", 
                 scrub: 1.2,
                 pin: true, 
                 anticipatePin: 1
+            }
+        });
+
+        // Slot Machine Animation: Selected Works
+        ScrollTrigger.create({
+            trigger: "#selected-work",
+            start: "top 70%",
+            onEnter: () => {
+                gsap.to("#selected-work .slot-char", {
+                    y: "0%",
+                    duration: 0.8,
+                    stagger: 0.03,
+                    ease: "power4.out",
+                    overwrite: "auto"
+                });
+            },
+            onLeaveBack: () => {
+                gsap.to("#selected-work .slot-char", {
+                    y: "110%",
+                    duration: 0.4,
+                    ease: "power2.in",
+                    overwrite: "auto"
+                });
+            }
+        });
+
+        // Slot Machine Animation: About Us
+        ScrollTrigger.create({
+            trigger: "#about",
+            start: "top 70%",
+            onEnter: () => {
+                gsap.to("#about .slot-char", {
+                    y: "0%",
+                    duration: 0.8,
+                    stagger: 0.03,
+                    ease: "power4.out",
+                    overwrite: "auto"
+                });
+            },
+            onLeaveBack: () => {
+                gsap.to("#about .slot-char", {
+                    y: "110%",
+                    duration: 0.4,
+                    ease: "power2.in",
+                    overwrite: "auto"
+                });
             }
         });
 
