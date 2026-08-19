@@ -27,14 +27,12 @@
     </script>
 
     <style>
-        /* Base Smooth Scroll Settings */
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto; }
         .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
         .lenis.lenis-stopped { overflow: hidden; }
         .lenis.lenis-scrolling iframe { pointer-events: none; }
         
-        /* Typography System */
         body {
             font-family: "Google Sans Flex", sans-serif;
             background-color: #000000;
@@ -121,12 +119,10 @@
 </head>
 <body class="font-sans">
 
-    <!-- STREAMING_CHUNK:Initializing global elements... -->
     <div class="custom-cursor" id="custom-cursor"></div>
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
 
     <!-- Navigation -->
-    <!-- STREAMING_CHUNK:Rendering navigation bar... -->
     <nav class="fixed top-0 w-full z-[100] p-6 mix-blend-difference flex justify-between items-start pointer-events-none text-xs md:text-sm tracking-widest font-sans text-white">
         <div class="pointer-events-auto flex flex-col gap-1">
             <a href="#hero" class="hover:opacity-80 transition-opacity">
@@ -135,353 +131,340 @@
             </a>
         </div>
         <div class="pointer-events-auto flex flex-col items-end gap-1">
-            <a href="#contact" class="interactive-el hover-text-fx font-bold">CONTACT</a>
+            <a href="#contact" class="interactive-el hover-text-fx font-bold">Contact</a>
         </div>
     </nav>
 
     <!-- SECTION: HERO (STICKY) -->
-    <!-- STREAMING_CHUNK:Rendering hero section with enlarged quote... -->
     <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center items-center px-4 md:px-8 bg-black z-10 shadow-2xl">
         <div class="w-full max-w-2xl flex justify-center parallax-hero z-10">
             <!-- GAMBAR GIF ASLI -->
             <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.jpg" alt="Filmmaking GIF" class="w-full h-auto object-contain interactive-el" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
         </div>
 
-        <div class="absolute bottom-12 left-4 md:left-12 flex gap-8 max-w-4xl font-sans hero-fade opacity-0 leading-tight z-20">
+        <div class="absolute bottom-12 left-4 md:left-12 flex gap-8 max-w-3xl font-sans hero-fade opacity-0 leading-snug z-20">
             <p class="interactive-el text-xl md:text-3xl lg:text-4xl font-medium tracking-wide text-white hover-text-fx">
                 Every project deserves its own fit. We tailor each one from scratch, carefully stitching every frame together with passion and dedication.
             </p>
         </div>
         <div class="absolute bottom-12 right-4 md:right-8 hero-fade opacity-0 text-center z-20">
-            <span class="text-[10px] tracking-widest font-sans text-mutedText interactive-el hover-text-fx">SCROLL</span>
+            <span class="text-[10px] tracking-widest font-sans text-mutedText interactive-el hover-text-fx">Scroll</span>
             <div class="w-[1px] h-12 bg-white/30 mx-auto mt-2"></div>
         </div>
     </section>
 
     <!-- SECTION: SELECTED WORK -->
-    <!-- STREAMING_CHUNK:Rendering selected work section with top-right structured header... -->
-    <section id="selected-work" class="relative bg-white z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] w-full h-[100dvh] overflow-hidden flex flex-col">
+    <section id="selected-work" class="relative bg-white z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] w-full h-[100dvh] overflow-hidden">
         
-        <!-- Top Right Header Bar -->
-        <div class="w-full flex justify-between items-start px-6 md:px-12 pt-24 md:pt-28 z-50 pointer-events-none shrink-0">
-            <div></div>
-            <div class="text-right">
-                <span class="text-[10px] tracking-[0.3em] text-black font-mono mix-blend-difference uppercase">// ARCHIVE</span>
-                <h2 class="font-display text-2xl md:text-4xl font-bold tracking-tight mt-1 text-black mix-blend-difference uppercase">SELECTED WORKS</h2>
-            </div>
+        <div class="absolute top-24 md:top-28 left-4 md:left-12 z-50 pointer-events-none">
+            <span class="text-[10px] tracking-[0.3em] text-black font-mono mix-blend-difference">// Archive</span>
+            <h2 class="font-display text-3xl md:text-5xl font-bold tracking-tight mt-1 text-black mix-blend-difference">Selected Works</h2>
         </div>
 
-        <!-- Film Track Container (All Items) -->
-        <div class="relative w-full flex-1 overflow-hidden">
-            <div class="film-track w-[540vw] md:w-[280vw]" id="film-track">
-                
-                <!-- Item 1 -->
-                <div class="gallery-item absolute left-[5vw] top-[40%] md:left-[5vw] md:top-[45%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="-3">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/7KA1LaIy804/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Antara'" alt="Antara" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=7KA1LaIy804" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2024 — Stereowall</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Antara</h3>
-                                </div>
+        <!-- Film Track Container (Complete Works) -->
+        <div class="film-track w-[360vw] md:w-[190vw]" id="film-track">
+            
+            <!-- Item 1 -->
+            <div class="gallery-item absolute left-[5vw] top-[40%] md:left-[5vw] md:top-[45%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="-3">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/7KA1LaIy804/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Antara'" alt="Antara" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=7KA1LaIy804" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2024 — Stereowall</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Antara</h3>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Item 2 -->
-                <div class="gallery-item absolute left-[25vw] top-[65%] md:left-[15vw] md:top-[15%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="3" data-my="4">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/4vevtQBeH78/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Terjebak+Imajinasi'" alt="Terjebak Imajinasi" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=4vevtQBeH78" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2023 — Stereowall</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Terjebak Imajinasi</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 3 -->
-                <div class="gallery-item absolute left-[45vw] top-[30%] md:left-[25vw] md:top-[60%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/2x_EYv5H68o/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Beri+Aku+Kesempatan'" alt="Beri Aku Kesempatan" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=2x_EYv5H68o" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2023 — Stevan Pasaribu</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Beri Aku Kesempatan</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 4 -->
-                <div class="gallery-item absolute left-[65vw] top-[70%] md:left-[35vw] md:top-[25%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="2" data-my="-4">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/7UJ1DoYP-Qw/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Seandainya'" alt="Seandainya" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=7UJ1DoYP-Qw" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2022 — Difki Khalif & Prinsa</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Seandainya</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 5 -->
-                <div class="gallery-item absolute left-[85vw] top-[35%] md:left-[45vw] md:top-[70%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="-3" data-my="2">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/9NhXdGxEQA0/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Gelang'" alt="Gelang" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=9NhXdGxEQA0" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2023 — The Marsoedi</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Gelang</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 6 -->
-                <div class="gallery-item absolute left-[105vw] top-[75%] md:left-[55vw] md:top-[15%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="5" data-my="3">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/cI8VzJE1tNg/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Putusin+Aku+Dong'" alt="Putusin Aku Dong" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=cI8VzJE1tNg" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2022 — Project Pop</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Putusin Aku Dong</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 7 -->
-                <div class="gallery-item absolute left-[125vw] top-[25%] md:left-[65vw] md:top-[55%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="4">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/A5YICW1I_kc/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Kisah+Kasih'" alt="Kisah Kasih Di Jakarta" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=A5YICW1I_kc" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2023 — Rafi Sudirman Ft. GAC</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Kisah Kasih Di Jakarta</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 8 -->
-                <div class="gallery-item absolute left-[145vw] top-[65%] md:left-[75vw] md:top-[25%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="3" data-my="-5">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/GM71bWErDoo/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Jalan+Tengah'" alt="Jalan Tengah" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=GM71bWErDoo" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2022 — Mika Tambayong & Rayi</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Jalan Tengah</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 9 -->
-                <div class="gallery-item absolute left-[165vw] top-[30%] md:left-[85vw] md:top-[65%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/8ma_y-Xmo-Q/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Tiba+Tiba+Kau'" alt="Tiba Tiba Kau" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=8ma_y-Xmo-Q" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2023 — Dnanda</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Tiba Tiba Kau</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 10 -->
-                <div class="gallery-item absolute left-[185vw] top-[70%] md:left-[95vw] md:top-[20%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="4" data-my="-3">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/kzYYiRGzODI/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Mak+Comblang'" alt="Mak Comblang" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=kzYYiRGzODI" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2023 — Aqeela Calista</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Mak Comblang</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 11 -->
-                <div class="gallery-item absolute left-[205vw] top-[40%] md:left-[105vw] md:top-[50%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="-3" data-my="3">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/LAVUtHyvisM/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+11'" alt="Work 11" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=LAVUtHyvisM" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2024 — Simbion Film</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XI</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 12 -->
-                <div class="gallery-item absolute left-[225vw] top-[60%] md:left-[115vw] md:top-[20%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="2" data-my="-2">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/h2ODH39tzAQ/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Berjalan+Lagi'" alt="Berjalan Lagi" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=h2ODH39tzAQ" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2023 — Ricky Zakno</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Berjalan Lagi</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 13 -->
-                <div class="gallery-item absolute left-[245vw] top-[35%] md:left-[125vw] md:top-[65%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="4">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/g89VhNDBrsY/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+13'" alt="Work 13" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=g89VhNDBrsY" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2023 — Simbion Film</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XIII</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 14 -->
-                <div class="gallery-item absolute left-[265vw] top-[70%] md:left-[135vw] md:top-[30%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="3" data-my="-3">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/mvvddC6NZT4/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+14'" alt="Work 14" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=mvvddC6NZT4" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2024 — Simbion Film</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XIV</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 15 -->
-                <div class="gallery-item absolute left-[285vw] top-[25%] md:left-[145vw] md:top-[60%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="2">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/Za2t7fFrkUw/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Aminlah+Bersamaku'" alt="Aminlah Bersamaku" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=Za2t7fFrkUw" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2022 — Rizky Febian</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Aminlah Bersamaku</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 16 -->
-                <div class="gallery-item absolute left-[305vw] top-[65%] md:left-[155vw] md:top-[15%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="4" data-my="-4">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/b5ZQob-mDGM/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Hingga+Tua+Bersama'" alt="Hingga Tua Bersama" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=b5ZQob-mDGM" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2021 — Rizky Febian</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Hingga Tua Bersama</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 17 -->
-                <div class="gallery-item absolute left-[325vw] top-[30%] md:left-[165vw] md:top-[55%] w-[40vw] md:w-[20vw] aspect-video">
-                    <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
-                        <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
-                                <img src="https://img.youtube.com/vi/JhjB7e1twX8/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Aku+Butuh+Perawatan'" alt="Aku Butuh Perawatan" class="w-full h-full object-cover">
-                                <a href="https://www.youtube.com/watch?v=JhjB7e1twX8" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
-                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2024 — Siti Badriah</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Aku Butuh Perawatan</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
+
+            <!-- Item 2 -->
+            <div class="gallery-item absolute left-[25vw] top-[65%] md:left-[15vw] md:top-[15%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="3" data-my="4">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/4vevtQBeH78/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Terjebak+Imajinasi'" alt="Terjebak Imajinasi" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=4vevtQBeH78" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2023 — Stereowall</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Terjebak Imajinasi</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="gallery-item absolute left-[45vw] top-[30%] md:left-[25vw] md:top-[60%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/2x_EYv5H68o/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Beri+Aku+Kesempatan'" alt="Beri Aku Kesempatan" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=2x_EYv5H68o" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2023 — Stevan Pasaribu</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Beri Aku Kesempatan</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="gallery-item absolute left-[65vw] top-[70%] md:left-[35vw] md:top-[25%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="2" data-my="-4">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/7UJ1DoYP-Qw/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Seandainya'" alt="Seandainya" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=7UJ1DoYP-Qw" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2022 — Difki Khalif & Prinsa</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Seandainya</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="gallery-item absolute left-[85vw] top-[35%] md:left-[45vw] md:top-[70%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="-3" data-my="2">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/9NhXdGxEQA0/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Gelang'" alt="Gelang" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=9NhXdGxEQA0" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2023 — The Marsoedi</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Gelang</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 6 -->
+            <div class="gallery-item absolute left-[105vw] top-[75%] md:left-[55vw] md:top-[15%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="5" data-my="3">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/cI8VzJE1tNg/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Putusin+Aku+Dong'" alt="Putusin Aku Dong" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=cI8VzJE1tNg" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2022 — Project Pop</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Putusin Aku Dong</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 7 -->
+            <div class="gallery-item absolute left-[125vw] top-[25%] md:left-[65vw] md:top-[55%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="4">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/A5YICW1I_kc/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Kisah+Kasih'" alt="Kisah Kasih Di Jakarta" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=A5YICW1I_kc" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2023 — Rafi Sudirman Ft. GAC</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Kisah Kasih Di Jakarta</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 8 -->
+            <div class="gallery-item absolute left-[145vw] top-[65%] md:left-[75vw] md:top-[25%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="3" data-my="-5">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/GM71bWErDoo/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Jalan+Tengah'" alt="Jalan Tengah" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=GM71bWErDoo" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2022 — Mika Tambayong & Rayi</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Jalan Tengah</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 9 -->
+            <div class="gallery-item absolute left-[165vw] top-[30%] md:left-[85vw] md:top-[65%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/8ma_y-Xmo-Q/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Tiba+Tiba+Kau'" alt="Tiba Tiba Kau" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=8ma_y-Xmo-Q" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2023 — Dnanda</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Tiba Tiba Kau</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 10 -->
+            <div class="gallery-item absolute left-[185vw] top-[70%] md:left-[95vw] md:top-[20%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="4" data-my="-3">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/kzYYiRGzODI/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Mak+Comblang'" alt="Mak Comblang" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=kzYYiRGzODI" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2023 — Aqeela Calista</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Mak Comblang</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 11 -->
+            <div class="gallery-item absolute left-[205vw] top-[40%] md:left-[105vw] md:top-[50%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="-3" data-my="3">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/LAVUtHyvisM/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+11'" alt="Work 11" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=LAVUtHyvisM" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2024 — Simbion Film</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XI</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 12 -->
+            <div class="gallery-item absolute left-[225vw] top-[60%] md:left-[115vw] md:top-[20%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="2" data-my="-2">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/h2ODH39tzAQ/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Berjalan+Lagi'" alt="Berjalan Lagi" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=h2ODH39tzAQ" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2023 — Ricky Zakno</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Berjalan Lagi</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 13 -->
+            <div class="gallery-item absolute left-[245vw] top-[35%] md:left-[125vw] md:top-[65%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="4">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/g89VhNDBrsY/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+13'" alt="Work 13" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=g89VhNDBrsY" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2023 — Simbion Film</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XIII</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 14 -->
+            <div class="gallery-item absolute left-[265vw] top-[70%] md:left-[135vw] md:top-[30%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="3" data-my="-3">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/mvvddC6NZT4/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+14'" alt="Work 14" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=mvvddC6NZT4" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2024 — Simbion Film</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XIV</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 15 -->
+            <div class="gallery-item absolute left-[285vw] top-[25%] md:left-[145vw] md:top-[60%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="2">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/Za2t7fFrkUw/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Aminlah+Bersamaku'" alt="Aminlah Bersamaku" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=Za2t7fFrkUw" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2022 — Rizky Febian</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Aminlah Bersamaku</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 16 -->
+            <div class="gallery-item absolute left-[305vw] top-[65%] md:left-[155vw] md:top-[15%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="4" data-my="-4">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/b5ZQob-mDGM/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Hingga+Tua+Bersama'" alt="Hingga Tua Bersama" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=b5ZQob-mDGM" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2021 — Rizky Febian</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Hingga Tua Bersama</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 17 -->
+            <div class="gallery-item absolute left-[325vw] top-[30%] md:left-[165vw] md:top-[55%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/JhjB7e1twX8/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Aku+Butuh+Perawatan'" alt="Aku Butuh Perawatan" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=JhjB7e1twX8" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2024 — Siti Badriah</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Aku Butuh Perawatan</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
     <!-- SECTION: ABOUT -->
-    <!-- STREAMING_CHUNK:Rendering about us section with top-right structured header... -->
-    <section id="about" class="relative w-full min-h-[100dvh] bg-simbionBlue text-white flex flex-col justify-between px-6 md:px-16 py-16 z-30 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+    <section id="about" class="relative w-full min-h-[100dvh] bg-simbionBlue text-white flex flex-col justify-center items-center px-6 md:px-16 py-20 z-30 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
         
-        <!-- Top Right Header Bar -->
-        <div class="w-full flex justify-between items-start pt-12 md:pt-16 z-50 pointer-events-none shrink-0">
-            <div></div>
-            <div class="text-right">
-                <span class="text-[10px] tracking-[0.3em] text-white font-mono opacity-80 uppercase">// STUDIO</span>
-                <h2 class="font-display text-2xl md:text-4xl font-bold tracking-tight mt-1 text-white uppercase">ABOUT US</h2>
-            </div>
+        <div class="absolute top-24 md:top-28 left-4 md:left-12 z-50 pointer-events-none">
+            <span class="text-[10px] tracking-[0.3em] text-white font-mono opacity-80">// Studio</span>
+            <h2 class="font-display text-3xl md:text-5xl font-bold tracking-tight mt-1 text-white">About Us</h2>
         </div>
 
-        <div class="max-w-6xl w-full text-left space-y-6 md:space-y-8 my-auto py-12">
+        <div class="max-w-6xl w-full text-left space-y-6 md:space-y-8 pt-16 md:pt-12">
             
             <div class="clip-mask">
                 <p class="font-display text-xl md:text-3xl lg:text-4xl font-bold tracking-widest leading-tight uppercase">
@@ -510,24 +493,12 @@
             </div>
 
         </div>
-
-        <div></div>
     </section>
 
     <!-- SECTION: CONTACT -->
-    <!-- STREAMING_CHUNK:Rendering contact section with top-right structured header... -->
-    <section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-8 py-16 z-40 overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+    <section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-4 md:px-8 z-40 overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
         
-        <!-- Top Right Header Bar -->
-        <div class="w-full flex justify-between items-start pt-12 md:pt-16 z-50 pointer-events-none shrink-0 px-2 md:px-4">
-            <div></div>
-            <div class="text-right">
-                <span class="text-[10px] tracking-[0.3em] text-white font-mono opacity-80 uppercase">// CONNECT</span>
-                <h2 class="font-display text-2xl md:text-4xl font-bold tracking-tight mt-1 text-white uppercase">CONTACT</h2>
-            </div>
-        </div>
-
-        <div class="relative z-10 flex flex-col items-center text-center w-full my-auto">
+        <div class="relative z-10 flex flex-col items-center text-center w-full">
             <div class="flex flex-col w-full font-display font-bold leading-[0.9] tracking-tighter">
                 <div class="clip-mask w-full flex justify-center">
                     <span class="contact-title-line block uppercase text-[10vw] md:text-[8vw] text-white interactive-el hover-text-fx transition-colors duration-300">READY TO</span>
@@ -542,19 +513,18 @@
             </p>
         </div>
 
-        <div class="w-full px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4 z-10 font-sans text-[10px] tracking-widest text-mutedText">
+        <div class="absolute bottom-8 w-full px-8 flex flex-col md:flex-row justify-between items-center gap-4 z-10 font-sans text-[10px] tracking-widest text-mutedText">
             <div class="flex gap-8">
-                <a href="mailto:play@simbionfilm.com" class="interactive-el hover-text-fx uppercase">play@simbionfilm.com</a>
+                <a href="mailto:play@simbionfilm.com" class="interactive-el hover-text-fx">play@simbionfilm.com</a>
             </div>
             <div class="flex gap-8">
-                <a href="https://www.instagram.com/ssimbionn/" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx uppercase">INSTAGRAM</a>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx uppercase">LINKEDIN</a>
+                <a href="https://www.instagram.com/ssimbionn/" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx">Instagram</a>
+                <a href="#" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx">LinkedIn</a>
             </div>
-            <div class="hover-text-fx uppercase">&copy; 2024 Simbion Film</div>
+            <div class="hover-text-fx">&copy; 2024 Simbion Film</div>
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Initializing GSAP animations and interactions... -->
     <script>
         // Custom Cursor Logic
         const cursor = document.getElementById('custom-cursor');
@@ -596,7 +566,7 @@
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
-                end: "+=220%", 
+                end: "+=180%", 
                 scrub: 1.2,
                 pin: true, 
                 anticipatePin: 1
@@ -673,4 +643,3 @@
     </script>
 </body>
 </html>
-```eof
