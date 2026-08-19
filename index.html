@@ -39,7 +39,6 @@
             font-family: "Google Sans Flex", sans-serif;
             background-color: #000000;
             color: #FFFFFF;
-            /* overflow-x: clip ensures horizontal safety but allows sticky to work perfectly */
             overflow-x: clip; 
             -webkit-font-smoothing: antialiased;
             cursor: none;
@@ -79,6 +78,17 @@
             color: #0616C6;
         }
 
+        /* About Us Line Hover (Italic Only, No Color Change) */
+        .about-line {
+            display: inline-block;
+            transition: font-variation-settings 0.2s ease-out;
+            font-variation-settings: "slnt" 0;
+            cursor: pointer;
+        }
+        .about-line:hover {
+            font-variation-settings: "slnt" -10;
+        }
+
         ::-webkit-scrollbar { display: none; }
         .clip-mask { overflow: hidden; display: block; }
 
@@ -110,16 +120,14 @@
 <body class="font-sans">
 
     <!-- Custom Cursor -->
-    <!-- STREAMING_CHUNK:Initializing global elements... -->
     <div class="custom-cursor" id="custom-cursor"></div>
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
 
     <!-- Navigation -->
-    <!-- STREAMING_CHUNK:Rendering navigation with logo... -->
     <nav class="fixed top-0 w-full z-[100] p-6 mix-blend-difference flex justify-between items-start pointer-events-none text-xs md:text-sm tracking-widest font-sans text-white">
         <div class="pointer-events-auto flex flex-col gap-1">
             <a href="#hero" class="hover:opacity-80 transition-opacity">
-                <!-- LOGO ASLI ANDA KEMBALI -->
+                <!-- LOGO ASLI ANDA -->
                 <img src="IMG_2499 2.PNG" alt="SIMBION FILM" class="h-6 md:h-8" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<span class=\'font-display font-bold text-lg\'>SIMBION</span>');">
             </a>
         </div>
@@ -128,11 +136,10 @@
         </div>
     </nav>
 
-    <!-- SECTION: HERO (STICKY - Ditimpa layernya oleh karya) -->
-    <!-- STREAMING_CHUNK:Rendering sticky hero section... -->
+    <!-- SECTION: HERO (STICKY) -->
     <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center items-center px-4 md:px-8 bg-black z-10 shadow-2xl">
         <div class="w-full max-w-2xl flex justify-center parallax-hero z-10">
-            <!-- GAMBAR GIF ASLI ANDA KEMBALI -->
+            <!-- GAMBAR GIF ASLI ANDA -->
             <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.jpg" alt="Filmmaking GIF" class="w-full h-auto object-contain interactive-el" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
         </div>
 
@@ -145,8 +152,7 @@
         </div>
     </section>
 
-    <!-- SECTION: SELECTED WORK (RELATIVE - Menutupi Hero saat discroll) -->
-    <!-- STREAMING_CHUNK:Rendering Selected Works tracker... -->
+    <!-- SECTION: SELECTED WORK -->
     <section id="selected-work" class="relative bg-white z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] w-full h-[100dvh] overflow-hidden">
         
         <div class="absolute top-24 md:top-28 left-4 md:left-12 z-50 pointer-events-none">
@@ -154,10 +160,10 @@
             <h2 class="font-display text-3xl md:text-5xl font-bold tracking-tight mt-1 text-black mix-blend-difference">Selected Works</h2>
         </div>
 
-        <!-- Jalur Rel (Panjangnya sudah dipotong agar lebih singkat dan rapat) -->
-        <div class="film-track w-[240vw] md:w-[125vw]" id="film-track">
+        <!-- Jalur Rel (Disesuaikan untuk 17 karya) -->
+        <div class="film-track w-[380vw] md:w-[200vw]" id="film-track">
             
-            <!-- Items (Rapat & Bertumpuk) -->
+            <!-- Item 1 -->
             <div class="gallery-item absolute left-[5vw] top-[40%] md:left-[5vw] md:top-[45%] w-[40vw] md:w-[20vw] aspect-video">
                 <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="-3">
                     <div class="idle-float w-full h-full">
@@ -174,6 +180,7 @@
                 </div>
             </div>
 
+            <!-- Item 2 -->
             <div class="gallery-item absolute left-[25vw] top-[65%] md:left-[15vw] md:top-[15%] w-[40vw] md:w-[20vw] aspect-video">
                 <div class="parallax-wrap w-full h-full" data-mx="3" data-my="4">
                     <div class="idle-float w-full h-full">
@@ -190,6 +197,7 @@
                 </div>
             </div>
 
+            <!-- Item 3 -->
             <div class="gallery-item absolute left-[45vw] top-[30%] md:left-[25vw] md:top-[60%] w-[40vw] md:w-[20vw] aspect-video">
                 <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
                     <div class="idle-float w-full h-full">
@@ -206,6 +214,7 @@
                 </div>
             </div>
 
+            <!-- Item 4 -->
             <div class="gallery-item absolute left-[65vw] top-[70%] md:left-[35vw] md:top-[25%] w-[40vw] md:w-[20vw] aspect-video">
                 <div class="parallax-wrap w-full h-full" data-mx="2" data-my="-4">
                     <div class="idle-float w-full h-full">
@@ -222,6 +231,7 @@
                 </div>
             </div>
 
+            <!-- Item 5 -->
             <div class="gallery-item absolute left-[85vw] top-[35%] md:left-[45vw] md:top-[70%] w-[40vw] md:w-[20vw] aspect-video">
                 <div class="parallax-wrap w-full h-full" data-mx="-3" data-my="2">
                     <div class="idle-float w-full h-full">
@@ -238,6 +248,7 @@
                 </div>
             </div>
 
+            <!-- Item 6 -->
             <div class="gallery-item absolute left-[105vw] top-[75%] md:left-[55vw] md:top-[15%] w-[40vw] md:w-[20vw] aspect-video">
                 <div class="parallax-wrap w-full h-full" data-mx="5" data-my="3">
                     <div class="idle-float w-full h-full">
@@ -254,6 +265,7 @@
                 </div>
             </div>
 
+            <!-- Item 7 -->
             <div class="gallery-item absolute left-[125vw] top-[25%] md:left-[65vw] md:top-[55%] w-[40vw] md:w-[20vw] aspect-video">
                 <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="4">
                     <div class="idle-float w-full h-full">
@@ -270,6 +282,7 @@
                 </div>
             </div>
 
+            <!-- Item 8 -->
             <div class="gallery-item absolute left-[145vw] top-[65%] md:left-[75vw] md:top-[25%] w-[40vw] md:w-[20vw] aspect-video">
                 <div class="parallax-wrap w-full h-full" data-mx="3" data-my="-5">
                     <div class="idle-float w-full h-full">
@@ -286,6 +299,7 @@
                 </div>
             </div>
 
+            <!-- Item 9 -->
             <div class="gallery-item absolute left-[165vw] top-[30%] md:left-[85vw] md:top-[65%] w-[40vw] md:w-[20vw] aspect-video">
                 <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
                     <div class="idle-float w-full h-full">
@@ -302,6 +316,7 @@
                 </div>
             </div>
 
+            <!-- Item 10 -->
             <div class="gallery-item absolute left-[185vw] top-[70%] md:left-[95vw] md:top-[20%] w-[40vw] md:w-[20vw] aspect-video">
                 <div class="parallax-wrap w-full h-full" data-mx="4" data-my="-3">
                     <div class="idle-float w-full h-full">
@@ -318,38 +333,162 @@
                 </div>
             </div>
 
+            <!-- Item 11: LAVUtHyvisM -->
+            <div class="gallery-item absolute left-[205vw] top-[40%] md:left-[105vw] md:top-[50%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="-3" data-my="3">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/LAVUtHyvisM/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+11'" alt="Work 11" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=LAVUtHyvisM" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2024 — Simbion Film</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XI</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 12: h2ODH39tzAQ -->
+            <div class="gallery-item absolute left-[225vw] top-[60%] md:left-[115vw] md:top-[20%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="2" data-my="-2">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/h2ODH39tzAQ/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+12'" alt="Work 12" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=h2ODH39tzAQ" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2023 — Simbion Film</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XII</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 13: g89VhNDBrsY -->
+            <div class="gallery-item absolute left-[245vw] top-[35%] md:left-[125vw] md:top-[65%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="4">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/g89VhNDBrsY/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+13'" alt="Work 13" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=g89VhNDBrsY" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2023 — Simbion Film</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XIII</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 14: mvvddC6NZT4 -->
+            <div class="gallery-item absolute left-[265vw] top-[70%] md:left-[135vw] md:top-[30%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="3" data-my="-3">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/mvvddC6NZT4/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+14'" alt="Work 14" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=mvvddC6NZT4" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2024 — Simbion Film</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XIV</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 15: Za2t7fFrkUw -->
+            <div class="gallery-item absolute left-[285vw] top-[25%] md:left-[145vw] md:top-[60%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="2">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/Za2t7fFrkUw/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+15'" alt="Work 15" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=Za2t7fFrkUw" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2023 — Simbion Film</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XV</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 16: b5ZQob-mDGM -->
+            <div class="gallery-item absolute left-[305vw] top-[65%] md:left-[155vw] md:top-[15%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="4" data-my="-4">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/b5ZQob-mDGM/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+16'" alt="Work 16" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=b5ZQob-mDGM" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2023 — Simbion Film</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XVI</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 17: JhjB7e1twX8 -->
+            <div class="gallery-item absolute left-[325vw] top-[30%] md:left-[165vw] md:top-[55%] w-[40vw] md:w-[20vw] aspect-video">
+                <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
+                    <div class="idle-float w-full h-full">
+                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
+                            <img src="https://img.youtube.com/vi/JhjB7e1twX8/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+17'" alt="Work 17" class="w-full h-full object-cover">
+                            <a href="https://www.youtube.com/watch?v=JhjB7e1twX8" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
+                            <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block">2023 — Simbion Film</span>
+                                <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XVII</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <!-- SECTION: ABOUT (STICKY - Nempel saat ditarik, ditutupi oleh Contact nanti) -->
-    <!-- STREAMING_CHUNK:Rendering sticky About Us section... -->
-    <section id="about" class="sticky top-0 w-full h-[100dvh] bg-simbionBlue text-white flex flex-col justify-center items-center px-4 md:px-12 z-30 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
-        <div class="max-w-7xl w-full text-left space-y-6 md:space-y-10 py-12">
+    <!-- SECTION: ABOUT -->
+    <section id="about" class="sticky top-0 w-full h-[100dvh] bg-simbionBlue text-white flex flex-col justify-center items-center px-6 md:px-16 z-30 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+        <div class="max-w-6xl w-full text-left space-y-4 md:space-y-6">
+            
             <div class="clip-mask">
-                <p class="reveal-text-about transform translate-y-[110%] font-display text-xl md:text-3xl lg:text-4xl font-bold tracking-widest leading-tight text-white uppercase interactive-el hover-text-fx">
-                    SIMBION FILM IS A FILMMAKING BOUTIQUE WITH A MULTIDISCIPLINARY APPROACH.
+                <p class="reveal-text-about transform translate-y-[110%] font-display text-xl md:text-3xl lg:text-4xl font-bold tracking-widest leading-tight text-white uppercase">
+                    <span class="about-line interactive-el">SIMBION FILM IS A FILMMAKING BOUTIQUE WITH A MULTIDISCIPLINARY APPROACH.</span>
                 </p>
             </div>
+            
             <div class="clip-mask">
-                <p class="reveal-text-about transform translate-y-[110%] font-display text-xl md:text-3xl lg:text-4xl font-bold tracking-widest leading-tight text-white uppercase interactive-el hover-text-fx">
-                    WE BELIEVE THAT THE FUNDAMENTALS OF FILMMAKING ARE TIMELESS. STORY, DIRECTION, COMPOSITION, LIGHT, MOVEMENT, AND PERFORMANCE REMAIN AT THE HEART OF EVERY MEANINGFUL VISUAL WORK.
+                <p class="reveal-text-about transform translate-y-[110%] font-display text-xl md:text-3xl lg:text-4xl font-bold tracking-widest leading-tight text-white uppercase flex flex-col gap-2">
+                    <span class="about-line interactive-el">WE BELIEVE THAT THE FUNDAMENTALS OF FILMMAKING ARE TIMELESS.</span>
+                    <span class="about-line interactive-el">STORY, DIRECTION, COMPOSITION, LIGHT, MOVEMENT, AND PERFORMANCE REMAIN AT THE HEART OF EVERY MEANINGFUL VISUAL WORK.</span>
                 </p>
             </div>
+            
             <div class="clip-mask">
-                <p class="reveal-text-about transform translate-y-[110%] font-display text-xl md:text-3xl lg:text-4xl font-bold tracking-widest leading-tight text-white uppercase interactive-el hover-text-fx">
-                    BORN IN THE DIGITAL ERA, WE EMBRACE THE POSSIBILITIES OF NEW MEDIA WITHOUT LOSING SIGHT OF THE CRAFT.
+                <p class="reveal-text-about transform translate-y-[110%] font-display text-xl md:text-3xl lg:text-4xl font-bold tracking-widest leading-tight text-white uppercase">
+                    <span class="about-line interactive-el">BORN IN THE DIGITAL ERA, WE EMBRACE THE POSSIBILITIES OF NEW MEDIA WITHOUT LOSING SIGHT OF THE CRAFT.</span>
                 </p>
             </div>
+            
             <div class="clip-mask">
-                <p class="reveal-text-about transform translate-y-[110%] font-display text-xl md:text-3xl lg:text-4xl font-bold tracking-widest leading-tight text-white uppercase interactive-el hover-text-fx">
-                    FOR US, FILMMAKING IS NOT SIMPLY ABOUT PRODUCING CONTENT. IT IS ABOUT MAKING SOMETHING WORTH WATCHING.
+                <p class="reveal-text-about transform translate-y-[110%] font-display text-xl md:text-3xl lg:text-4xl font-bold tracking-widest leading-tight text-white uppercase flex flex-col gap-2">
+                    <span class="about-line interactive-el">FOR US, FILMMAKING IS NOT SIMPLY ABOUT PRODUCING CONTENT.</span>
+                    <span class="about-line interactive-el">IT IS ABOUT MAKING SOMETHING WORTH WATCHING.</span>
                 </p>
             </div>
+
         </div>
     </section>
 
-    <!-- SECTION: CONTACT (RELATIVE - Meluncur Menutupi About) -->
-    <!-- STREAMING_CHUNK:Rendering Contact section... -->
+    <!-- SECTION: CONTACT -->
     <section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-4 md:px-8 z-40 overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
         
         <div class="relative z-10 flex flex-col items-center text-center w-full">
@@ -379,7 +518,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Initializing JS and GSAP Core logic... -->
     <script>
         // Custom Cursor Logic
         const cursor = document.getElementById('custom-cursor');
@@ -413,21 +551,19 @@
             scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.1 }
         });
 
-        // 2. SELECTED WORK (Animasi Tarik Horizontal Lebih Cepat)
+        // 2. SELECTED WORK (Horizontal Scroll)
         const filmTrack = document.getElementById("film-track");
-        const trackTl = gsap.timeline({
+        gsap.to(filmTrack, {
+            x: () => -(filmTrack.scrollWidth - window.innerWidth) + "px",
+            ease: "none",
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
-                end: "+=120%", // DURASI SCROLL DIPENDEKKAN (TIDAK PERLU PANJANG-PANJANG)
+                end: "+=150%", 
                 scrub: 1.2,
                 pin: true, 
                 anticipatePin: 1
             }
-        });
-        trackTl.to(filmTrack, {
-            x: () => -(filmTrack.scrollWidth - window.innerWidth) + "px",
-            ease: "none"
         });
 
         // Space Floating Idle
@@ -435,7 +571,7 @@
             gsap.to(el, {
                 y: `+=${Math.random() * 30 - 15}`,
                 x: `+=${Math.random() * 30 - 15}`,
-                rotation: Math.random() * 10 - 5,
+                rotation: Math.random() * 8 - 4,
                 duration: Math.random() * 4 + 6,
                 yoyo: true, repeat: -1, ease: "sine.inOut", delay: Math.random() * 2
             });
@@ -454,7 +590,7 @@
             });
         });
 
-        // Hover Effect: Zoom dan Menyisih Halus (Continuous Power3.out)
+        // Hover Effect: Zoom 1.5x & Geser Halus (Continuous Power3.out)
         const galleryItems = document.querySelectorAll('.gallery-item');
         galleryItems.forEach((item, index) => {
             const inner = item.querySelector('.gallery-item-inner');
@@ -463,7 +599,7 @@
                 gsap.to(inner, { scale: 1.5, duration: 0.8, ease: "power3.out", overwrite: "auto" });
 
                 const isMobile = window.innerWidth < 768;
-                const pushVal = isMobile ? 15 : 10; // Jarak sisih lebih sopan & tidak terlalu jauh
+                const pushVal = isMobile ? 15 : 10; 
 
                 galleryItems.forEach((other, otherIndex) => {
                     if (otherIndex !== index) {
@@ -508,4 +644,3 @@
     </script>
 </body>
 </html>
-```eof
