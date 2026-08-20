@@ -164,14 +164,29 @@
 </head>
 <body class="font-sans">
 
-    <!-- STREAMING_CHUNK:Initializing custom cursor, progress bar, admin panel, and navigation... -->
+    <!-- STREAMING_CHUNK:Initializing custom cursor, progress bar, password-protected admin panel, and navigation... -->
     <div class="custom-cursor" id="custom-cursor"></div>
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
 
     <!-- Floating Admin CMS Toggle Prompt -->
-    <button id="toggle-cms" class="fixed bottom-6 left-6 z-[150] bg-white/10 hover:bg-white/20 backdrop-blur-md text-white px-4 py-2 rounded-full text-[10px] font-mono tracking-widest uppercase border border-white/20 transition-all shadow-2xl">
+    <button id="toggle-cms" class="fixed bottom-6 left-6 z-[150] bg-white/10 hover:bg-white/25 backdrop-blur-md text-white px-4 py-2 rounded-full text-[10px] font-mono tracking-widest uppercase transition-all shadow-2xl">
         ⚙️ EDIT CONTENT [PRESS 'E']
     </button>
+
+    <!-- Password Prompt Modal -->
+    <div id="password-modal" class="fixed inset-0 z-[300] bg-black/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
+        <div class="bg-neutral-900 border border-white/20 rounded-3xl w-full max-w-md p-6 text-white relative shadow-2xl text-center">
+            <h3 class="font-display font-bold text-lg uppercase tracking-wider mb-2">ADMIN ACCESS</h3>
+            <p class="text-xs text-mutedText font-mono mb-6">Enter password to unlock CMS editor.</p>
+            <form id="password-form" class="space-y-4">
+                <input type="password" id="admin-password" placeholder="Enter Password" class="w-full bg-black border border-white/20 rounded-xl px-4 py-3 text-xs text-center focus:border-simbionBlue outline-none tracking-widest">
+                <div class="flex gap-2 justify-center">
+                    <button type="button" id="close-password" class="bg-white/10 px-4 py-2 rounded-xl text-xs font-mono uppercase hover:bg-white/20 transition-colors">Cancel</button>
+                    <button type="submit" class="bg-simbionBlue px-6 py-2 rounded-xl text-xs font-mono uppercase font-bold hover:opacity-90 transition-opacity">Unlock</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- CMS Admin Modal Drawer -->
     <div id="cms-modal" class="fixed inset-0 z-[250] bg-black/80 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
@@ -184,9 +199,9 @@
                 <button id="close-cms" class="text-xs font-mono bg-white/10 px-4 py-2 rounded-xl hover:bg-white/20 transition-colors uppercase">CLOSE [ESC]</button>
             </div>
 
-            <!-- Recent Release Editor Section -->
+            <!-- New Release Editor Section -->
             <div class="mb-8 p-4 bg-black/40 rounded-2xl border border-white/10">
-                <h3 class="text-xs font-mono uppercase tracking-widest text-simbionBlue mb-4">Recent Release Widget</h3>
+                <h3 class="text-xs font-mono uppercase tracking-widest text-simbionBlue mb-4">New Release Widget</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-[10px] font-mono uppercase text-mutedText mb-1">Artist & Title</label>
@@ -244,7 +259,7 @@
     </nav>
 
     <!-- SECTION: HERO (STICKY BACKDROP) -->
-    <!-- STREAMING_CHUNK:Rendering hero section with dynamic recent release spinning vinyl widget... -->
+    <!-- STREAMING_CHUNK:Rendering hero section with dynamic new release spinning vinyl widget... -->
     <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center items-center px-4 md:px-8 bg-black z-10 shadow-2xl">
         <div class="w-full max-w-2xl flex justify-center parallax-hero z-10">
             <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.jpg" alt="Filmmaking GIF" class="w-full h-auto object-contain interactive-el" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
@@ -256,7 +271,7 @@
             </p>
         </div>
         
-        <!-- Recent Release Spinning Vinyl Widget Container -->
+        <!-- New Release Spinning Vinyl Widget Container -->
         <div id="recent-release-container"></div>
     </section>
 
@@ -364,7 +379,7 @@
     </section>
 
     <!-- Script Execution -->
-    <!-- STREAMING_CHUNK:Attaching CMS editor engine and modal interactions... -->
+    <!-- STREAMING_CHUNK:Attaching password-protected CMS editor engine and modal interactions... -->
     <script>
         // Custom Horizontal Oval Cursor Tracker
         const cursor = document.getElementById('custom-cursor');
@@ -406,14 +421,14 @@
         // Load data from localStorage or use defaults
         let cmsData = JSON.parse(localStorage.getItem('simbion_cms')) || defaultCMS;
 
-        // Render Recent Release Widget
+        // Render New Release Widget (Stroke box removed)
         function renderRecentRelease() {
             const container = document.getElementById('recent-release-container');
             const rr = cmsData.recentRelease;
             container.innerHTML = `
-                <a href="${rr.link}" target="_blank" class="absolute top-1/2 -translate-y-1/2 right-6 md:right-12 z-30 flex items-center gap-4 group cursor-pointer interactive-el hero-fade opacity-0 bg-black/40 backdrop-blur-md p-3 rounded-2xl border border-white/10 shadow-2xl hover:border-white/30 transition-all">
+                <a href="${rr.link}" target="_blank" class="absolute top-1/2 -translate-y-1/2 right-6 md:right-12 z-30 flex items-center gap-4 group cursor-pointer interactive-el hero-fade opacity-0 bg-black/40 backdrop-blur-md p-3 rounded-2xl shadow-2xl transition-all">
                     <div class="text-right hidden sm:block">
-                        <span class="text-[9px] tracking-[0.2em] font-mono text-mutedText block uppercase">RECENT RELEASE</span>
+                        <span class="text-[9px] tracking-[0.2em] font-mono text-mutedText block uppercase">NEW RELEASE</span>
                         <span class="text-xs md:text-sm font-bold tracking-tight text-white block uppercase group-hover:text-simbionBlue transition-colors">${rr.title}</span>
                     </div>
                     <div class="relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-neutral-900 border-2 border-neutral-700 shadow-2xl flex items-center justify-center animate-[spin_6s_linear_infinite] group-hover:scale-110 transition-transform">
@@ -433,7 +448,6 @@
             const track = document.getElementById('film-track');
             let html = '';
             
-            // Group works by row to calculate precise left position offsets
             const row1 = cmsData.works.filter(w => w.row === 1);
             const row2 = cmsData.works.filter(w => w.row === 2);
             const row3 = cmsData.works.filter(w => w.row === 3);
@@ -470,7 +484,6 @@
             track.style.width = `${Math.max(380, 110 + (maxItems * 18))}vw`;
             track.innerHTML = html;
             
-            // Re-bind video modal listeners and animations after DOM update
             initVideoTriggers();
             initGalleryInteractions();
         }
@@ -505,17 +518,13 @@
         videoModal.addEventListener('click', (e) => {
             if (e.target === videoModal) closeVideoModal();
         });
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeVideoModal();
-                closeCmsModal();
-            }
-            if (e.key.toLowerCase() === 'e' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-                toggleCmsModal();
-            }
-        });
 
-        // CMS Modal Logic
+        // Password & CMS Modal Logic
+        const passwordModal = document.getElementById('password-modal');
+        const passwordForm = document.getElementById('password-form');
+        const adminPasswordInput = document.getElementById('admin-password');
+        const closePasswordBtn = document.getElementById('close-password');
+        
         const cmsModal = document.getElementById('cms-modal');
         const toggleCmsBtn = document.getElementById('toggle-cms');
         const closeCmsBtn = document.getElementById('close-cms');
@@ -523,16 +532,46 @@
         const resetCmsBtn = document.getElementById('cms-reset');
         const addItemBtn = document.getElementById('cms-add-item');
 
-        function toggleCmsModal() {
-            if (cmsModal.classList.contains('pointer-events-none')) {
-                openCmsModal();
-            } else {
-                closeCmsModal();
-            }
+        const ADMIN_PASSWORD = "simbion2026"; // <-- You can change this password here!
+
+        function requestPasswordPrompt() {
+            adminPasswordInput.value = '';
+            passwordModal.classList.remove('opacity-0', 'pointer-events-none');
+            adminPasswordInput.focus();
+            document.body.style.overflow = 'hidden';
         }
 
+        function closePasswordModal() {
+            passwordModal.classList.add('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = '';
+        }
+
+        toggleCmsBtn.addEventListener('click', requestPasswordPrompt);
+        closePasswordBtn.addEventListener('click', closePasswordModal);
+
+        passwordForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (adminPasswordInput.value === ADMIN_PASSWORD) {
+                closePasswordModal();
+                openCmsModal();
+            } else {
+                alert('Incorrect Password!');
+                adminPasswordInput.value = '';
+            }
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeVideoModal();
+                closeCmsModal();
+                closePasswordModal();
+            }
+            if (e.key.toLowerCase() === 'e' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+                requestPasswordPrompt();
+            }
+        });
+
         function openCmsModal() {
-            // Populate CMS inputs
             document.getElementById('cms-rr-title').value = cmsData.recentRelease.title;
             document.getElementById('cms-rr-id').value = cmsData.recentRelease.videoId;
             document.getElementById('cms-rr-link').value = cmsData.recentRelease.link;
@@ -546,7 +585,6 @@
             document.body.style.overflow = '';
         }
 
-        toggleCmsBtn.addEventListener('click', openCmsModal);
         closeCmsBtn.addEventListener('click', closeCmsModal);
 
         function renderCmsWorksList() {
@@ -573,7 +611,6 @@
             });
             container.innerHTML = html;
 
-            // Bind delete buttons
             container.querySelectorAll('.cms-del').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const idx = parseInt(e.target.closest('[data-index]').getAttribute('data-index'));
@@ -589,12 +626,10 @@
         });
 
         saveCmsBtn.addEventListener('click', () => {
-            // Save Recent Release
             cmsData.recentRelease.title = document.getElementById('cms-rr-title').value;
             cmsData.recentRelease.videoId = document.getElementById('cms-rr-id').value;
             cmsData.recentRelease.link = document.getElementById('cms-rr-link').value;
 
-            // Save Works from DOM
             const itemNodes = document.querySelectorAll('#cms-items-container > div');
             cmsData.works = [];
             itemNodes.forEach(node => {
@@ -611,7 +646,7 @@
             renderRecentRelease();
             renderSelectedWorks();
             closeCmsModal();
-            window.location.reload(); // Refresh to re-initialize GSOP triggers for new width
+            window.location.reload();
         });
 
         resetCmsBtn.addEventListener('click', () => {
