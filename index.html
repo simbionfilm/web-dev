@@ -164,7 +164,7 @@
 </head>
 <body class="font-sans">
 
-    <!-- STREAMING_CHUNK:Initializing custom cursor, progress bar, password-protected admin panel, and navigation... -->
+    <!-- STREAMING_CHUNK:Initializing custom cursor, progress bar, scrollable admin panel, and navigation... -->
     <div class="custom-cursor" id="custom-cursor"></div>
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
 
@@ -174,8 +174,8 @@
     </button>
 
     <!-- Password Prompt Modal -->
-    <div id="password-modal" class="fixed inset-0 z-[300] bg-black/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
-        <div class="bg-neutral-900 border border-white/20 rounded-3xl w-full max-w-md p-6 text-white relative shadow-2xl text-center">
+    <div id="password-modal" class="fixed inset-0 z-[300] bg-black/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4 overflow-y-auto">
+        <div class="bg-neutral-900 border border-white/20 rounded-3xl w-full max-w-md p-6 text-white relative shadow-2xl text-center my-auto">
             <h3 class="font-display font-bold text-lg uppercase tracking-wider mb-2">ADMIN ACCESS</h3>
             <p class="text-xs text-mutedText font-mono mb-6">Enter password to unlock CMS editor.</p>
             <form id="password-form" class="space-y-4">
@@ -188,9 +188,9 @@
         </div>
     </div>
 
-    <!-- CMS Admin Modal Drawer -->
-    <div id="cms-modal" class="fixed inset-0 z-[250] bg-black/80 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
-        <div class="bg-neutral-900 border border-white/20 rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 md:p-8 text-white relative shadow-2xl">
+    <!-- CMS Admin Modal Drawer (Fixed Scrollable Layout) -->
+    <div id="cms-modal" class="fixed inset-0 z-[250] bg-black/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4 md:p-8 overflow-y-auto">
+        <div class="bg-neutral-900 border border-white/20 rounded-3xl w-full max-w-4xl p-6 md:p-8 text-white relative shadow-2xl my-auto">
             <div class="flex justify-between items-center pb-6 border-b border-white/10 mb-6">
                 <div>
                     <h2 class="font-display font-bold text-lg md:text-xl tracking-wider uppercase">SIMBION CMS EDITOR</h2>
@@ -224,7 +224,7 @@
                     <h3 class="text-xs font-mono uppercase tracking-widest text-simbionBlue">Selected Works List (<span id="cms-count">0</span> Items)</h3>
                     <button id="cms-add-item" class="bg-simbionBlue text-white text-[10px] font-mono uppercase px-4 py-2 rounded-xl hover:opacity-90 transition-opacity">+ Add New Work</button>
                 </div>
-                <div id="cms-items-container" class="space-y-4">
+                <div id="cms-items-container" class="space-y-4 max-h-[45vh] overflow-y-auto pr-2">
                     <!-- Dynamic Items populated by JS -->
                 </div>
             </div>
@@ -623,6 +623,9 @@
         addItemBtn.addEventListener('click', () => {
             cmsData.works.push({ title: "NEW WORK", artist: "ARTIST", year: "2026", videoId: "7KA1LaIy804", row: 1 });
             renderCmsWorksList();
+            // Scroll container down to new item
+            const container = document.getElementById('cms-items-container');
+            container.scrollTop = container.scrollHeight;
         });
 
         saveCmsBtn.addEventListener('click', () => {
@@ -895,7 +898,7 @@
                 });
                 item.addEventListener('mouseleave', () => {
                     gsap.to(inner, { 
-                        scale: 1, duration: 0.8, ease: "power3.out", overwrite: "auto",
+                        scale: 1, duration: 0.8, ease: "power3.0", overwrite: "auto",
                         onComplete: () => gsap.set(item, { zIndex: 10 }) 
                     });
                     galleryItems.forEach((other) => {
