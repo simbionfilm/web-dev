@@ -27,7 +27,7 @@
     </script>
 
     <style>
-        /* STREAMING_CHUNK:Configuring ultra-smooth scrolling and core aesthetics... */
+        /* STREAMING_CHUNK:Configuring smooth scroll and global typography styles... */
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto; }
         .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
@@ -64,7 +64,7 @@
             transition: width 0.2s, height 0.2s;
         }
 
-        /* Slot Machine Typography */
+        /* Slot Machine Typography Animation Classes */
         .slot-wrapper {
             display: inline-block;
             overflow: hidden;
@@ -77,7 +77,7 @@
             transform: translateY(110%);
         }
 
-        /* Hover Interactions */
+        /* Hover Text Smooth Italic & Move Effects */
         .hover-text-fx {
             display: inline-block;
             transition: transform 0.15s ease-out, font-variation-settings 0.15s ease-out, color 0.15s ease-out;
@@ -90,6 +90,7 @@
             color: #0616C6;
         }
 
+        /* About Us Line Hover Style */
         .about-line {
             display: inline-block;
             width: fit-content;
@@ -105,31 +106,41 @@
         ::-webkit-scrollbar { display: none; }
         .clip-mask { overflow: hidden; display: block; }
 
-        /* Stable Gallery Styling */
+        /* Original Gallery Z-Index Fix */
         .gallery-item {
-            flex-shrink: 0; /* Prevents squishing */
+            position: absolute;
             transition: z-index 0.3s;
             z-index: 10;
             will-change: transform;
         }
+        
+        /* Film Track Container Layout */
+        .film-track {
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            will-change: transform;
+        }
     </style>
 
-    <!-- Scripts -->
+    <!-- Essential Scripts for Smooth Scroll and Animations -->
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body class="font-sans">
 
-    <!-- STREAMING_CHUNK:Initializing global elements and overlay navigation... -->
+    <!-- STREAMING_CHUNK:Initializing custom cursor, progress bar, and navigation... -->
     <div class="custom-cursor" id="custom-cursor"></div>
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
 
-    <!-- Navigation -->
+    <!-- Main Navigation Bar -->
     <nav class="fixed top-0 w-full z-[100] p-6 mix-blend-difference flex justify-between items-start pointer-events-none text-xs md:text-sm tracking-widest font-sans text-white">
         <div class="pointer-events-auto flex flex-col gap-1">
             <a href="#hero" class="hover:opacity-80 transition-opacity">
-                <!-- LOGO ASLI -->
+                <!-- Fallback Logic if Image is Not Found -->
                 <img src="IMG_2499 2.PNG" alt="SIMBION FILM" class="h-6 md:h-8" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<span class=\'font-display font-bold text-lg\'>SIMBION</span>');">
             </a>
         </div>
@@ -139,10 +150,10 @@
     </nav>
 
     <!-- SECTION: HERO (STICKY BACKDROP) -->
-    <!-- STREAMING_CHUNK:Rendering hero backdrop that stays fixed as you scroll down... -->
-    <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center items-center px-4 md:px-8 bg-black z-10">
+    <!-- STREAMING_CHUNK:Rendering hero section with sticky positioning to stay behind selected works... -->
+    <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center items-center px-4 md:px-8 bg-black z-10 shadow-2xl">
         <div class="w-full max-w-2xl flex justify-center parallax-hero z-10">
-            <!-- GAMBAR GIF ASLI -->
+            <!-- Fallback Image Applied for the Main GIF -->
             <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.jpg" alt="Filmmaking GIF" class="w-full h-auto object-contain interactive-el" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
         </div>
 
@@ -151,30 +162,39 @@
                 Every project deserves its own fit. We tailor each one from scratch, carefully stitching every frame together with passion and dedication.
             </p>
         </div>
+        
         <div class="absolute bottom-12 right-4 md:right-8 hero-fade opacity-0 text-center z-20">
             <span class="text-[10px] tracking-widest font-sans text-mutedText interactive-el hover-text-fx">SCROLL</span>
             <div class="w-[1px] h-12 bg-white/30 mx-auto mt-2"></div>
         </div>
     </section>
 
-    <!-- SECTION: SELECTED WORK (PARALLAX OVERLAP & HORIZONTAL SCROLL) -->
-    <!-- STREAMING_CHUNK:Structuring stable Flexbox gallery to ensure no overlapping bugs... -->
-    <section id="selected-work" class="relative bg-black z-20 w-full h-[100dvh] overflow-hidden flex flex-col shadow-[0_-20px_50px_rgba(0,0,0,0.9)]">
+    <!-- SECTION: SELECTED WORK -->
+    <!-- STREAMING_CHUNK:Rendering the selected works horizontal gallery with original spacing and extended margins... -->
+    <section id="selected-work" class="relative bg-black z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.8)] w-full h-[100dvh] overflow-hidden flex flex-col">
         
-        <!-- Slot Title (Aman dari Logo) -->
+        <!-- Slot Animated Title Label -->
         <div class="absolute top-24 md:top-28 left-6 md:left-12 z-50 pointer-events-none">
             <h2 id="selected-title" class="font-display text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">SELECTED WORKS</h2>
         </div>
 
-        <!-- Flexbox Track: Uses explicit padding-left (150vw) to create the initial blank screen delay! -->
-        <div class="relative w-full h-full flex items-center overflow-visible">
-            <div class="film-track flex items-center h-full w-max pl-[150vw] pr-[50vw] gap-[15vw] md:gap-[8vw]" id="film-track">
+        <!-- The Film Track Container for Horizontal Scroll Animation -->
+        <div class="relative w-full flex-1 overflow-hidden">
+            <!-- 
+               CRITICAL FIX: 
+               Track width expanded to 750vw.
+               - 150vw blank space at start
+               - Items spread from 150vw to 550vw (Original layout)
+               - 200vw blank space at the end to ensure the screen turns pure black before the next section appears.
+            -->
+            <div class="film-track w-[750vw]" id="film-track">
                 
-                <!-- Scattered Y-Axis using Tailwind Translate Utilities -->
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video -translate-y-16 md:-translate-y-24">
+                <!-- Original Scattered Absolute Positioning -->
+                
+                <div class="gallery-item absolute left-[150vw] top-[40%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="-3">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/7KA1LaIy804/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Antara'" alt="Antara" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=7KA1LaIy804" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -187,10 +207,10 @@
                     </div>
                 </div>
 
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video translate-y-16 md:translate-y-20">
+                <div class="gallery-item absolute left-[175vw] top-[60%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="3" data-my="4">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/4vevtQBeH78/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Terjebak+Imajinasi'" alt="Terjebak Imajinasi" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=4vevtQBeH78" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -203,11 +223,10 @@
                     </div>
                 </div>
 
-                <!-- STREAMING_CHUNK:Injecting remaining gallery items dynamically... -->
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video -translate-y-24 md:-translate-y-32">
+                <div class="gallery-item absolute left-[200vw] top-[30%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/2x_EYv5H68o/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Beri+Aku+Kesempatan'" alt="Beri Aku Kesempatan" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=2x_EYv5H68o" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -220,10 +239,10 @@
                     </div>
                 </div>
 
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video translate-y-24 md:translate-y-32">
+                <div class="gallery-item absolute left-[225vw] top-[65%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="2" data-my="-4">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/7UJ1DoYP-Qw/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Seandainya'" alt="Seandainya" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=7UJ1DoYP-Qw" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -236,10 +255,11 @@
                     </div>
                 </div>
 
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video translate-y-0 md:translate-y-4">
+                <!-- STREAMING_CHUNK:Loading further gallery items with varied Y-axis positions... -->
+                <div class="gallery-item absolute left-[250vw] top-[35%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-3" data-my="2">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/9NhXdGxEQA0/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Gelang'" alt="Gelang" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=9NhXdGxEQA0" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -252,10 +272,10 @@
                     </div>
                 </div>
 
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video -translate-y-12 md:-translate-y-16">
+                <div class="gallery-item absolute left-[275vw] top-[70%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="5" data-my="3">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/cI8VzJE1tNg/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Putusin+Aku+Dong'" alt="Putusin Aku Dong" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=cI8VzJE1tNg" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -268,10 +288,10 @@
                     </div>
                 </div>
 
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video translate-y-20 md:translate-y-28">
+                <div class="gallery-item absolute left-[300vw] top-[25%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="4">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/A5YICW1I_kc/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Kisah+Kasih'" alt="Kisah Kasih Di Jakarta" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=A5YICW1I_kc" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -284,10 +304,10 @@
                     </div>
                 </div>
 
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video -translate-y-10 md:-translate-y-20">
+                <div class="gallery-item absolute left-[325vw] top-[60%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="3" data-my="-5">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/GM71bWErDoo/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Jalan+Tengah'" alt="Jalan Tengah" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=GM71bWErDoo" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -300,10 +320,10 @@
                     </div>
                 </div>
 
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video translate-y-16 md:translate-y-24">
+                <div class="gallery-item absolute left-[350vw] top-[30%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/8ma_y-Xmo-Q/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Tiba+Tiba+Kau'" alt="Tiba Tiba Kau" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=8ma_y-Xmo-Q" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -316,11 +336,11 @@
                     </div>
                 </div>
 
-                <!-- ITEM 10 ONWARDS -->
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video -translate-y-4 md:-translate-y-10">
+                <!-- STREAMING_CHUNK:Appending final set of gallery pieces... -->
+                <div class="gallery-item absolute left-[375vw] top-[65%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="4" data-my="-3">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/kzYYiRGzODI/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Mak+Comblang'" alt="Mak Comblang" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=kzYYiRGzODI" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -333,10 +353,10 @@
                     </div>
                 </div>
 
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video translate-y-12 md:translate-y-16">
+                <div class="gallery-item absolute left-[400vw] top-[35%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-3" data-my="3">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/LAVUtHyvisM/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+11'" alt="Work 11" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=LAVUtHyvisM" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -349,10 +369,10 @@
                     </div>
                 </div>
 
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video -translate-y-20 md:-translate-y-32">
+                <div class="gallery-item absolute left-[425vw] top-[60%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="2" data-my="-2">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/h2ODH39tzAQ/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Berjalan+Lagi'" alt="Berjalan Lagi" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=h2ODH39tzAQ" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -365,10 +385,10 @@
                     </div>
                 </div>
 
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video translate-y-10 md:translate-y-16">
+                <div class="gallery-item absolute left-[450vw] top-[30%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="4">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/g89VhNDBrsY/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+13'" alt="Work 13" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=g89VhNDBrsY" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -381,10 +401,10 @@
                     </div>
                 </div>
 
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video -translate-y-8 md:-translate-y-12">
+                <div class="gallery-item absolute left-[475vw] top-[65%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="3" data-my="-3">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/mvvddC6NZT4/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Selected+Work+14'" alt="Work 14" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=mvvddC6NZT4" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -397,10 +417,10 @@
                     </div>
                 </div>
 
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video translate-y-16 md:translate-y-24">
+                <div class="gallery-item absolute left-[500vw] top-[25%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="2">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/Za2t7fFrkUw/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Aminlah+Bersamaku'" alt="Aminlah Bersamaku" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=Za2t7fFrkUw" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -413,10 +433,10 @@
                     </div>
                 </div>
 
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video -translate-y-14 md:-translate-y-20">
+                <div class="gallery-item absolute left-[525vw] top-[60%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="4" data-my="-4">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/b5ZQob-mDGM/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Hingga+Tua+Bersama'" alt="Hingga Tua Bersama" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=b5ZQob-mDGM" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -429,10 +449,10 @@
                     </div>
                 </div>
 
-                <div class="gallery-item w-[60vw] md:w-[22vw] aspect-video translate-y-6 md:translate-y-10">
+                <div class="gallery-item absolute left-[550vw] top-[30%] w-[60vw] md:w-[22vw] aspect-video">
                     <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
                         <div class="idle-float w-full h-full">
-                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl group cursor-pointer bg-black">
+                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
                                 <img src="https://img.youtube.com/vi/JhjB7e1twX8/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=Aku+Butuh+Perawatan'" alt="Aku Butuh Perawatan" class="w-full h-full object-cover">
                                 <a href="https://www.youtube.com/watch?v=JhjB7e1twX8" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
@@ -450,50 +470,43 @@
     </section>
 
     <!-- SECTION: ABOUT -->
-    <!-- STREAMING_CHUNK:Rendering standard relative about us section... -->
+    <!-- STREAMING_CHUNK:Rendering the About Us section stacked seamlessly below the scroll... -->
     <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-16 py-16 z-30 shadow-[0_-20px_50px_rgba(0,0,0,0.8)]">
         
-        <!-- Top Left Header -->
         <div class="absolute top-24 md:top-28 left-6 md:left-12 z-50 pointer-events-none">
             <h2 id="about-title" class="font-display text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">ABOUT US</h2>
         </div>
 
         <div class="max-w-6xl w-full text-left space-y-6 md:space-y-8 my-auto pt-16">
-            
             <div class="clip-mask">
                 <p class="font-display text-xl md:text-3xl lg:text-4xl font-bold tracking-widest leading-tight uppercase">
                     <span class="about-line interactive-el">SIMBION FILM IS A FILMMAKING BOUTIQUE WITH A MULTIDISCIPLINARY APPROACH.</span>
                 </p>
             </div>
-            
             <div class="clip-mask">
                 <p class="font-display text-xl md:text-3xl lg:text-4xl font-bold tracking-widest leading-tight uppercase flex flex-col gap-2">
                     <span class="about-line interactive-el">WE BELIEVE THAT THE FUNDAMENTALS OF FILMMAKING ARE TIMELESS.</span>
                     <span class="about-line interactive-el">STORY, DIRECTION, COMPOSITION, LIGHT, MOVEMENT, AND PERFORMANCE REMAIN AT THE HEART OF EVERY MEANINGFUL VISUAL WORK.</span>
                 </p>
             </div>
-            
             <div class="clip-mask">
                 <p class="font-display text-xl md:text-3xl lg:text-4xl font-bold tracking-widest leading-tight uppercase">
                     <span class="about-line interactive-el">BORN IN THE DIGITAL ERA, WE EMBRACE THE POSSIBILITIES OF NEW MEDIA WITHOUT LOSING SIGHT OF THE CRAFT.</span>
                 </p>
             </div>
-            
             <div class="clip-mask">
                 <p class="font-display text-xl md:text-3xl lg:text-4xl font-bold tracking-widest leading-tight uppercase flex flex-col gap-2">
                     <span class="about-line interactive-el">FOR US, FILMMAKING IS NOT SIMPLY ABOUT PRODUCING CONTENT.</span>
                     <span class="about-line interactive-el">IT IS ABOUT MAKING SOMETHING WORTH WATCHING.</span>
                 </p>
             </div>
-
         </div>
     </section>
 
     <!-- SECTION: CONTACT -->
-    <!-- STREAMING_CHUNK:Rendering contact section... -->
+    <!-- STREAMING_CHUNK:Rendering the Final Contact Section... -->
     <section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-8 py-16 z-40 shadow-[0_-20px_50px_rgba(0,0,0,0.8)]">
         
-        <!-- Top Left Header -->
         <div class="absolute top-24 md:top-28 left-6 md:left-12 z-50 pointer-events-none">
             <h2 class="font-display text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">CONTACT</h2>
         </div>
@@ -525,27 +538,30 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Initializing GSAP pinning and flexible scrub logic... -->
+    <!-- Script Execution -->
+    <!-- STREAMING_CHUNK:Attaching GSAP animations, pinning, and interactive effects... -->
     <script>
-        // Custom Cursor
+        // Custom Cursor Tracker
         const cursor = document.getElementById('custom-cursor');
         window.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
-        // Initialize Lenis
+        // Initialize Lenis Smooth Scroll Manager
         const lenis = new Lenis({
             duration: 1.0,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             direction: 'vertical',
             smooth: true,
         });
+        
+        // Sync Lenis with GSAP ScrollTrigger
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time) => lenis.raf(time * 1000));
         gsap.ticker.lagSmoothing(0);
 
-        // Slot Text Setup
+        // Utility: Slot Machine Text Generator
         function initSlotText(elementId, text) {
             const el = document.getElementById(elementId);
             if (!el) return;
@@ -566,43 +582,46 @@
                 el.appendChild(wrapper);
             });
         }
+        
+        // Initialize dynamic texts
         initSlotText('selected-title', 'SELECTED WORKS');
         initSlotText('about-title', 'ABOUT US');
 
-        // Hero Init
+        // Animation: Hero Enter
         const heroTl = gsap.timeline();
         heroTl.to('.hero-fade', {
             opacity: 1, y: 0, duration: 1.2, ease: "power3.out", stagger: 0.15, delay: 0.3
         });
+        
+        // Animation: Hero Parallax Scroll
         gsap.to('.parallax-hero', {
             yPercent: 30, rotation: 2, ease: "none",
             scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }
         });
+        
+        // Animation: Reading Progress Bar
         gsap.to('#progress-bar', {
             scaleX: 1, ease: "none",
             scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.1 }
         });
 
-        // Horizontal Scroll (Flawless Flexbox Logic)
+        // Animation: The Selected Works Horizontal Track Engine
         const filmTrack = document.getElementById("film-track");
-        
-        // Let the scroll distance match the total width of the track dynamically
-        // Since we have padding-left: 150vw, the first 1.5 window widths of horizontal scroll
-        // will just be black space, acting as the perfect native delay!
         gsap.to(filmTrack, {
             x: () => -(filmTrack.scrollWidth - window.innerWidth) + "px",
             ease: "none",
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
+                // Scroll duration matches the total width of the track (750vw)
                 end: () => "+=" + (filmTrack.scrollWidth), 
-                scrub: 0.5, // Tighter scrub for responsive feel
+                scrub: 1.0, 
                 pin: true, 
                 anticipatePin: 1
             }
         });
 
-        // Slot Machine: Selected Works
+        // Animation: Slot Text Reveals for Headers
         ScrollTrigger.create({
             trigger: "#selected-work",
             start: "top 70%",
@@ -618,7 +637,6 @@
             }
         });
 
-        // Slot Machine: About Us
         ScrollTrigger.create({
             trigger: "#about",
             start: "top 70%",
@@ -634,7 +652,7 @@
             }
         });
 
-        // Space Floating Idle
+        // Animation: Space Floating Idle for Images
         gsap.utils.toArray('.idle-float').forEach((el) => {
             gsap.to(el, {
                 y: `+=${Math.random() * 70 - 35}`,
@@ -645,7 +663,7 @@
             });
         });
 
-        // Mouse Parallax Wrapper
+        // Interaction: Mouse Move Parallax Offset
         const wrapper = document.getElementById('selected-work');
         const parallaxWraps = gsap.utils.toArray(".parallax-wrap");
         wrapper.addEventListener('mousemove', (e) => {
@@ -658,36 +676,36 @@
             });
         });
 
-        // Hover Effect Zoom Push (Safe for Flexbox)
+        // Interaction: Gallery Hover Expand and Push Neighbors
         const galleryItems = document.querySelectorAll('.gallery-item');
         galleryItems.forEach((item, index) => {
             const inner = item.querySelector('.gallery-item-inner');
             item.addEventListener('mouseenter', () => {
                 gsap.set(item, { zIndex: 100 });
-                gsap.to(inner, { scale: 1.25, duration: 0.6, ease: "power3.out", overwrite: "auto" });
+                gsap.to(inner, { scale: 1.5, duration: 0.8, ease: "power3.out", overwrite: "auto" });
 
                 const isMobile = window.innerWidth < 768;
-                const pushVal = isMobile ? 10 : 6; 
+                const pushVal = isMobile ? 15 : 10; 
 
                 galleryItems.forEach((other, otherIndex) => {
                     if (otherIndex !== index) {
                         const pushAmount = otherIndex < index ? `-${pushVal}vw` : `${pushVal}vw`;
-                        gsap.to(other, { x: pushAmount, duration: 0.6, ease: "power3.out", overwrite: "auto" });
+                        gsap.to(other, { x: pushAmount, duration: 0.8, ease: "power3.out", overwrite: "auto" });
                     }
                 });
             });
             item.addEventListener('mouseleave', () => {
                 gsap.to(inner, { 
-                    scale: 1, duration: 0.6, ease: "power3.out", overwrite: "auto",
+                    scale: 1, duration: 0.8, ease: "power3.out", overwrite: "auto",
                     onComplete: () => gsap.set(item, { zIndex: 10 }) 
                 });
                 galleryItems.forEach((other) => {
-                    gsap.to(other, { x: "0vw", duration: 0.6, ease: "power3.out", overwrite: "auto" });
+                    gsap.to(other, { x: "0vw", duration: 0.8, ease: "power3.out", overwrite: "auto" });
                 });
             });
         });
 
-        // Contact Reveal
+        // Animation: Contact Reveal
         gsap.utils.toArray('.contact-title-line').forEach(line => {
             gsap.fromTo(line,
                 { y: "110%", filter: "blur(10px)", scale: 1.2 },
@@ -697,6 +715,7 @@
                 }
             );
         });
+        
         gsap.to('.reveal-quote', {
             scrollTrigger: { trigger: '.reveal-quote', start: "top 90%" },
             y: 0, opacity: 1, duration: 1.5, ease: "expo.out"
