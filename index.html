@@ -156,10 +156,10 @@
     </nav>
 
     <!-- SECTION: HERO (STICKY BACKDROP) -->
-    <!-- STREAMING_CHUNK:Rendering hero section... -->
+    <!-- STREAMING_CHUNK:Rendering hero section with recent release spinning vinyl widget... -->
     <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center items-center px-4 md:px-8 bg-black z-10 shadow-2xl">
         <div class="w-full max-w-2xl flex justify-center parallax-hero z-10">
-            <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.jpg" alt="Filmmaking GIF" class="w-full h-auto object-contain interactive-el" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
+            <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-full h-auto object-contain interactive-el" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
         </div>
 
         <div class="absolute bottom-12 left-4 md:left-12 flex gap-8 max-w-4xl font-sans hero-fade opacity-0 leading-tight z-20">
@@ -168,10 +168,25 @@
             </p>
         </div>
         
-        <div class="absolute bottom-12 right-4 md:right-8 hero-fade opacity-0 text-center z-20">
-            <span class="text-[10px] tracking-widest font-sans text-mutedText interactive-el hover-text-fx">SCROLL</span>
-            <div class="w-[1px] h-12 bg-white/30 mx-auto mt-2"></div>
-        </div>
+        <!-- Recent Release Spinning Vinyl Widget at Bottom Right -->
+        <a href="https://www.youtube.com/watch?v=7KA1LaIy804" target="_blank" class="absolute bottom-10 right-6 md:right-12 z-30 flex items-center gap-4 group cursor-pointer interactive-el hero-fade opacity-0">
+            <div class="text-right hidden sm:block">
+                <span class="text-[9px] tracking-[0.2em] font-mono text-mutedText block uppercase">RECENT RELEASE</span>
+                <span class="text-xs md:text-sm font-bold tracking-tight text-white block uppercase group-hover:text-simbionBlue transition-colors">STEREOWALL — ANTARA</span>
+            </div>
+            <!-- Spinning Vinyl Record -->
+            <div class="relative w-14 h-14 md:w-16 md:h-16 rounded-full bg-neutral-900 border-2 border-neutral-700 shadow-2xl flex items-center justify-center animate-[spin_6s_linear_infinite] group-hover:scale-110 transition-transform">
+                <!-- Vinyl Grooves -->
+                <div class="absolute inset-1 rounded-full border border-neutral-800 pointer-events-none"></div>
+                <div class="absolute inset-3 rounded-full border border-neutral-800 pointer-events-none"></div>
+                <!-- Center Thumbnail -->
+                <div class="w-7 h-7 md:w-8 md:h-8 rounded-full overflow-hidden border border-white/20 relative z-10">
+                    <img src="https://img.youtube.com/vi/7KA1LaIy804/maxresdefault.jpg" alt="Antara" class="w-full h-full object-cover">
+                </div>
+                <!-- Center Spindle Hole -->
+                <div class="absolute w-2 h-2 bg-black rounded-full z-20"></div>
+            </div>
+        </a>
     </section>
 
     <!-- SECTION: WE ARE WHAT WE'VE MADE (BLACK BG, SVG GRAINY NOISE & SOFT WAVE ANIMATION) -->
@@ -223,7 +238,7 @@
                                 <a href="https://www.youtube.com/watch?v=7KA1LaIy804" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2024 — STEREOWALL</span>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2026 — STEREOWALL</span>
                                     <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">ANTARA</h3>
                                 </div>
                             </div>
@@ -239,7 +254,7 @@
                                 <a href="https://www.youtube.com/watch?v=4vevtQBeH78" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2023 — STEREOWALL</span>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2024 — STEREOWALL</span>
                                     <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">TERJEBAK IMAJINASI</h3>
                                 </div>
                             </div>
@@ -255,7 +270,7 @@
                                 <a href="https://www.youtube.com/watch?v=2x_EYv5H68o" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2023 — STEVAN PASARIBU</span>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2025 — STEVAN PASARIBU</span>
                                     <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">BERI AKU KESEMPATAN</h3>
                                 </div>
                             </div>
@@ -271,7 +286,7 @@
                                 <a href="https://www.youtube.com/watch?v=7UJ1DoYP-Qw" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2022 — DIFKI KHALIF & PRINSA</span>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2026 — DIFKI KHALIF & PRINSA</span>
                                     <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">SEANDAINYA</h3>
                                 </div>
                             </div>
@@ -287,7 +302,7 @@
                                 <a href="https://www.youtube.com/watch?v=9NhXdGxEQA0" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2023 — THE MARSOEDI</span>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2025 — THE MARSOEDI</span>
                                     <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">GELANG</h3>
                                 </div>
                             </div>
@@ -303,7 +318,7 @@
                                 <a href="https://www.youtube.com/watch?v=cI8VzJE1tNg" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2022 — PROJECT POP</span>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2025 — PROJECT POP</span>
                                     <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">PUTUSIN AKU DONG</h3>
                                 </div>
                             </div>
@@ -321,7 +336,7 @@
                                 <a href="https://www.youtube.com/watch?v=A5YICW1I_kc" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2023 — RAFI SUDIRMAN FT. GAC</span>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2025 — RAFI SUDIRMAN FT. GAC</span>
                                     <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">KISAH KASIH DI JAKARTA</h3>
                                 </div>
                             </div>
@@ -337,7 +352,7 @@
                                 <a href="https://www.youtube.com/watch?v=GM71bWErDoo" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2022 — MIKA TAMBAYONG & RAYI</span>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2026 — MIKA TAMBAYONG & RAYI</span>
                                     <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">JALAN TENGAH</h3>
                                 </div>
                             </div>
@@ -353,7 +368,7 @@
                                 <a href="https://www.youtube.com/watch?v=8ma_y-Xmo-Q" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2023 — DNANDA</span>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2026 — DNANDA</span>
                                     <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">TIBA TIBA KAU</h3>
                                 </div>
                             </div>
@@ -385,8 +400,8 @@
                                 <a href="https://www.youtube.com/watch?v=LAVUtHyvisM" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2024 — SIMBION FILM</span>
-                                    <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">SELECTED WORK XI</h3>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2024 — araji</span>
+                                    <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">merayakan hari ini</h3>
                                 </div>
                             </div>
                         </div>
@@ -401,7 +416,7 @@
                                 <a href="https://www.youtube.com/watch?v=h2ODH39tzAQ" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2023 — RICKY ZAKNO</span>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2022 — RICKY ZAKNO</span>
                                     <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">BERJALAN LAGI</h3>
                                 </div>
                             </div>
@@ -419,8 +434,8 @@
                                 <a href="https://www.youtube.com/watch?v=g89VhNDBrsY" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2023 — SIMBION FILM</span>
-                                    <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">SELECTED WORK XIII</h3>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2022 — Rizky febian & mahalini</span>
+                                    <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">satu tuju</h3>
                                 </div>
                             </div>
                         </div>
@@ -435,8 +450,8 @@
                                 <a href="https://www.youtube.com/watch?v=mvvddC6NZT4" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2024 — SIMBION FILM</span>
-                                    <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">SELECTED WORK XIV</h3>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2022 — rizky febian & mahalini</span>
+                                    <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">you're mine</h3>
                                 </div>
                             </div>
                         </div>
