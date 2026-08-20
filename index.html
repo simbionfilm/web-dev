@@ -97,6 +97,23 @@
             text-shadow: 0 10px 30px rgba(255,255,255,0.2);
         }
 
+        /* We Are What We've Made Focus Blur Hover Effect */
+        .we-are-container:hover .we-are-line:not(:hover) {
+            filter: blur(8px);
+            opacity: 0.35;
+            transition: filter 0.4s ease, opacity 0.4s ease;
+        }
+        .we-are-line {
+            transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease, color 0.4s ease, text-shadow 0.4s ease;
+        }
+        .we-are-line:hover {
+            filter: blur(0px);
+            opacity: 1;
+            transform: translateX(16px) skewX(-4deg) scale(1.02);
+            color: #ffffff;
+            text-shadow: 0 0 35px rgba(255, 255, 255, 0.85);
+        }
+
         /* About Us Line Hover Style */
         .about-line {
             display: inline-block;
@@ -111,7 +128,7 @@
         }
 
         ::-webkit-scrollbar { display: none; }
-        .clip-mask { overflow: hidden; display: block; }
+        .clip-mask { overflow: visible; display: block; padding: 0.1em 0; }
 
         /* Gallery Z-Index Fix */
         .gallery-item {
@@ -156,7 +173,7 @@
     </nav>
 
     <!-- SECTION: HERO (STICKY BACKDROP) -->
-    <!-- STREAMING_CHUNK:Rendering hero section with recent release spinning vinyl widget... -->
+    <!-- STREAMING_CHUNK:Rendering hero section with middle-right recent release spinning vinyl widget... -->
     <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center items-center px-4 md:px-8 bg-black z-10 shadow-2xl">
         <div class="w-full max-w-2xl flex justify-center parallax-hero z-10">
             <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-full h-auto object-contain interactive-el" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
@@ -168,19 +185,19 @@
             </p>
         </div>
         
-        <!-- Recent Release Spinning Vinyl Widget at Bottom Right -->
-        <a href="https://www.youtube.com/watch?v=7KA1LaIy804" target="_blank" class="absolute bottom-10 right-6 md:right-12 z-30 flex items-center gap-4 group cursor-pointer interactive-el hero-fade opacity-0">
+        <!-- Recent Release Spinning Vinyl Widget at Middle Right -->
+        <a href="https://www.youtube.com/watch?v=7KA1LaIy804" target="_blank" class="absolute top-1/2 -translate-y-1/2 right-6 md:right-12 z-30 flex items-center gap-4 group cursor-pointer interactive-el hero-fade opacity-0 bg-black/40 backdrop-blur-md p-3 rounded-2xl border border-white/10 shadow-2xl hover:border-white/30 transition-all">
             <div class="text-right hidden sm:block">
                 <span class="text-[9px] tracking-[0.2em] font-mono text-mutedText block uppercase">RECENT RELEASE</span>
                 <span class="text-xs md:text-sm font-bold tracking-tight text-white block uppercase group-hover:text-simbionBlue transition-colors">STEREOWALL — ANTARA</span>
             </div>
             <!-- Spinning Vinyl Record -->
-            <div class="relative w-14 h-14 md:w-16 md:h-16 rounded-full bg-neutral-900 border-2 border-neutral-700 shadow-2xl flex items-center justify-center animate-[spin_6s_linear_infinite] group-hover:scale-110 transition-transform">
+            <div class="relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-neutral-900 border-2 border-neutral-700 shadow-2xl flex items-center justify-center animate-[spin_6s_linear_infinite] group-hover:scale-110 transition-transform">
                 <!-- Vinyl Grooves -->
                 <div class="absolute inset-1 rounded-full border border-neutral-800 pointer-events-none"></div>
                 <div class="absolute inset-3 rounded-full border border-neutral-800 pointer-events-none"></div>
                 <!-- Center Thumbnail -->
-                <div class="w-7 h-7 md:w-8 md:h-8 rounded-full overflow-hidden border border-white/20 relative z-10">
+                <div class="w-6 h-6 md:w-7 md:h-7 rounded-full overflow-hidden border border-white/20 relative z-10">
                     <img src="https://img.youtube.com/vi/7KA1LaIy804/maxresdefault.jpg" alt="Antara" class="w-full h-full object-cover">
                 </div>
                 <!-- Center Spindle Hole -->
@@ -189,9 +206,9 @@
         </a>
     </section>
 
-    <!-- SECTION: WE ARE WHAT WE'VE MADE (BLACK BG, SVG GRAINY NOISE & SOFT WAVE ANIMATION) -->
-    <!-- STREAMING_CHUNK:Rendering We Are What We've Made transition section with prominent noise and gentle wave motion... -->
-    <section id="we-are-made" class="relative w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-6 md:px-12 z-15 shadow-[0_-20px_50px_rgba(0,0,0,0.8)] overflow-hidden">
+    <!-- SECTION: WE ARE WHAT WE'VE MADE (SOLID BLACK BG, NOISE, WAVE & FOCUS HOVER BLUR) -->
+    <!-- STREAMING_CHUNK:Rendering We Are What We've Made transition section with solid black background, noise, and focus hover blur... -->
+    <section id="we-are-made" class="relative w-full h-[100dvh] bg-[#000000] flex flex-col justify-center items-center px-6 md:px-12 z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.8)] overflow-hidden">
         <!-- Prominent Authentic Grainy Noise Filter Overlay -->
         <div class="absolute inset-0 opacity-[0.28] pointer-events-none mix-blend-overlay z-10">
             <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
@@ -202,14 +219,14 @@
             </svg>
         </div>
         
-        <div class="w-full max-w-7xl mx-auto flex flex-col justify-center select-none relative z-20">
+        <div class="we-are-container w-full max-w-7xl mx-auto flex flex-col justify-center select-none relative z-20">
             <div class="clip-mask">
-                <h2 class="we-are-line font-display font-black uppercase text-[10.5vw] md:text-[9vw] leading-[0.88] tracking-tighter text-white italic transform -rotate-2 hover-text-fx cursor-pointer">
+                <h2 class="we-are-line font-display font-black uppercase text-[10.5vw] md:text-[9vw] leading-[1.1] tracking-tighter text-white italic transform -rotate-2 cursor-pointer">
                     WE ARE
                 </h2>
             </div>
-            <div class="clip-mask mt-2 md:mt-4">
-                <h2 class="we-are-line font-display font-black uppercase text-[10.5vw] md:text-[9vw] leading-[0.88] tracking-tighter text-white italic transform -rotate-2 hover-text-fx cursor-pointer">
+            <div class="clip-mask mt-3 md:mt-6">
+                <h2 class="we-are-line font-display font-black uppercase text-[10.5vw] md:text-[9vw] leading-[1.1] tracking-tighter text-white italic transform -rotate-2 cursor-pointer">
                     WHAT WE'VE MADE
                 </h2>
             </div>
@@ -218,7 +235,7 @@
 
     <!-- SECTION: SELECTED WORK -->
     <!-- STREAMING_CHUNK:Rendering Selected Works horizontal track with 3-row layout and smaller thumbnails... -->
-    <section id="selected-work" class="relative bg-black z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.8)] w-full h-[100dvh] overflow-hidden flex flex-col">
+    <section id="selected-work" class="relative bg-black z-30 shadow-[0_-20px_50px_rgba(0,0,0,0.8)] w-full h-[100dvh] overflow-hidden flex flex-col">
         
         <!-- Slot Animated Title Label with Responsive Mix-Blend-Mode Color -->
         <div class="absolute top-24 md:top-28 left-6 md:left-12 z-50 pointer-events-none mix-blend-difference">
@@ -400,8 +417,8 @@
                                 <a href="https://www.youtube.com/watch?v=LAVUtHyvisM" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2024 — araji</span>
-                                    <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">merayakan hari ini</h3>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2024 — Araji</span>
+                                    <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">Merayakan hari ini</h3>
                                 </div>
                             </div>
                         </div>
@@ -416,7 +433,7 @@
                                 <a href="https://www.youtube.com/watch?v=h2ODH39tzAQ" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2022 — RICKY ZAKNO</span>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2023 — RICKY ZAKNO</span>
                                     <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">BERJALAN LAGI</h3>
                                 </div>
                             </div>
@@ -434,8 +451,8 @@
                                 <a href="https://www.youtube.com/watch?v=g89VhNDBrsY" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2022 — Rizky febian & mahalini</span>
-                                    <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">satu tuju</h3>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2023 — SIMBION FILM</span>
+                                    <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">SELECTED WORK XIII</h3>
                                 </div>
                             </div>
                         </div>
@@ -450,8 +467,8 @@
                                 <a href="https://www.youtube.com/watch?v=mvvddC6NZT4" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2022 — rizky febian & mahalini</span>
-                                    <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">you're mine</h3>
+                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">2024 — SIMBION FILM</span>
+                                    <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">SELECTED WORK XIV</h3>
                                 </div>
                             </div>
                         </div>
@@ -512,7 +529,7 @@
 
     <!-- SECTION: ABOUT -->
     <!-- STREAMING_CHUNK:Rendering About Us section with responsive blend-mode titles... -->
-    <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-16 py-16 z-30 shadow-[0_-20px_50px_rgba(0,0,0,0.8)]">
+    <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-16 py-16 z-40 shadow-[0_-20px_50px_rgba(0,0,0,0.8)]">
         
         <div class="absolute top-28 md:top-32 left-6 md:left-12 z-50 pointer-events-none mix-blend-difference">
             <h2 id="about-title" class="font-display text-2xl md:text-4xl font-bold tracking-tight text-white uppercase origin-left transition-transform">ABOUT US</h2>
@@ -539,7 +556,7 @@
 
     <!-- SECTION: CONTACT -->
     <!-- STREAMING_CHUNK:Rendering Contact section... -->
-    <section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-8 py-16 z-40 shadow-[0_-20px_50px_rgba(0,0,0,0.8)]">
+    <section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-8 py-16 z-50 shadow-[0_-20px_50px_rgba(0,0,0,0.8)]">
         
         <div class="relative z-10 flex flex-col items-center text-center w-full my-auto">
             <div class="flex flex-col w-full font-display font-bold leading-[0.9] tracking-tighter">
