@@ -27,7 +27,7 @@
     </script>
 
     <style>
-        /* STREAMING_CHUNK:Configuring ultra-smooth momentum scrolling... */
+        /* STREAMING_CHUNK:Configuring ultra-smooth momentum scrolling and base styles... */
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto; }
         .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
@@ -152,10 +152,10 @@
     </nav>
 
     <!-- SECTION: HERO (STICKY BACKDROP) -->
-    <!-- STREAMING_CHUNK:Rendering hero section with smooth ease parallax... -->
+    <!-- STREAMING_CHUNK:Rendering hero section... -->
     <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center items-center px-4 md:px-8 bg-black z-10 shadow-2xl">
         <div class="w-full max-w-2xl flex justify-center parallax-hero z-10">
-            <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.jpg" alt="Filmmaking GIF" class="w-full h-auto object-contain interactive-el" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
+            <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-full h-auto object-contain interactive-el" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
         </div>
 
         <div class="absolute bottom-12 left-4 md:left-12 flex gap-8 max-w-4xl font-sans hero-fade opacity-0 leading-tight z-20">
@@ -171,19 +171,19 @@
     </section>
 
     <!-- SECTION: SELECTED WORK -->
-    <!-- STREAMING_CHUNK:Rendering Selected Works with inertial easing scrub... -->
+    <!-- STREAMING_CHUNK:Rendering Selected Works horizontal track with dynamic direction-reactive title... -->
     <section id="selected-work" class="relative bg-black z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.8)] w-full h-[100dvh] overflow-hidden flex flex-col">
         
-        <!-- Slot Animated Title Label -->
+        <!-- Slot Animated Title Label with directional responsiveness container -->
         <div class="absolute top-28 md:top-32 left-6 md:left-12 z-50 pointer-events-none">
-            <h2 id="selected-title" class="font-display text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">SELECTED WORKS</h2>
+            <h2 id="selected-title" class="font-display text-2xl md:text-4xl font-bold tracking-tight text-white uppercase origin-left transition-transform">SELECTED WORKS</h2>
         </div>
 
         <!-- The Film Track Container for Horizontal Scroll Animation -->
         <div class="relative w-full flex-1 overflow-hidden">
-            <div class="film-track w-[380vw]" id="film-track">
+            <div class="film-track w-[450vw]" id="film-track">
                 
-                <div class="gallery-item absolute left-[120vw] top-[38%] w-[60vw] md:w-[22vw] aspect-video" data-index="0">
+                <div class="gallery-item absolute left-[30vw] top-[35%] w-[60vw] md:w-[22vw] aspect-video" data-index="0">
                     <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="-3">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -199,7 +199,7 @@
                     </div>
                 </div>
 
-                <div class="gallery-item absolute left-[134vw] top-[58%] w-[60vw] md:w-[22vw] aspect-video" data-index="1">
+                <div class="gallery-item absolute left-[53vw] top-[55%] w-[60vw] md:w-[22vw] aspect-video" data-index="1">
                     <div class="parallax-wrap w-full h-full" data-mx="3" data-my="4">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -215,7 +215,7 @@
                     </div>
                 </div>
 
-                <div class="gallery-item absolute left-[148vw] top-[28%] w-[60vw] md:w-[22vw] aspect-video" data-index="2">
+                <div class="gallery-item absolute left-[76vw] top-[25%] w-[60vw] md:w-[22vw] aspect-video" data-index="2">
                     <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -231,7 +231,7 @@
                     </div>
                 </div>
 
-                <div class="gallery-item absolute left-[162vw] top-[50%] w-[60vw] md:w-[22vw] aspect-video" data-index="3">
+                <div class="gallery-item absolute left-[99vw] top-[50%] w-[60vw] md:w-[22vw] aspect-video" data-index="3">
                     <div class="parallax-wrap w-full h-full" data-mx="2" data-my="-4">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -248,7 +248,7 @@
                 </div>
 
                 <!-- STREAMING_CHUNK:Injecting remaining close-spaced gallery items... -->
-                <div class="gallery-item absolute left-[176vw] top-[32%] w-[60vw] md:w-[22vw] aspect-video" data-index="4">
+                <div class="gallery-item absolute left-[122vw] top-[30%] w-[60vw] md:w-[22vw] aspect-video" data-index="4">
                     <div class="parallax-wrap w-full h-full" data-mx="-3" data-my="2">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -264,7 +264,7 @@
                     </div>
                 </div>
 
-                <div class="gallery-item absolute left-[190vw] top-[62%] w-[60vw] md:w-[22vw] aspect-video" data-index="5">
+                <div class="gallery-item absolute left-[145vw] top-[60%] w-[60vw] md:w-[22vw] aspect-video" data-index="5">
                     <div class="parallax-wrap w-full h-full" data-mx="5" data-my="3">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -280,7 +280,7 @@
                     </div>
                 </div>
 
-                <div class="gallery-item absolute left-[204vw] top-[24%] w-[60vw] md:w-[22vw] aspect-video" data-index="6">
+                <div class="gallery-item absolute left-[168vw] top-[28%] w-[60vw] md:w-[22vw] aspect-video" data-index="6">
                     <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="4">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -296,7 +296,7 @@
                     </div>
                 </div>
 
-                <div class="gallery-item absolute left-[218vw] top-[55%] w-[60vw] md:w-[22vw] aspect-video" data-index="7">
+                <div class="gallery-item absolute left-[191vw] top-[52%] w-[60vw] md:w-[22vw] aspect-video" data-index="7">
                     <div class="parallax-wrap w-full h-full" data-mx="3" data-my="-5">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -312,7 +312,7 @@
                     </div>
                 </div>
 
-                <div class="gallery-item absolute left-[232vw] top-[30%] w-[60vw] md:w-[22vw] aspect-video" data-index="8">
+                <div class="gallery-item absolute left-[214vw] top-[32%] w-[60vw] md:w-[22vw] aspect-video" data-index="8">
                     <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -328,7 +328,7 @@
                     </div>
                 </div>
 
-                <div class="gallery-item absolute left-[246vw] top-[58%] w-[60vw] md:w-[22vw] aspect-video" data-index="9">
+                <div class="gallery-item absolute left-[237vw] top-[58%] w-[60vw] md:w-[22vw] aspect-video" data-index="9">
                     <div class="parallax-wrap w-full h-full" data-mx="4" data-my="-3">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -344,7 +344,7 @@
                     </div>
                 </div>
 
-                <div class="gallery-item absolute left-[260vw] top-[26%] w-[60vw] md:w-[22vw] aspect-video" data-index="10">
+                <div class="gallery-item absolute left-[260vw] top-[25%] w-[60vw] md:w-[22vw] aspect-video" data-index="10">
                     <div class="parallax-wrap w-full h-full" data-mx="-3" data-my="3">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -352,15 +352,15 @@
                                 <a href="https://www.youtube.com/watch?v=LAVUtHyvisM" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2024 — Simbion Film</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XI</h3>
+                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2024 — Araji</span>
+                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Merayakan Hari Ini</h3>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="gallery-item absolute left-[274vw] top-[50%] w-[60vw] md:w-[22vw] aspect-video" data-index="11">
+                <div class="gallery-item absolute left-[283vw] top-[50%] w-[60vw] md:w-[22vw] aspect-video" data-index="11">
                     <div class="parallax-wrap w-full h-full" data-mx="2" data-my="-2">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -376,7 +376,7 @@
                     </div>
                 </div>
 
-                <div class="gallery-item absolute left-[288vw] top-[34%] w-[60vw] md:w-[22vw] aspect-video" data-index="12">
+                <div class="gallery-item absolute left-[306vw] top-[32%] w-[60vw] md:w-[22vw] aspect-video" data-index="12">
                     <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="4">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -384,15 +384,15 @@
                                 <a href="https://www.youtube.com/watch?v=g89VhNDBrsY" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2023 — Simbion Film</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XIII</h3>
+                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2023 — Rizky Febian & Mahalini</span>
+                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Satu Tuju</h3>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="gallery-item absolute left-[302vw] top-[60%] w-[60vw] md:w-[22vw] aspect-video" data-index="13">
+                <div class="gallery-item absolute left-[329vw] top-[58%] w-[60vw] md:w-[22vw] aspect-video" data-index="13">
                     <div class="parallax-wrap w-full h-full" data-mx="3" data-my="-3">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -400,15 +400,15 @@
                                 <a href="https://www.youtube.com/watch?v=mvvddC6NZT4" class="absolute inset-0 z-10 interactive-el" target="_blank"></a>
                                 <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2024 — Simbion Film</span>
-                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">Selected Work XIV</h3>
+                                    <span class="text-[8px] md:text-[9px] text-gray-300 tracking-widest font-mono drop-shadow-md block uppercase">2024 — Rizky Febian & Mahalini</span>
+                                    <h3 class="text-xs md:text-sm font-medium tracking-tight text-white mt-1 drop-shadow-lg">You're Mine</h3>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="gallery-item absolute left-[316vw] top-[25%] w-[60vw] md:w-[22vw] aspect-video" data-index="14">
+                <div class="gallery-item absolute left-[352vw] top-[26%] w-[60vw] md:w-[22vw] aspect-video" data-index="14">
                     <div class="parallax-wrap w-full h-full" data-mx="-2" data-my="2">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -424,7 +424,7 @@
                     </div>
                 </div>
 
-                <div class="gallery-item absolute left-[330vw] top-[55%] w-[60vw] md:w-[22vw] aspect-video" data-index="15">
+                <div class="gallery-item absolute left-[375vw] top-[52%] w-[60vw] md:w-[22vw] aspect-video" data-index="15">
                     <div class="parallax-wrap w-full h-full" data-mx="4" data-my="-4">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -440,7 +440,7 @@
                     </div>
                 </div>
 
-                <div class="gallery-item absolute left-[344vw] top-[30%] w-[60vw] md:w-[22vw] aspect-video" data-index="16">
+                <div class="gallery-item absolute left-[398vw] top-[30%] w-[60vw] md:w-[22vw] aspect-video" data-index="16">
                     <div class="parallax-wrap w-full h-full" data-mx="-4" data-my="2">
                         <div class="idle-float w-full h-full">
                             <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black">
@@ -461,11 +461,11 @@
     </section>
 
     <!-- SECTION: ABOUT -->
-    <!-- STREAMING_CHUNK:Rendering About Us section... -->
+    <!-- STREAMING_CHUNK:Rendering About Us section with directional title responsiveness... -->
     <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-16 py-16 z-30 shadow-[0_-20px_50px_rgba(0,0,0,0.8)]">
         
         <div class="absolute top-28 md:top-32 left-6 md:left-12 z-50 pointer-events-none">
-            <h2 id="about-title" class="font-display text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">ABOUT US</h2>
+            <h2 id="about-title" class="font-display text-2xl md:text-4xl font-bold tracking-tight text-white uppercase origin-left transition-transform">ABOUT US</h2>
         </div>
 
         <div class="max-w-6xl w-full text-left space-y-6 md:space-y-8 my-auto pt-24 md:pt-32">
@@ -519,7 +519,7 @@
     </section>
 
     <!-- Script Execution -->
-    <!-- STREAMING_CHUNK:Attaching buttery smooth ease-in-out scroll-driven animations... -->
+    <!-- STREAMING_CHUNK:Attaching buttery smooth horizontal scroll engine and bidirectional title reactive animations... -->
     <script>
         // Custom Cursor Tracker
         const cursor = document.getElementById('custom-cursor');
@@ -528,10 +528,10 @@
             cursor.style.top = e.clientY + 'px';
         });
 
-        // Initialize Lenis Smooth Scroll Manager with Buttery Inertia
+        // Initialize Lenis Smooth Scroll Manager with Ultra-Smooth Inertia
         const lenis = new Lenis({
-            duration: 1.6,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -14 * t)),
+            duration: 1.4,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -12 * t)),
             direction: 'vertical',
             smooth: true,
             smoothTouch: false,
@@ -575,20 +575,12 @@
         // Animation: Hero Enter
         const heroTl = gsap.timeline();
         heroTl.to('.hero-fade', {
-            opacity: 1, y: 0, duration: 1.4, ease: "power3.out", stagger: 0.15, delay: 0.3
+            opacity: 1, y: 0, duration: 1.2, ease: "power3.out", stagger: 0.15, delay: 0.3
         });
         
-        // Parallax hero with smooth inertial scrub lag (no sudden stop)
         gsap.to('.parallax-hero', {
-            yPercent: 30, 
-            rotation: 2, 
-            ease: "none",
-            scrollTrigger: { 
-                trigger: "#hero", 
-                start: "top top", 
-                end: "bottom top", 
-                scrub: 1.8 // Smooth momentum lag
-            }
+            yPercent: 30, rotation: 2, ease: "none",
+            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 1.5 }
         });
         
         gsap.to('#progress-bar', {
@@ -596,18 +588,53 @@
             scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.1 }
         });
 
-        // Animation: Horizontal Scroll Engine with Inertial Lag Scrub (Eliminates sudden braking)
+        // Animation: Clean Horizontal Scroll Engine with Direction-Responsive Selected Works Title Effect
         const filmTrack = document.getElementById("film-track");
+        const selectedTitle = document.getElementById("selected-title");
+
         gsap.to(filmTrack, {
-            x: () => -(filmTrack.scrollWidth - window.innerWidth) + "px",
-            ease: "power2.out", // smooth easing curve
+            x: () => -(filmTrack.scrollWidth - window.innerWidth),
+            ease: "none",
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
-                end: () => "+=" + (filmTrack.scrollWidth), 
-                scrub: 1.8, // Increased scrub smoothing for effortless gliding
+                end: () => "+=" + filmTrack.scrollWidth, 
+                scrub: 1.2, 
                 pin: true, 
-                anticipatePin: 1
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
+                onUpdate: (self) => {
+                    const dir = self.direction; // 1 = scrolling down, -1 = scrolling up
+                    if (selectedTitle) {
+                        gsap.to(selectedTitle, {
+                            x: dir * 55,
+                            skewX: dir * 14,
+                            duration: 0.5,
+                            ease: "power2.out",
+                            overwrite: "auto"
+                        });
+                    }
+                }
+            }
+        });
+
+        // Animation: Direction-Responsive Effect for About Us Title
+        const aboutTitle = document.getElementById("about-title");
+        ScrollTrigger.create({
+            trigger: "#about",
+            start: "top bottom",
+            end: "bottom top",
+            onUpdate: (self) => {
+                const dir = self.direction; // 1 = scrolling down, -1 = scrolling up
+                if (aboutTitle) {
+                    gsap.to(aboutTitle, {
+                        x: dir * 55,
+                        skewX: dir * 14,
+                        duration: 0.5,
+                        ease: "power2.out",
+                        overwrite: "auto"
+                    });
+                }
             }
         });
 
@@ -674,7 +701,7 @@
             });
         });
 
-        // Interaction: Mouse Move Parallax Offset with smooth easing
+        // Interaction: Mouse Move Parallax Offset
         const wrapper = document.getElementById('selected-work');
         const parallaxWraps = gsap.utils.toArray(".parallax-wrap");
         wrapper.addEventListener('mousemove', (e) => {
@@ -683,7 +710,7 @@
             parallaxWraps.forEach((wrap) => {
                 const mx = parseFloat(wrap.getAttribute("data-mx")) || 0;
                 const my = parseFloat(wrap.getAttribute("data-my")) || 0;
-                gsap.to(wrap, { x: x * mx * 8, y: y * my * 8, duration: 1.2, ease: "power2.out", overwrite: "auto" });
+                gsap.to(wrap, { x: x * mx * 8, y: y * my * 8, duration: 1, ease: "power2.out", overwrite: "auto" });
             });
         });
 
