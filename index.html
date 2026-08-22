@@ -476,15 +476,15 @@
 <!-- SECTION: "About Us" -->
 <section id="about" class="relative w-full min-h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-20 py-24 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
     <div class="max-w-6xl w-full mx-auto space-y-12">
-        <h2 class="text-3xl md:text-5xl font-bold tracking-tight uppercase text-simbionBlue mb-10">ABOUT US</h2>
+        <h2 id="about-title" class="text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.95] text-white uppercase mb-12 hover-text-fx">ABOUT US</h2>
         <div class="space-y-8">
-            <p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase text-white interactive-el">
+            <p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase text-white interactive-el about-line">
                 SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA.
             </p>
-            <p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase text-gray-300 interactive-el">
+            <p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase text-gray-300 interactive-el about-line">
                 WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US.
             </p>
-            <p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase text-gray-300 interactive-el">
+            <p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase text-gray-300 interactive-el about-line">
                 WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.
             </p>
         </div>
@@ -956,6 +956,7 @@
     }
     
     initSlotText('selected-title', 'SELECTED WORKS');
+    initSlotText('about-title', 'ABOUT US');
 
     // Animasi "The Soul" (Fade in judul & teks)
     const soulTl = gsap.timeline({
@@ -1087,6 +1088,41 @@
         },
         onLeaveBack: () => { 
             gsap.to("#selected-work .slot-char.rolling", { y: "120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
+        }
+    });
+
+    ScrollTrigger.create({
+        trigger: "#about",
+        start: "top 80%",
+        onEnter: () => { 
+            gsap.fromTo("#about .slot-char.rolling", 
+                { y: "120%" }, 
+                {
+                    y: "0%",
+                    duration: () => gsap.utils.random(1.2, 2.0),
+                    ease: "power3.out",
+                    stagger: { amount: 0.6, from: "random" },
+                    overwrite: "auto"
+                }
+            );
+        },
+        onEnterBack: () => { 
+            gsap.fromTo("#about .slot-char.rolling", 
+                { y: "-120%" }, 
+                {
+                    y: "0%",
+                    duration: () => gsap.utils.random(1.2, 2.0),
+                    ease: "power3.out",
+                    stagger: { amount: 0.6, from: "random" },
+                    overwrite: "auto"
+                }
+            );
+        },
+        onLeave: () => { 
+            gsap.to("#about .slot-char.rolling", { y: "-120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
+        },
+        onLeaveBack: () => { 
+            gsap.to("#about .slot-char.rolling", { y: "120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
         }
     });
 
