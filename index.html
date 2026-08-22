@@ -308,7 +308,8 @@
     <nav class="fixed top-0 w-full z-[100] p-6 mix-blend-difference flex justify-between items-start pointer-events-none text-xs md:text-sm tracking-widest text-white">
         <div class="pointer-events-auto flex flex-col gap-1">
             <a href="#hero" class="hover:opacity-80 transition-opacity">
-                <img src="LOGOmuter.gif" alt="SIMBION FILM" class="h-[17px] md:h-[23px]" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<span class=\'font-bold text-xs\'>SIMBION</span>');">
+                <!-- Logo GIF aman dengan fallback teks -->
+                <img src="LOGOmuter.gif" alt="SIMBION FILM" class="h-[17px] md:h-[23px] w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/120x30/000000/FFFFFF?text=SIMBION';">
             </a>
         </div>
     </nav>
@@ -326,64 +327,114 @@
         </div>
     </section>
 
-    <!-- SECTION: "The Soul" -->
+    <!-- SECTION: "The Soul" (10 Foto BTS Slide Masuk ke Kanan & Ukuran Proporsional/Kecil) -->
     <section id="the-soul" class="relative w-full min-h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-12 py-24 z-[15] shadow-[0_-20px_50px_rgba(0,0,0,0.8)] overflow-hidden">
-        <div class="w-full max-w-[1400px] mx-auto flex flex-col gap-16 md:gap-24 my-auto">
+        <div class="w-full max-w-[1400px] mx-auto flex flex-col gap-12 md:gap-16 my-auto">
             
             <div class="w-full relative">
                 <div class="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-24">
-                    <h2 id="soul-title" class="text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.95] text-white md:w-7/12 interactive-el hover-text-fx opacity-0">
+                    <h2 id="soul-title" class="text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.95] text-white md:w-7/12 interactive-el hover-text-fx">
                         The soul behind every frame.
                     </h2>
-                    <p id="soul-desc" class="text-sm md:text-base lg:text-lg tracking-wide leading-relaxed text-gray-300 md:w-4/12 font-medium opacity-0">
+                    <p id="soul-desc" class="text-sm md:text-base lg:text-lg tracking-wide leading-relaxed text-gray-300 md:w-4/12 font-medium">
                         We craft every frame with passion and purpose. We believe that behind every beautiful frame are people who care deeply about what they create and share a vision of what it could become. Great work begins when different minds and talents come together with purpose.
                     </p>
                 </div>
             </div>
 
-            <!-- Area Kotak Visual Bawah (Ukuran tiket diperkecil, flex layout) -->
-            <div id="soul-grid" class="flex flex-wrap justify-center md:justify-between items-center gap-6 md:gap-10 w-full mt-8 md:mt-12">
+            <!-- Area Grid 10 Foto BTS (Kecil ala Polaroid/Tiket, slide masuk ke kanan) -->
+            <div id="soul-grid" class="flex flex-wrap justify-center items-center gap-4 md:gap-6 w-full mt-6">
                 
-                <!-- Box 1 -->
+                <!-- 1: DSC08876.jpg -->
                 <div class="bts-enter opacity-0">
-                    <div class="bts-float w-40 h-56 md:w-56 md:h-72 relative z-10 hover:z-50 cursor-pointer">
+                    <div class="bts-float w-28 h-36 md:w-36 md:h-48 relative z-10 hover:z-50 cursor-pointer">
                         <div class="group bg-[#111111] rounded-xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
-                            <img src="DSC08876.jpg" alt="BTS 1" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                            <img src="DSC08876.jpg" alt="BTS 1" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-500">
                         </div>
                     </div>
                 </div>
 
-                <!-- Box 2 -->
+                <!-- 2: DSC09029.JPG -->
                 <div class="bts-enter opacity-0">
-                    <div class="bts-float w-40 h-56 md:w-56 md:h-72 relative z-10 hover:z-50 cursor-pointer">
+                    <div class="bts-float w-28 h-36 md:w-36 md:h-48 relative z-10 hover:z-50 cursor-pointer">
                         <div class="group bg-[#111111] rounded-xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
-                            <img src="DSC08938.jpg" alt="BTS 2" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                            <img src="DSC09029.JPG" alt="BTS 2" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-500">
                         </div>
                     </div>
                 </div>
 
-                <!-- Box 3 -->
+                <!-- 3: DSC08886.jpg -->
                 <div class="bts-enter opacity-0">
-                    <div class="bts-float w-40 h-56 md:w-56 md:h-72 relative z-10 hover:z-50 cursor-pointer">
+                    <div class="bts-float w-28 h-36 md:w-36 md:h-48 relative z-10 hover:z-50 cursor-pointer">
                         <div class="group bg-[#111111] rounded-xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
-                            <img src="_JRD0598.jpg" alt="BTS 3" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                            <img src="DSC08886.jpg" alt="BTS 3" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-500">
                         </div>
                     </div>
                 </div>
 
-                <!-- Box 4 -->
+                <!-- 4: _JRD0598.jpg -->
                 <div class="bts-enter opacity-0">
-                    <div class="bts-float w-40 h-56 md:w-56 md:h-72 relative z-10 hover:z-50 cursor-pointer">
+                    <div class="bts-float w-28 h-36 md:w-36 md:h-48 relative z-10 hover:z-50 cursor-pointer">
                         <div class="group bg-[#111111] rounded-xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
-                            <img src="DSC09000.jpg" alt="BTS 4" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                            <img src="_JRD0598.jpg" alt="BTS 4" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-500">
                         </div>
                     </div>
                 </div>
-                
+
+                <!-- 5: DSC09153.jpg -->
+                <div class="bts-enter opacity-0">
+                    <div class="bts-float w-28 h-36 md:w-36 md:h-48 relative z-10 hover:z-50 cursor-pointer">
+                        <div class="group bg-[#111111] rounded-xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
+                            <img src="DSC09153.jpg" alt="BTS 5" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6: DSC08938.jpg -->
+                <div class="bts-enter opacity-0">
+                    <div class="bts-float w-28 h-36 md:w-36 md:h-48 relative z-10 hover:z-50 cursor-pointer">
+                        <div class="group bg-[#111111] rounded-xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
+                            <img src="DSC08938.jpg" alt="BTS 6" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7: DSC08928.jpg -->
+                <div class="bts-enter opacity-0">
+                    <div class="bts-float w-28 h-36 md:w-36 md:h-48 relative z-10 hover:z-50 cursor-pointer">
+                        <div class="group bg-[#111111] rounded-xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
+                            <img src="DSC08928.jpg" alt="BTS 7" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8: DSC08890.jpg -->
+                <div class="bts-enter opacity-0">
+                    <div class="bts-float w-28 h-36 md:w-36 md:h-48 relative z-10 hover:z-50 cursor-pointer">
+                        <div class="group bg-[#111111] rounded-xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
+                            <img src="DSC08890.jpg" alt="BTS 8" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9: _JRD0406.jpg -->
+                <div class="bts-enter opacity-0">
+                    <div class="bts-float w-28 h-36 md:w-36 md:h-48 relative z-10 hover:z-50 cursor-pointer">
+                        <div class="group bg-[#111111] rounded-xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
+                            <img src="_JRD0406.jpg" alt="BTS 9" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10: DSC09000.jpg -->
+                <div class="bts-enter opacity-0">
+                    <div class="bts-float w-28 h-36 md:w-36 md:h-48 relative z-10 hover:z-50 cursor-pointer">
+                        <div class="group bg-[#111111] rounded-xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
+                            <img src="DSC09000.jpg" alt="BTS 10" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -875,7 +926,7 @@
         initSlotText('selected-title', 'SELECTED WORKS');
         initSlotText('about-title', 'ABOUT US');
 
-        // Animasi "The Soul" (Animasi masuk Sliding & Fade In dari Kiri ke Kanan)
+        // Animasi "The Soul" (Muncul perlahan dari hitam kosong, slide masuk ke kanan)
         const soulTl = gsap.timeline({
             scrollTrigger: {
                 trigger: "#the-soul",
@@ -886,20 +937,25 @@
 
         soulTl.to("#soul-title", { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
               .to("#soul-desc", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
-              .fromTo(".bts-enter", 
-                    { opacity: 0, x: -100 }, // Muncul dari kegelapan (opacity 0) menggeser dari kiri ke kanan (x: -100)
-                    { opacity: 1, x: 0, duration: 1.2, ease: "power3.out", stagger: 0.15 }, 
-                    "-=0.6"
-              );
+              .to(".bts-enter", { 
+                    opacity: 1, 
+                    x: 0, 
+                    duration: 1.2, 
+                    ease: "power3.out", 
+                    stagger: 0.08 
+              }, "-=0.6");
 
-        // Animasi Continuous Float Organik untuk foto (Dipisah agar tidak bentrok dengan animasi masuk/slide)
+        // Set awal posisi foto di luar (geser ke kiri & transparan) agar mulus saat di-slide ke kanan
+        gsap.set(".bts-enter", { opacity: 0, x: -80 });
+
+        // Animasi Continuous Float Organik untuk ke-10 foto BTS
         function initBTSFloat() {
             gsap.utils.toArray('.bts-float').forEach((el) => {
-                gsap.set(el, { rotation: "random(-3, 3)" });
+                gsap.set(el, { rotation: "random(-4, 4)" });
                 
                 gsap.to(el, {
-                    x: "random(-15, 15)",
-                    y: "random(-15, 15)",
+                    x: "random(-12, 12)",
+                    y: "random(-12, 12)",
                     rotation: "random(-6, 6)",
                     duration: "random(3, 5)",
                     ease: "sine.inOut",
