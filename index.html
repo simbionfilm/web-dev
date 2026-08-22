@@ -1,1195 +1,1211 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMBION FILM | Selected Works</title>
-    
-    <!-- Browser Tab Favicon using orang.png -->
-    <link rel="icon" type="image/png" href="orang.png">
+<!-- Browser Tab Favicon using orang.png -->
+<link rel="icon" type="image/png" href="orang.png">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        simbionBlue: '#0616C6',
-                        darkBg: '#000000',
-                        lightText: '#FFFFFF',
-                        mutedText: '#888888',
-                        borderGray: '#222222'
-                    },
-                    fontFamily: {
-                        sans: ['"Google Sans Flex"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-                        display: ['"Google Sans Flex"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-                    }
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    simbionBlue: '#0616C6',
+                    darkBg: '#000000',
+                    lightText: '#FFFFFF',
+                    mutedText: '#888888',
+                    borderGray: '#222222'
+                },
+                fontFamily: {
+                    sans: ['"Google Sans Flex"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                    display: ['"Google Sans Flex"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
                 }
             }
         }
-    </script>
+    }
+</script>
 
-    <style>
-        html.lenis { height: auto; }
-        .lenis.lenis-smooth { scroll-behavior: auto; }
-        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-        .lenis.lenis-stopped { overflow: hidden; }
-        .lenis.lenis-scrolling iframe { pointer-events: none; }
-        
-        body, h1, h2, h3, h4, h5, h6, p, span, a, button, input, select, textarea {
-            font-family: "Google Sans Flex", -apple-system, BlinkMacSystemFont, sans-serif !important;
+<style>
+    html.lenis { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+    .lenis.lenis-scrolling iframe { pointer-events: none; }
+    
+    body, h1, h2, h3, h4, h5, h6, p, span, a, button, input, select, textarea {
+        font-family: "Google Sans Flex", -apple-system, BlinkMacSystemFont, sans-serif !important;
+    }
+
+    body {
+        background-color: #000000;
+        color: #FFFFFF;
+        overflow-x: hidden; 
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        cursor: none !important;
+    }
+
+    a, button, input, select, textarea, .interactive-el {
+        cursor: none !important;
+    }
+
+    @media (pointer: coarse), (max-width: 768px) {
+        body, a, button, input, select, textarea, .interactive-el, .gallery-item, .video-trigger {
+            cursor: auto !important;
         }
-
-        body {
-            background-color: #000000;
-            color: #FFFFFF;
-            overflow-x: hidden; 
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
-            cursor: none !important;
-        }
-
-        a, button, input, select, textarea, .interactive-el {
-            cursor: none !important;
-        }
-
-        @media (pointer: coarse), (max-width: 768px) {
-            body, a, button, input, select, textarea, .interactive-el, .gallery-item, .video-trigger {
-                cursor: auto !important;
-            }
-            .custom-cursor {
-                display: none !important;
-            }
-        }
-
-        ::selection {
-            background-color: #0616C6;
-            color: white;
-        }
-
         .custom-cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 44px;
-            height: 22px;
-            background-color: white;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: difference;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s;
+            display: none !important;
         }
+    }
 
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0px) translateX(0px); }
-            50% { transform: translateY(-8px) translateX(-4px); }
-        }
-        .floating-widget {
-            animation: floatSlow 5s ease-in-out infinite;
-        }
+    ::selection {
+        background-color: #0616C6;
+        color: white;
+    }
 
-        .slot-wrapper {
-            display: inline-block;
-            overflow: hidden;
-            vertical-align: bottom;
-            height: 1.1em;
-            padding-bottom: 0.05em;
-        }
-        .slot-char {
-            display: inline-block;
-            will-change: transform;
-            transform: translateY(120%);
-            -webkit-transform: translateY(120%);
-        }
-        .slot-char.static {
-            transform: translateY(0%);
-            -webkit-transform: translateY(0%);
-        }
+    .custom-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 44px;
+        height: 22px;
+        background-color: white;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: difference;
+        transform: translate(-50%, -50%);
+        transition: width 0.2s, height 0.2s;
+    }
 
-        .velocity-char {
-            display: inline-block;
-            will-change: transform;
-        }
+    @keyframes floatSlow {
+        0%, 100% { transform: translateY(0px) translateX(0px); }
+        50% { transform: translateY(-8px) translateX(-4px); }
+    }
+    .floating-widget {
+        animation: floatSlow 5s ease-in-out infinite;
+    }
 
-        .hover-text-fx {
-            display: inline-block;
-            position: relative;
-            font-variation-settings: "slnt" 0;
-            -webkit-font-smoothing: antialiased;
-            will-change: transform, font-variation-settings, color;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
-        }
+    .slot-wrapper {
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: bottom;
+        height: 1.1em;
+        padding-bottom: 0.05em;
+    }
+    .slot-char {
+        display: inline-block;
+        will-change: transform;
+        transform: translateY(120%);
+        -webkit-transform: translateY(120%);
+    }
+    .slot-char.static {
+        transform: translateY(0%);
+        -webkit-transform: translateY(0%);
+    }
 
-        .we-are-container { cursor: none !important; }
-        .we-are-word {
-            display: inline-block;
-            filter: blur(10px);
-            opacity: 0.35;
-            transition: filter 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease, color 0.3s ease;
-            -webkit-transition: -webkit-filter 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), -webkit-transform 0.3s ease, color 0.3s ease;
-            -webkit-font-smoothing: antialiased;
-            will-change: filter, opacity, transform;
-            -webkit-backface-visibility: hidden;
-        }
-        @media (hover: hover) {
-            .we-are-container:hover .we-are-word {
-                filter: blur(8px);
-                opacity: 0.4;
-            }
-            .we-are-container .we-are-word:hover {
-                filter: blur(0px) !important;
-                opacity: 1 !important;
-                transform: translateX(12px) skewX(-4deg) scale(1.02);
-                -webkit-transform: translateX(12px) skewX(-4deg) scale(1.02);
-                color: #0616C6 !important;
-            }
-        }
-        .we-are-word-wrap {
-            display: inline-block;
-            will-change: transform;
-            -webkit-backface-visibility: hidden;
-        }
+    .velocity-char {
+        display: inline-block;
+        will-change: transform;
+    }
 
-        .about-line {
-            display: inline-block;
-            width: fit-content;
-            font-variation-settings: "slnt" 0;
-            -webkit-font-smoothing: antialiased;
-            cursor: none !important;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
-            will-change: transform, font-variation-settings, color;
-        }
+    .hover-text-fx {
+        display: inline-block;
+        position: relative;
+        font-variation-settings: "slnt" 0;
+        -webkit-font-smoothing: antialiased;
+        will-change: transform, font-variation-settings, color;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
 
-        ::-webkit-scrollbar { display: none; }
-        .clip-mask { overflow: visible; display: block; padding: 0.2em 0.1em; }
+    .we-are-container { cursor: none !important; }
+    .we-are-word {
+        display: inline-block;
+        filter: blur(10px);
+        opacity: 0.35;
+        transition: filter 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease, color 0.3s ease;
+        -webkit-transition: -webkit-filter 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), -webkit-transform 0.3s ease, color 0.3s ease;
+        -webkit-font-smoothing: antialiased;
+        will-change: filter, opacity, transform;
+        -webkit-backface-visibility: hidden;
+    }
+    @media (hover: hover) {
+        .we-are-container:hover .we-are-word {
+            filter: blur(8px);
+            opacity: 0.4;
+        }
+        .we-are-container .we-are-word:hover {
+            filter: blur(0px) !important;
+            opacity: 1 !important;
+            transform: translateX(12px) skewX(-4deg) scale(1.02);
+            -webkit-transform: translateX(12px) skewX(-4deg) scale(1.02);
+            color: #0616C6 !important;
+        }
+    }
+    .we-are-word-wrap {
+        display: inline-block;
+        will-change: transform;
+        -webkit-backface-visibility: hidden;
+    }
 
-        .gallery-item {
-            position: absolute;
-            transition: z-index 0.3s;
-            z-index: 10;
-            will-change: transform;
-            cursor: none !important;
-            width: 42vw;
-            aspect-ratio: 16 / 9;
-        }
-        @media (min-width: 768px) {
-            .gallery-item { width: 15vw; }
-        }
+    .about-line {
+        display: inline-block;
+        width: fit-content;
+        font-variation-settings: "slnt" 0;
+        -webkit-font-smoothing: antialiased;
+        cursor: none !important;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        will-change: transform, font-variation-settings, color;
+    }
+
+    ::-webkit-scrollbar { display: none; }
+    .clip-mask { overflow: visible; display: block; padding: 0.2em 0.1em; }
+
+    .gallery-item {
+        position: absolute;
+        transition: z-index 0.3s;
+        z-index: 10;
+        will-change: transform;
+        cursor: none !important;
+        width: 42vw;
+        aspect-ratio: 16 / 9;
+    }
+    @media (min-width: 768px) {
+        .gallery-item { width: 15vw; }
+    }
+    
+    .film-track {
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        will-change: transform;
+    }
+</style>
+
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+
+<div class="custom-cursor" id="custom-cursor"></div>
+<div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
+
+<!-- Persistent Floating Horizontal Speech Balloon Trigger -->
+<div id="chat-balloon" class="fixed bottom-32 md:bottom-40 right-6 md:right-10 z-[105] group cursor-pointer interactive-el floating-widget transition-all duration-500 origin-bottom-right">
+    <div id="chat-balloon-inner" class="relative bg-simbionBlue/60 backdrop-blur-xl text-white px-5 py-3 rounded-2xl shadow-2xl group-hover:scale-110 transition-all duration-300 flex items-center gap-3 border border-white/30">
+        <div id="chat-balloon-tail" class="absolute -bottom-2 right-7 w-3 h-3 bg-simbionBlue/60 backdrop-blur-xl border-r border-b border-white/30 transform rotate-45 pointer-events-none transition-all duration-300"></div>
+        <span class="w-2.5 h-2.5 rounded-full bg-white animate-ping shrink-0"></span>
+        <span class="text-[10px] md:text-xs font-black font-mono tracking-widest uppercase text-white">ANYTHING ON YOUR MIND?</span>
+    </div>
+</div>
+
+<!-- The Interactive Chat Box Modal -->
+<div id="chat-modal" class="fixed bottom-32 md:bottom-40 right-6 md:right-10 z-[110] w-[calc(100vw-3rem)] md:w-96 opacity-0 pointer-events-none transition-all duration-500 transform translate-y-8 scale-95 origin-bottom-right">
+    <div class="bg-black/90 backdrop-blur-2xl border border-white/20 rounded-3xl p-6 shadow-2xl flex flex-col gap-5">
+        <div class="flex justify-between items-center border-b border-white/10 pb-4">
+            <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-simbionBlue animate-pulse"></span>
+                <h3 class="font-bold text-sm uppercase tracking-wider text-white">LET'S TALK</h3>
+            </div>
+            <button id="close-chat" class="text-[10px] font-mono text-mutedText hover:text-white transition-colors uppercase tracking-widest cursor-pointer interactive-el">CLOSE [X]</button>
+        </div>
         
-        .film-track {
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            display: block;
-            will-change: transform;
-        }
-    </style>
-
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-</head>
-<body class="font-sans">
-
-    <div class="custom-cursor" id="custom-cursor"></div>
-    <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
-
-    <!-- Persistent Floating Horizontal Speech Balloon Trigger -->
-    <div id="chat-balloon" class="fixed bottom-32 md:bottom-40 right-6 md:right-10 z-[105] group cursor-pointer interactive-el floating-widget transition-all duration-500 origin-bottom-right">
-        <div id="chat-balloon-inner" class="relative bg-simbionBlue/60 backdrop-blur-xl text-white px-5 py-3 rounded-2xl shadow-2xl group-hover:scale-110 transition-all duration-300 flex items-center gap-3 border border-white/30">
-            <div id="chat-balloon-tail" class="absolute -bottom-2 right-7 w-3 h-3 bg-simbionBlue/60 backdrop-blur-xl border-r border-b border-white/30 transform rotate-45 pointer-events-none transition-all duration-300"></div>
-            <span class="w-2.5 h-2.5 rounded-full bg-white animate-ping shrink-0"></span>
-            <span class="text-[10px] md:text-xs font-black font-mono tracking-widest uppercase text-white">ANYTHING ON YOUR MIND?</span>
-        </div>
+        <form id="contact-chat-form" class="flex flex-col gap-3">
+            <input type="hidden" name="access_key" value="37b802f2-c5e1-4645-b47f-d69dc4ca3aec">
+            <input type="email" id="chat-email" name="email" required placeholder="Your email, please" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-white tracking-wide transition-colors interactive-el">
+            <input type="text" id="chat-subject" name="subject" required placeholder="What are we making?" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-white tracking-wide transition-colors interactive-el">
+            <textarea id="chat-body" name="message" required rows="3" placeholder="Tell us what’s on your mind" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-white tracking-wide resize-none transition-colors interactive-el"></textarea>
+            <button type="submit" id="chat-submit-btn" class="bg-simbionBlue text-white font-bold text-xs font-mono uppercase tracking-widest px-6 py-3.5 rounded-xl hover:bg-blue-700 transition-colors mt-2 interactive-el shadow-lg">
+                SEND MESSAGE
+            </button>
+        </form>
     </div>
+</div>
 
-    <!-- The Interactive Chat Box Modal -->
-    <div id="chat-modal" class="fixed bottom-32 md:bottom-40 right-6 md:right-10 z-[110] w-[calc(100vw-3rem)] md:w-96 opacity-0 pointer-events-none transition-all duration-500 transform translate-y-8 scale-95 origin-bottom-right">
-        <div class="bg-black/90 backdrop-blur-2xl border border-white/20 rounded-3xl p-6 shadow-2xl flex flex-col gap-5">
-            <div class="flex justify-between items-center border-b border-white/10 pb-4">
-                <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-simbionBlue animate-pulse"></span>
-                    <h3 class="font-bold text-sm uppercase tracking-wider text-white">LET'S TALK</h3>
-                </div>
-                <button id="close-chat" class="text-[10px] font-mono text-mutedText hover:text-white transition-colors uppercase tracking-widest cursor-pointer interactive-el">CLOSE [X]</button>
+<!-- Password Prompt Modal -->
+<div id="password-modal" class="fixed inset-0 z-[300] bg-black/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4 overflow-y-auto">
+    <div class="bg-neutral-900 border border-white/20 rounded-3xl w-full max-w-md p-6 text-white relative shadow-2xl text-center my-auto">
+        <h3 class="font-bold text-lg uppercase tracking-wider mb-2">ADMIN ACCESS</h3>
+        <p class="text-xs text-mutedText font-mono mb-6">Enter password to unlock CMS editor.</p>
+        <form id="password-form" class="space-y-4">
+            <input type="password" id="admin-password" placeholder="Enter Password" class="w-full bg-black border border-white/20 rounded-xl px-4 py-3 text-xs text-center focus:border-simbionBlue outline-none tracking-widest interactive-el">
+            <div class="flex gap-2 justify-center">
+                <button type="button" id="close-password" class="bg-white/10 px-4 py-2 rounded-xl text-xs font-mono uppercase hover:bg-white/20 transition-colors interactive-el">Cancel</button>
+                <button type="submit" class="bg-simbionBlue px-6 py-2 rounded-xl text-xs font-mono uppercase font-bold hover:opacity-90 transition-opacity interactive-el">Unlock</button>
             </div>
-            
-            <form id="contact-chat-form" class="flex flex-col gap-3">
-                <input type="hidden" name="access_key" value="37b802f2-c5e1-4645-b47f-d69dc4ca3aec">
-                <input type="email" id="chat-email" name="email" required placeholder="Your email, please" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-white tracking-wide transition-colors interactive-el">
-                <input type="text" id="chat-subject" name="subject" required placeholder="What are we making?" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-white tracking-wide transition-colors interactive-el">
-                <textarea id="chat-body" name="message" required rows="3" placeholder="Tell us what’s on your mind" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-white tracking-wide resize-none transition-colors interactive-el"></textarea>
-                <button type="submit" id="chat-submit-btn" class="bg-simbionBlue text-white font-bold text-xs font-mono uppercase tracking-widest px-6 py-3.5 rounded-xl hover:bg-blue-700 transition-colors mt-2 interactive-el shadow-lg">
-                    SEND MESSAGE
-                </button>
-            </form>
-        </div>
+        </form>
     </div>
+</div>
 
-    <!-- Password Prompt Modal -->
-    <div id="password-modal" class="fixed inset-0 z-[300] bg-black/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4 overflow-y-auto">
-        <div class="bg-neutral-900 border border-white/20 rounded-3xl w-full max-w-md p-6 text-white relative shadow-2xl text-center my-auto">
-            <h3 class="font-bold text-lg uppercase tracking-wider mb-2">ADMIN ACCESS</h3>
-            <p class="text-xs text-mutedText font-mono mb-6">Enter password to unlock CMS editor.</p>
-            <form id="password-form" class="space-y-4">
-                <input type="password" id="admin-password" placeholder="Enter Password" class="w-full bg-black border border-white/20 rounded-xl px-4 py-3 text-xs text-center focus:border-simbionBlue outline-none tracking-widest interactive-el">
-                <div class="flex gap-2 justify-center">
-                    <button type="button" id="close-password" class="bg-white/10 px-4 py-2 rounded-xl text-xs font-mono uppercase hover:bg-white/20 transition-colors interactive-el">Cancel</button>
-                    <button type="submit" class="bg-simbionBlue px-6 py-2 rounded-xl text-xs font-mono uppercase font-bold hover:opacity-90 transition-opacity interactive-el">Unlock</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- CMS Admin Modal Drawer -->
-    <div id="cms-modal" class="fixed inset-0 z-[250] bg-black/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4 md:p-8 overflow-y-auto">
-        <div class="bg-neutral-900 border border-white/20 rounded-3xl w-full max-w-4xl p-6 md:p-8 text-white relative shadow-2xl my-auto">
-            <div class="flex justify-between items-center pb-6 border-b border-white/10 mb-6">
-                <div>
-                    <h2 class="font-bold text-lg md:text-xl tracking-wider uppercase">SIMBION CMS EDITOR</h2>
-                    <p class="text-xs text-mutedText font-mono mt-1">Changes save instantly to your browser storage.</p>
-                </div>
-                <button id="close-cms" class="text-xs font-mono bg-white/10 px-4 py-2 rounded-xl hover:bg-white/20 transition-colors uppercase interactive-el">CLOSE [ESC]</button>
-            </div>
-
-            <div class="mb-8 p-4 bg-black/40 rounded-2xl border border-white/10">
-                <h3 class="text-xs font-mono uppercase tracking-widest text-simbionBlue mb-4">New Release Widget</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label class="block text-[10px] font-mono uppercase text-mutedText mb-1">Artist & Title</label>
-                        <input type="text" id="cms-rr-title" class="w-full bg-black border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none interactive-el">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-mono uppercase text-mutedText mb-1">YouTube Video ID</label>
-                        <input type="text" id="cms-rr-id" class="w-full bg-black border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none interactive-el">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-mono uppercase text-mutedText mb-1">YouTube Link / URL</label>
-                        <input type="text" id="cms-rr-link" class="w-full bg-black border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none interactive-el">
-                    </div>
-                </div>
-            </div>
-
+<!-- CMS Admin Modal Drawer -->
+<div id="cms-modal" class="fixed inset-0 z-[250] bg-black/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4 md:p-8 overflow-y-auto">
+    <div class="bg-neutral-900 border border-white/20 rounded-3xl w-full max-w-4xl p-6 md:p-8 text-white relative shadow-2xl my-auto">
+        <div class="flex justify-between items-center pb-6 border-b border-white/10 mb-6">
             <div>
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xs font-mono uppercase tracking-widest text-simbionBlue">Selected Works List (<span id="cms-count">0</span> Items)</h3>
-                    <button id="cms-add-item" class="bg-simbionBlue text-white text-[10px] font-mono uppercase px-4 py-2 rounded-xl hover:opacity-90 transition-opacity interactive-el">+ Add New Work</button>
-                </div>
-                <div id="cms-items-container" class="space-y-4 max-h-[45vh] overflow-y-auto pr-2"></div>
+                <h2 class="font-bold text-lg md:text-xl tracking-wider uppercase">SIMBION CMS EDITOR</h2>
+                <p class="text-xs text-mutedText font-mono mt-1">Changes save instantly to your browser storage.</p>
             </div>
+            <button id="close-cms" class="text-xs font-mono bg-white/10 px-4 py-2 rounded-xl hover:bg-white/20 transition-colors uppercase interactive-el">CLOSE [ESC]</button>
+        </div>
 
-            <div class="mt-8 pt-6 border-t border-white/10 flex justify-end gap-4">
-                <button id="cms-reset" class="text-xs font-mono text-red-400 hover:underline px-4 py-2 interactive-el">Reset Defaults</button>
-                <button id="cms-save" class="bg-white text-black font-bold text-xs font-mono uppercase px-6 py-3 rounded-xl hover:bg-neutral-200 transition-colors interactive-el">Save & Apply Changes</button>
+        <div class="mb-8 p-4 bg-black/40 rounded-2xl border border-white/10">
+            <h3 class="text-xs font-mono uppercase tracking-widest text-simbionBlue mb-4">New Release Widget</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-[10px] font-mono uppercase text-mutedText mb-1">Artist & Title</label>
+                    <input type="text" id="cms-rr-title" class="w-full bg-black border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none interactive-el">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-mono uppercase text-mutedText mb-1">YouTube Video ID</label>
+                    <input type="text" id="cms-rr-id" class="w-full bg-black border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none interactive-el">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-mono uppercase text-mutedText mb-1">YouTube Link / URL</label>
+                    <input type="text" id="cms-rr-link" class="w-full bg-black border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none interactive-el">
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xs font-mono uppercase tracking-widest text-simbionBlue">Selected Works List (<span id="cms-count">0</span> Items)</h3>
+                <button id="cms-add-item" class="bg-simbionBlue text-white text-[10px] font-mono uppercase px-4 py-2 rounded-xl hover:opacity-90 transition-opacity interactive-el">+ Add New Work</button>
+            </div>
+            <div id="cms-items-container" class="space-y-4 max-h-[45vh] overflow-y-auto pr-2"></div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-white/10 flex justify-end gap-4">
+            <button id="cms-reset" class="text-xs font-mono text-red-400 hover:underline px-4 py-2 interactive-el">Reset Defaults</button>
+            <button id="cms-save" class="bg-white text-black font-bold text-xs font-mono uppercase px-6 py-3 rounded-xl hover:bg-neutral-200 transition-colors interactive-el">Save & Apply Changes</button>
+        </div>
+    </div>
+</div>
+
+<!-- Immersive Video Player Modal -->
+<div id="video-modal" class="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+    <button id="close-modal" class="absolute top-6 right-8 text-white text-xs font-mono tracking-[0.3em] uppercase hover:opacity-70 transition-opacity z-10 p-4 interactive-el">
+        CLOSE
+    </button>
+    <div class="w-[90vw] md:w-[75vw] aspect-video max-w-5xl bg-neutral-900 rounded-2xl overflow-hidden shadow-2xl relative border border-white/10">
+        <iframe id="modal-iframe" src="" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+</div>
+
+<nav class="fixed top-0 w-full z-[100] p-6 mix-blend-difference flex justify-between items-start pointer-events-none text-xs md:text-sm tracking-widest text-white">
+    <div class="pointer-events-auto flex flex-col gap-1">
+        <a href="#hero" class="hover:opacity-80 transition-opacity">
+            <img src="LOGOmuter.gif" alt="SIMBION FILM" class="h-[17px] md:h-[23px] w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/120x30/000000/FFFFFF?text=SIMBION';">
+        </a>
+    </div>
+</nav>
+
+<div id="recent-release-container"></div>
+
+<!-- HERO SECTION (Sticky & Falling) -->
+<section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center items-center px-4 md:px-8 bg-black z-10 shadow-2xl overflow-hidden">
+    <div class="w-full max-w-2xl flex justify-center parallax-hero z-10">
+        <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-full h-auto object-contain interactive-el" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
+    </div>
+    <div class="absolute bottom-16 left-4 md:left-12 flex gap-8 max-w-3xl hero-fade opacity-0 leading-tight z-20">
+        <p class="interactive-el text-base md:text-xl lg:text-2xl font-medium tracking-wide text-white hover-text-fx">
+            Every project deserves its own fit. We tailor each one from scratch, carefully stitching every frame together with passion and dedication.
+        </p>
+    </div>
+</section>
+
+<!-- SECTION: "The Soul" -->
+<section id="the-soul" class="relative w-full min-h-[120dvh] bg-black text-white flex flex-col justify-center px-0 py-24 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
+    <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 mb-16">
+        <div class="w-full relative">
+            <div class="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-24">
+                <h2 id="soul-title" class="text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.95] text-white md:w-7/12 interactive-el hover-text-fx">
+                    The soul behind every frame.
+                </h2>
+                <p id="soul-desc" class="text-sm md:text-base lg:text-lg tracking-wide leading-relaxed text-gray-300 md:w-4/12 font-bold md:mt-4 lg:mt-5">
+                    We craft every frame with passion and purpose. We believe that behind every beautiful frame are people who care deeply about what they create and share a vision of what it could become. Great work begins when different minds and talents come together with purpose.
+                </p>
             </div>
         </div>
     </div>
 
-    <!-- Immersive Video Player Modal -->
-    <div id="video-modal" class="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
-        <button id="close-modal" class="absolute top-6 right-8 text-white text-xs font-mono tracking-[0.3em] uppercase hover:opacity-70 transition-opacity z-10 p-4 interactive-el">
-            CLOSE
-        </button>
-        <div class="w-[90vw] md:w-[75vw] aspect-video max-w-5xl bg-neutral-900 rounded-2xl overflow-hidden shadow-2xl relative border border-white/10">
-            <iframe id="modal-iframe" src="" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <div class="relative w-full overflow-hidden py-16 bts-enter opacity-0">
+        <div id="marquee-track" class="flex w-max will-change-transform items-center">
+            <!-- Group 1 -->
+            <div class="flex shrink-0 items-center -space-x-4 md:-space-x-8">
+                <div class="bts-float shrink-0 transform -translate-y-12 rotate-[-4deg] z-20">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC08876.jpg" alt="BTS 1" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-16 rotate-[3deg] z-10">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC09029.JPG" alt="BTS 2" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-4 rotate-[1deg] z-30">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC08886.jpg" alt="BTS 3" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-10 rotate-[-2deg] z-20">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="_JRD0598.jpg" alt="BTS 4" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-16 rotate-[4deg] z-40">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC09153.jpg" alt="BTS 5" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-6 rotate-[-1deg] z-10">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC08938.jpg" alt="BTS 6" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-8 rotate-[-3deg] z-30">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC08928.jpg" alt="BTS 7" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-14 rotate-[2deg] z-20">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC08890.jpg" alt="BTS 8" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-10 rotate-[1deg] z-10">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="_JRD0406.jpg" alt="BTS 9" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-4 rotate-[-2deg] z-30">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC09000.jpg" alt="BTS 10" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group 2 (Duplikat untuk Infinite Loop yang mulus) -->
+            <div class="flex shrink-0 items-center -space-x-4 md:-space-x-8">
+                <div class="bts-float shrink-0 transform -translate-y-12 rotate-[-4deg] z-20">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC08876.jpg" alt="BTS 1" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-16 rotate-[3deg] z-10">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC09029.JPG" alt="BTS 2" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-4 rotate-[1deg] z-30">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC08886.jpg" alt="BTS 3" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-10 rotate-[-2deg] z-20">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="_JRD0598.jpg" alt="BTS 4" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-16 rotate-[4deg] z-40">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC09153.jpg" alt="BTS 5" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-6 rotate-[-1deg] z-10">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC08938.jpg" alt="BTS 6" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-8 rotate-[-3deg] z-30">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC08928.jpg" alt="BTS 7" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-14 rotate-[2deg] z-20">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC08890.jpg" alt="BTS 8" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-10 rotate-[1deg] z-10">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="_JRD0406.jpg" alt="BTS 9" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-4 rotate-[-2deg] z-30">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="DSC09000.jpg" alt="BTS 10" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</section>
 
-    <nav class="fixed top-0 w-full z-[100] p-6 mix-blend-difference flex justify-between items-start pointer-events-none text-xs md:text-sm tracking-widest text-white">
-        <div class="pointer-events-auto flex flex-col gap-1">
-            <a href="#hero" class="hover:opacity-80 transition-opacity">
-                <img src="LOGOmuter.gif" alt="SIMBION FILM" class="h-[17px] md:h-[23px] w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/120x30/000000/FFFFFF?text=SIMBION';">
-            </a>
+<!-- SECTION: "We Are What We've Made" (Sticky & Falling) -->
+<section id="we-are-made" class="sticky top-0 w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-8 md:px-24 z-30 shadow-[0_-30px_60px_rgba(0,0,0,0.9)] overflow-hidden">
+    <div class="we-are-container relative z-10 my-auto flex flex-col items-center justify-center gap-2 md:gap-4 select-none w-full max-w-7xl">
+        <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask">
+            <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[10.5vw] md:text-[9vw] leading-[1.0] tracking-tighter text-white italic transform -rotate-1">WE</span></div>
+            <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[10.5vw] md:text-[9vw] leading-[1.0] tracking-tighter text-white italic transform -rotate-1">ARE</span></div>
         </div>
-    </nav>
-
-    <div id="recent-release-container"></div>
-
-    <!-- HERO SECTION -->
-    <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center items-center px-4 md:px-8 bg-black z-10 shadow-2xl overflow-hidden">
-        <div class="w-full max-w-2xl flex justify-center parallax-hero z-10">
-            <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-full h-auto object-contain interactive-el" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
+        <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask mt-1 md:mt-3">
+            <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[10.5vw] md:text-[9vw] leading-[1.0] tracking-tighter text-white italic transform -rotate-1">WHAT</span></div>
+            <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[10.5vw] md:text-[9vw] leading-[1.0] tracking-tighter text-white italic transform -rotate-1">WE'VE</span></div>
+            <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[10.5vw] md:text-[9vw] leading-[1.0] tracking-tighter text-white italic transform -rotate-1">MADE</span></div>
         </div>
-        <div class="absolute bottom-16 left-4 md:left-12 flex gap-8 max-w-3xl hero-fade opacity-0 leading-tight z-20">
-            <p class="interactive-el text-base md:text-xl lg:text-2xl font-medium tracking-wide text-white hover-text-fx">
-                Every project deserves its own fit. We tailor each one from scratch, carefully stitching every frame together with passion and dedication.
-            </p>
+    </div>
+</section>
+
+<!-- SECTION: "Selected Works" (Bergerak naik menutupi section We Are yang jatuh) -->
+<section id="selected-work" class="relative bg-black z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.9)] w-full h-[100dvh] overflow-hidden flex flex-col">
+    <div class="absolute top-24 md:top-28 left-6 md:left-12 z-50 pointer-events-none mix-blend-difference">
+        <h2 id="selected-title" class="text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">SELECTED WORKS</h2>
+    </div>
+    <div class="relative w-full flex-1 overflow-hidden">
+        <div class="film-track" id="film-track"></div>
+    </div>
+</section>
+
+<!-- SECTION: "About Us" -->
+<section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-16 py-16 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
+    <div class="absolute top-28 md:top-32 left-6 md:left-12 z-50 pointer-events-none mix-blend-difference">
+        <h2 id="about-title" class="text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">ABOUT US</h2>
+    </div>
+    <div class="max-w-6xl w-full text-left space-y-6 md:space-y-8 my-auto pt-24 md:pt-32">
+        <div class="clip-mask"><p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase"><span class="about-line interactive-el">SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA.</span></p></div>
+        <div class="clip-mask"><p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase flex flex-col gap-2"><span class="about-line interactive-el">WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US.</span></p></div>
+        <div class="clip-mask"><p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase"><span class="about-line interactive-el">WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.</span></p></div>
+    </div>
+</section>
+
+<!-- SECTION: "Contact" -->
+<section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-8 py-16 z-[60] shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
+    <div class="relative z-10 flex flex-col items-center text-center w-full my-auto">
+        <div class="flex flex-col w-full font-bold leading-[0.9] tracking-tighter">
+            <div class="clip-mask w-full flex justify-center"><span class="contact-title-line block uppercase text-[10vw] md:text-[8vw] text-white interactive-el hover-text-fx transition-colors">READY TO</span></div>
+            <div class="clip-mask w-full flex justify-center"><span class="contact-title-line block uppercase text-[10vw] md:text-[8vw] text-white interactive-el hover-text-fx transition-colors">ROLL?</span></div>
         </div>
-    </section>
-
-    <!-- SECTION: "The Soul" -->
-    <section id="the-soul" class="relative w-full min-h-[120dvh] bg-black text-white flex flex-col justify-center px-0 py-24 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
-        <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 mb-16">
-            <div class="w-full relative">
-                <div class="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-24">
-                    <h2 id="soul-title" class="text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.95] text-white md:w-7/12 interactive-el hover-text-fx">
-                        The soul behind every frame.
-                    </h2>
-                    <!-- Paragraf ini kini font-bold dan diberi penyesuaian margin top (md:mt-4 lg:mt-5) agar pas dengan garis atas judul The Soul -->
-                    <p id="soul-desc" class="text-sm md:text-base lg:text-lg tracking-wide leading-relaxed text-gray-300 md:w-4/12 font-bold md:mt-4 lg:mt-5">
-                        We craft every frame with passion and purpose. We believe that behind every beautiful frame are people who care deeply about what they create and share a vision of what it could become. Great work begins when different minds and talents come together with purpose.
-                    </p>
-                </div>
-            </div>
+        <p class="text-[10px] md:text-xs tracking-widest text-white opacity-0 transform translate-y-4 reveal-quote mt-8 interactive-el hover-text-fx">( Guess we’ll see you at the first PPM )</p>
+    </div>
+    <div class="w-full px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4 z-10 text-[10px] tracking-widest text-mutedText">
+        <div class="flex gap-8"><a href="https://mail.google.com/mail/?view=cm&fs=1&to=play@simbionfilm.com" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx uppercase text-white">play@simbionfilm.com</a></div>
+        <div class="flex gap-8">
+            <a href="https://www.instagram.com/simbionfilm/" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx uppercase text-white">INSTAGRAM</a>
+            <a href="https://id.linkedin.com/company/simbion-production" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx uppercase text-white">LINKEDIN</a>
         </div>
+        <div class="hover-text-fx uppercase text-white">&copy; 2026 Simbion Film</div>
+    </div>
+</section>
 
-        <!-- BTS GALLERY: Sedikit Menumpuk, Ukuran Medium, Posisi Acak Naik-Turun, Rasio Asli -->
-        <div class="relative w-full overflow-hidden py-16 bts-enter opacity-0">
-            <div id="marquee-track" class="flex w-max will-change-transform items-center">
-                <!-- Group 1 -->
-                <div class="flex shrink-0 items-center -space-x-4 md:-space-x-8">
-                    <div class="bts-float shrink-0 transform -translate-y-12 rotate-[-4deg] z-20">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC08876.jpg" alt="BTS 1" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform translate-y-16 rotate-[3deg] z-10">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC09029.JPG" alt="BTS 2" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform -translate-y-4 rotate-[1deg] z-30">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC08886.jpg" alt="BTS 3" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform translate-y-10 rotate-[-2deg] z-20">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="_JRD0598.jpg" alt="BTS 4" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform -translate-y-16 rotate-[4deg] z-40">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC09153.jpg" alt="BTS 5" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform translate-y-6 rotate-[-1deg] z-10">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC08938.jpg" alt="BTS 6" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform -translate-y-8 rotate-[-3deg] z-30">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC08928.jpg" alt="BTS 7" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform translate-y-14 rotate-[2deg] z-20">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC08890.jpg" alt="BTS 8" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform -translate-y-10 rotate-[1deg] z-10">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="_JRD0406.jpg" alt="BTS 9" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform translate-y-4 rotate-[-2deg] z-30">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC09000.jpg" alt="BTS 10" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Group 2 (Duplikat untuk Infinite Loop yang mulus) -->
-                <div class="flex shrink-0 items-center -space-x-4 md:-space-x-8">
-                    <div class="bts-float shrink-0 transform -translate-y-12 rotate-[-4deg] z-20">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC08876.jpg" alt="BTS 1" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform translate-y-16 rotate-[3deg] z-10">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC09029.JPG" alt="BTS 2" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform -translate-y-4 rotate-[1deg] z-30">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC08886.jpg" alt="BTS 3" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform translate-y-10 rotate-[-2deg] z-20">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="_JRD0598.jpg" alt="BTS 4" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform -translate-y-16 rotate-[4deg] z-40">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC09153.jpg" alt="BTS 5" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform translate-y-6 rotate-[-1deg] z-10">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC08938.jpg" alt="BTS 6" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform -translate-y-8 rotate-[-3deg] z-30">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC08928.jpg" alt="BTS 7" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform translate-y-14 rotate-[2deg] z-20">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC08890.jpg" alt="BTS 8" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform -translate-y-10 rotate-[1deg] z-10">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="_JRD0406.jpg" alt="BTS 9" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform translate-y-4 rotate-[-2deg] z-30">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="DSC09000.jpg" alt="BTS 10" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION: "We Are What We've Made" -->
-    <section id="we-are-made" class="relative w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-8 md:px-24 z-30 shadow-[0_-30px_60px_rgba(0,0,0,0.9)] overflow-hidden">
-        <div class="we-are-container relative z-10 my-auto flex flex-col items-center justify-center gap-2 md:gap-4 select-none w-full max-w-7xl">
-            <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask">
-                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[10.5vw] md:text-[9vw] leading-[1.0] tracking-tighter text-white italic transform -rotate-1">WE</span></div>
-                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[10.5vw] md:text-[9vw] leading-[1.0] tracking-tighter text-white italic transform -rotate-1">ARE</span></div>
-            </div>
-            <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask mt-1 md:mt-3">
-                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[10.5vw] md:text-[9vw] leading-[1.0] tracking-tighter text-white italic transform -rotate-1">WHAT</span></div>
-                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[10.5vw] md:text-[9vw] leading-[1.0] tracking-tighter text-white italic transform -rotate-1">WE'VE</span></div>
-                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[10.5vw] md:text-[9vw] leading-[1.0] tracking-tighter text-white italic transform -rotate-1">MADE</span></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION: "Selected Works" -->
-    <section id="selected-work" class="relative bg-black z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.9)] w-full h-[100dvh] overflow-hidden flex flex-col">
-        <div class="absolute top-24 md:top-28 left-6 md:left-12 z-50 pointer-events-none mix-blend-difference">
-            <h2 id="selected-title" class="text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">SELECTED WORKS</h2>
-        </div>
-        <div class="relative w-full flex-1 overflow-hidden">
-            <div class="film-track" id="film-track"></div>
-        </div>
-    </section>
-
-    <!-- SECTION: "About Us" -->
-    <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-16 py-16 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
-        <div class="absolute top-28 md:top-32 left-6 md:left-12 z-50 pointer-events-none mix-blend-difference">
-            <h2 id="about-title" class="text-2xl md:text-4xl font-bold tracking-tight text-white uppercase">ABOUT US</h2>
-        </div>
-        <div class="max-w-6xl w-full text-left space-y-6 md:space-y-8 my-auto pt-24 md:pt-32">
-            <div class="clip-mask"><p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase"><span class="about-line interactive-el">SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA.</span></p></div>
-            <div class="clip-mask"><p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase flex flex-col gap-2"><span class="about-line interactive-el">WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US.</span></p></div>
-            <div class="clip-mask"><p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase"><span class="about-line interactive-el">WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.</span></p></div>
-        </div>
-    </section>
-
-    <!-- SECTION: "Contact" -->
-    <section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-8 py-16 z-[60] shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
-        <div class="relative z-10 flex flex-col items-center text-center w-full my-auto">
-            <div class="flex flex-col w-full font-bold leading-[0.9] tracking-tighter">
-                <div class="clip-mask w-full flex justify-center"><span class="contact-title-line block uppercase text-[10vw] md:text-[8vw] text-white interactive-el hover-text-fx transition-colors">READY TO</span></div>
-                <div class="clip-mask w-full flex justify-center"><span class="contact-title-line block uppercase text-[10vw] md:text-[8vw] text-white interactive-el hover-text-fx transition-colors">ROLL?</span></div>
-            </div>
-            <p class="text-[10px] md:text-xs tracking-widest text-white opacity-0 transform translate-y-4 reveal-quote mt-8 interactive-el hover-text-fx">( Guess we’ll see you at the first PPM )</p>
-        </div>
-        <div class="w-full px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4 z-10 text-[10px] tracking-widest text-mutedText">
-            <div class="flex gap-8"><a href="https://mail.google.com/mail/?view=cm&fs=1&to=play@simbionfilm.com" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx uppercase text-white">play@simbionfilm.com</a></div>
-            <div class="flex gap-8">
-                <a href="https://www.instagram.com/simbionfilm/" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx uppercase text-white">INSTAGRAM</a>
-                <a href="https://id.linkedin.com/company/simbion-production" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx uppercase text-white">LINKEDIN</a>
-            </div>
-            <div class="hover-text-fx uppercase text-white">&copy; 2026 Simbion Film</div>
-        </div>
-    </section>
-
-    <script>
-        const cursor = document.getElementById('custom-cursor');
-        window.addEventListener('mousemove', (e) => {
-            if (cursor && window.matchMedia("(pointer: fine)").matches) {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            }
-        });
-
-        const SECRET_KEYWORD = "fundamental"; 
-        const ADMIN_PASSWORD = "simbiosismutualisme"; 
-
-        const defaultCMS = {
-            recentRelease: {
-                title: "MIKHA TAMBAYONG, RAYI PUTRA — JALAN TENGAH",
-                videoId: "GM71bWErDoo",
-                link: "https://www.youtube.com/watch?v=GM71bWErDoo"
-            },
-            works: [
-                { title: "ANTARA", artist: "STEREOWALL", year: "2026", videoId: "7KA1LaIy804", row: 1 },
-                { title: "TERJEBAK IMAJINASI", artist: "STEREOWALL", year: "2024", videoId: "4vevtQBeH78", row: 1 },
-                { title: "BERI AKU KESEMPATAN", artist: "STEVAN PASARIBU", year: "2025", videoId: "2x_EYv5H68o", row: 1 },
-                { title: "SEANDAINYA", artist: "DIFKI KHALIF & PRINSA MANDAGIE", year: "2026", videoId: "7UJ1DoYP-Qw", row: 1 },
-                { title: "GELANG", artist: "THE MARSOEDI FT. RIZKA NADIYAH", year: "2025", videoId: "9NhXdGxEQA0", row: 1 },
-                { title: "PUTUSIN AKU DONG", artist: "PROJECT POP", year: "2025", videoId: "cI8VzJE1tNg", row: 1 },
-                
-                { title: "KISAH KASIH DI JAKARTA", artist: "RAFI SUDIRMAN FT. GAC", year: "2025", videoId: "A5YICW1I_kc", row: 2 },
-                { title: "JALAN TENGAH", artist: "MIKHA TAMBAYONG & RAYI PUTRA", year: "2026", videoId: "GM71bWErDoo", row: 2 },
-                { title: "TIBA TIBA KAU", artist: "DNANDA", year: "2026", videoId: "8ma_y-Xmo-Q", row: 2 },
-                { title: "MAK COMBLANG", artist: "AQEELA CALISTA", year: "2023", videoId: "kzYYiRGzODI", row: 2 },
-                { title: "MERAYAKAN HARI INI", artist: "ARAJI", year: "2024", videoId: "LAVUtHyvisM", row: 2 },
-                { title: "BERJALAN LAGI", artist: "RICKY ZAKNO", year: "2023", videoId: "h2ODH39tzAQ", row: 2 },
-
-                { title: "SATU TUJU", artist: "MAHALINI X RIZKY FEBIAN", year: "2022", videoId: "g89VhNDBrsY", row: 3 },
-                { title: "YOU'RE MINE", artist: "RIZKY FEBIAN & MAHALINI", year: "2022", videoId: "mvvddC6NZT4", row: 3 },
-                { title: "AMINLAH BERSAMAKU", artist: "RIZKY FEBIAN", year: "2022", videoId: "Za2t7fFrkUw", row: 3 },
-                { title: "HINGGA TUA BERSAMA", artist: "RIZKY FEBIAN", year: "2022", videoId: "b5ZQob-mDGM", row: 3 },
-                { title: "AKU BUTUH PERAWATAN", artist: "SITI BADRIAH", year: "2024", videoId: "JhjB7e1twX8", row: 3 },
-                { title: "SELALU UNTUK SELAMANYA", artist: "STEVAN PASARIBU & HANIN DHIYA", year: "2024", videoId: "0NMZVR4TaDk", row: 3 }
-            ]
-        };
-
-        let cmsData = JSON.parse(localStorage.getItem('simbion_cms')) || defaultCMS;
-
-        function renderRecentRelease() {
-            const container = document.getElementById('recent-release-container');
-            const rr = cmsData.recentRelease;
-            container.innerHTML = `
-                <a href="${rr.link}" target="_blank" class="fixed top-5 right-6 md:right-12 z-[105] flex items-center gap-3 group cursor-pointer interactive-el transition-all">
-                    <div class="text-right hidden sm:block">
-                        <span class="text-xs md:text-sm tracking-[0.15em] font-bold font-mono text-white block uppercase">NEW RELEASE</span>
-                        <span class="text-[11px] font-bold tracking-tight text-white block uppercase group-hover:text-simbionBlue transition-colors">${rr.title}</span>
-                    </div>
-                    <div class="relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-simbionBlue shadow-2xl flex items-center justify-center animate-[spin_6s_linear_infinite] group-hover:scale-110 transition-transform">
-                        <div class="absolute inset-1 rounded-full border border-white/20 pointer-events-none"></div>
-                        <div class="w-5 h-5 md:w-6 md:h-6 rounded-full overflow-hidden border border-white/20 relative z-10">
-                            <img src="https://img.youtube.com/vi/${rr.videoId}/maxresdefault.jpg" onerror="this.src='https://placehold.co/400x400/0616C6/FFFFFF?text=NEW'" alt="${rr.title}" class="w-full h-full object-cover">
-                        </div>
-                        <div class="absolute w-1.5 h-1.5 bg-black rounded-full z-20"></div>
-                    </div>
-                </a>
-            `;
+<script>
+    const cursor = document.getElementById('custom-cursor');
+    window.addEventListener('mousemove', (e) => {
+        if (cursor && window.matchMedia("(pointer: fine)").matches) {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
         }
+    });
 
-        function renderSelectedWorks() {
-            const track = document.getElementById('film-track');
-            let html = '';
+    const SECRET_KEYWORD = "fundamental"; 
+    const ADMIN_PASSWORD = "simbiosismutualisme"; 
+
+    const defaultCMS = {
+        recentRelease: {
+            title: "MIKHA TAMBAYONG, RAYI PUTRA — JALAN TENGAH",
+            videoId: "GM71bWErDoo",
+            link: "https://www.youtube.com/watch?v=GM71bWErDoo"
+        },
+        works: [
+            { title: "ANTARA", artist: "STEREOWALL", year: "2026", videoId: "7KA1LaIy804", row: 1 },
+            { title: "TERJEBAK IMAJINASI", artist: "STEREOWALL", year: "2024", videoId: "4vevtQBeH78", row: 1 },
+            { title: "BERI AKU KESEMPATAN", artist: "STEVAN PASARIBU", year: "2025", videoId: "2x_EYv5H68o", row: 1 },
+            { title: "SEANDAINYA", artist: "DIFKI KHALIF & PRINSA MANDAGIE", year: "2026", videoId: "7UJ1DoYP-Qw", row: 1 },
+            { title: "GELANG", artist: "THE MARSOEDI FT. RIZKA NADIYAH", year: "2025", videoId: "9NhXdGxEQA0", row: 1 },
+            { title: "PUTUSIN AKU DONG", artist: "PROJECT POP", year: "2025", videoId: "cI8VzJE1tNg", row: 1 },
             
-            const row1 = cmsData.works.filter(w => w.row === 1);
-            const row2 = cmsData.works.filter(w => w.row === 2);
-            const row3 = cmsData.works.filter(w => w.row === 3);
+            { title: "KISAH KASIH DI JAKARTA", artist: "RAFI SUDIRMAN FT. GAC", year: "2025", videoId: "A5YICW1I_kc", row: 2 },
+            { title: "JALAN TENGAH", artist: "MIKHA TAMBAYONG & RAYI PUTRA", year: "2026", videoId: "GM71bWErDoo", row: 2 },
+            { title: "TIBA TIBA KAU", artist: "DNANDA", year: "2026", videoId: "8ma_y-Xmo-Q", row: 2 },
+            { title: "MAK COMBLANG", artist: "AQEELA CALISTA", year: "2023", videoId: "kzYYiRGzODI", row: 2 },
+            { title: "MERAYAKAN HARI INI", artist: "ARAJI", year: "2024", videoId: "LAVUtHyvisM", row: 2 },
+            { title: "BERJALAN LAGI", artist: "RICKY ZAKNO", year: "2023", videoId: "h2ODH39tzAQ", row: 2 },
 
-            function renderRows(items, topPercent) {
-                let subHtml = '';
-                items.forEach((item, idx) => {
-                    const leftPos = 110 + (idx * 18);
-                    subHtml += `
-                        <div class="gallery-item cms-gallery-item" style="left: ${leftPos}vw; top: ${topPercent}%;">
-                            <div class="parallax-wrap w-full h-full" data-mx="${(idx % 2 === 0 ? -3 : 4)}" data-my="${(idx % 3 === 0 ? 4 : -4)}">
-                                <div class="idle-float w-full h-full">
-                                    <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black video-trigger" data-video-id="${item.videoId}">
-                                        <img src="https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=${encodeURIComponent(item.title)}'" alt="${item.title}" class="w-full h-full object-cover">
-                                        <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                            <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">${item.year} — ${item.artist}</span>
-                                            <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">${item.title}</h3>
-                                        </div>
+            { title: "SATU TUJU", artist: "MAHALINI X RIZKY FEBIAN", year: "2022", videoId: "g89VhNDBrsY", row: 3 },
+            { title: "YOU'RE MINE", artist: "RIZKY FEBIAN & MAHALINI", year: "2022", videoId: "mvvddC6NZT4", row: 3 },
+            { title: "AMINLAH BERSAMAKU", artist: "RIZKY FEBIAN", year: "2022", videoId: "Za2t7fFrkUw", row: 3 },
+            { title: "HINGGA TUA BERSAMA", artist: "RIZKY FEBIAN", year: "2022", videoId: "b5ZQob-mDGM", row: 3 },
+            { title: "AKU BUTUH PERAWATAN", artist: "SITI BADRIAH", year: "2024", videoId: "JhjB7e1twX8", row: 3 },
+            { title: "SELALU UNTUK SELAMANYA", artist: "STEVAN PASARIBU & HANIN DHIYA", year: "2024", videoId: "0NMZVR4TaDk", row: 3 }
+        ]
+    };
+
+    let cmsData = JSON.parse(localStorage.getItem('simbion_cms')) || defaultCMS;
+
+    function renderRecentRelease() {
+        const container = document.getElementById('recent-release-container');
+        const rr = cmsData.recentRelease;
+        container.innerHTML = `
+            <a href="${rr.link}" target="_blank" class="fixed top-5 right-6 md:right-12 z-[105] flex items-center gap-3 group cursor-pointer interactive-el transition-all">
+                <div class="text-right hidden sm:block">
+                    <span class="text-xs md:text-sm tracking-[0.15em] font-bold font-mono text-white block uppercase">NEW RELEASE</span>
+                    <span class="text-[11px] font-bold tracking-tight text-white block uppercase group-hover:text-simbionBlue transition-colors">${rr.title}</span>
+                </div>
+                <div class="relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-simbionBlue shadow-2xl flex items-center justify-center animate-[spin_6s_linear_infinite] group-hover:scale-110 transition-transform">
+                    <div class="absolute inset-1 rounded-full border border-white/20 pointer-events-none"></div>
+                    <div class="w-5 h-5 md:w-6 md:h-6 rounded-full overflow-hidden border border-white/20 relative z-10">
+                        <img src="https://img.youtube.com/vi/${rr.videoId}/maxresdefault.jpg" onerror="this.src='https://placehold.co/400x400/0616C6/FFFFFF?text=NEW'" alt="${rr.title}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="absolute w-1.5 h-1.5 bg-black rounded-full z-20"></div>
+                </div>
+            </a>
+        `;
+    }
+
+    function initIdleFloat() {
+        gsap.killTweensOf('.idle-float');
+        gsap.utils.toArray('.idle-float').forEach((el) => {
+            gsap.to(el, {
+                y: () => gsap.utils.random(-15, 15),
+                x: () => gsap.utils.random(-10, 10),
+                rotation: () => gsap.utils.random(-2, 2),
+                duration: () => gsap.utils.random(3, 6),
+                ease: "sine.inOut",
+                repeat: -1,
+                yoyo: true
+            });
+        });
+    }
+
+    function renderSelectedWorks() {
+        const track = document.getElementById('film-track');
+        let html = '';
+        
+        const row1 = cmsData.works.filter(w => w.row === 1);
+        const row2 = cmsData.works.filter(w => w.row === 2);
+        const row3 = cmsData.works.filter(w => w.row === 3);
+
+        function renderRows(items, topPercent) {
+            let subHtml = '';
+            items.forEach((item, idx) => {
+                const leftPos = 110 + (idx * 18);
+                subHtml += `
+                    <div class="gallery-item cms-gallery-item" style="left: ${leftPos}vw; top: ${topPercent}%;">
+                        <div class="parallax-wrap w-full h-full" data-mx="${(idx % 2 === 0 ? -3 : 4)}" data-my="${(idx % 3 === 0 ? 4 : -4)}">
+                            <div class="idle-float w-full h-full">
+                                <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black video-trigger" data-video-id="${item.videoId}">
+                                    <img src="https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=${encodeURIComponent(item.title)}'" alt="${item.title}" class="w-full h-full object-cover">
+                                    <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                        <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">${item.year} — ${item.artist}</span>
+                                        <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">${item.title}</h3>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    `;
-                });
-                return subHtml;
-            }
-
-            html += renderRows(row1, 14);
-            html += renderRows(row2, 41);
-            html += renderRows(row3, 68);
-
-            const maxItems = Math.max(row1.length, row2.length, row3.length);
-            const dynamicWidth = 110 + ((maxItems - 1) * 18) + 60; 
-            track.style.width = `${dynamicWidth}vw`;
-            track.innerHTML = html;
-            
-            initVideoTriggers();
-            initGalleryInteractions();
-
-            if (typeof ScrollTrigger !== 'undefined') {
-                ScrollTrigger.refresh();
-            }
-        }
-
-        renderRecentRelease();
-        renderSelectedWorks();
-
-        const chatBalloon = document.getElementById('chat-balloon');
-        const chatModal = document.getElementById('chat-modal');
-        const closeChatBtn = document.getElementById('close-chat');
-        const chatForm = document.getElementById('contact-chat-form');
-
-        function openChatModal() {
-            chatBalloon.classList.add('opacity-0', 'pointer-events-none', 'scale-75');
-            chatModal.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-8', 'scale-95');
-        }
-
-        function closeChatModal() {
-            chatModal.classList.add('opacity-0', 'pointer-events-none', 'translate-y-8', 'scale-95');
-            chatBalloon.classList.remove('opacity-0', 'pointer-events-none', 'scale-75');
-        }
-
-        chatBalloon.addEventListener('click', openChatModal);
-        closeChatBtn.addEventListener('click', closeChatModal);
-
-        chatForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = document.getElementById('chat-submit-btn');
-            submitBtn.textContent = "SENDING...";
-
-            const formData = new FormData(chatForm);
-            const object = Object.fromEntries(formData);
-            const json = JSON.stringify(object);
-
-            try {
-                const response = await fetch("https://api.web3forms.com/submit", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-                    body: json
-                });
-                const result = await response.json();
-                if (result.success) {
-                    alert("Pesan berhasil terkirim ke Simbion Film!");
-                    chatForm.reset();
-                    closeChatModal();
-                } else {
-                    alert("Gagal mengirim pesan. Silakan coba lagi.");
-                }
-            } catch (error) {
-                console.error(error);
-                alert("Terjadi kesalahan koneksi.");
-            } finally {
-                submitBtn.textContent = "SEND MESSAGE";
-            }
-        });
-
-        const chatInner = document.getElementById('chat-balloon-inner');
-        const chatTail = document.getElementById('chat-balloon-tail');
-
-        function checkChatOverlap() {
-            if (!chatBalloon || chatBalloon.classList.contains('opacity-0')) return;
-            const chatRect = chatBalloon.getBoundingClientRect();
-            const overlapElements = document.querySelectorAll('.gallery-item, .parallax-hero img, #hero img');
-            let isOverlapping = false;
-            overlapElements.forEach(el => {
-                const elRect = el.getBoundingClientRect();
-                if (!(chatRect.right < elRect.left || chatRect.left > elRect.right || chatRect.bottom < elRect.top || chatRect.top > elRect.bottom)) {
-                    isOverlapping = true;
-                }
-            });
-
-            if (isOverlapping) {
-                chatInner.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
-                chatInner.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                chatTail.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
-                chatTail.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-            } else {
-                chatInner.style.backgroundColor = 'rgba(6, 22, 198, 0.6)';
-                chatInner.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-                chatTail.style.backgroundColor = 'rgba(6, 22, 198, 0.6)';
-                chatTail.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-            }
-        }
-
-        window.addEventListener('scroll', checkChatOverlap);
-        window.addEventListener('resize', checkChatOverlap);
-        gsap.ticker.add(checkChatOverlap);
-
-        const videoModal = document.getElementById('video-modal');
-        const modalIframe = document.getElementById('modal-iframe');
-        const closeModalBtn = document.getElementById('close-modal');
-
-        function initVideoTriggers() {
-            document.querySelectorAll('.video-trigger').forEach(trigger => {
-                trigger.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const videoId = trigger.getAttribute('data-video-id');
-                    modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-                    videoModal.classList.remove('opacity-0', 'pointer-events-none');
-                    document.body.style.overflow = 'hidden';
-                });
-            });
-        }
-
-        function closeVideoModal() {
-            modalIframe.src = '';
-            videoModal.classList.add('opacity-0', 'pointer-events-none');
-            document.body.style.overflow = '';
-        }
-
-        closeModalBtn.addEventListener('click', closeVideoModal);
-        videoModal.addEventListener('click', (e) => {
-            if (e.target === videoModal) closeVideoModal();
-        });
-
-        const passwordModal = document.getElementById('password-modal');
-        const passwordForm = document.getElementById('password-form');
-        const adminPasswordInput = document.getElementById('admin-password');
-        const closePasswordBtn = document.getElementById('close-password');
-        
-        const cmsModal = document.getElementById('cms-modal');
-        const closeCmsBtn = document.getElementById('close-cms');
-        const saveCmsBtn = document.getElementById('cms-save');
-        const resetCmsBtn = document.getElementById('cms-reset');
-        const addItemBtn = document.getElementById('cms-add-item');
-
-        let typedBuffer = "";
-
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeVideoModal();
-                closeCmsModal();
-                closePasswordModal();
-                closeChatModal();
-            }
-
-            if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-                typedBuffer += e.key.toLowerCase();
-                if (typedBuffer.length > 20) typedBuffer = typedBuffer.slice(-20);
-                if (typedBuffer.includes(SECRET_KEYWORD.toLowerCase())) {
-                    typedBuffer = "";
-                    requestPasswordPrompt();
-                }
-            }
-        });
-
-        function requestPasswordPrompt() {
-            adminPasswordInput.value = '';
-            passwordModal.classList.remove('opacity-0', 'pointer-events-none');
-            adminPasswordInput.focus();
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closePasswordModal() {
-            passwordModal.classList.add('opacity-0', 'pointer-events-none');
-            document.body.style.overflow = '';
-        }
-
-        closePasswordBtn.addEventListener('click', closePasswordModal);
-
-        passwordForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (adminPasswordInput.value === ADMIN_PASSWORD) {
-                closePasswordModal();
-                openCmsModal();
-            } else {
-                alert('Incorrect Password!');
-                adminPasswordInput.value = '';
-            }
-        });
-
-        function openCmsModal() {
-            document.getElementById('cms-rr-title').value = cmsData.recentRelease.title;
-            document.getElementById('cms-rr-id').value = cmsData.recentRelease.videoId;
-            document.getElementById('cms-rr-link').value = cmsData.recentRelease.link;
-            renderCmsWorksList();
-            cmsModal.classList.remove('opacity-0', 'pointer-events-none');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeCmsModal() {
-            cmsModal.classList.add('opacity-0', 'pointer-events-none');
-            document.body.style.overflow = '';
-        }
-
-        closeCmsBtn.addEventListener('click', closeCmsModal);
-
-        function renderCmsWorksList() {
-            const container = document.getElementById('cms-items-container');
-            document.getElementById('cms-count').textContent = cmsData.works.length;
-            let html = '';
-            cmsData.works.forEach((w, index) => {
-                html += `
-                    <div class="bg-black/60 border border-white/10 p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-center justify-between" data-index="${index}">
-                        <div class="grid grid-cols-2 md:grid-cols-5 gap-2 w-full">
-                            <input type="text" class="cms-title bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.title}" placeholder="Title">
-                            <input type="text" class="cms-artist bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.artist}" placeholder="Artist">
-                            <input type="text" class="cms-year bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.year}" placeholder="Year">
-                            <input type="text" class="cms-id bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.videoId}" placeholder="YouTube ID">
-                            <select class="cms-row bg-black border border-white/20 rounded-xl px-3 py-2 text-xs text-white">
-                                <option value="1" ${w.row==1?'selected':''}>Row 1 (Top)</option>
-                                <option value="2" ${w.row==2?'selected':''}>Row 2 (Mid)</option>
-                                <option value="3" ${w.row==3?'selected':''}>Row 3 (Btm)</option>
-                            </select>
-                        </div>
-                        <button class="cms-del bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white px-3 py-2 rounded-xl text-xs font-mono transition-colors shrink-0">DELETE</button>
                     </div>
                 `;
             });
-            container.innerHTML = html;
-
-            container.querySelectorAll('.cms-del').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const idx = parseInt(e.target.closest('[data-index]').getAttribute('data-index'));
-                    cmsData.works.splice(idx, 1);
-                    renderCmsWorksList();
-                });
-            });
+            return subHtml;
         }
 
-        addItemBtn.addEventListener('click', () => {
-            cmsData.works.push({ title: "NEW WORK", artist: "ARTIST", year: "2026", videoId: "7KA1LaIy804", row: 1 });
-            renderCmsWorksList();
-            const container = document.getElementById('cms-items-container');
-            container.scrollTop = container.scrollHeight;
+        html += renderRows(row1, 14);
+        html += renderRows(row2, 41);
+        html += renderRows(row3, 68);
+
+        const maxItems = Math.max(row1.length, row2.length, row3.length);
+        const dynamicWidth = 110 + ((maxItems - 1) * 18) + 60; 
+        track.style.width = `${dynamicWidth}vw`;
+        track.innerHTML = html;
+        
+        initVideoTriggers();
+        initGalleryInteractions();
+        initIdleFloat();
+
+        if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.refresh();
+        }
+    }
+
+    renderRecentRelease();
+    renderSelectedWorks();
+
+    const chatBalloon = document.getElementById('chat-balloon');
+    const chatModal = document.getElementById('chat-modal');
+    const closeChatBtn = document.getElementById('close-chat');
+    const chatForm = document.getElementById('contact-chat-form');
+
+    function openChatModal() {
+        chatBalloon.classList.add('opacity-0', 'pointer-events-none', 'scale-75');
+        chatModal.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-8', 'scale-95');
+    }
+
+    function closeChatModal() {
+        chatModal.classList.add('opacity-0', 'pointer-events-none', 'translate-y-8', 'scale-95');
+        chatBalloon.classList.remove('opacity-0', 'pointer-events-none', 'scale-75');
+    }
+
+    chatBalloon.addEventListener('click', openChatModal);
+    closeChatBtn.addEventListener('click', closeChatModal);
+
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('chat-submit-btn');
+        submitBtn.textContent = "SENDING...";
+
+        const formData = new FormData(chatForm);
+        const object = Object.fromEntries(formData);
+        const json = JSON.stringify(object);
+
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: json
+            });
+            const result = await response.json();
+            if (result.success) {
+                alert("Pesan berhasil terkirim ke Simbion Film!");
+                chatForm.reset();
+                closeChatModal();
+            } else {
+                alert("Gagal mengirim pesan. Silakan coba lagi.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Terjadi kesalahan koneksi.");
+        } finally {
+            submitBtn.textContent = "SEND MESSAGE";
+        }
+    });
+
+    const chatInner = document.getElementById('chat-balloon-inner');
+    const chatTail = document.getElementById('chat-balloon-tail');
+
+    function checkChatOverlap() {
+        if (!chatBalloon || chatBalloon.classList.contains('opacity-0')) return;
+        const chatRect = chatBalloon.getBoundingClientRect();
+        const overlapElements = document.querySelectorAll('.gallery-item, .parallax-hero img, #hero img');
+        let isOverlapping = false;
+        overlapElements.forEach(el => {
+            const elRect = el.getBoundingClientRect();
+            if (!(chatRect.right < elRect.left || chatRect.left > elRect.right || chatRect.bottom < elRect.top || chatRect.top > elRect.bottom)) {
+                isOverlapping = true;
+            }
         });
 
-        saveCmsBtn.addEventListener('click', () => {
-            cmsData.recentRelease.title = document.getElementById('cms-rr-title').value;
-            cmsData.recentRelease.videoId = document.getElementById('cms-rr-id').value;
-            cmsData.recentRelease.link = document.getElementById('cms-rr-link').value;
+        if (isOverlapping) {
+            chatInner.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+            chatInner.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            chatTail.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+            chatTail.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+        } else {
+            chatInner.style.backgroundColor = 'rgba(6, 22, 198, 0.6)';
+            chatInner.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            chatTail.style.backgroundColor = 'rgba(6, 22, 198, 0.6)';
+            chatTail.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+        }
+    }
 
-            const itemNodes = document.querySelectorAll('#cms-items-container > div');
-            cmsData.works = [];
-            itemNodes.forEach(node => {
-                cmsData.works.push({
-                    title: node.querySelector('.cms-title').value,
-                    artist: node.querySelector('.cms-artist').value,
-                    year: node.querySelector('.cms-year').value,
-                    videoId: node.querySelector('.cms-id').value,
-                    row: parseInt(node.querySelector('.cms-row').value)
-                });
+    window.addEventListener('scroll', checkChatOverlap);
+    window.addEventListener('resize', checkChatOverlap);
+    gsap.ticker.add(checkChatOverlap);
+
+    const videoModal = document.getElementById('video-modal');
+    const modalIframe = document.getElementById('modal-iframe');
+    const closeModalBtn = document.getElementById('close-modal');
+
+    function initVideoTriggers() {
+        document.querySelectorAll('.video-trigger').forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                const videoId = trigger.getAttribute('data-video-id');
+                modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                videoModal.classList.remove('opacity-0', 'pointer-events-none');
+                document.body.style.overflow = 'hidden';
             });
+        });
+    }
 
-            localStorage.setItem('simbion_cms', JSON.stringify(cmsData));
+    function closeVideoModal() {
+        modalIframe.src = '';
+        videoModal.classList.add('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = '';
+    }
+
+    closeModalBtn.addEventListener('click', closeVideoModal);
+    videoModal.addEventListener('click', (e) => {
+        if (e.target === videoModal) closeVideoModal();
+    });
+
+    const passwordModal = document.getElementById('password-modal');
+    const passwordForm = document.getElementById('password-form');
+    const adminPasswordInput = document.getElementById('admin-password');
+    const closePasswordBtn = document.getElementById('close-password');
+    
+    const cmsModal = document.getElementById('cms-modal');
+    const closeCmsBtn = document.getElementById('close-cms');
+    const saveCmsBtn = document.getElementById('cms-save');
+    const resetCmsBtn = document.getElementById('cms-reset');
+    const addItemBtn = document.getElementById('cms-add-item');
+
+    let typedBuffer = "";
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeVideoModal();
+            closeCmsModal();
+            closePasswordModal();
+            closeChatModal();
+        }
+
+        if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+            typedBuffer += e.key.toLowerCase();
+            if (typedBuffer.length > 20) typedBuffer = typedBuffer.slice(-20);
+            if (typedBuffer.includes(SECRET_KEYWORD.toLowerCase())) {
+                typedBuffer = "";
+                requestPasswordPrompt();
+            }
+        }
+    });
+
+    function requestPasswordPrompt() {
+        adminPasswordInput.value = '';
+        passwordModal.classList.remove('opacity-0', 'pointer-events-none');
+        adminPasswordInput.focus();
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closePasswordModal() {
+        passwordModal.classList.add('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = '';
+    }
+
+    closePasswordBtn.addEventListener('click', closePasswordModal);
+
+    passwordForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (adminPasswordInput.value === ADMIN_PASSWORD) {
+            closePasswordModal();
+            openCmsModal();
+        } else {
+            alert('Incorrect Password!');
+            adminPasswordInput.value = '';
+        }
+    });
+
+    function openCmsModal() {
+        document.getElementById('cms-rr-title').value = cmsData.recentRelease.title;
+        document.getElementById('cms-rr-id').value = cmsData.recentRelease.videoId;
+        document.getElementById('cms-rr-link').value = cmsData.recentRelease.link;
+        renderCmsWorksList();
+        cmsModal.classList.remove('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCmsModal() {
+        cmsModal.classList.add('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = '';
+    }
+
+    closeCmsBtn.addEventListener('click', closeCmsModal);
+
+    function renderCmsWorksList() {
+        const container = document.getElementById('cms-items-container');
+        document.getElementById('cms-count').textContent = cmsData.works.length;
+        let html = '';
+        cmsData.works.forEach((w, index) => {
+            html += `
+                <div class="bg-black/60 border border-white/10 p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-center justify-between" data-index="${index}">
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-2 w-full">
+                        <input type="text" class="cms-title bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.title}" placeholder="Title">
+                        <input type="text" class="cms-artist bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.artist}" placeholder="Artist">
+                        <input type="text" class="cms-year bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.year}" placeholder="Year">
+                        <input type="text" class="cms-id bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.videoId}" placeholder="YouTube ID">
+                        <select class="cms-row bg-black border border-white/20 rounded-xl px-3 py-2 text-xs text-white">
+                            <option value="1" ${w.row==1?'selected':''}>Row 1 (Top)</option>
+                            <option value="2" ${w.row==2?'selected':''}>Row 2 (Mid)</option>
+                            <option value="3" ${w.row==3?'selected':''}>Row 3 (Btm)</option>
+                        </select>
+                    </div>
+                    <button class="cms-del bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white px-3 py-2 rounded-xl text-xs font-mono transition-colors shrink-0">DELETE</button>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+
+        container.querySelectorAll('.cms-del').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(e.target.closest('[data-index]').getAttribute('data-index'));
+                cmsData.works.splice(idx, 1);
+                renderCmsWorksList();
+            });
+        });
+    }
+
+    addItemBtn.addEventListener('click', () => {
+        cmsData.works.push({ title: "NEW WORK", artist: "ARTIST", year: "2026", videoId: "7KA1LaIy804", row: 1 });
+        renderCmsWorksList();
+        const container = document.getElementById('cms-items-container');
+        container.scrollTop = container.scrollHeight;
+    });
+
+    saveCmsBtn.addEventListener('click', () => {
+        cmsData.recentRelease.title = document.getElementById('cms-rr-title').value;
+        cmsData.recentRelease.videoId = document.getElementById('cms-rr-id').value;
+        cmsData.recentRelease.link = document.getElementById('cms-rr-link').value;
+
+        const itemNodes = document.querySelectorAll('#cms-items-container > div');
+        cmsData.works = [];
+        itemNodes.forEach(node => {
+            cmsData.works.push({
+                title: node.querySelector('.cms-title').value,
+                artist: node.querySelector('.cms-artist').value,
+                year: node.querySelector('.cms-year').value,
+                videoId: node.querySelector('.cms-id').value,
+                row: parseInt(node.querySelector('.cms-row').value)
+            });
+        });
+
+        localStorage.setItem('simbion_cms', JSON.stringify(cmsData));
+        renderRecentRelease();
+        renderSelectedWorks();
+        closeCmsModal();
+        window.location.reload();
+    });
+
+    resetCmsBtn.addEventListener('click', () => {
+        if (confirm('Reset all items to default?')) {
+            localStorage.removeItem('simbion_cms');
+            cmsData = JSON.parse(JSON.stringify(defaultCMS));
             renderRecentRelease();
             renderSelectedWorks();
             closeCmsModal();
             window.location.reload();
-        });
+        }
+    });
 
-        resetCmsBtn.addEventListener('click', () => {
-            if (confirm('Reset all items to default?')) {
-                localStorage.removeItem('simbion_cms');
-                cmsData = JSON.parse(JSON.stringify(defaultCMS));
-                renderRecentRelease();
-                renderSelectedWorks();
-                closeCmsModal();
-                window.location.reload();
+    const lenis = new Lenis({
+        duration: 2.5, 
+        easing: (t) => 1 - Math.pow(1 - t, 5),
+        direction: 'vertical',
+        smooth: true,
+        smoothTouch: false,
+    });
+    
+    lenis.on('scroll', (e) => {
+        ScrollTrigger.update();
+        const vel = e.velocity || 0;
+        const yOffset = gsap.utils.clamp(-60, 60, vel * 4); 
+        gsap.to('.velocity-char', {
+            y: `${yOffset}%`,
+            duration: 0.3,
+            ease: "power2.out",
+            overwrite: true 
+        });
+    });
+
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    function initSlotText(elementId, text) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        el.innerHTML = '';
+        text.split('').forEach(char => {
+            if (char === ' ') {
+                const space = document.createElement('span');
+                space.className = 'inline-block w-[0.3em]';
+                el.appendChild(space);
+                return;
             }
-        });
-
-        const lenis = new Lenis({
-            duration: 2.5, 
-            easing: (t) => 1 - Math.pow(1 - t, 5),
-            direction: 'vertical',
-            smooth: true,
-            smoothTouch: false,
-        });
-        
-        lenis.on('scroll', (e) => {
-            ScrollTrigger.update();
-            const vel = e.velocity || 0;
-            const yOffset = gsap.utils.clamp(-60, 60, vel * 4); 
-            gsap.to('.velocity-char', {
-                y: `${yOffset}%`,
-                duration: 0.3,
-                ease: "power2.out",
-                overwrite: true 
-            });
-        });
-
-        gsap.ticker.add((time) => lenis.raf(time * 1000));
-        gsap.ticker.lagSmoothing(0);
-
-        function initSlotText(elementId, text) {
-            const el = document.getElementById(elementId);
-            if (!el) return;
-            el.innerHTML = '';
-            text.split('').forEach(char => {
-                if (char === ' ') {
-                    const space = document.createElement('span');
-                    space.className = 'inline-block w-[0.3em]';
-                    el.appendChild(space);
-                    return;
-                }
-                const wrapper = document.createElement('span');
-                wrapper.className = 'slot-wrapper';
-                
-                const inner = document.createElement('span');
-                const willRoll = Math.random() > 0.35;
-                inner.className = willRoll ? 'slot-char rolling block' : 'slot-char static block';
-                if (!willRoll) {
-                    inner.style.transform = 'translateY(0%)';
-                    inner.style.webkitTransform = 'translateY(0%)';
-                }
-                
-                const velChar = document.createElement('span');
-                velChar.className = 'velocity-char block';
-                velChar.textContent = char;
-                
-                inner.appendChild(velChar);
-                wrapper.appendChild(inner);
-                el.appendChild(wrapper);
-            });
-        }
-        
-        initSlotText('selected-title', 'SELECTED WORKS');
-        initSlotText('about-title', 'ABOUT US');
-
-        // Animasi "The Soul" (Fade in judul & teks)
-        const soulTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: "#the-soul",
-                start: "top 75%",
-                toggleActions: "play none none reverse"
+            const wrapper = document.createElement('span');
+            wrapper.className = 'slot-wrapper';
+            
+            const inner = document.createElement('span');
+            const willRoll = Math.random() > 0.35;
+            inner.className = willRoll ? 'slot-char rolling block' : 'slot-char static block';
+            if (!willRoll) {
+                inner.style.transform = 'translateY(0%)';
+                inner.style.webkitTransform = 'translateY(0%)';
             }
+            
+            const velChar = document.createElement('span');
+            velChar.className = 'velocity-char block';
+            velChar.textContent = char;
+            
+            inner.appendChild(velChar);
+            wrapper.appendChild(inner);
+            el.appendChild(wrapper);
         });
+    }
+    
+    initSlotText('selected-title', 'SELECTED WORKS');
+    initSlotText('about-title', 'ABOUT US');
 
-        soulTl.to("#soul-title", { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
-              .to("#soul-desc", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
-              .to(".bts-enter", { opacity: 1, duration: 1.2, ease: "power3.out" }, "-=0.6");
-
-        // INFINITE MARQUEE RUNNING TEXT
-        const marqueeTrack = document.getElementById('marquee-track');
-        if (marqueeTrack) {
-            gsap.to(marqueeTrack, {
-                xPercent: -50,
-                duration: 40, // Sedikit diperlambat agar lebih elegan
-                ease: "none",
-                repeat: -1
-            });
+    // Animasi "The Soul" (Fade in judul & teks)
+    const soulTl = gsap.timeline({
+        scrollTrigger: {
+            trigger: "#the-soul",
+            start: "top 75%",
+            toggleActions: "play none none reverse"
         }
+    });
 
-        // FLOATING INTERAKTIF ORGANIK BTS
-        function initBTSFloat() {
-            gsap.utils.toArray('.bts-float').forEach((el) => {
-                gsap.to(el, {
-                    y: "random(-12, 12)",
-                    x: "random(-8, 8)",
-                    rotation: "random(-5, 5)",
-                    duration: "random(3, 5)",
-                    ease: "sine.inOut",
-                    repeat: -1,
-                    yoyo: true
-                });
-            });
-        }
-        initBTSFloat();
+    soulTl.to("#soul-title", { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
+          .to("#soul-desc", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
+          .to(".bts-enter", { opacity: 1, duration: 1.2, ease: "power3.out" }, "-=0.6");
 
-        const heroTl = gsap.timeline();
-        heroTl.to('.hero-fade', {
-            opacity: 1, y: 0, duration: 1.2, ease: "power3.out", stagger: 0.15, delay: 0.3
-        });
-        
-        gsap.to('.parallax-hero', {
-            yPercent: 30, rotation: 2, ease: "none",
-            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 1.5 }
-        });
-
-        // EFEK HERO JATUH KE BAWAH KELUAR LAYAR KETIKA DI-SCROLL
-        gsap.to('#hero', {
-            yPercent: 100,
-            opacity: 0,
+    // INFINITE MARQUEE RUNNING TEXT
+    const marqueeTrack = document.getElementById('marquee-track');
+    if (marqueeTrack) {
+        gsap.to(marqueeTrack, {
+            xPercent: -50,
+            duration: 40,
             ease: "none",
-            scrollTrigger: {
-                trigger: "#hero",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            }
+            repeat: -1
         });
-        
-        gsap.to('#progress-bar', {
-            scaleX: 1, ease: "none",
-            scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.1 }
+    }
+
+    // FLOATING INTERAKTIF ORGANIK BTS
+    function initBTSFloat() {
+        gsap.utils.toArray('.bts-float').forEach((el) => {
+            gsap.to(el, {
+                y: "random(-12, 12)",
+                x: "random(-8, 8)",
+                rotation: "random(-5, 5)",
+                duration: "random(3, 5)",
+                ease: "sine.inOut",
+                repeat: -1,
+                yoyo: true
+            });
         });
+    }
+    initBTSFloat();
 
-        const filmTrack = document.getElementById("film-track");
+    const heroTl = gsap.timeline();
+    heroTl.to('.hero-fade', {
+        opacity: 1, y: 0, duration: 1.2, ease: "power3.out", stagger: 0.15, delay: 0.3
+    });
+    
+    gsap.to('.parallax-hero', {
+        yPercent: 30, rotation: 2, ease: "none",
+        scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 1.5 }
+    });
 
-        // Horizontal Scroll
-        gsap.to(filmTrack, {
-            x: () => -filmTrack.scrollWidth,
-            ease: "none",
-            scrollTrigger: {
-                trigger: "#selected-work",
-                start: "top top",
-                end: () => "+=" + filmTrack.scrollWidth, 
-                scrub: 1.2, 
-                pin: true, 
-                invalidateOnRefresh: true
-            }
-        });
+    // EFEK HERO JATUH KE BAWAH KELUAR LAYAR KETIKA DI-SCROLL
+    gsap.to('#hero', {
+        yPercent: 100,
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: {
+            trigger: "#hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+        }
+    });
 
-        // Judul SELECTED WORKS fade out secara mulus
-        gsap.to("#selected-title", {
-            opacity: 0,
-            y: -25,
-            ease: "power1.out",
-            scrollTrigger: {
-                trigger: "#selected-work",
-                start: "top top",
-                end: "+=350",
-                scrub: true
-            }
-        });
+    // EFEK "WE ARE WHAT WE'VE MADE" JATUH KE BAWAH KELUAR LAYAR KETIKA DI-SCROLL
+    gsap.to('#we-are-made', {
+        yPercent: 100,
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: {
+            trigger: "#we-are-made",
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+        }
+    });
+    
+    gsap.to('#progress-bar', {
+        scaleX: 1, ease: "none",
+        scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.1 }
+    });
 
-        // EFEK ROLLING
-        ScrollTrigger.create({
+    const filmTrack = document.getElementById("film-track");
+
+    // Horizontal Scroll untuk Selected Works
+    gsap.to(filmTrack, {
+        x: () => -filmTrack.scrollWidth,
+        ease: "none",
+        scrollTrigger: {
             trigger: "#selected-work",
-            start: "top 80%",
-            onEnter: () => { 
-                gsap.fromTo("#selected-work .slot-char.rolling", 
-                    { y: "120%" }, 
-                    {
-                        y: "0%",
-                        duration: () => gsap.utils.random(1.2, 2.0),
-                        ease: "power3.out",
-                        stagger: { amount: 0.6, from: "random" },
-                        overwrite: "auto"
-                    }
-                );
-            },
-            onEnterBack: () => { 
-                gsap.fromTo("#selected-work .slot-char.rolling", 
-                    { y: "-120%" }, 
-                    {
-                        y: "0%",
-                        duration: () => gsap.utils.random(1.2, 2.0),
-                        ease: "power3.out",
-                        stagger: { amount: 0.6, from: "random" },
-                        overwrite: "auto"
-                    }
-                );
-            },
-            onLeave: () => { 
-                gsap.to("#selected-work .slot-char.rolling", { y: "-120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
-            },
-            onLeaveBack: () => { 
-                gsap.to("#selected-work .slot-char.rolling", { y: "120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
-            }
-        });
-
-        ScrollTrigger.create({
-            trigger: "#about",
-            start: "top 80%",
-            onEnter: () => { 
-                gsap.fromTo("#about .slot-char.rolling", 
-                    { y: "120%" }, 
-                    {
-                        y: "0%",
-                        duration: () => gsap.utils.random(1.2, 2.0),
-                        ease: "power3.out",
-                        stagger: { amount: 0.6, from: "random" },
-                        overwrite: "auto"
-                    }
-                );
-            },
-            onEnterBack: () => { 
-                gsap.fromTo("#about .slot-char.rolling", 
-                    { y: "-120%" }, 
-                    {
-                        y: "0%",
-                        duration: () => gsap.utils.random(1.2, 2.0),
-                        ease: "power3.out",
-                        stagger: { amount: 0.6, from: "random" },
-                        overwrite: "auto"
-                    }
-                );
-            },
-            onLeave: () => { 
-                gsap.to("#about .slot-char.rolling", { y: "-120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
-            },
-            onLeaveBack: () => { 
-                gsap.to("#about .slot-char.rolling", { y: "120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
-            }
-        });
-
-        const wrapper = document.getElementById('selected-work');
-        const parallaxWraps = gsap.utils.toArray(".parallax-wrap");
-        wrapper.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 2;
-            const y = (e.clientY / window.innerHeight - 0.5) * 2;
-            parallaxWraps.forEach((wrap) => {
-                const mx = parseFloat(wrap.getAttribute("data-mx")) || 0;
-                const my = parseFloat(wrap.getAttribute("data-my")) || 0;
-                gsap.to(wrap, { x: x * mx * 8, y: y * my * 8, duration: 1, ease: "power2.out", overwrite: "auto" });
-            });
-        });
-
-        function initGalleryInteractions() {
-            const galleryItems = document.querySelectorAll('.gallery-item');
-            galleryItems.forEach((item, index) => {
-                const inner = item.querySelector('.gallery-item-inner');
-                item.addEventListener('mouseenter', () => {
-                    gsap.set(item, { zIndex: 100 });
-                    gsap.to(inner, { scale: 1.5, duration: 0.8, ease: "power3.out", overwrite: "auto" });
-
-                    const isMobile = window.innerWidth < 768;
-                    const pushVal = isMobile ? 12 : 8; 
-
-                    galleryItems.forEach((other, otherIndex) => {
-                        if (otherIndex !== index) {
-                            const pushAmount = otherIndex < index ? `-${pushVal}vw` : `${pushVal}vw`;
-                            gsap.to(other, { x: pushAmount, duration: 0.8, ease: "power3.out", overwrite: "auto" });
-                        }
-                    });
-                });
-                item.addEventListener('mouseleave', () => {
-                    gsap.to(inner, { 
-                        scale: 1, duration: 0.8, ease: "power3.out", overwrite: "auto",
-                        onComplete: () => gsap.set(item, { zIndex: 10 }) 
-                    });
-                    galleryItems.forEach((other) => {
-                        gsap.to(other, { x: "0vw", duration: 0.8, ease: "power3.out", overwrite: "auto" });
-                    });
-                });
-            });
+            start: "top top",
+            end: () => "+=" + filmTrack.scrollWidth, 
+            scrub: 1.2, 
+            pin: true, 
+            invalidateOnRefresh: true
         }
-        initGalleryInteractions();
+    });
 
-        gsap.utils.toArray('.contact-title-line').forEach(line => {
-            gsap.fromTo(line,
-                { y: "110%", filter: "blur(10px)", scale: 1.2 },
+    // Judul SELECTED WORKS fade out secara mulus
+    gsap.to("#selected-title", {
+        opacity: 0,
+        y: -25,
+        ease: "power1.out",
+        scrollTrigger: {
+            trigger: "#selected-work",
+            start: "top top",
+            end: "+=350",
+            scrub: true
+        }
+    });
+
+    // EFEK ROLLING
+    ScrollTrigger.create({
+        trigger: "#selected-work",
+        start: "top 80%",
+        onEnter: () => { 
+            gsap.fromTo("#selected-work .slot-char.rolling", 
+                { y: "120%" }, 
                 {
-                    scrollTrigger: { trigger: "#contact", start: "top 75%" },
-                    y: "0%", filter: "blur(0px)", scale: 1, duration: 1.5, ease: "power4.out", stagger: 0.1
+                    y: "0%",
+                    duration: () => gsap.utils.random(1.2, 2.0),
+                    ease: "power3.out",
+                    stagger: { amount: 0.6, from: "random" },
+                    overwrite: "auto"
                 }
             );
-        });
-        
-        gsap.to('.reveal-quote', {
-            scrollTrigger: { trigger: '.reveal-quote', start: "top 90%" },
-            y: 0, opacity: 1, duration: 1.5, ease: "expo.out"
-        });
-
-        if (window.matchMedia("(hover: hover)").matches) {
-            document.querySelectorAll('.hover-text-fx').forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    gsap.to(el, { x: 16, skewX: -6, fontVariationSettings: '"slnt" -16', color: '#0616C6', duration: 0.05, ease: "power1.out", overwrite: "auto" });
-                });
-                el.addEventListener('mouseleave', () => {
-                    gsap.to(el, { x: 0, skewX: 0, fontVariationSettings: '"slnt" 0', color: '#FFFFFF', duration: 0.05, ease: "power1.out", overwrite: "auto" });
-                });
-            });
-            document.querySelectorAll('.about-line').forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    gsap.to(el, { x: 8, fontVariationSettings: '"slnt" -12', color: '#0616C6', duration: 0.05, ease: "power1.out", overwrite: "auto" });
-                });
-                el.addEventListener('mouseleave', () => {
-                    gsap.to(el, { x: 0, fontVariationSettings: '"slnt" 0', color: '#FFFFFF', duration: 0.05, ease: "power1.out", overwrite: "auto" });
-                });
-            });
+        },
+        onEnterBack: () => { 
+            gsap.fromTo("#selected-work .slot-char.rolling", 
+                { y: "-120%" }, 
+                {
+                    y: "0%",
+                    duration: () => gsap.utils.random(1.2, 2.0),
+                    ease: "power3.out",
+                    stagger: { amount: 0.6, from: "random" },
+                    overwrite: "auto"
+                }
+            );
+        },
+        onLeave: () => { 
+            gsap.to("#selected-work .slot-char.rolling", { y: "-120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
+        },
+        onLeaveBack: () => { 
+            gsap.to("#selected-work .slot-char.rolling", { y: "120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
         }
-    </script>
-</body>
-</html>
-```eof
+    });
+
+    ScrollTrigger.create({
+        trigger: "#about",
+        start: "top 80%",
+        onEnter: () => { 
+            gsap.fromTo("#about .slot-char.rolling", 
+                { y: "120%" }, 
+                {
+                    y: "0%",
+                    duration: () => gsap.utils.random(1.2, 2.0),
+                    ease: "power3.out",
+                    stagger: { amount: 0.6, from: "random" },
+                    overwrite: "auto"
+                }
+            );
+        },
+        onEnterBack: () => { 
+            gsap.fromTo("#about .slot-char.rolling", 
+                { y: "-120%" }, 
+                {
+                    y: "0%",
+                    duration: () => gsap.utils.random(1.2, 2.0),
+                    ease: "power3.out",
+                    stagger: { amount: 0.6, from: "random" },
+                    overwrite: "auto"
+                }
+            );
+        },
+        onLeave: () => { 
+            gsap.to("#about .slot-char.rolling", { y: "-120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
+        },
+        onLeaveBack: () => { 
+            gsap.to("#about .slot-char.rolling", { y: "120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
+        }
+    });
+
+    const wrapper = document.getElementById('selected-work');
+    const parallaxWraps = gsap.utils.toArray(".parallax-wrap");
+    wrapper.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 2;
+        const y = (e.clientY / window.innerHeight - 0.5) * 2;
+        parallaxWraps.forEach((wrap) => {
+            const mx = parseFloat(wrap.getAttribute("data-mx")) || 0;
+            const my = parseFloat(wrap.getAttribute("data-my")) || 0;
+            gsap.to(wrap, { x: x * mx * 8, y: y * my * 8, duration: 1, ease: "power2.out", overwrite: "auto" });
+        });
+    });
+
+    function initGalleryInteractions() {
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        galleryItems.forEach((item, index) => {
+            const inner = item.querySelector('.gallery-item-inner');
+            item.addEventListener('mouseenter', () => {
+                gsap.set(item, { zIndex: 100 });
+                gsap.to(inner, { scale: 1.5, duration: 0.8, ease: "power3.out", overwrite: "auto" });
+
+                const isMobile = window.innerWidth < 768;
+                const pushVal = isMobile ? 12 : 8; 
+
+                galleryItems.forEach((other, otherIndex) => {
+                    if (otherIndex !== index) {
+                        const pushAmount = otherIndex < index ? `-${pushVal}vw` : `${pushVal}vw`;
+                        gsap.to(other, { x: pushAmount, duration: 0.8, ease: "power3.out", overwrite: "auto" });
+                    }
+                });
+            });
+            item.addEventListener('mouseleave', () => {
+                gsap.to(inner, { 
+                    scale: 1, duration: 0.8, ease: "power3.out", overwrite: "auto",
+                    onComplete: () => gsap.set(item, { zIndex: 10 }) 
+                });
+                galleryItems.forEach((other) => {
+                    gsap.to(other, { x: "0vw", duration: 0.8, ease: "power3.out", overwrite: "auto" });
+                });
+            });
+        });
+    }
+    initGalleryInteractions();
+
+    gsap.utils.toArray('.contact-title-line').forEach(line => {
+        gsap.fromTo(line,
+            { y: "110%", filter: "blur(10px)", scale: 1.2 },
+            {
+                scrollTrigger: { trigger: "#contact", start: "top 75%" },
+                y: "0%", filter: "blur(0px)", scale: 1, duration: 1.5, ease: "power4.out", stagger: 0.1
+            }
+        );
+    });
+    
+    gsap.to('.reveal-quote', {
+        scrollTrigger: { trigger: '.reveal-quote', start: "top 90%" },
+        y: 0, opacity: 1, duration: 1.5, ease: "expo.out"
+    });
+
+    if (window.matchMedia("(hover: hover)").matches) {
+        document.querySelectorAll('.hover-text-fx').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                gsap.to(el, { x: 16, skewX: -6, fontVariationSettings: '"slnt" -16', color: '#0616C6', duration: 0.05, ease: "power1.out", overwrite: "auto" });
+            });
+            el.addEventListener('mouseleave', () => {
+                gsap.to(el, { x: 0, skewX: 0, fontVariationSettings: '"slnt" 0', color: '#FFFFFF', duration: 0.05, ease: "power1.out", overwrite: "auto" });
+            });
+        });
+        document.querySelectorAll('.about-line').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                gsap.to(el, { x: 8, fontVariationSettings: '"slnt" -12', color: '#0616C6', duration: 0.05, ease: "power1.out", overwrite: "auto" });
+            });
+            el.addEventListener('mouseleave', () => {
+                gsap.to(el, { x: 0, fontVariationSettings: '"slnt" 0', color: '#FFFFFF', duration: 0.05, ease: "power1.out", overwrite: "auto" });
+            });
+        });
+    }
+</script>
