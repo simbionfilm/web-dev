@@ -83,7 +83,6 @@
             transition: width 0.2s, height 0.2s;
         }
 
-        /* floatSlow keyframes masih dibiarkan untuk widget chat balloon */
         @keyframes floatSlow {
             0%, 100% { transform: translateY(0px) translateX(0px); }
             50% { transform: translateY(-8px) translateX(-4px); }
@@ -333,47 +332,55 @@
             
             <div class="w-full relative">
                 <div class="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-24">
-                    <h2 id="soul-title" class="text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.95] text-white md:w-7/12 interactive-el hover-text-fx">
+                    <h2 id="soul-title" class="text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.95] text-white md:w-7/12 interactive-el hover-text-fx opacity-0">
                         The soul behind every frame.
                     </h2>
-                    <p id="soul-desc" class="text-sm md:text-base lg:text-lg tracking-wide leading-relaxed text-gray-300 md:w-4/12 font-medium">
+                    <p id="soul-desc" class="text-sm md:text-base lg:text-lg tracking-wide leading-relaxed text-gray-300 md:w-4/12 font-medium opacity-0">
                         We craft every frame with passion and purpose. We believe that behind every beautiful frame are people who care deeply about what they create and share a vision of what it could become. Great work begins when different minds and talents come together with purpose.
                     </p>
                 </div>
             </div>
 
-            <!-- Area Kotak Visual Bawah (GSAP float organik) -->
-            <div id="soul-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full h-[35vh] md:h-[45vh]">
+            <!-- Area Kotak Visual Bawah (Ukuran tiket diperkecil, flex layout) -->
+            <div id="soul-grid" class="flex flex-wrap justify-center md:justify-between items-center gap-6 md:gap-10 w-full mt-8 md:mt-12">
                 
                 <!-- Box 1 -->
-                <div class="bts-float w-full h-full relative z-10 hover:z-50">
-                    <div class="group bg-[#111111] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
-                        <img src="DSC08876.jpg" alt="BTS 1" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                <div class="bts-enter opacity-0">
+                    <div class="bts-float w-40 h-56 md:w-56 md:h-72 relative z-10 hover:z-50 cursor-pointer">
+                        <div class="group bg-[#111111] rounded-xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
+                            <img src="DSC08876.jpg" alt="BTS 1" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Box 2 -->
-                <div class="bts-float w-full h-full relative z-10 hover:z-50">
-                    <div class="group bg-[#111111] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
-                        <img src="DSC08938.jpg" alt="BTS 2" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                <div class="bts-enter opacity-0">
+                    <div class="bts-float w-40 h-56 md:w-56 md:h-72 relative z-10 hover:z-50 cursor-pointer">
+                        <div class="group bg-[#111111] rounded-xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
+                            <img src="DSC08938.jpg" alt="BTS 2" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Box 3 -->
-                <div class="bts-float w-full h-full relative z-10 hover:z-50">
-                    <div class="group bg-[#111111] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
-                        <img src="_JRD0598.jpg" alt="BTS 3" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                <div class="bts-enter opacity-0">
+                    <div class="bts-float w-40 h-56 md:w-56 md:h-72 relative z-10 hover:z-50 cursor-pointer">
+                        <div class="group bg-[#111111] rounded-xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
+                            <img src="_JRD0598.jpg" alt="BTS 3" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Box 4 -->
-                <div class="bts-float w-full h-full relative z-10 hover:z-50">
-                    <div class="group bg-[#111111] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
-                        <img src="DSC09000.jpg" alt="BTS 4" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                <div class="bts-enter opacity-0">
+                    <div class="bts-float w-40 h-56 md:w-56 md:h-72 relative z-10 hover:z-50 cursor-pointer">
+                        <div class="group bg-[#111111] rounded-xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
+                            <img src="DSC09000.jpg" alt="BTS 4" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                        </div>
                     </div>
                 </div>
                 
@@ -868,7 +875,7 @@
         initSlotText('selected-title', 'SELECTED WORKS');
         initSlotText('about-title', 'ABOUT US');
 
-        // Animasi fade in untuk konten "The Soul"
+        // Animasi "The Soul" (Animasi masuk Sliding & Fade In dari Kiri ke Kanan)
         const soulTl = gsap.timeline({
             scrollTrigger: {
                 trigger: "#the-soul",
@@ -877,25 +884,27 @@
             }
         });
 
-        soulTl.fromTo("#soul-title", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
-              .fromTo("#soul-desc", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
-              .fromTo("#soul-grid > div", { opacity: 0, scale: 0.95, y: 30 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "back.out(1.2)", stagger: 0.1 }, "-=0.6");
+        soulTl.to("#soul-title", { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
+              .to("#soul-desc", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
+              .fromTo(".bts-enter", 
+                    { opacity: 0, x: -100 }, // Muncul dari kegelapan (opacity 0) menggeser dari kiri ke kanan (x: -100)
+                    { opacity: 1, x: 0, duration: 1.2, ease: "power3.out", stagger: 0.15 }, 
+                    "-=0.6"
+              );
 
-        // FUNGSI BARU: Animasi Float & Rotate Bebas ke segala arah untuk foto BTS
+        // Animasi Continuous Float Organik untuk foto (Dipisah agar tidak bentrok dengan animasi masuk/slide)
         function initBTSFloat() {
             gsap.utils.toArray('.bts-float').forEach((el) => {
-                // Set rotasi awal acak agar tidak kaku berjajar lurus
-                gsap.set(el, { rotation: "random(-4, 4)" });
+                gsap.set(el, { rotation: "random(-3, 3)" });
                 
-                // Menganimasikan secara berkelanjutan dengan arah X, Y dan Putaran yang selalu baru (organik)
                 gsap.to(el, {
-                    x: "random(-20, 20)",
-                    y: "random(-20, 20)",
+                    x: "random(-15, 15)",
+                    y: "random(-15, 15)",
                     rotation: "random(-6, 6)",
                     duration: "random(3, 5)",
                     ease: "sine.inOut",
                     repeat: -1,
-                    repeatRefresh: true, // Membuat nilai acaknya berganti-ganti setiap loop
+                    repeatRefresh: true,
                     yoyo: true
                 });
             });
