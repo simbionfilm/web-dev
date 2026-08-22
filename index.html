@@ -83,6 +83,7 @@
             transition: width 0.2s, height 0.2s;
         }
 
+        /* floatSlow keyframes masih dibiarkan untuk widget chat balloon */
         @keyframes floatSlow {
             0%, 100% { transform: translateY(0px) translateX(0px); }
             50% { transform: translateY(-8px) translateX(-4px); }
@@ -308,7 +309,6 @@
     <nav class="fixed top-0 w-full z-[100] p-6 mix-blend-difference flex justify-between items-start pointer-events-none text-xs md:text-sm tracking-widest text-white">
         <div class="pointer-events-auto flex flex-col gap-1">
             <a href="#hero" class="hover:opacity-80 transition-opacity">
-                <!-- Ukuran logo diperbesar 40% -->
                 <img src="LOGOmuter.gif" alt="SIMBION FILM" class="h-[17px] md:h-[23px]" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<span class=\'font-bold text-xs\'>SIMBION</span>');">
             </a>
         </div>
@@ -332,50 +332,45 @@
         <div class="w-full max-w-[1400px] mx-auto flex flex-col gap-16 md:gap-24 my-auto">
             
             <div class="w-full relative">
-                <!-- Judul OUR PHILOSOPHY DIHAPUS SESUAI PERMINTAAN -->
-                
                 <div class="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-24">
-                    <!-- Teks Besar Kiri -->
                     <h2 id="soul-title" class="text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.95] text-white md:w-7/12 interactive-el hover-text-fx">
                         The soul behind every frame.
                     </h2>
-                    
-                    <!-- Paragraf Kanan -->
                     <p id="soul-desc" class="text-sm md:text-base lg:text-lg tracking-wide leading-relaxed text-gray-300 md:w-4/12 font-medium">
                         We craft every frame with passion and purpose. We believe that behind every beautiful frame are people who care deeply about what they create and share a vision of what it could become. Great work begins when different minds and talents come together with purpose.
                     </p>
                 </div>
             </div>
 
-            <!-- Area Kotak Visual Bawah (Berisi 4 Foto Behind the Scenes) -->
+            <!-- Area Kotak Visual Bawah (GSAP float organik) -->
             <div id="soul-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full h-[35vh] md:h-[45vh]">
                 
-                <!-- Box 1: DSC08876.jpg -->
-                <div class="floating-widget w-full h-full relative z-10 hover:z-50" style="animation-delay: 0s;">
+                <!-- Box 1 -->
+                <div class="bts-float w-full h-full relative z-10 hover:z-50">
                     <div class="group bg-[#111111] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
                         <img src="DSC08876.jpg" alt="BTS 1" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
                         <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                     </div>
                 </div>
 
-                <!-- Box 2: DSC08938.jpg -->
-                <div class="floating-widget w-full h-full relative z-10 hover:z-50" style="animation-delay: -1s;">
+                <!-- Box 2 -->
+                <div class="bts-float w-full h-full relative z-10 hover:z-50">
                     <div class="group bg-[#111111] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
                         <img src="DSC08938.jpg" alt="BTS 2" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
                         <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                     </div>
                 </div>
 
-                <!-- Box 3: _JRD0598.jpg -->
-                <div class="floating-widget w-full h-full relative z-10 hover:z-50" style="animation-delay: -2s;">
+                <!-- Box 3 -->
+                <div class="bts-float w-full h-full relative z-10 hover:z-50">
                     <div class="group bg-[#111111] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
                         <img src="_JRD0598.jpg" alt="BTS 3" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
                         <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                     </div>
                 </div>
 
-                <!-- Box 4: DSC09000.jpg -->
-                <div class="floating-widget w-full h-full relative z-10 hover:z-50" style="animation-delay: -3s;">
+                <!-- Box 4 -->
+                <div class="bts-float w-full h-full relative z-10 hover:z-50">
                     <div class="group bg-[#111111] rounded-2xl border border-white/10 hover:border-white/30 transition-all duration-500 hover:scale-[1.2] hover:shadow-2xl hover:shadow-simbionBlue/20 w-full h-full relative overflow-hidden">
                         <img src="DSC09000.jpg" alt="BTS 4" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500">
                         <div class="absolute inset-0 bg-gradient-to-t from-simbionBlue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
@@ -873,7 +868,7 @@
         initSlotText('selected-title', 'SELECTED WORKS');
         initSlotText('about-title', 'ABOUT US');
 
-        // Animasi fade in untuk konten "The Soul" (Update tanpa elemen OUR PHILOSOPHY)
+        // Animasi fade in untuk konten "The Soul"
         const soulTl = gsap.timeline({
             scrollTrigger: {
                 trigger: "#the-soul",
@@ -885,6 +880,27 @@
         soulTl.fromTo("#soul-title", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
               .fromTo("#soul-desc", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
               .fromTo("#soul-grid > div", { opacity: 0, scale: 0.95, y: 30 }, { opacity: 1, scale: 1, y: 0, duration: 0.8, ease: "back.out(1.2)", stagger: 0.1 }, "-=0.6");
+
+        // FUNGSI BARU: Animasi Float & Rotate Bebas ke segala arah untuk foto BTS
+        function initBTSFloat() {
+            gsap.utils.toArray('.bts-float').forEach((el) => {
+                // Set rotasi awal acak agar tidak kaku berjajar lurus
+                gsap.set(el, { rotation: "random(-4, 4)" });
+                
+                // Menganimasikan secara berkelanjutan dengan arah X, Y dan Putaran yang selalu baru (organik)
+                gsap.to(el, {
+                    x: "random(-20, 20)",
+                    y: "random(-20, 20)",
+                    rotation: "random(-6, 6)",
+                    duration: "random(3, 5)",
+                    ease: "sine.inOut",
+                    repeat: -1,
+                    repeatRefresh: true, // Membuat nilai acaknya berganti-ganti setiap loop
+                    yoyo: true
+                });
+            });
+        }
+        initBTSFloat();
 
         const heroTl = gsap.timeline();
         heroTl.to('.hero-fade', {
