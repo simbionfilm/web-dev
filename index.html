@@ -357,15 +357,15 @@
 
     <div id="recent-release-container"></div>
 
-    <!-- STREAMING_CHUNK:Rendering Hero Section with extra large justified typography... -->
-    <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-between px-6 md:px-12 pt-28 pb-12 bg-black z-10 shadow-2xl overflow-hidden">
-        <!-- Right side GIF - Proportionally adjusted and positioned to the right -->
-        <div class="absolute right-6 md:right-12 top-1/2 -translate-y-1/2 w-[45vw] md:w-[32vw] max-w-lg parallax-hero z-10 pointer-events-none opacity-80 mix-blend-screen">
+    <!-- STREAMING_CHUNK:Rendering Hero Section with higher paragraph & top-right falling cameraman... -->
+    <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-start px-6 md:px-12 pt-24 md:pt-28 pb-12 bg-black z-10 shadow-2xl overflow-hidden">
+        <!-- Falling cameraman positioned at top right, aligned with paragraph top -->
+        <div class="absolute right-6 md:right-12 top-24 md:top-28 w-[40vw] md:w-[28vw] max-w-md parallax-hero z-10 pointer-events-none opacity-80 mix-blend-screen">
             <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-full h-auto object-contain" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
         </div>
 
-        <!-- Left side Paragraph Layout: Top below logo, Bottom near bottom of page, Right margin at middle of page -->
-        <div class="relative w-full max-w-[48vw] lg:max-w-[44vw] my-auto flex flex-col hero-fade opacity-0 z-20">
+        <!-- Left side Paragraph Layout: moved slightly higher -->
+        <div class="relative w-full max-w-[48vw] lg:max-w-[44vw] mt-4 md:mt-6 flex flex-col hero-fade opacity-0 z-20">
             <p id="hero-desc-text" class="interactive-el text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold uppercase tracking-tight text-white leading-none text-justify">
                 EVERY PROJECT DESERVES ITS OWN FIT. WE TAILOR EACH ONE FROM SCRATCH, CAREFULLY STITCHING EVERY FRAME TOGETHER WITH PASSION, PURPOSE, AND DEDICATION. WE BELIEVE GREAT WORK COMES FROM BRINGING TOGETHER THE RIGHT PEOPLE, IDEAS, AND PERSPECTIVES THAT ALIGN WITH THE VISION. EVERY DETAIL MATTERS, EVERY FRAME HAS A PURPOSE, AND EVERY PROJECT DESERVES THE CARE TO MAKE IT FEEL TRULY ITS OWN.
             </p>
@@ -515,7 +515,7 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Rendering Selected Works horizontal scroll gallery with blank padding... -->
+    <!-- STREAMING_CHUNK:Rendering Selected Works horizontal scroll gallery with reduced trailing padding... -->
     <section id="selected-work" class="relative bg-black z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.9)] w-full h-[100dvh] overflow-hidden flex flex-col">
         <div class="absolute top-20 md:top-24 left-6 md:left-12 z-50 pointer-events-none mix-blend-difference">
             <h2 id="selected-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase pointer-events-auto w-fit">
@@ -568,673 +568,709 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Initializing JavaScript logic, animations, and CMS storage... -->
+    <!-- STREAMING_CHUNK:Initializing JavaScript logic, animations, and CMS storage safely on DOMContentLoaded... -->
     <script>
-        // Split hero paragraph text into individual sentences for sentence-by-sentence right margin expansion hover effect
-        const heroPara = document.getElementById('hero-desc-text');
-        if (heroPara) {
-            const rawText = heroPara.textContent.trim();
-            const sentences = rawText.split(/(?<=[.!?])\s+/);
-            heroPara.innerHTML = sentences.map(s => `<span class="hero-sentence inline-block transition-all duration-300 mr-[0.8em] hover:mr-[2.5em] mb-[0.4em] hover:text-simbionBlue hover:scale-[1.02]">${s}</span>`).join(' ');
-        }
-
-        const cursor = document.getElementById('custom-cursor');
-        window.addEventListener('mousemove', (e) => {
-            if (cursor && window.matchMedia("(pointer: fine)").matches) {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
+        document.addEventListener('DOMContentLoaded', () => {
+            // Split hero paragraph text into individual sentences for sentence-by-sentence right margin expansion hover effect
+            const heroPara = document.getElementById('hero-desc-text');
+            if (heroPara) {
+                const rawText = heroPara.textContent.trim();
+                const sentences = rawText.split(/(?<=[.!?])\s+/);
+                heroPara.innerHTML = sentences.map(s => `<span class="hero-sentence inline-block transition-all duration-300 mr-[0.8em] hover:mr-[2.5em] mb-[0.4em] hover:text-simbionBlue hover:scale-[1.02]">${s}</span>`).join(' ');
             }
-        });
 
-        // Function for Custom Toast Replacement
-        function showToast(msg) {
-            const toast = document.getElementById('custom-toast');
-            const msgEl = document.getElementById('toast-message');
-            msgEl.textContent = msg;
-            toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
-            toast.classList.add('opacity-100', 'translate-y-0');
-            setTimeout(() => {
-                toast.classList.remove('opacity-100', 'translate-y-0');
-                toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
-            }, 3000);
-        }
-
-        // Function for Custom Confirm Replacement
-        function showConfirm(title, desc, onConfirm) {
-            const modal = document.getElementById('custom-confirm-modal');
-            document.getElementById('confirm-title').textContent = title;
-            document.getElementById('confirm-desc').textContent = desc;
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            
-            const yesBtn = document.getElementById('confirm-yes');
-            const noBtn = document.getElementById('confirm-no');
-
-            const cleanup = () => {
-                modal.classList.add('opacity-0', 'pointer-events-none');
-                yesBtn.onclick = null;
-                noBtn.onclick = null;
-            };
-
-            yesBtn.onclick = () => {
-                cleanup();
-                onConfirm();
-            };
-            noBtn.onclick = () => {
-                cleanup();
-            };
-        }
-
-        const SECRET_KEYWORD = "fundamental"; 
-        const ADMIN_PASSWORD = "simbiosismutualisme"; 
-
-        const defaultCMS = {
-            recentRelease: {
-                title: "MIKHA TAMBAYONG, RAYI PUTRA — JALAN TENGAH",
-                videoId: "GM71bWErDoo",
-                link: "https://www.youtube.com/watch?v=GM71bWErDoo"
-            },
-            works: [
-                { title: "ANTARA", artist: "STEREOWALL", year: "2026", videoId: "7KA1LaIy804", row: 1 },
-                { title: "TERJEBAK IMAJINASI", artist: "STEREOWALL", year: "2024", videoId: "4vevtQBeH78", row: 1 },
-                { title: "BERI AKU KESEMPATAN", artist: "STEVAN PASARIBU", year: "2025", videoId: "2x_EYv5H68o", row: 1 },
-                { title: "SEANDAINYA", artist: "DIFKI KHALIF & PRINSA MANDAGIE", year: "2026", videoId: "7UJ1DoYP-Qw", row: 1 },
-                { title: "GELANG", artist: "THE MARSOEDI FT. RIZKA NADIYAH", year: "2025", videoId: "9NhXdGxEQA0", row: 1 },
-                { title: "PUTUSIN AKU DONG", artist: "PROJECT POP", year: "2025", videoId: "cI8VzJE1tNg", row: 1 },
-                
-                { title: "KISAH KASIH DI JAKARTA", artist: "RAFI SUDIRMAN FT. GAC", year: "2025", videoId: "A5YICW1I_kc", row: 2 },
-                { title: "JALAN TENGAH", artist: "MIKHA TAMBAYONG & RAYI PUTRA", year: "2026", videoId: "GM71bWErDoo", row: 2 },
-                { title: "TIBA TIBA KAU", artist: "DNANDA", year: "2026", videoId: "8ma_y-Xmo-Q", row: 2 },
-                { title: "MAK COMBLANG", artist: "AQEELA CALISTA", year: "2023", videoId: "kzYYiRGzODI", row: 2 },
-                { title: "MERAYAKAN HARI INI", artist: "ARAJI", year: "2024", videoId: "LAVUtHyvisM", row: 2 },
-                { title: "BERJALAN LAGI", artist: "RICKY ZAKNO", year: "2023", videoId: "h2ODH39tzAQ", row: 2 },
-
-                { title: "SATU TUJU", artist: "MAHALINI X RIZKY FEBIAN", year: "2022", videoId: "g89VhNDBrsY", row: 3 },
-                { title: "YOU'RE MINE", artist: "RIZKY FEBIAN & MAHALINI", year: "2022", videoId: "mvvddC6NZT4", row: 3 },
-                { title: "AMINLAH BERSAMAKU", artist: "RIZKY FEBIAN", year: "2022", videoId: "Za2t7fFrkUw", row: 3 },
-                { title: "HINGGA TUA BERSAMA", artist: "RIZKY FEBIAN", year: "2022", videoId: "b5ZQob-mDGM", row: 3 },
-                { title: "AKU BUTUH PERAWATAN", artist: "SITI BADRIAH", year: "2024", videoId: "JhjB7e1twX8", row: 3 },
-                { title: "SELALU UNTUK SELAMANYA", artist: "STEVAN PASARIBU & HANIN DHIYA", year: "2024", videoId: "0NMZVR4TaDk", row: 3 }
-            ]
-        };
-
-        let cmsData = JSON.parse(localStorage.getItem('simbion_cms')) || defaultCMS;
-
-        function renderRecentRelease() {
-            const container = document.getElementById('recent-release-container');
-            if (!container) return;
-            const rr = cmsData.recentRelease;
-            container.innerHTML = `
-                <a href="${rr.link}" target="_blank" class="fixed top-5 right-6 md:right-12 z-[105] flex items-center gap-3 group cursor-pointer interactive-el transition-all">
-                    <div class="text-right hidden sm:block">
-                        <span class="text-xs md:text-sm tracking-[0.15em] font-bold font-mono text-white block uppercase">NEW RELEASE</span>
-                        <span class="text-[11px] font-bold tracking-tight text-white block uppercase group-hover:text-simbionBlue transition-colors">${rr.title}</span>
-                    </div>
-                    <div class="relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-simbionBlue shadow-2xl flex items-center justify-center animate-[spin_6s_linear_infinite] group-hover:scale-110 transition-transform">
-                        <div class="absolute inset-1 rounded-full border border-white/20 pointer-events-none"></div>
-                        <div class="w-5 h-5 md:w-6 md:h-6 rounded-full overflow-hidden border border-white/20 relative z-10">
-                            <img src="https://img.youtube.com/vi/${rr.videoId}/maxresdefault.jpg" onerror="this.src='https://placehold.co/400x400/0616C6/FFFFFF?text=NEW'" alt="${rr.title}" class="w-full h-full object-cover">
-                        </div>
-                        <div class="absolute w-1.5 h-1.5 bg-black rounded-full z-20"></div>
-                    </div>
-                </a>
-            `;
-        }
-
-        function initIdleFloat() {
-            gsap.killTweensOf('.idle-float');
-            gsap.utils.toArray('.idle-float').forEach((el) => {
-                gsap.to(el, {
-                    y: () => gsap.utils.random(-25, 25),
-                    x: () => gsap.utils.random(-15, 15),
-                    rotation: () => gsap.utils.random(-6, 6),
-                    duration: () => gsap.utils.random(4, 7),
-                    ease: "sine.inOut",
-                    repeat: -1,
-                    yoyo: true
-                });
+            const cursor = document.getElementById('custom-cursor');
+            window.addEventListener('mousemove', (e) => {
+                if (cursor && window.matchMedia("(pointer: fine)").matches) {
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
+                }
             });
-        }
 
-        function renderSelectedWorks() {
-            const track = document.getElementById('film-track');
-            if (!track) return;
-            let html = '';
-            
-            const row1 = cmsData.works.filter(w => w.row === 1);
-            const row2 = cmsData.works.filter(w => w.row === 2);
-            const row3 = cmsData.works.filter(w => w.row === 3);
+            // Function for Custom Toast Replacement
+            window.showToast = function(msg) {
+                const toast = document.getElementById('custom-toast');
+                const msgEl = document.getElementById('toast-message');
+                if (!toast || !msgEl) return;
+                msgEl.textContent = msg;
+                toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
+                toast.classList.add('opacity-100', 'translate-y-0');
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100', 'translate-y-0');
+                    toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
+                }, 3000);
+            }
 
-            function renderRows(items, topPercent) {
-                let subHtml = '';
-                items.forEach((item, idx) => {
-                    const leftPos = 110 + (idx * 18);
-                    const baseRotation = (Math.random() - 0.5) * 8; 
+            // Function for Custom Confirm Replacement
+            window.showConfirm = function(title, desc, onConfirm) {
+                const modal = document.getElementById('custom-confirm-modal');
+                if (!modal) return;
+                document.getElementById('confirm-title').textContent = title;
+                document.getElementById('confirm-desc').textContent = desc;
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                
+                const yesBtn = document.getElementById('confirm-yes');
+                const noBtn = document.getElementById('confirm-no');
 
-                    subHtml += `
-                        <div class="gallery-item cms-gallery-item" style="left: ${leftPos}vw; top: ${topPercent}%;">
-                            <div class="w-full h-full" style="transform: rotate(${baseRotation}deg);">
-                                <div class="parallax-wrap w-full h-full" data-mx="${(idx % 2 === 0 ? -3 : 4)}" data-my="${(idx % 3 === 0 ? 4 : -4)}">
-                                    <div class="idle-float w-full h-full">
-                                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black video-trigger" data-video-id="${item.videoId}">
-                                            <img src="https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=${encodeURIComponent(item.title)}'" alt="${item.title}" class="w-full h-full object-cover">
-                                            <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
-                                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
-                                                <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">${item.year} — ${item.artist}</span>
-                                                <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">${item.title}</h3>
+                const cleanup = () => {
+                    modal.classList.add('opacity-0', 'pointer-events-none');
+                    yesBtn.onclick = null;
+                    noBtn.onclick = null;
+                };
+
+                yesBtn.onclick = () => {
+                    cleanup();
+                    onConfirm();
+                };
+                noBtn.onclick = () => {
+                    cleanup();
+                };
+            }
+
+            const SECRET_KEYWORD = "fundamental"; 
+            const ADMIN_PASSWORD = "simbiosismutualisme"; 
+
+            const defaultCMS = {
+                recentRelease: {
+                    title: "MIKHA TAMBAYONG, RAYI PUTRA — JALAN TENGAH",
+                    videoId: "GM71bWErDoo",
+                    link: "https://www.youtube.com/watch?v=GM71bWErDoo"
+                },
+                works: [
+                    { title: "ANTARA", artist: "STEREOWALL", year: "2026", videoId: "7KA1LaIy804", row: 1 },
+                    { title: "TERJEBAK IMAJINASI", artist: "STEREOWALL", year: "2024", videoId: "4vevtQBeH78", row: 1 },
+                    { title: "BERI AKU KESEMPATAN", artist: "STEVAN PASARIBU", year: "2025", videoId: "2x_EYv5H68o", row: 1 },
+                    { title: "SEANDAINYA", artist: "DIFKI KHALIF & PRINSA MANDAGIE", year: "2026", videoId: "7UJ1DoYP-Qw", row: 1 },
+                    { title: "GELANG", artist: "THE MARSOEDI FT. RIZKA NADIYAH", year: "2025", videoId: "9NhXdGxEQA0", row: 1 },
+                    { title: "PUTUSIN AKU DONG", artist: "PROJECT POP", year: "2025", videoId: "cI8VzJE1tNg", row: 1 },
+                    
+                    { title: "KISAH KASIH DI JAKARTA", artist: "RAFI SUDIRMAN FT. GAC", year: "2025", videoId: "A5YICW1I_kc", row: 2 },
+                    { title: "JALAN TENGAH", artist: "MIKHA TAMBAYONG & RAYI PUTRA", year: "2026", videoId: "GM71bWErDoo", row: 2 },
+                    { title: "TIBA TIBA KAU", artist: "DNANDA", year: "2026", videoId: "8ma_y-Xmo-Q", row: 2 },
+                    { title: "MAK COMBLANG", artist: "AQEELA CALISTA", year: "2023", videoId: "kzYYiRGzODI", row: 2 },
+                    { title: "MERAYAKAN HARI INI", artist: "ARAJI", year: "2024", videoId: "LAVUtHyvisM", row: 2 },
+                    { title: "BERJALAN LAGI", artist: "RICKY ZAKNO", year: "2023", videoId: "h2ODH39tzAQ", row: 2 },
+
+                    { title: "SATU TUJU", artist: "MAHALINI X RIZKY FEBIAN", year: "2022", videoId: "g89VhNDBrsY", row: 3 },
+                    { title: "YOU'RE MINE", artist: "RIZKY FEBIAN & MAHALINI", year: "2022", videoId: "mvvddC6NZT4", row: 3 },
+                    { title: "AMINLAH BERSAMAKU", artist: "RIZKY FEBIAN", year: "2022", videoId: "Za2t7fFrkUw", row: 3 },
+                    { title: "HINGGA TUA BERSAMA", artist: "RIZKY FEBIAN", year: "2022", videoId: "b5ZQob-mDGM", row: 3 },
+                    { title: "AKU BUTUH PERAWATAN", artist: "SITI BADRIAH", year: "2024", videoId: "JhjB7e1twX8", row: 3 },
+                    { title: "SELALU UNTUK SELAMANYA", artist: "STEVAN PASARIBU & HANIN DHIYA", year: "2024", videoId: "0NMZVR4TaDk", row: 3 }
+                ]
+            };
+
+            let cmsData = JSON.parse(localStorage.getItem('simbion_cms')) || defaultCMS;
+
+            function renderRecentRelease() {
+                const container = document.getElementById('recent-release-container');
+                if (!container) return;
+                const rr = cmsData.recentRelease;
+                container.innerHTML = `
+                    <a href="${rr.link}" target="_blank" class="fixed top-5 right-6 md:right-12 z-[105] flex items-center gap-3 group cursor-pointer interactive-el transition-all">
+                        <div class="text-right hidden sm:block">
+                            <span class="text-xs md:text-sm tracking-[0.15em] font-bold font-mono text-white block uppercase">NEW RELEASE</span>
+                            <span class="text-[11px] font-bold tracking-tight text-white block uppercase group-hover:text-simbionBlue transition-colors">${rr.title}</span>
+                        </div>
+                        <div class="relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-simbionBlue shadow-2xl flex items-center justify-center animate-[spin_6s_linear_infinite] group-hover:scale-110 transition-transform">
+                            <div class="absolute inset-1 rounded-full border border-white/20 pointer-events-none"></div>
+                            <div class="w-5 h-5 md:w-6 md:h-6 rounded-full overflow-hidden border border-white/20 relative z-10">
+                                <img src="https://img.youtube.com/vi/${rr.videoId}/maxresdefault.jpg" onerror="this.src='https://placehold.co/400x400/0616C6/FFFFFF?text=NEW'" alt="${rr.title}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="absolute w-1.5 h-1.5 bg-black rounded-full z-20"></div>
+                        </div>
+                    </a>
+                `;
+            }
+
+            function initIdleFloat() {
+                gsap.killTweensOf('.idle-float');
+                gsap.utils.toArray('.idle-float').forEach((el) => {
+                    gsap.to(el, {
+                        y: () => gsap.utils.random(-25, 25),
+                        x: () => gsap.utils.random(-15, 15),
+                        rotation: () => gsap.utils.random(-6, 6),
+                        duration: () => gsap.utils.random(4, 7),
+                        ease: "sine.inOut",
+                        repeat: -1,
+                        yoyo: true
+                    });
+                });
+            }
+
+            function renderSelectedWorks() {
+                const track = document.getElementById('film-track');
+                if (!track) return;
+                let html = '';
+                
+                const row1 = cmsData.works.filter(w => w.row === 1);
+                const row2 = cmsData.works.filter(w => w.row === 2);
+                const row3 = cmsData.works.filter(w => w.row === 3);
+
+                function renderRows(items, topPercent) {
+                    let subHtml = '';
+                    items.forEach((item, idx) => {
+                        const leftPos = 110 + (idx * 18);
+                        const baseRotation = (Math.random() - 0.5) * 8; 
+
+                        subHtml += `
+                            <div class="gallery-item cms-gallery-item" style="left: ${leftPos}vw; top: ${topPercent}%;">
+                                <div class="w-full h-full" style="transform: rotate(${baseRotation}deg);">
+                                    <div class="parallax-wrap w-full h-full" data-mx="${(idx % 2 === 0 ? -3 : 4)}" data-my="${(idx % 3 === 0 ? 4 : -4)}">
+                                        <div class="idle-float w-full h-full">
+                                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-xl group cursor-pointer bg-black video-trigger" data-video-id="${item.videoId}">
+                                                <img src="https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=${encodeURIComponent(item.title)}'" alt="${item.title}" class="w-full h-full object-cover">
+                                                <div class="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-left pointer-events-none z-20">
+                                                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent -z-10"></div>
+                                                    <span class="text-[7px] md:text-[8px] text-gray-300 tracking-[0.2em] font-bold font-mono block uppercase">${item.year} — ${item.artist}</span>
+                                                    <h3 class="text-[10px] md:text-xs font-bold tracking-tight text-white mt-0.5 uppercase">${item.title}</h3>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        `;
+                    });
+                    return subHtml;
+                }
+
+                html += renderRows(row1, 14);
+                html += renderRows(row2, 41);
+                html += renderRows(row3, 68);
+
+                const maxItems = Math.max(row1.length, row2.length, row3.length);
+                // Reduced trailing width from +200 to +90 so scroll length is shorter
+                const dynamicWidth = 110 + ((maxItems - 1) * 18) + 60 + 90; 
+                track.style.width = `${dynamicWidth}vw`;
+                track.innerHTML = html;
+                
+                initVideoTriggers();
+                initGalleryInteractions();
+                initIdleFloat();
+            }
+
+            renderRecentRelease();
+            renderSelectedWorks();
+
+            function createSlotText() {
+                document.querySelectorAll('.velocity-line').forEach(line => {
+                    const text = line.getAttribute('data-text');
+                    if (!text) return;
+                    line.innerHTML = '';
+                    text.split('').forEach(char => {
+                        if (char === ' ') {
+                            const space = document.createElement('span');
+                            space.className = 'inline-block w-[0.3em]';
+                            line.appendChild(space);
+                            return;
+                        }
+                        const wrapper = document.createElement('span');
+                        wrapper.className = 'slot-wrapper';
+
+                        const track = document.createElement('div');
+                        track.className = 'slot-track';
+                        track.dataset.orig = char;
+
+                        const letters = [char, char, char, char, char];
+
+                        letters.forEach(l => {
+                            const span = document.createElement('span');
+                            span.className = 'slot-char';
+                            span.textContent = l;
+                            track.appendChild(span);
+                        });
+
+                        wrapper.appendChild(track);
+                        line.appendChild(wrapper);
+                    });
+                });
+            }
+            createSlotText();
+
+            const chatBalloon = document.getElementById('chat-balloon');
+            const chatModal = document.getElementById('chat-modal');
+            const closeChatBtn = document.getElementById('close-chat');
+            const chatForm = document.getElementById('contact-chat-form');
+
+            function openChatModal() {
+                if (!chatBalloon || !chatModal) return;
+                chatBalloon.classList.add('opacity-0', 'pointer-events-none', 'scale-75');
+                chatModal.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-8', 'scale-95');
+            }
+
+            function closeChatModal() {
+                if (!chatBalloon || !chatModal) return;
+                chatModal.classList.add('opacity-0', 'pointer-events-none', 'translate-y-8', 'scale-95');
+                chatBalloon.classList.remove('opacity-0', 'pointer-events-none', 'scale-75');
+            }
+
+            if (chatBalloon) chatBalloon.addEventListener('click', openChatModal);
+            if (closeChatBtn) closeChatBtn.addEventListener('click', closeChatModal);
+
+            if (chatForm) {
+                chatForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const submitBtn = document.getElementById('chat-submit-btn');
+                    if (submitBtn) submitBtn.textContent = "SENDING...";
+
+                    const formData = new FormData(chatForm);
+                    const object = Object.fromEntries(formData);
+                    const json = JSON.stringify(object);
+
+                    try {
+                        const response = await fetch("https://api.web3forms.com/submit", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Accept": "application/json"
+                            },
+                            body: json
+                        });
+                        const result = await response.json();
+                        if (result.success) {
+                            showToast("Pesan berhasil terkirim ke Simbion Film!");
+                            chatForm.reset();
+                            closeChatModal();
+                        } else {
+                            showToast("Gagal mengirim pesan. Silakan coba lagi.");
+                        }
+                    } catch (error) {
+                        console.error(error);
+                        showToast("Terjadi kesalahan koneksi.");
+                    } finally {
+                        if (submitBtn) submitBtn.textContent = "SEND MESSAGE";
+                    }
+                });
+            }
+
+            const chatInner = document.getElementById('chat-balloon-inner');
+            const chatTail = document.getElementById('chat-balloon-tail');
+
+            function checkChatOverlap() {
+                if (!chatBalloon || chatBalloon.classList.contains('opacity-0')) return;
+                const chatRect = chatBalloon.getBoundingClientRect();
+                const overlapElements = document.querySelectorAll('.gallery-item, .parallax-hero img, #hero img');
+                let isOverlapping = false;
+                overlapElements.forEach(el => {
+                    const elRect = el.getBoundingClientRect();
+                    if (!(chatRect.right < elRect.left || chatRect.left > elRect.right || chatRect.bottom < elRect.top || chatRect.top > elRect.bottom)) {
+                        isOverlapping = true;
+                    }
+                });
+
+                if (isOverlapping && chatInner && chatTail) {
+                    chatInner.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+                    chatInner.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    chatTail.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+                    chatTail.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                } else if (chatInner && chatTail) {
+                    chatInner.style.backgroundColor = 'rgba(6, 22, 198, 0.6)';
+                    chatInner.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                    chatTail.style.backgroundColor = 'rgba(6, 22, 198, 0.6)';
+                    chatTail.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                }
+            }
+
+            window.addEventListener('scroll', checkChatOverlap);
+            window.addEventListener('resize', checkChatOverlap);
+            if (window.gsap && gsap.ticker) {
+                gsap.ticker.add(checkChatOverlap);
+            }
+
+            const videoModal = document.getElementById('video-modal');
+            const modalIframe = document.getElementById('modal-iframe');
+            const closeModalBtn = document.getElementById('close-modal');
+
+            function initVideoTriggers() {
+                document.querySelectorAll('.video-trigger').forEach(trigger => {
+                    trigger.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const videoId = trigger.getAttribute('data-video-id');
+                        if (modalIframe) modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                        if (videoModal) videoModal.classList.remove('opacity-0', 'pointer-events-none');
+                        document.body.style.overflow = 'hidden';
+                    });
+                });
+            }
+
+            function closeVideoModal() {
+                if (modalIframe) modalIframe.src = '';
+                if (videoModal) videoModal.classList.add('opacity-0', 'pointer-events-none');
+                document.body.style.overflow = '';
+            }
+
+            if (closeModalBtn) closeModalBtn.addEventListener('click', closeVideoModal);
+            if (videoModal) {
+                videoModal.addEventListener('click', (e) => {
+                    if (e.target === videoModal) closeVideoModal();
+                });
+            }
+
+            const passwordModal = document.getElementById('password-modal');
+            const passwordForm = document.getElementById('password-form');
+            const adminPasswordInput = document.getElementById('admin-password');
+            const closePasswordBtn = document.getElementById('close-password');
+            
+            const cmsModal = document.getElementById('cms-modal');
+            const closeCmsBtn = document.getElementById('close-cms');
+            const saveCmsBtn = document.getElementById('cms-save');
+            const resetCmsBtn = document.getElementById('cms-reset');
+            const addItemBtn = document.getElementById('cms-add-item');
+
+            let typedBuffer = "";
+
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeVideoModal();
+                    closeCmsModal();
+                    if (passwordModal) passwordModal.classList.add('opacity-0', 'pointer-events-none');
+                    closeChatModal();
+                }
+
+                if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+                    typedBuffer += e.key.toLowerCase();
+                    if (typedBuffer.length > 20) typedBuffer = typedBuffer.slice(-20);
+                    if (typedBuffer.includes(SECRET_KEYWORD.toLowerCase())) {
+                        typedBuffer = "";
+                        requestPasswordPrompt();
+                    }
+                }
+            });
+
+            function requestPasswordPrompt() {
+                if (!adminPasswordInput || !passwordModal) return;
+                adminPasswordInput.value = '';
+                passwordModal.classList.remove('opacity-0', 'pointer-events-none');
+                adminPasswordInput.focus();
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closePasswordModal() {
+                if (passwordModal) passwordModal.classList.add('opacity-0', 'pointer-events-none');
+                document.body.style.overflow = '';
+            }
+
+            if (closePasswordBtn) closePasswordBtn.addEventListener('click', closePasswordModal);
+
+            if (passwordForm) {
+                passwordForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if (adminPasswordInput && adminPasswordInput.value === ADMIN_PASSWORD) {
+                        closePasswordModal();
+                        openCmsModal();
+                    } else {
+                        showToast('Incorrect Password!');
+                        if (adminPasswordInput) adminPasswordInput.value = '';
+                    }
+                });
+            }
+
+            function openCmsModal() {
+                if (!cmsModal) return;
+                const rrTitle = document.getElementById('cms-rr-title');
+                const rrId = document.getElementById('cms-rr-id');
+                const rrLink = document.getElementById('cms-rr-link');
+                if (rrTitle) rrTitle.value = cmsData.recentRelease.title;
+                if (rrId) rrId.value = cmsData.recentRelease.videoId;
+                if (rrLink) rrLink.value = cmsData.recentRelease.link;
+                renderCmsWorksList();
+                cmsModal.classList.remove('opacity-0', 'pointer-events-none');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeCmsModal() {
+                if (cmsModal) cmsModal.classList.add('opacity-0', 'pointer-events-none');
+                document.body.style.overflow = '';
+            }
+
+            if (closeCmsBtn) closeCmsBtn.addEventListener('click', closeCmsModal);
+
+            function renderCmsWorksList() {
+                const container = document.getElementById('cms-items-container');
+                const countEl = document.getElementById('cms-count');
+                if (!container || !countEl) return;
+                countEl.textContent = cmsData.works.length;
+                let html = '';
+                cmsData.works.forEach((w, index) => {
+                    html += `
+                        <div class="bg-black/60 border border-white/10 p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-center justify-between" data-index="${index}">
+                            <div class="grid grid-cols-2 md:grid-cols-5 gap-2 w-full">
+                                <input type="text" class="cms-title bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.title}" placeholder="Title">
+                                <input type="text" class="cms-artist bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.artist}" placeholder="Artist">
+                                <input type="text" class="cms-year bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.year}" placeholder="Year">
+                                <input type="text" class="cms-id bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.videoId}" placeholder="YouTube ID">
+                                <select class="cms-row bg-black border border-white/20 rounded-xl px-3 py-2 text-xs text-white">
+                                    <option value="1" ${w.row==1?'selected':''}>Row 1 (Top)</option>
+                                    <option value="2" ${w.row==2?'selected':''}>Row 2 (Mid)</option>
+                                    <option value="3" ${w.row==3?'selected':''}>Row 3 (Btm)</option>
+                                </select>
+                            </div>
+                            <button class="cms-del bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white px-3 py-2 rounded-xl text-xs font-mono transition-colors shrink-0">DELETE</button>
                         </div>
                     `;
                 });
-                return subHtml;
-            }
+                container.innerHTML = html;
 
-            html += renderRows(row1, 14);
-            html += renderRows(row2, 41);
-            html += renderRows(row3, 68);
-
-            const maxItems = Math.max(row1.length, row2.length, row3.length);
-            const dynamicWidth = 110 + ((maxItems - 1) * 18) + 60 + 200; 
-            track.style.width = `${dynamicWidth}vw`;
-            track.innerHTML = html;
-            
-            initVideoTriggers();
-            initGalleryInteractions();
-            initIdleFloat();
-        }
-
-        renderRecentRelease();
-        renderSelectedWorks();
-
-        function createSlotText() {
-            document.querySelectorAll('.velocity-line').forEach(line => {
-                const text = line.getAttribute('data-text');
-                line.innerHTML = '';
-                text.split('').forEach(char => {
-                    if (char === ' ') {
-                        const space = document.createElement('span');
-                        space.className = 'inline-block w-[0.3em]';
-                        line.appendChild(space);
-                        return;
-                    }
-                    const wrapper = document.createElement('span');
-                    wrapper.className = 'slot-wrapper';
-
-                    const track = document.createElement('div');
-                    track.className = 'slot-track';
-                    track.dataset.orig = char;
-
-                    const letters = [char, char, char, char, char];
-
-                    letters.forEach(l => {
-                        const span = document.createElement('span');
-                        span.className = 'slot-char';
-                        span.textContent = l;
-                        track.appendChild(span);
+                container.querySelectorAll('.cms-del').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const idx = parseInt(e.target.closest('[data-index]').getAttribute('data-index'));
+                        cmsData.works.splice(idx, 1);
+                        renderCmsWorksList();
                     });
-
-                    wrapper.appendChild(track);
-                    line.appendChild(wrapper);
                 });
-            });
-        }
-        createSlotText();
-
-        const chatBalloon = document.getElementById('chat-balloon');
-        const chatModal = document.getElementById('chat-modal');
-        const closeChatBtn = document.getElementById('close-chat');
-        const chatForm = document.getElementById('contact-chat-form');
-
-        function openChatModal() {
-            chatBalloon.classList.add('opacity-0', 'pointer-events-none', 'scale-75');
-            chatModal.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-8', 'scale-95');
-        }
-
-        function closeChatModal() {
-            chatModal.classList.add('opacity-0', 'pointer-events-none', 'translate-y-8', 'scale-95');
-            chatBalloon.classList.remove('opacity-0', 'pointer-events-none', 'scale-75');
-        }
-
-        chatBalloon.addEventListener('click', openChatModal);
-        closeChatBtn.addEventListener('click', closeChatModal);
-
-        chatForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = document.getElementById('chat-submit-btn');
-            submitBtn.textContent = "SENDING...";
-
-            const formData = new FormData(chatForm);
-            const object = Object.fromEntries(formData);
-            const json = JSON.stringify(object);
-
-            try {
-                const response = await fetch("https://api.web3forms.com/submit", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-                    body: json
-                });
-                const result = await response.json();
-                if (result.success) {
-                    showToast("Pesan berhasil terkirim ke Simbion Film!");
-                    chatForm.reset();
-                    closeChatModal();
-                } else {
-                    showToast("Gagal mengirim pesan. Silakan coba lagi.");
-                }
-            } catch (error) {
-                console.error(error);
-                showToast("Terjadi kesalahan koneksi.");
-            } finally {
-                submitBtn.textContent = "SEND MESSAGE";
-            }
-        });
-
-        const chatInner = document.getElementById('chat-balloon-inner');
-        const chatTail = document.getElementById('chat-balloon-tail');
-
-        function checkChatOverlap() {
-            if (!chatBalloon || chatBalloon.classList.contains('opacity-0')) return;
-            const chatRect = chatBalloon.getBoundingClientRect();
-            const overlapElements = document.querySelectorAll('.gallery-item, .parallax-hero img, #hero img');
-            let isOverlapping = false;
-            overlapElements.forEach(el => {
-                const elRect = el.getBoundingClientRect();
-                if (!(chatRect.right < elRect.left || chatRect.left > elRect.right || chatRect.bottom < elRect.top || chatRect.top > elRect.bottom)) {
-                    isOverlapping = true;
-                }
-            });
-
-            if (isOverlapping) {
-                chatInner.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
-                chatInner.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                chatTail.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
-                chatTail.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-            } else {
-                chatInner.style.backgroundColor = 'rgba(6, 22, 198, 0.6)';
-                chatInner.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-                chatTail.style.backgroundColor = 'rgba(6, 22, 198, 0.6)';
-                chatTail.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-            }
-        }
-
-        window.addEventListener('scroll', checkChatOverlap);
-        window.addEventListener('resize', checkChatOverlap);
-        gsap.ticker.add(checkChatOverlap);
-
-        const videoModal = document.getElementById('video-modal');
-        const modalIframe = document.getElementById('modal-iframe');
-        const closeModalBtn = document.getElementById('close-modal');
-
-        function initVideoTriggers() {
-            document.querySelectorAll('.video-trigger').forEach(trigger => {
-                trigger.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const videoId = trigger.getAttribute('data-video-id');
-                    modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-                    videoModal.classList.remove('opacity-0', 'pointer-events-none');
-                    document.body.style.overflow = 'hidden';
-                });
-            });
-        }
-
-        function closeVideoModal() {
-            modalIframe.src = '';
-            videoModal.classList.add('opacity-0', 'pointer-events-none');
-            document.body.style.overflow = '';
-        }
-
-        closeModalBtn.addEventListener('click', closeVideoModal);
-        videoModal.addEventListener('click', (e) => {
-            if (e.target === videoModal) closeVideoModal();
-        });
-
-        const passwordModal = document.getElementById('password-modal');
-        const passwordForm = document.getElementById('password-form');
-        const adminPasswordInput = document.getElementById('admin-password');
-        const closePasswordBtn = document.getElementById('close-password');
-        
-        const cmsModal = document.getElementById('cms-modal');
-        const closeCmsBtn = document.getElementById('close-cms');
-        const saveCmsBtn = document.getElementById('cms-save');
-        const resetCmsBtn = document.getElementById('cms-reset');
-        const addItemBtn = document.getElementById('cms-add-item');
-
-        let typedBuffer = "";
-
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeVideoModal();
-                closeCmsModal();
-                closePasswordModal();
-                closeChatModal();
             }
 
-            if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-                typedBuffer += e.key.toLowerCase();
-                if (typedBuffer.length > 20) typedBuffer = typedBuffer.slice(-20);
-                if (typedBuffer.includes(SECRET_KEYWORD.toLowerCase())) {
-                    typedBuffer = "";
-                    requestPasswordPrompt();
-                }
-            }
-        });
-
-        function requestPasswordPrompt() {
-            adminPasswordInput.value = '';
-            passwordModal.classList.remove('opacity-0', 'pointer-events-none');
-            adminPasswordInput.focus();
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closePasswordModal() {
-            passwordModal.classList.add('opacity-0', 'pointer-events-none');
-            document.body.style.overflow = '';
-        }
-
-        closePasswordBtn.addEventListener('click', closePasswordModal);
-
-        passwordForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (adminPasswordInput.value === ADMIN_PASSWORD) {
-                closePasswordModal();
-                openCmsModal();
-            } else {
-                showToast('Incorrect Password!');
-                adminPasswordInput.value = '';
-            }
-        });
-
-        function openCmsModal() {
-            document.getElementById('cms-rr-title').value = cmsData.recentRelease.title;
-            document.getElementById('cms-rr-id').value = cmsData.recentRelease.videoId;
-            document.getElementById('cms-rr-link').value = cmsData.recentRelease.link;
-            renderCmsWorksList();
-            cmsModal.classList.remove('opacity-0', 'pointer-events-none');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeCmsModal() {
-            cmsModal.classList.add('opacity-0', 'pointer-events-none');
-            document.body.style.overflow = '';
-        }
-
-        closeCmsBtn.addEventListener('click', closeCmsModal);
-
-        function renderCmsWorksList() {
-            const container = document.getElementById('cms-items-container');
-            document.getElementById('cms-count').textContent = cmsData.works.length;
-            let html = '';
-            cmsData.works.forEach((w, index) => {
-                html += `
-                    <div class="bg-black/60 border border-white/10 p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-center justify-between" data-index="${index}">
-                        <div class="grid grid-cols-2 md:grid-cols-5 gap-2 w-full">
-                            <input type="text" class="cms-title bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.title}" placeholder="Title">
-                            <input type="text" class="cms-artist bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.artist}" placeholder="Artist">
-                            <input type="text" class="cms-year bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.year}" placeholder="Year">
-                            <input type="text" class="cms-id bg-black border border-white/20 rounded-xl px-3 py-2 text-xs" value="${w.videoId}" placeholder="YouTube ID">
-                            <select class="cms-row bg-black border border-white/20 rounded-xl px-3 py-2 text-xs text-white">
-                                <option value="1" ${w.row==1?'selected':''}>Row 1 (Top)</option>
-                                <option value="2" ${w.row==2?'selected':''}>Row 2 (Mid)</option>
-                                <option value="3" ${w.row==3?'selected':''}>Row 3 (Btm)</option>
-                            </select>
-                        </div>
-                        <button class="cms-del bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white px-3 py-2 rounded-xl text-xs font-mono transition-colors shrink-0">DELETE</button>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-
-            container.querySelectorAll('.cms-del').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const idx = parseInt(e.target.closest('[data-index]').getAttribute('data-index'));
-                    cmsData.works.splice(idx, 1);
+            if (addItemBtn) {
+                addItemBtn.addEventListener('click', () => {
+                    cmsData.works.push({ title: "NEW WORK", artist: "ARTIST", year: "2026", videoId: "7KA1LaIy804", row: 1 });
                     renderCmsWorksList();
+                    const container = document.getElementById('cms-items-container');
+                    if (container) container.scrollTop = container.scrollHeight;
                 });
-            });
-        }
+            }
 
-        addItemBtn.addEventListener('click', () => {
-            cmsData.works.push({ title: "NEW WORK", artist: "ARTIST", year: "2026", videoId: "7KA1LaIy804", row: 1 });
-            renderCmsWorksList();
-            const container = document.getElementById('cms-items-container');
-            container.scrollTop = container.scrollHeight;
-        });
+            if (saveCmsBtn) {
+                saveCmsBtn.addEventListener('click', () => {
+                    const rrTitle = document.getElementById('cms-rr-title');
+                    const rrId = document.getElementById('cms-rr-id');
+                    const rrLink = document.getElementById('cms-rr-link');
+                    if (rrTitle) cmsData.recentRelease.title = rrTitle.value;
+                    if (rrId) cmsData.recentRelease.videoId = rrId.value;
+                    if (rrLink) cmsData.recentRelease.link = rrLink.value;
 
-        saveCmsBtn.addEventListener('click', () => {
-            cmsData.recentRelease.title = document.getElementById('cms-rr-title').value;
-            cmsData.recentRelease.videoId = document.getElementById('cms-rr-id').value;
-            cmsData.recentRelease.link = document.getElementById('cms-rr-link').value;
+                    const itemNodes = document.querySelectorAll('#cms-items-container > div');
+                    cmsData.works = [];
+                    itemNodes.forEach(node => {
+                        cmsData.works.push({
+                            title: node.querySelector('.cms-title').value,
+                            artist: node.querySelector('.cms-artist').value,
+                            year: node.querySelector('.cms-year').value,
+                            videoId: node.querySelector('.cms-id').value,
+                            row: parseInt(node.querySelector('.cms-row').value)
+                        });
+                    });
 
-            const itemNodes = document.querySelectorAll('#cms-items-container > div');
-            cmsData.works = [];
-            itemNodes.forEach(node => {
-                cmsData.works.push({
-                    title: node.querySelector('.cms-title').value,
-                    artist: node.querySelector('.cms-artist').value,
-                    year: node.querySelector('.cms-year').value,
-                    videoId: node.querySelector('.cms-id').value,
-                    row: parseInt(node.querySelector('.cms-row').value)
+                    localStorage.setItem('simbion_cms', JSON.stringify(cmsData));
+                    renderRecentRelease();
+                    renderSelectedWorks();
+                    closeCmsModal();
+                    window.location.reload();
                 });
+            }
+
+            if (resetCmsBtn) {
+                resetCmsBtn.addEventListener('click', () => {
+                    showConfirm("Reset Defaults", "Reset all items to default?", () => {
+                        localStorage.removeItem('simbion_cms');
+                        cmsData = JSON.parse(JSON.stringify(defaultCMS));
+                        renderRecentRelease();
+                        renderSelectedWorks();
+                        closeCmsModal();
+                        window.location.reload();
+                    });
+                });
+            }
+
+            const lenis = new Lenis({
+                duration: 3.0, 
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+                direction: 'vertical',
+                smooth: true,
+                smoothTouch: false,
             });
-
-            localStorage.setItem('simbion_cms', JSON.stringify(cmsData));
-            renderRecentRelease();
-            renderSelectedWorks();
-            closeCmsModal();
-            window.location.reload();
-        });
-
-        resetCmsBtn.addEventListener('click', () => {
-            showConfirm("Reset Defaults", "Reset all items to default?", () => {
-                localStorage.removeItem('simbion_cms');
-                cmsData = JSON.parse(JSON.stringify(defaultCMS));
-                renderRecentRelease();
-                renderSelectedWorks();
-                closeCmsModal();
-                window.location.reload();
-            });
-        });
-
-        const lenis = new Lenis({
-            duration: 3.0, 
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
-            direction: 'vertical',
-            smooth: true,
-            smoothTouch: false,
-        });
-        
-        let targetVel = 0;
-        let currentVel = 0;
-        let frameCount = 0;
-
-        lenis.on('scroll', (e) => {
-            ScrollTrigger.update();
-            const vel = e.velocity || 0;
-            targetVel = Math.abs(vel);
-        });
-
-        gsap.ticker.add((time) => {
-            lenis.raf(time * 1000);
             
-            currentVel += (targetVel - currentVel) * 0.04;
-            targetVel *= 0.85;
+            let targetVel = 0;
+            let currentVel = 0;
+            let frameCount = 0;
 
-            frameCount++;
-            if (frameCount % 16 === 0) {
-                const tracks = document.querySelectorAll('.slot-track');
-                tracks.forEach(track => {
-                    if (currentVel > 0.12) {
-                        if (Math.random() < 0.10) {
-                            const randomShift = (Math.floor(Math.random() * 3)) * -1;
-                            track.style.transform = `translateY(${randomShift * 1.25}em)`;
+            lenis.on('scroll', (e) => {
+                ScrollTrigger.update();
+                const vel = e.velocity || 0;
+                targetVel = Math.abs(vel);
+            });
+
+            gsap.ticker.add((time) => {
+                lenis.raf(time * 1000);
+                
+                currentVel += (targetVel - currentVel) * 0.04;
+                targetVel *= 0.85;
+
+                frameCount++;
+                if (frameCount % 16 === 0) {
+                    const tracks = document.querySelectorAll('.slot-track');
+                    tracks.forEach(track => {
+                        if (currentVel > 0.12) {
+                            if (Math.random() < 0.10) {
+                                const randomShift = (Math.floor(Math.random() * 3)) * -1;
+                                track.style.transform = `translateY(${randomShift * 1.25}em)`;
+                            }
+                        } else {
+                            track.style.transform = `translateY(0em)`;
                         }
-                    } else {
-                        track.style.transform = `translateY(0em)`;
+                    });
+                }
+            });
+            gsap.ticker.lagSmoothing(0);
+
+            const soulTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#the-soul",
+                    start: "top 75%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            soulTl.to("#soul-title", { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
+                  .to("#soul-desc", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
+                  .to(".bts-enter", { opacity: 1, duration: 1.2, ease: "power3.out" }, "-=0.6");
+
+            const marqueeTrack = document.getElementById('marquee-track');
+            if (marqueeTrack) {
+                gsap.to(marqueeTrack, {
+                    xPercent: -50,
+                    duration: 40,
+                    ease: "none",
+                    repeat: -1
+                });
+            }
+
+            function initBTSFloat() {
+                gsap.utils.toArray('.bts-float').forEach((el) => {
+                    gsap.to(el, {
+                        y: "random(-12, 12)",
+                        x: "random(-8, 8)",
+                        rotation: "random(-5, 5)",
+                        duration: "random(3, 5)",
+                        ease: "sine.inOut",
+                        repeat: -1,
+                        yoyo: true
+                    });
+                });
+            }
+            initBTSFloat();
+
+            const heroTl = gsap.timeline();
+            heroTl.to('.hero-fade', {
+                opacity: 1, y: 0, duration: 1.2, ease: "power3.out", stagger: 0.15, delay: 0.3
+            });
+            
+            gsap.to('.parallax-hero', {
+                yPercent: 30, rotation: 2, ease: "none",
+                scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 1.5 }
+            });
+
+            gsap.to('#hero', {
+                yPercent: 100,
+                opacity: 0,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#hero",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+            
+            gsap.to('#progress-bar', {
+                scaleX: 1, ease: "none",
+                scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.1 }
+            });
+
+            const filmTrack = document.getElementById("film-track");
+
+            if (filmTrack) {
+                const trackTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: "#selected-work",
+                        start: "top top",
+                        end: () => "+=" + (filmTrack.scrollWidth * 1.6), 
+                        scrub: 2.5, 
+                        pin: true, 
+                        invalidateOnRefresh: true
                     }
                 });
-            }
-        });
-        gsap.ticker.lagSmoothing(0);
 
-        const soulTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: "#the-soul",
-                start: "top 75%",
-                toggleActions: "play none none reverse"
-            }
-        });
-
-        soulTl.to("#soul-title", { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
-              .to("#soul-desc", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
-              .to(".bts-enter", { opacity: 1, duration: 1.2, ease: "power3.out" }, "-=0.6");
-
-        const marqueeTrack = document.getElementById('marquee-track');
-        if (marqueeTrack) {
-            gsap.to(marqueeTrack, {
-                xPercent: -50,
-                duration: 40,
-                ease: "none",
-                repeat: -1
-            });
-        }
-
-        function initBTSFloat() {
-            gsap.utils.toArray('.bts-float').forEach((el) => {
-                gsap.to(el, {
-                    y: "random(-12, 12)",
-                    x: "random(-8, 8)",
-                    rotation: "random(-5, 5)",
-                    duration: "random(3, 5)",
-                    ease: "sine.inOut",
-                    repeat: -1,
-                    yoyo: true
+                trackTl.to(filmTrack, {
+                    x: () => -(filmTrack.scrollWidth - window.innerWidth), 
+                    ease: "none",
+                    duration: 1
                 });
-            });
-        }
-        initBTSFloat();
-
-        const heroTl = gsap.timeline();
-        heroTl.to('.hero-fade', {
-            opacity: 1, y: 0, duration: 1.2, ease: "power3.out", stagger: 0.15, delay: 0.3
-        });
-        
-        gsap.to('.parallax-hero', {
-            yPercent: 30, rotation: 2, ease: "none",
-            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 1.5 }
-        });
-
-        gsap.to('#hero', {
-            yPercent: 100,
-            opacity: 0,
-            ease: "none",
-            scrollTrigger: {
-                trigger: "#hero",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
             }
-        });
-        
-        gsap.to('#progress-bar', {
-            scaleX: 1, ease: "none",
-            scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.1 }
-        });
 
-        const filmTrack = document.getElementById("film-track");
-
-        const trackTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: "#selected-work",
-                start: "top top",
-                end: () => "+=" + (filmTrack.scrollWidth * 1.6), 
-                scrub: 2.5, 
-                pin: true, 
-                invalidateOnRefresh: true
-            }
-        });
-
-        trackTl.to(filmTrack, {
-            x: () => -(filmTrack.scrollWidth - window.innerWidth), 
-            ease: "none",
-            duration: 1
-        });
-
-        gsap.to("#selected-title", {
-            opacity: 0,
-            y: -25,
-            ease: "power1.out",
-            scrollTrigger: {
-                trigger: "#selected-work",
-                start: "top top",
-                end: "+=350",
-                scrub: true
-            }
-        });
-
-        const wrapper = document.getElementById('selected-work');
-        const parallaxWraps = gsap.utils.toArray(".parallax-wrap");
-        wrapper.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 2;
-            const y = (e.clientY / window.innerHeight - 0.5) * 2;
-            parallaxWraps.forEach((wrap) => {
-                const mx = parseFloat(wrap.getAttribute("data-mx")) || 0;
-                const my = parseFloat(wrap.getAttribute("data-my")) || 0;
-                gsap.to(wrap, { x: x * mx * 8, y: y * my * 8, duration: 1, ease: "power2.out", overwrite: "auto" });
-            });
-        });
-
-        function initGalleryInteractions() {
-            const galleryItems = document.querySelectorAll('.gallery-item');
-            galleryItems.forEach((item, index) => {
-                const inner = item.querySelector('.gallery-item-inner');
-                item.addEventListener('mouseenter', () => {
-                    gsap.set(item, { zIndex: 100 });
-                    gsap.to(inner, { scale: 1.5, duration: 0.8, ease: "power3.out", overwrite: "auto" });
-
-                    const isMobile = window.innerWidth < 768;
-                    const pushVal = isMobile ? 12 : 8; 
-
-                    galleryItems.forEach((other, otherIndex) => {
-                        if (otherIndex !== index) {
-                            const pushAmount = otherIndex < index ? `-${pushVal}vw` : `${pushVal}vw`;
-                            gsap.to(other, { x: pushAmount, duration: 0.8, ease: "power3.out", overwrite: "auto" });
-                        }
-                    });
-                });
-                item.addEventListener('mouseleave', () => {
-                    gsap.to(inner, { 
-                        scale: 1, duration: 0.8, ease: "power3.out", overwrite: "auto",
-                        onComplete: () => gsap.set(item, { zIndex: 10 }) 
-                    });
-                    galleryItems.forEach((other) => {
-                        gsap.to(other, { x: "0vw", duration: 0.8, ease: "power3.out", overwrite: "auto" });
-                    });
-                });
-            });
-        }
-        initGalleryInteractions();
-
-        gsap.utils.toArray('.contact-title-line').forEach(line => {
-            gsap.fromTo(line,
-                { y: "110%", filter: "blur(10px)", scale: 1.2 },
-                {
-                    scrollTrigger: { trigger: "#contact", start: "top 75%" },
-                    y: "0%", filter: "blur(0px)", scale: 1, duration: 1.5, ease: "power4.out", stagger: 0.1
+            gsap.to("#selected-title", {
+                opacity: 0,
+                y: -25,
+                ease: "power1.out",
+                scrollTrigger: {
+                    trigger: "#selected-work",
+                    start: "top top",
+                    end: "+=350",
+                    scrub: term => term // scrub true
                 }
-            );
-        });
-        
-        gsap.to('.reveal-quote', {
-            scrollTrigger: { trigger: '.reveal-quote', start: "top 90%" },
-            y: 0, opacity: 1, duration: 1.5, ease: "expo.out"
+            });
+
+            const wrapper = document.getElementById('selected-work');
+            const parallaxWraps = gsap.utils.toArray(".parallax-wrap");
+            if (wrapper) {
+                wrapper.addEventListener('mousemove', (e) => {
+                    const x = (e.clientX / window.innerWidth - 0.5) * 2;
+                    const y = (e.clientY / window.innerHeight - 0.5) * 2;
+                    parallaxWraps.forEach((wrap) => {
+                        const mx = parseFloat(wrap.getAttribute("data-mx")) || 0;
+                        const my = parseFloat(wrap.getAttribute("data-my")) || 0;
+                        gsap.to(wrap, { x: x * mx * 8, y: y * my * 8, duration: 1, ease: "power2.out", overwrite: "auto" });
+                    });
+                });
+            }
+
+            function initGalleryInteractions() {
+                const galleryItems = document.querySelectorAll('.gallery-item');
+                galleryItems.forEach((item, index) => {
+                    const inner = item.querySelector('.gallery-item-inner');
+                    if (!inner) return;
+                    item.addEventListener('mouseenter', () => {
+                        gsap.set(item, { zIndex: 100 });
+                        gsap.to(inner, { scale: 1.5, duration: 0.8, ease: "power3.out", overwrite: "auto" });
+
+                        const isMobile = window.innerWidth < 768;
+                        const pushVal = isMobile ? 12 : 8; 
+
+                        galleryItems.forEach((other, otherIndex) => {
+                            if (otherIndex !== index) {
+                                const pushAmount = otherIndex < index ? `-${pushVal}vw` : `${pushVal}vw`;
+                                gsap.to(other, { x: pushAmount, duration: 0.8, ease: "power3.out", overwrite: "auto" });
+                            }
+                        });
+                    });
+                    item.addEventListener('mouseleave', () => {
+                        gsap.to(inner, { 
+                            scale: 1, duration: 0.8, ease: "power3.out", overwrite: "auto",
+                            onComplete: () => gsap.set(item, { zIndex: 10 }) 
+                        });
+                        galleryItems.forEach((other) => {
+                            gsap.to(other, { x: "0vw", duration: 0.8, ease: "power3.out", overwrite: "auto" });
+                        });
+                    });
+                });
+            }
+            initGalleryInteractions();
+
+            gsap.utils.toArray('.contact-title-line').forEach(line => {
+                gsap.fromTo(line,
+                    { y: "110%", filter: "blur(10px)", scale: 1.2 },
+                    {
+                        scrollTrigger: { trigger: "#contact", start: "top 75%" },
+                        y: "0%", filter: "blur(0px)", scale: 1, duration: 1.5, ease: "power4.out", stagger: 0.1
+                    }
+                );
+            });
+            
+            gsap.to('.reveal-quote', {
+                scrollTrigger: { trigger: '.reveal-quote', start: "top 90%" },
+                y: 0, opacity: 1, duration: 1.5, ease: "expo.out"
+            });
         });
     </script>
 </body>
 </html>
-```eof
