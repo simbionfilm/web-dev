@@ -358,8 +358,8 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:2. About (Matching Project Fit layout & hover animation) -->
-    <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-center px-8 md:px-24 z-25 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+    <!-- STREAMING_CHUNK:2. About (Covering Hero as it scrolls up) -->
+    <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-center px-8 md:px-24 z-30 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
         <div class="relative w-full max-w-[52vw] md:max-w-[48vw] lg:max-w-[44vw] my-auto flex flex-col z-20">
             <p id="about-desc-text" class="interactive-el text-[4.4vw] md:text-[22px] lg:text-[26.5px] xl:text-[33px] font-bold uppercase tracking-tight text-white leading-snug md:leading-tight text-justify drop-shadow-md">
                 SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA. WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US. WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.
@@ -368,7 +368,7 @@
     </section>
 
     <!-- STREAMING_CHUNK:3. We Are What We've Made -->
-    <section id="we-are-made" class="relative w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-8 md:px-24 z-30 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] overflow-hidden">
+    <section id="we-are-made" class="relative w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-8 md:px-24 z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] overflow-hidden">
         <div class="we-are-container relative z-10 my-auto flex flex-col items-center justify-center gap-2 md:gap-4 select-none w-full max-w-7xl">
             <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask">
                 <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-white italic transform -rotate-1">WE</span></div>
@@ -383,7 +383,7 @@
     </section>
 
     <!-- STREAMING_CHUNK:4. Selected Work -->
-    <section id="selected-work" class="relative bg-black z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] w-full h-[100dvh] overflow-hidden flex flex-col">
+    <section id="selected-work" class="relative bg-black z-45 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] w-full h-[100dvh] overflow-hidden flex flex-col">
         <div class="absolute top-20 md:top-24 left-6 md:left-12 z-50 pointer-events-none">
             <div id="selected-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase pointer-events-auto w-fit drop-shadow-lg">
                 <div class="velocity-line interactive-el hover-text-fx" data-text="SELECTED"></div>
@@ -396,7 +396,7 @@
     </section>
 
     <!-- STREAMING_CHUNK:5. BTS (The Soul) -->
-    <section id="the-soul" class="relative w-full min-h-[120dvh] bg-black text-white flex flex-col justify-center px-0 py-24 z-45 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+    <section id="the-soul" class="relative w-full min-h-[120dvh] bg-black text-white flex flex-col justify-center px-0 py-24 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
         <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 mb-16 lg:mb-24">
             <div class="w-full relative">
                 <div class="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-20">
@@ -524,7 +524,7 @@
     </section>
 
     <!-- STREAMING_CHUNK:6. Every project deserves its own fit... -->
-    <section id="project-fit" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-center px-8 md:px-24 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+    <section id="project-fit" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-center px-8 md:px-24 z-55 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
         <div class="relative w-full max-w-[52vw] md:max-w-[48vw] lg:max-w-[44vw] my-auto flex flex-col z-20">
             <p id="fit-desc-text" class="interactive-el text-[4.4vw] md:text-[22px] lg:text-[26.5px] xl:text-[33px] font-bold uppercase tracking-tight text-white leading-snug md:leading-tight text-justify drop-shadow-md">
                 EVERY PROJECT DESERVES ITS OWN FIT. WE TAILOR EACH ONE FROM SCRATCH, CAREFULLY STITCHING EVERY FRAME TOGETHER WITH PASSION, PURPOSE, AND DEDICATION. WE BELIEVE GREAT WORK COMES FROM BRINGING TOGETHER THE RIGHT PEOPLE, IDEAS, AND PERSPECTIVES THAT ALIGN WITH THE VISION. EVERY DETAIL MATTERS, EVERY FRAME HAS A PURPOSE, AND EVERY PROJECT DESERVES THE CARE TO MAKE IT FEEL TRULY ITS OWN.
@@ -1191,18 +1191,21 @@
                 scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 1.5 }
             });
 
-            // Hero to About transition animation
-            gsap.to('#hero', {
-                yPercent: 100,
-                opacity: 0,
-                ease: "none",
+            // Hero to About Card-Stacking Transition: Hero pinned while About slides up to cover it
+            gsap.timeline({
                 scrollTrigger: {
                     trigger: "#hero",
                     start: "top top",
-                    end: "bottom top",
+                    end: "+=100%",
+                    pin: true,
+                    pinSpacing: false,
                     scrub: true
                 }
-            });
+            })
+            .fromTo("#about", 
+                { yPercent: 100 }, 
+                { yPercent: 0, ease: "none" }
+            );
 
             gsap.to('#progress-bar', {
                 scaleX: 1, ease: "none",
