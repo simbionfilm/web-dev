@@ -358,10 +358,10 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:2. About (Covering Hero as it scrolls up) -->
-    <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-center px-8 md:px-24 z-30 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
-        <div class="relative w-full max-w-[52vw] md:max-w-[48vw] lg:max-w-[44vw] my-auto flex flex-col z-20">
-            <p id="about-desc-text" class="interactive-el text-[4.4vw] md:text-[22px] lg:text-[26.5px] xl:text-[33px] font-bold uppercase tracking-tight text-white leading-snug md:leading-tight text-justify drop-shadow-md">
+    <!-- STREAMING_CHUNK:2. About (Right-aligned, controlled smooth page-filling scroll) -->
+    <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-end px-8 md:px-20 lg:px-32 z-30 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+        <div class="relative w-full max-w-[50vw] md:max-w-[42vw] lg:max-w-[38vw] my-auto flex flex-col z-20">
+            <p id="about-desc-text" class="interactive-el text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug md:leading-snug text-left drop-shadow-md">
                 SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA. WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US. WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.
             </p>
         </div>
@@ -1206,6 +1206,16 @@
                 { yPercent: 100 }, 
                 { yPercent: 0, ease: "none" }
             );
+
+            // Controlled Pinning for About so it fills the page smoothly during scroll
+            ScrollTrigger.create({
+                trigger: "#about",
+                start: "top top",
+                end: "+=80%",
+                pin: true,
+                pinSpacing: true,
+                scrub: true
+            });
 
             gsap.to('#progress-bar', {
                 scaleX: 1, ease: "none",
