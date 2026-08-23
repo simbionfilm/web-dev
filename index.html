@@ -117,7 +117,7 @@
             display: flex;
             flex-direction: column;
             will-change: transform;
-            transition: transform 2.0s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .slot-char {
             display: block;
@@ -1076,59 +1076,56 @@
 
             if (resetCmsBtn) {
                 resetCmsBtn.addEventListener('click', () => {
-                    showConfirm("Reset Defaults", "Reset all items to default? This cannot be undone.", () => {
+                    showConfirm("Reset Defaults", "Reset all items to default?", () => {
                         localStorage.removeItem('simbion_cms');
                         cmsData = JSON.parse(JSON.stringify(defaultCMS));
                         renderRecentRelease();
                         renderSelectedWorks();
                         closeCmsModal();
-                        setTimeout(() => window.location.reload(), 350);
+                        window.location.reload();
                     });
                 });
             }
 
             const lenis = new Lenis({
-                duration: 2.0, // Tweaked for slightly punchier, more responsive smooth scroll
+                duration: 3.0, 
                 easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
                 direction: 'vertical',
                 smooth: true,
                 smoothTouch: false,
             });
             
-            let targetVel = 0;
-            let currentVel = 0;
+            let scrollTimeout;
 
             lenis.on('scroll', (e) => {
                 ScrollTrigger.update();
+                
                 const vel = e.velocity || 0;
-                targetVel = Math.abs(vel);
+                const tracks = document.querySelectorAll('.slot-track');
+                
+                // Mulai menggulung huruf jika user melakukan scroll dengan kecepatan tertentu
+                if (Math.abs(vel) > 1.5) {
+                    const dir = vel > 0 ? -1 : 1; 
+                    tracks.forEach((track, i) => {
+                        // Memvariasikan lompatan huruf (1 atau 2 slot) agar terlihat lebih organik
+                        const slots = (i % 2 === 0) ? 2 : 1;
+                        track.style.transform = `translateY(${dir * (slots * 1.25)}em)`;
+                    });
+                }
+
+                // Segera kembalikan ke titik awal (berhenti) ketika deteksi scroll terhenti
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    tracks.forEach(track => {
+                        track.style.transform = `translateY(0em)`;
+                    });
+                }, 100); // Waktu respons 100ms setelah scroll benar-benar diam
             });
 
             gsap.ticker.add((time) => {
                 lenis.raf(time * 1000);
             });
             gsap.ticker.lagSmoothing(0);
-
-            // Slot Track Smoothing Logic (decoupled from direct ticker transform to avoid jitters)
-            setInterval(() => {
-                currentVel += (targetVel - currentVel) * 0.08; // Softer interpolate
-                targetVel *= 0.85; // Slower decay
-
-                const tracks = document.querySelectorAll('.slot-track');
-                if (currentVel > 0.08) {
-                    tracks.forEach(track => {
-                        if (Math.random() < 0.10) { // Less frequent jumping for elegance
-                            const randomShift = Math.floor(Math.random() * 2) + 1; // Limit jump height to 1 or 2 slots
-                            track.style.transform = `translateY(-${randomShift * 1.25}em)`;
-                        }
-                    });
-                } else if (currentVel < 0.05) {
-                    // Smoothly return to 0 when practically stopped
-                    tracks.forEach(track => {
-                        track.style.transform = `translateY(0em)`;
-                    });
-                }
-            }, 50); // Run at 20fps for performance, CSS handles the transition smoothing
 
             const soulTl = gsap.timeline({
                 scrollTrigger: {
