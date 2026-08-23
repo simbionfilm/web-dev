@@ -1,34 +1,4 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMBION FILM | Selected Works</title>
-    
-    <!-- Browser Tab Favicon using orang.png -->
-    <link rel="icon" type="image/png" href="orang.png">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        simbionBlue: '#0616C6',
-                        darkBg: '#000000',
-                        lightText: '#FFFFFF',
-                        mutedText: '#888888',
-                        borderGray: '#222222'
-                    },
-                    fontFamily: {
-                        sans: ['"Google Sans Flex"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-                        display: ['"Google Sans Flex"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
+<!-- ... existing code ... -->
     <style>
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto; }
@@ -83,7 +53,6 @@
             transition: width 0.2s, height 0.2s;
         }
 
-        <!-- STREAMING_CHUNK:Styling header blur mask... -->
         .header-blur-mask {
             position: fixed;
             top: 0;
@@ -107,16 +76,25 @@
             animation: floatSlow 5s ease-in-out infinite;
         }
 
-        <!-- STREAMING_CHUNK:Styling title components without cropping... -->
+        /* STREAMING_CHUNK:Styling slot machine vertical rolling text... */
         .slot-wrapper {
             display: inline-block;
-            overflow: visible;
+            overflow: hidden;
             vertical-align: bottom;
-            padding: 0 0.02em;
+            height: 1em;
+            line-height: 1em;
         }
-        .velocity-char {
-            display: inline-block;
-            will-change: transform, content;
+        .slot-track {
+            display: flex;
+            flex-direction: column;
+            will-change: transform;
+            transition: transform 0.1s ease-out;
+        }
+        .slot-char {
+            display: block;
+            height: 1em;
+            line-height: 1em;
+            text-align: center;
         }
 
         .hover-text-fx {
@@ -481,7 +459,7 @@
     <!-- SECTION: "Selected Works" -->
     <section id="selected-work" class="relative bg-black z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.9)] w-full h-[100dvh] overflow-hidden flex flex-col">
         <div class="absolute top-20 md:top-24 left-6 md:left-12 z-50 pointer-events-none mix-blend-difference">
-            <!-- Container Teks 2 Baris untuk Rolling Text Slot tanpa crop -->
+            <!-- Container Teks 2 Baris untuk Slot Roller Animation -->
             <h2 id="selected-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase pointer-events-auto w-fit">
                 <div class="velocity-line interactive-el hover-text-fx" data-text="SELECTED"></div>
                 <div class="velocity-line interactive-el hover-text-fx" data-text="WORKS"></div>
@@ -495,7 +473,7 @@
     <!-- SECTION: "About Us" -->
     <section id="about" class="relative w-full min-h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-20 py-24 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
         <div class="max-w-6xl w-full mx-auto space-y-12">
-            <!-- Container Teks 2 Baris untuk Rolling Text Slot tanpa crop -->
+            <!-- Container Teks 2 Baris untuk Slot Roller Animation -->
             <h2 id="about-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase mb-12 w-fit">
                 <div class="velocity-line interactive-el hover-text-fx" data-text="ABOUT"></div>
                 <div class="velocity-line interactive-el hover-text-fx" data-text="US"></div>
@@ -665,8 +643,9 @@
         renderRecentRelease();
         renderSelectedWorks();
 
-        <!-- STREAMING_CHUNK:Creating velocity rolling text with sparse random letters... -->
-        function createVelocityText() {
+        /* STREAMING_CHUNK:Creating slot-machine vertical rolling text structures... */
+        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        function createSlotText() {
             document.querySelectorAll('.velocity-line').forEach(line => {
                 const text = line.getAttribute('data-text');
                 line.innerHTML = '';
@@ -679,18 +658,31 @@
                     }
                     const wrapper = document.createElement('span');
                     wrapper.className = 'slot-wrapper';
-                    
-                    const velChar = document.createElement('span');
-                    velChar.className = 'velocity-char scramble-char';
-                    velChar.textContent = char;
-                    velChar.dataset.orig = char;
-                    
-                    wrapper.appendChild(velChar);
+
+                    const track = document.createElement('div');
+                    track.className = 'slot-track';
+                    track.dataset.orig = char;
+
+                    // Buat urutan acak huruf vertikal untuk efek slot roller
+                    const letters = [char];
+                    for (let i = 0; i < 4; i++) {
+                        letters.push(alphabet[Math.floor(Math.random() * alphabet.length)]);
+                    }
+                    letters.push(char); // Tutup dengan huruf asli
+
+                    letters.forEach(l => {
+                        const span = document.createElement('span');
+                        span.className = 'slot-char';
+                        span.textContent = l;
+                        track.appendChild(span);
+                    });
+
+                    wrapper.appendChild(track);
                     line.appendChild(wrapper);
                 });
             });
         }
-        createVelocityText();
+        createSlotText();
 
         const chatBalloon = document.getElementById('chat-balloon');
         const chatModal = document.getElementById('chat-modal');
@@ -960,7 +952,6 @@
         
         let targetVel = 0;
         let currentVel = 0;
-        const scrambleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         lenis.on('scroll', (e) => {
             ScrollTrigger.update();
@@ -968,31 +959,22 @@
             targetVel = Math.abs(vel);
         });
 
-        <!-- STREAMING_CHUNK:Running sparse and random letter scramble ticker responsive to scroll speed... -->
+        /* STREAMING_CHUNK:Running scroll-speed responsive vertical slot roller ticker... */
         gsap.ticker.add((time) => {
             lenis.raf(time * 1000);
             
-            currentVel += (targetVel - currentVel) * 0.1;
-            targetVel *= 0.9;
+            currentVel += (targetVel - currentVel) * 0.15;
+            targetVel *= 0.85;
 
-            const chars = document.querySelectorAll('.scramble-char');
-            if (currentVel > 0.2) {
-                // Sparse random scrambling: only a few characters flicker randomly based on speed
-                chars.forEach(char => {
-                    if (Math.random() < 0.05 * Math.min(currentVel, 5)) {
-                        char.textContent = scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
-                    }
-                });
-            } else {
-                chars.forEach(char => {
-                    const orig = char.dataset.orig;
-                    if (char.textContent !== orig) {
-                        if (Math.random() < 0.3) {
-                            char.textContent = orig;
-                        }
-                    }
-                });
-            }
+            const tracks = document.querySelectorAll('.slot-track');
+            tracks.forEach(track => {
+                if (currentVel > 0.3) {
+                    const randomShift = (Math.floor(Math.random() * 4)) * -1;
+                    track.style.transform = `translateY(${randomShift}em)`;
+                } else {
+                    track.style.transform = `translateY(0em)`;
+                }
+            });
         });
         gsap.ticker.lagSmoothing(0);
 
@@ -1062,7 +1044,7 @@
 
         const filmTrack = document.getElementById("film-track");
 
-        <!-- STREAMING_CHUNK:Configuring timeline for complete thumbnail exit and black page pause... -->
+        /* STREAMING_CHUNK:Configuring timeline for complete thumbnail exit and black page pause... */
         const trackTl = gsap.timeline({
             scrollTrigger: {
                 trigger: "#selected-work",
