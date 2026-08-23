@@ -83,7 +83,7 @@
             transition: width 0.2s, height 0.2s;
         }
 
-        /* Seamless Edge-to-Edge Gradient Glass Header Mask with ~5px Blur & Grayscale */
+        <!-- STREAMING_CHUNK:Styling header blur mask... -->
         .header-blur-mask {
             position: fixed;
             top: 0;
@@ -107,7 +107,7 @@
             animation: floatSlow 5s ease-in-out infinite;
         }
 
-        /* Rolling Slot Text Styles */
+        <!-- STREAMING_CHUNK:Styling rolling text and slot components... -->
         .slot-wrapper {
             display: inline-block;
             overflow: hidden;
@@ -1047,14 +1047,14 @@
 
         const filmTrack = document.getElementById("film-track");
 
-        // Pinned horizontal track with an extended buffer so thumbnails completely clear the screen before unpinning
+        <!-- STREAMING_CHUNK:Initializing horizontal track scroll trigger... -->
         gsap.to(filmTrack, {
             x: () => -(filmTrack.scrollWidth - window.innerWidth),
             ease: "none",
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
-                end: () => "+=" + (filmTrack.scrollWidth - window.innerWidth + window.innerWidth * 0.8), 
+                end: () => "+=" + (filmTrack.scrollWidth - window.innerWidth), 
                 scrub: 1.2, 
                 pin: true, 
                 invalidateOnRefresh: true
@@ -1073,37 +1073,46 @@
             }
         });
 
-        // Tying SELECTED WORKS title roll-up animation directly to scroll progress (scrub)
-        gsap.fromTo("#selected-title .slot-char", 
-            { y: "120%" }, 
-            {
-                y: "0%",
-                ease: "none",
-                stagger: { amount: 0.3 },
-                scrollTrigger: {
-                    trigger: "#selected-work",
-                    start: "top 85%",
-                    end: "top 30%",
-                    scrub: true
-                }
+        <!-- STREAMING_CHUNK:Setting up section title animations... -->
+        ScrollTrigger.create({
+            trigger: "#selected-work",
+            start: "top 80%",
+            onEnter: () => { 
+                gsap.fromTo("#selected-title .slot-char", 
+                    { y: "120%" }, 
+                    {
+                        y: "0%",
+                        duration: () => gsap.utils.random(1.2, 2.0),
+                        ease: "power3.out",
+                        stagger: { amount: 0.6, from: "random" },
+                        overwrite: "auto"
+                    }
+                );
+            },
+            onLeaveBack: () => { 
+                gsap.to("#selected-title .slot-char", { y: "120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
             }
-        );
+        });
 
-        // Tying ABOUT US title roll-up animation directly to scroll progress (scrub)
-        gsap.fromTo("#about-title .slot-char", 
-            { y: "120%" }, 
-            {
-                y: "0%",
-                ease: "none",
-                stagger: { amount: 0.3 },
-                scrollTrigger: {
-                    trigger: "#about",
-                    start: "top 85%",
-                    end: "top 30%",
-                    scrub: true
-                }
+        ScrollTrigger.create({
+            trigger: "#about",
+            start: "top 80%",
+            onEnter: () => { 
+                gsap.fromTo("#about-title .slot-char", 
+                    { y: "120%" }, 
+                    {
+                        y: "0%",
+                        duration: () => gsap.utils.random(1.2, 2.0),
+                        ease: "power3.out",
+                        stagger: { amount: 0.6, from: "random" },
+                        overwrite: "auto"
+                    }
+                );
+            },
+            onLeaveBack: () => { 
+                gsap.to("#about-title .slot-char", { y: "120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
             }
-        );
+        });
 
         const wrapper = document.getElementById('selected-work');
         const parallaxWraps = gsap.utils.toArray(".parallax-wrap");
