@@ -249,12 +249,12 @@
         </div>
     </div>
 
-    <!-- Custom Notification Toast (Replaces alert) -->
+    <!-- Custom Notification Toast -->
     <div id="custom-toast" class="fixed top-8 left-1/2 -translate-x-1/2 z-[350] bg-neutral-900/90 backdrop-blur-xl border border-white/20 text-white px-6 py-3 rounded-2xl shadow-2xl opacity-0 pointer-events-none transition-all duration-300 transform -translate-y-4">
         <span id="toast-message" class="text-xs font-mono uppercase tracking-widest">Notification</span>
     </div>
 
-    <!-- Custom Confirm Modal (Replaces confirm) -->
+    <!-- Custom Confirm Modal -->
     <div id="custom-confirm-modal" class="fixed inset-0 z-[320] bg-black/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
         <div class="bg-neutral-900 border border-white/20 rounded-3xl w-full max-w-sm p-6 text-white text-center shadow-2xl">
             <h3 id="confirm-title" class="font-bold text-base uppercase tracking-wider mb-2">Confirmation</h3>
@@ -343,126 +343,119 @@
     <div id="recent-release-container"></div>
 
     <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center px-6 md:px-16 bg-black z-10 shadow-2xl overflow-hidden">
-        
-        <!-- Right side GIF - Smaller and pushed to background -->
-        <div class="absolute right-4 md:right-[5vw] top-1/2 -translate-y-1/2 w-[55vw] md:w-[32vw] max-w-md parallax-hero z-10 mix-blend-screen opacity-40 md:opacity-60 pointer-events-none">
-            <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-full h-auto object-contain" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
-        </div>
-
-        <!-- Left side Dynamic Paragraph block with kinetic word shifting on scroll -->
-        <div class="absolute top-[12vh] md:top-[14vh] left-6 md:left-12 lg:left-16 flex flex-col w-[90vw] md:w-[75vw] lg:w-[68vw] z-20 text-[min(3.8vw,3.2vh)] md:text-[min(2.4vw,3vh)] font-bold uppercase tracking-tighter leading-[1.2] text-white" id="hero-statement">
+        <!-- Left side Dynamic Paragraph with kinetic word shifting on scroll -->
+        <div class="absolute top-[14vh] left-6 md:left-12 lg:left-16 flex flex-col w-[90vw] md:w-[75vw] lg:w-[68vw] z-20 text-[min(3.8vw,3.2vh)] md:text-[min(2.4vw,3vh)] font-bold uppercase tracking-tighter leading-[1.2] text-white" id="hero-statement">
             <p id="hero-quote" class="flex flex-wrap gap-x-[0.3em] gap-y-[0.15em]"></p>
         </div>
     </section>
 
-    <!-- SECTION: "The Soul" -->
+    <!-- SECTION: "The Soul" (BTS Section) -->
     <section id="the-soul" class="relative w-full min-h-[120dvh] bg-black text-white flex flex-col justify-center px-0 py-24 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
-            <div id="marquee-track" class="flex w-max will-change-transform items-center">
-                <!-- Group 1 -->
-                <div class="flex shrink-0 items-center -space-x-4 md:-space-x-8">
-                    <div class="bts-float shrink-0 transform -translate-y-12 rotate-[-4deg] z-20">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="1.webp" alt="BTS 1" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform translate-y-16 rotate-[3deg] z-10">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="2.webp" alt="BTS 2" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform -translate-y-4 rotate-[1deg] z-30">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="3.webp" alt="BTS 3" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform translate-y-10 rotate-[-2deg] z-20">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="4.webp" alt="BTS 4" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform -translate-y-16 rotate-[4deg] z-40">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="5.webp" alt="BTS 5" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform translate-y-6 rotate-[-1deg] z-10">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="6.webp" alt="BTS 6" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform -translate-y-8 rotate-[-3deg] z-30">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="7.webp" alt="BTS 7" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform translate-y-14 rotate-[2deg] z-20">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="8.webp" alt="BTS 8" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform -translate-y-10 rotate-[1deg] z-10">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="9.webp" alt="BTS 9" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
-                        </div>
-                    </div>
-                    <div class="bts-float shrink-0 transform translate-y-4 rotate-[-2deg] z-30">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="10.webp" alt="BTS 10" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
-                        </div>
+        <div id="marquee-track" class="flex w-max will-change-transform items-center">
+            <!-- Group 1 -->
+            <div class="flex shrink-0 items-center -space-x-4 md:-space-x-8">
+                <div class="bts-float shrink-0 transform -translate-y-12 rotate-[-4deg] z-20">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="1.webp" alt="BTS 1" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
                     </div>
                 </div>
+                <div class="bts-float shrink-0 transform translate-y-16 rotate-[3deg] z-10">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="2.webp" alt="BTS 2" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-4 rotate-[1deg] z-30">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="3.webp" alt="BTS 3" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-10 rotate-[-2deg] z-20">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="4.webp" alt="BTS 4" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-16 rotate-[4deg] z-40">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="5.webp" alt="BTS 5" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-6 rotate-[-1deg] z-10">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="6.webp" alt="BTS 6" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-8 rotate-[-3deg] z-30">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="7.webp" alt="BTS 7" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-14 rotate-[2deg] z-20">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="8.webp" alt="BTS 8" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-10 rotate-[1deg] z-10">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="9.webp" alt="BTS 9" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
+                    </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-4 rotate-[-2deg] z-30">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="10.webp" alt="BTS 10" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
+                    </div>
+                </div>
+            </div>
 
-                <!-- Group 2 (Duplikat untuk Infinite Loop) -->
-                <div class="flex shrink-0 items-center -space-x-4 md:-space-x-8">
-                    <div class="bts-float shrink-0 transform -translate-y-12 rotate-[-4deg] z-20">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="1.webp" alt="BTS 1" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
-                        </div>
+            <!-- Group 2 (Duplicate for Infinite Loop) -->
+            <div class="flex shrink-0 items-center -space-x-4 md:-space-x-8">
+                <div class="bts-float shrink-0 transform -translate-y-12 rotate-[-4deg] z-20">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="1.webp" alt="BTS 1" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
                     </div>
-                    <div class="bts-float shrink-0 transform translate-y-16 rotate-[3deg] z-10">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="2.webp" alt="BTS 2" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
-                        </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-16 rotate-[3deg] z-10">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="2.webp" alt="BTS 2" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
                     </div>
-                    <div class="bts-float shrink-0 transform -translate-y-4 rotate-[1deg] z-30">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="3.webp" alt="BTS 3" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
-                        </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-4 rotate-[1deg] z-30">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="3.webp" alt="BTS 3" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
                     </div>
-                    <div class="bts-float shrink-0 transform translate-y-10 rotate-[-2deg] z-20">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="4.webp" alt="BTS 4" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
-                        </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-10 rotate-[-2deg] z-20">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="4.webp" alt="BTS 4" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
                     </div>
-                    <div class="bts-float shrink-0 transform -translate-y-16 rotate-[4deg] z-40">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="5.webp" alt="BTS 5" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
-                        </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-16 rotate-[4deg] z-40">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="5.webp" alt="BTS 5" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
                     </div>
-                    <div class="bts-float shrink-0 transform translate-y-6 rotate-[-1deg] z-10">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="6.webp" alt="BTS 6" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
-                        </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-6 rotate-[-1deg] z-10">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="6.webp" alt="BTS 6" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
                     </div>
-                    <div class="bts-float shrink-0 transform -translate-y-8 rotate-[-3deg] z-30">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="7.webp" alt="BTS 7" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
-                        </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-8 rotate-[-3deg] z-30">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="7.webp" alt="BTS 7" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
                     </div>
-                    <div class="bts-float shrink-0 transform translate-y-14 rotate-[2deg] z-20">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="8.webp" alt="BTS 8" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
-                        </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-14 rotate-[2deg] z-20">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="8.webp" alt="BTS 8" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
                     </div>
-                    <div class="bts-float shrink-0 transform -translate-y-10 rotate-[1deg] z-10">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="9.webp" alt="BTS 9" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
-                        </div>
+                </div>
+                <div class="bts-float shrink-0 transform -translate-y-10 rotate-[1deg] z-10">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="9.webp" alt="BTS 9" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
                     </div>
-                    <div class="bts-float shrink-0 transform translate-y-4 rotate-[-2deg] z-30">
-                        <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
-                            <img src="10.webp" alt="BTS 10" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
-                        </div>
+                </div>
+                <div class="bts-float shrink-0 transform translate-y-4 rotate-[-2deg] z-30">
+                    <div class="relative cursor-pointer group rounded-xl overflow-hidden shadow-2xl p-2 bg-white/5 backdrop-blur-md border border-white/10">
+                        <img src="10.webp" alt="BTS 10" class="h-40 md:h-56 w-auto rounded-md opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
                     </div>
                 </div>
             </div>
@@ -485,7 +478,6 @@
 
     <section id="selected-work" class="relative bg-black z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.9)] w-full h-[100dvh] overflow-hidden flex flex-col">
         <div class="absolute top-20 md:top-24 left-6 md:left-12 z-50 pointer-events-none mix-blend-difference">
-            <!-- Container Teks 2 Baris untuk Slot Roller Animation -->
             <h2 id="selected-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase pointer-events-auto w-fit">
                 <div class="velocity-line interactive-el hover-text-fx" data-text="SELECTED"></div>
                 <div class="velocity-line interactive-el hover-text-fx" data-text="WORKS"></div>
@@ -498,7 +490,6 @@
 
     <section id="about" class="relative w-full min-h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-20 py-24 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
         <div class="max-w-6xl w-full mx-auto space-y-12">
-            <!-- Container Teks 2 Baris untuk Slot Roller Animation -->
             <h2 id="about-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase mb-12 w-fit">
                 <div class="velocity-line interactive-el hover-text-fx" data-text="ABOUT"></div>
                 <div class="velocity-line interactive-el hover-text-fx" data-text="US"></div>
@@ -544,7 +535,6 @@
             }
         });
 
-        // Function for Custom Toast Replacement
         function showToast(msg) {
             const toast = document.getElementById('custom-toast');
             const msgEl = document.getElementById('toast-message');
@@ -557,7 +547,6 @@
             }, 3000);
         }
 
-        // Function for Custom Confirm Replacement
         function showConfirm(title, desc, onConfirm) {
             const modal = document.getElementById('custom-confirm-modal');
             document.getElementById('confirm-title').textContent = title;
@@ -705,7 +694,7 @@
         renderRecentRelease();
         renderSelectedWorks();
 
-        // Populate Hero Paragraph and setup kinetic word-shifting on scroll
+        // Populate Hero Paragraph with your new text and kinetic word shifting on scroll
         const heroQuoteEl = document.getElementById('hero-quote');
         const paragraphText = "Every project deserves its own fit. We tailor each one from scratch, carefully stitching every frame together with passion, purpose, and dedication. We believe great work comes from bringing together the right people, ideas, and perspectives that align with the vision. Every detail matters, every frame has a purpose, and every project deserves the care to make it feel truly its own.";
         
@@ -714,12 +703,11 @@
         
         paragraphText.toUpperCase().split(' ').forEach((word, idx) => {
             const span = document.createElement('span');
-            span.className = 'inline-block will-change-transform hover-text-fx interactive-el';
+            span.className = 'inline-block will-change-transform mr-[0.3em] mb-[0.15em] interactive-el';
             span.textContent = word;
             heroQuoteEl.appendChild(span);
             wordSpans.push(span);
             
-            // Pilih beberapa kata secara acak untuk bergeser bergantian kiri/kanan saat di-scroll
             if (idx % 3 === 1 || idx % 4 === 0) {
                 animatedWordIndices.add(idx);
             }
@@ -1131,11 +1119,6 @@
             { y: 25, opacity: 0 },
             { y: 0, opacity: 1, duration: 1.0, ease: "power4.out", stagger: 0.02, delay: 0.2 }
         );
-        
-        gsap.to('.parallax-hero', {
-            yPercent: 30, rotation: 2, ease: "none",
-            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 1.5 }
-        });
 
         gsap.to('#hero-statement', {
             y: "-35vh", 
