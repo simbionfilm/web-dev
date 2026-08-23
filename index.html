@@ -83,7 +83,6 @@
             transition: width 0.2s, height 0.2s;
         }
 
-        <!-- STREAMING_CHUNK:Styling header blur mask... -->
         .header-blur-mask {
             position: fixed;
             top: 0;
@@ -107,7 +106,6 @@
             animation: floatSlow 5s ease-in-out infinite;
         }
 
-        <!-- STREAMING_CHUNK:Styling rolling text slot components... -->
         .slot-wrapper {
             display: inline-block;
             overflow: hidden;
@@ -118,7 +116,7 @@
         .slot-char {
             display: inline-block;
             will-change: transform;
-            transform: translateY(120%);
+            transform: translateY(0%);
         }
         .velocity-char {
             display: inline-block;
@@ -968,6 +966,14 @@
         
         lenis.on('scroll', (e) => {
             ScrollTrigger.update();
+            const vel = e.velocity || 0;
+            const yOffset = gsap.utils.clamp(-50, 50, vel * 3); 
+            gsap.to('.velocity-char', {
+                y: `${yOffset}%`,
+                duration: 0.3,
+                ease: "power2.out",
+                overwrite: true 
+            });
         });
 
         gsap.ticker.add((time) => lenis.raf(time * 1000));
@@ -1039,7 +1045,6 @@
 
         const filmTrack = document.getElementById("film-track");
 
-        <!-- STREAMING_CHUNK:Initializing horizontal track scroll trigger... -->
         gsap.to(filmTrack, {
             x: () => -(filmTrack.scrollWidth - window.innerWidth),
             ease: "none",
@@ -1062,37 +1067,6 @@
                 start: "top top",
                 end: "+=350",
                 scrub: true
-            }
-        });
-
-        <!-- STREAMING_CHUNK:Setting up stable title animations... -->
-        ScrollTrigger.create({
-            trigger: "#selected-work",
-            start: "top 80%",
-            once: true,
-            onEnter: () => { 
-                gsap.to("#selected-title .slot-char", {
-                    y: "0%",
-                    duration: 1.2,
-                    ease: "power3.out",
-                    stagger: { amount: 0.4, from: "start" },
-                    overwrite: "auto"
-                });
-            }
-        });
-
-        ScrollTrigger.create({
-            trigger: "#about",
-            start: "top 80%",
-            once: true,
-            onEnter: () => { 
-                gsap.to("#about-title .slot-char", {
-                    y: "0%",
-                    duration: 1.2,
-                    ease: "power3.out",
-                    stagger: { amount: 0.4, from: "start" },
-                    overwrite: "auto"
-                });
             }
         });
 
@@ -1175,4 +1149,3 @@
     </script>
 </body>
 </html>
-```eof
