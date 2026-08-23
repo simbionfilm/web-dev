@@ -83,7 +83,6 @@
             transition: width 0.2s, height 0.2s;
         }
 
-        /* STREAMING_CHUNK:Styling header blur mask... */
         .header-blur-mask {
             position: fixed;
             top: 0;
@@ -107,24 +106,25 @@
             animation: floatSlow 5s ease-in-out infinite;
         }
 
-        /* STREAMING_CHUNK:Styling slot machine smooth rolling transition... */
+        /* Slot machine styling optimized to prevent clipping with generous line height and smooth transition */
         .slot-wrapper {
             display: inline-block;
             overflow: hidden;
             vertical-align: bottom;
-            height: 1em;
-            line-height: 1em;
+            height: 1.15em;
+            line-height: 1.15em;
+            padding: 0.05em 0;
         }
         .slot-track {
             display: flex;
             flex-direction: column;
             will-change: transform;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .slot-char {
             display: block;
-            height: 1em;
-            line-height: 1em;
+            height: 1.15em;
+            line-height: 1.15em;
             text-align: center;
         }
 
@@ -674,7 +674,6 @@
         renderRecentRelease();
         renderSelectedWorks();
 
-        /* STREAMING_CHUNK:Creating slot machine text with identical character loop for smooth vertical rolls... */
         function createSlotText() {
             document.querySelectorAll('.velocity-line').forEach(line => {
                 const text = line.getAttribute('data-text');
@@ -693,7 +692,6 @@
                     track.className = 'slot-track';
                     track.dataset.orig = char;
 
-                    // Menggunakan karakter yang sama berulang kali agar saat rolling tetap huruf itu sendiri tanpa ganti karakter
                     const letters = [char, char, char, char, char];
 
                     letters.forEach(l => {
@@ -986,22 +984,21 @@
             targetVel = Math.abs(vel);
         });
 
-        /* STREAMING_CHUNK:Running slowed down and smooth sparse random slot rolling ticker... */
+        /* Ticker yang sangat lambat, halus, dan jarang agar roll terlihat lembut dan elegan */
         gsap.ticker.add((time) => {
             lenis.raf(time * 1000);
             
-            currentVel += (targetVel - currentVel) * 0.1;
-            targetVel *= 0.9;
+            currentVel += (targetVel - currentVel) * 0.08;
+            targetVel *= 0.88;
 
             frameCount++;
-            // Dibatasi dengan jeda frame dan probabilitas rendah agar rolling lambat, santai, dan hanya pada beberapa huruf acak saja
-            if (frameCount % 8 === 0) {
+            if (frameCount % 14 === 0) {
                 const tracks = document.querySelectorAll('.slot-track');
                 tracks.forEach(track => {
-                    if (currentVel > 0.25) {
-                        if (Math.random() < 0.15) {
-                            const randomShift = (Math.floor(Math.random() * 4)) * -1;
-                            track.style.transform = `translateY(${randomShift}em)`;
+                    if (currentVel > 0.2) {
+                        if (Math.random() < 0.12) {
+                            const randomShift = (Math.floor(Math.random() * 3)) * -1;
+                            track.style.transform = `translateY(${randomShift * 1.15}em)`;
                         }
                     } else {
                         track.style.transform = `translateY(0em)`;
@@ -1077,7 +1074,6 @@
 
         const filmTrack = document.getElementById("film-track");
 
-        /* STREAMING_CHUNK:Configuring timeline for complete thumbnail exit and black page pause... */
         const trackTl = gsap.timeline({
             scrollTrigger: {
                 trigger: "#selected-work",
@@ -1180,5 +1176,4 @@
     </script>
 </body>
 </html>
-
 ```eof
