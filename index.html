@@ -1,4 +1,34 @@
-<!-- ... existing code ... -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMBION FILM | Selected Works</title>
+    
+    <!-- Browser Tab Favicon using orang.png -->
+    <link rel="icon" type="image/png" href="orang.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        simbionBlue: '#0616C6',
+                        darkBg: '#000000',
+                        lightText: '#FFFFFF',
+                        mutedText: '#888888',
+                        borderGray: '#222222'
+                    },
+                    fontFamily: {
+                        sans: ['"Google Sans Flex"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        display: ['"Google Sans Flex"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto; }
@@ -76,7 +106,6 @@
             animation: floatSlow 5s ease-in-out infinite;
         }
 
-        /* STREAMING_CHUNK:Styling slot machine vertical rolling text... */
         .slot-wrapper {
             display: inline-block;
             overflow: hidden;
@@ -189,6 +218,23 @@
     <!-- Seamless Gradient Blur Mask Header -->
     <div class="header-blur-mask"></div>
 
+    <!-- Custom Notification Toast (Replaces alert) -->
+    <div id="custom-toast" class="fixed top-8 left-1/2 -translate-x-1/2 z-[350] bg-neutral-900/90 backdrop-blur-xl border border-white/20 text-white px-6 py-3 rounded-2xl shadow-2xl opacity-0 pointer-events-none transition-all duration-300 transform -translate-y-4">
+        <span id="toast-message" class="text-xs font-mono uppercase tracking-widest">Notification</span>
+    </div>
+
+    <!-- Custom Confirm Modal (Replaces confirm) -->
+    <div id="custom-confirm-modal" class="fixed inset-0 z-[320] bg-black/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
+        <div class="bg-neutral-900 border border-white/20 rounded-3xl w-full max-w-sm p-6 text-white text-center shadow-2xl">
+            <h3 id="confirm-title" class="font-bold text-base uppercase tracking-wider mb-2">Confirmation</h3>
+            <p id="confirm-desc" class="text-xs text-mutedText font-mono mb-6">Are you sure?</p>
+            <div class="flex gap-3 justify-center">
+                <button id="confirm-no" class="bg-white/10 px-5 py-2.5 rounded-xl text-xs font-mono uppercase hover:bg-white/25 transition-colors">Cancel</button>
+                <button id="confirm-yes" class="bg-simbionBlue px-6 py-2.5 rounded-xl text-xs font-mono uppercase font-bold hover:opacity-90 transition-opacity">Confirm</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Persistent Floating Horizontal Speech Balloon Trigger -->
     <div id="chat-balloon" class="fixed bottom-32 md:bottom-40 right-6 md:right-10 z-[105] group cursor-pointer interactive-el floating-widget transition-all duration-500 origin-bottom-right">
         <div id="chat-balloon-inner" class="relative bg-simbionBlue/60 backdrop-blur-xl text-white px-5 py-3 rounded-2xl shadow-2xl group-hover:scale-110 transition-all duration-300 flex items-center gap-3 border border-white/30">
@@ -300,7 +346,6 @@
 
     <div id="recent-release-container"></div>
 
-    <!-- HERO SECTION -->
     <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center items-center px-4 md:px-8 bg-black z-10 shadow-2xl overflow-hidden">
         <div class="w-full max-w-2xl flex justify-center parallax-hero z-10">
             <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-full h-auto object-contain interactive-el" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
@@ -441,7 +486,6 @@
         </div>
     </section>
 
-    <!-- SECTION: "We Are What We've Made" -->
     <section id="we-are-made" class="relative w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-8 md:px-24 z-30 shadow-[0_-30px_60px_rgba(0,0,0,0.9)] overflow-hidden">
         <div class="we-are-container relative z-10 my-auto flex flex-col items-center justify-center gap-2 md:gap-4 select-none w-full max-w-7xl">
             <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask">
@@ -519,6 +563,42 @@
                 cursor.style.top = e.clientY + 'px';
             }
         });
+
+        function showToast(msg) {
+            const toast = document.getElementById('custom-toast');
+            const msgEl = document.getElementById('toast-message');
+            msgEl.textContent = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
+            }, 3000);
+        }
+
+        function showConfirm(title, desc, onConfirm) {
+            const modal = document.getElementById('custom-confirm-modal');
+            document.getElementById('confirm-title').textContent = title;
+            document.getElementById('confirm-desc').textContent = desc;
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            
+            const yesBtn = document.getElementById('confirm-yes');
+            const noBtn = document.getElementById('confirm-no');
+
+            const cleanup = () => {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                yesBtn.onclick = null;
+                noBtn.onclick = null;
+            };
+
+            yesBtn.onclick = () => {
+                cleanup();
+                onConfirm();
+            };
+            noBtn.onclick = () => {
+                cleanup();
+            };
+        }
 
         const SECRET_KEYWORD = "fundamental"; 
         const ADMIN_PASSWORD = "simbiosismutualisme"; 
@@ -643,7 +723,6 @@
         renderRecentRelease();
         renderSelectedWorks();
 
-        /* STREAMING_CHUNK:Creating slot-machine vertical rolling text structures... */
         const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         function createSlotText() {
             document.querySelectorAll('.velocity-line').forEach(line => {
@@ -663,12 +742,11 @@
                     track.className = 'slot-track';
                     track.dataset.orig = char;
 
-                    // Buat urutan acak huruf vertikal untuk efek slot roller
                     const letters = [char];
                     for (let i = 0; i < 4; i++) {
                         letters.push(alphabet[Math.floor(Math.random() * alphabet.length)]);
                     }
-                    letters.push(char); // Tutup dengan huruf asli
+                    letters.push(char);
 
                     letters.forEach(l => {
                         const span = document.createElement('span');
@@ -722,15 +800,15 @@
                 });
                 const result = await response.json();
                 if (result.success) {
-                    alert("Pesan berhasil terkirim ke Simbion Film!");
+                    showToast("Pesan berhasil terkirim ke Simbion Film!");
                     chatForm.reset();
                     closeChatModal();
                 } else {
-                    alert("Gagal mengirim pesan. Silakan coba lagi.");
+                    showToast("Gagal mengirim pesan. Silakan coba lagi.");
                 }
             } catch (error) {
                 console.error(error);
-                alert("Terjadi kesalahan koneksi.");
+                showToast("Terjadi kesalahan koneksi.");
             } finally {
                 submitBtn.textContent = "SEND MESSAGE";
             }
@@ -846,7 +924,7 @@
                 closePasswordModal();
                 openCmsModal();
             } else {
-                alert('Incorrect Password!');
+                showToast('Incorrect Password!');
                 adminPasswordInput.value = '';
             }
         });
@@ -932,14 +1010,14 @@
         });
 
         resetCmsBtn.addEventListener('click', () => {
-            if (confirm('Reset all items to default?')) {
+            showConfirm("Reset Defaults", "Reset all items to default?", () => {
                 localStorage.removeItem('simbion_cms');
                 cmsData = JSON.parse(JSON.stringify(defaultCMS));
                 renderRecentRelease();
                 renderSelectedWorks();
                 closeCmsModal();
                 window.location.reload();
-            }
+            });
         });
 
         const lenis = new Lenis({
@@ -959,7 +1037,6 @@
             targetVel = Math.abs(vel);
         });
 
-        /* STREAMING_CHUNK:Running scroll-speed responsive vertical slot roller ticker... */
         gsap.ticker.add((time) => {
             lenis.raf(time * 1000);
             
@@ -1044,7 +1121,6 @@
 
         const filmTrack = document.getElementById("film-track");
 
-        /* STREAMING_CHUNK:Configuring timeline for complete thumbnail exit and black page pause... */
         const trackTl = gsap.timeline({
             scrollTrigger: {
                 trigger: "#selected-work",
@@ -1147,4 +1223,3 @@
     </script>
 </body>
 </html>
-```eof
