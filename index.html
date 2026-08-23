@@ -1,4 +1,3 @@
-<!-- STREAMING_CHUNK:Initializing HTML structure and CDN resources... -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -29,7 +28,6 @@
         }
     </script>
 
-    <!-- STREAMING_CHUNK:Configuring custom styles and animations... -->
     <style>
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto; }
@@ -120,7 +118,7 @@
             flex-direction: column;
             will-change: transform;
             transform: translateY(-6.25em);
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .slot-char {
             display: block;
@@ -227,20 +225,18 @@
 </head>
 <body class="font-sans selection:bg-simbionBlue selection:text-white">
 
-    <!-- STREAMING_CHUNK:Rendering solid blue 3-second Fake Loader Screen with 50% enlarged falling cameraman... -->
     <div id="fake-loader" class="fixed inset-0 z-[9999] bg-simbionBlue flex flex-col items-center justify-center overflow-hidden">
-        <div class="relative z-10 flex flex-col items-center gap-6 p-6">
+        <div class="relative z-10 flex flex-col items-center gap-4 p-6 text-center">
             <div id="loader-img-wrap" class="w-72 md:w-96 h-auto drop-shadow-2xl transition-all duration-500 brightness-0 invert scale-150">
                 <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Loading Cameraman" class="w-full h-auto object-contain">
             </div>
-            <div class="flex flex-col items-center gap-2 mt-8">
-                <span id="loader-text" class="text-xs md:text-sm font-mono font-bold tracking-[0.3em] uppercase text-white transition-colors duration-500">SIMBION FILM</span>
-                <span id="loader-percentage" class="text-2xl md:text-4xl font-black font-mono tracking-tighter text-white transition-colors duration-500">0%</span>
+            <div class="flex flex-col items-center gap-3 mt-10">
+                <span class="text-xs md:text-sm font-mono tracking-[0.2em] uppercase text-white/90">Hang on! We’re almost ready to roll.</span>
+                <span id="loader-percentage" class="text-2xl md:text-4xl font-black font-mono tracking-tighter text-white">0%</span>
             </div>
         </div>
     </div>
 
-    <!-- STREAMING_CHUNK:Rendering navigation, widgets, and modals... -->
     <div class="custom-cursor" id="custom-cursor"></div>
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
     
@@ -367,7 +363,6 @@
 
     <div id="recent-release-container"></div>
 
-    <!-- STREAMING_CHUNK:Rendering Hero section with +30% larger falling cameraman... -->
     <section id="hero" class="relative w-full h-[100dvh] min-h-[600px] flex flex-col justify-center px-6 md:px-12 pt-24 pb-16 bg-black z-10 shadow-2xl overflow-hidden">
         <div class="absolute left-[45%] md:left-[50%] lg:left-[48%] right-0 top-0 h-full flex items-center justify-center parallax-hero z-10 pointer-events-none opacity-100 mix-blend-normal">
             <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto object-contain drop-shadow-2xl" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
@@ -380,7 +375,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Rendering The Soul section... -->
     <section id="the-soul" class="relative w-full min-h-[120dvh] bg-black text-white flex flex-col justify-center px-0 py-24 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
         <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 mb-16 lg:mb-24">
             <div class="w-full relative">
@@ -508,7 +502,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Rendering We Are What We've Made section... -->
     <section id="we-are-made" class="relative w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-8 md:px-24 z-30 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] overflow-hidden">
         <div class="we-are-container relative z-10 my-auto flex flex-col items-center justify-center gap-2 md:gap-4 select-none w-full max-w-7xl">
             <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask">
@@ -523,7 +516,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Rendering Selected Works section... -->
     <section id="selected-work" class="relative bg-black z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] w-full h-[100dvh] overflow-hidden flex flex-col">
         <div class="absolute top-20 md:top-24 left-6 md:left-12 z-50 pointer-events-none mix-blend-difference">
             <h2 id="selected-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase pointer-events-auto w-fit">
@@ -536,7 +528,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Rendering About Us section... -->
     <section id="about" class="relative w-full min-h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-20 py-32 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
         <div class="max-w-7xl w-full mx-auto space-y-12">
             <h2 id="about-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase mb-16 w-fit">
@@ -557,7 +548,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Rendering Contact section... -->
     <section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-12 py-16 z-[60] shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
         <div class="relative z-10 flex flex-col items-center text-center w-full my-auto">
             <div class="flex flex-col w-full font-bold leading-[0.9] tracking-tighter">
@@ -576,17 +566,16 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Initializing 3-second loader timer, safe smooth scrolling, and dynamic slots... -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Fake Loader Animation Logic (3 seconds duration)
+            // Fake Loader Animation Logic (2 seconds duration)
             const loader = document.getElementById('fake-loader');
             const loaderPercentage = document.getElementById('loader-percentage');
 
             let currentPercent = 0;
-            // 50ms interval * 60 steps = 3000ms (3 seconds)
+            // 50ms interval * 40 steps = 2000ms (2 seconds)
             const loadInterval = setInterval(() => {
-                currentPercent += Math.floor(Math.random() * 3) + 2;
+                currentPercent += Math.floor(Math.random() * 5) + 3;
                 if (currentPercent >= 100) {
                     currentPercent = 100;
                     clearInterval(loadInterval);
@@ -597,7 +586,7 @@
                             loader.style.transform = 'translateY(-100%)';
                             setTimeout(() => loader.remove(), 1000);
                         }
-                    }, 300);
+                    }, 400);
                 }
                 if (loaderPercentage) loaderPercentage.textContent = currentPercent + '%';
             }, 50);
@@ -1328,4 +1317,3 @@
     </script>
 </body>
 </html>
-```eof
