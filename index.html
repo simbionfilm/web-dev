@@ -117,7 +117,8 @@
             display: flex;
             flex-direction: column;
             will-change: transform;
-            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translateY(-6.25em); /* Posisi istirahat tepat di tengah (huruf ke-6) */
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); /* Transisi lebih lambat & smooth */
         }
         .slot-char {
             display: block;
@@ -762,7 +763,8 @@
                         track.className = 'slot-track';
                         track.dataset.orig = char;
 
-                        const letters = [char, char, char, char, char];
+                        // Diperbanyak menjadi 11 karakter (5 di atas, 1 di tengah, 5 di bawah) agar tidak pernah blank
+                        const letters = Array(11).fill(char);
 
                         letters.forEach(l => {
                             const span = document.createElement('span');
@@ -1103,23 +1105,24 @@
                 const vel = e.velocity || 0;
                 const tracks = document.querySelectorAll('.slot-track');
                 
-                // Mulai menggulung huruf jika user melakukan scroll dengan kecepatan tertentu
-                if (Math.abs(vel) > 1.5) {
+                // Trigger animasi hanya jika kecepatan scroll cukup (mencegah kedipan)
+                if (Math.abs(vel) > 1.0) {
                     const dir = vel > 0 ? -1 : 1; 
                     tracks.forEach((track, i) => {
-                        // Memvariasikan lompatan huruf (1 atau 2 slot) agar terlihat lebih organik
-                        const slots = (i % 2 === 0) ? 2 : 1;
-                        track.style.transform = `translateY(${dir * (slots * 1.25)}em)`;
+                        // Membatasi lompatan hanya 1 atau 1.5 huruf agar putaran jauh lebih pelan
+                        const slots = (i % 2 === 0) ? 1.5 : 1;
+                        // Posisi origin ada di -6.25em, kita geser dari titik tersebut
+                        track.style.transform = `translateY(${-6.25 + (dir * slots * 1.25)}em)`;
                     });
                 }
 
-                // Segera kembalikan ke titik awal (berhenti) ketika deteksi scroll terhenti
+                // Berhenti dengan mulus segera setelah scroll berhenti
                 clearTimeout(scrollTimeout);
                 scrollTimeout = setTimeout(() => {
                     tracks.forEach(track => {
-                        track.style.transform = `translateY(0em)`;
+                        track.style.transform = `translateY(-6.25em)`; // Kembali ke huruf tengah
                     });
-                }, 100); // Waktu respons 100ms setelah scroll benar-benar diam
+                }, 150); // Waktu respons 150ms agar animasi tidak kaget
             });
 
             gsap.ticker.add((time) => {
