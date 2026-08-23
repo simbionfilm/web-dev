@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMBION FILM </title>
+    <title>SIMBION FILM | Selected Works</title>
     
     <!-- Browser Tab Favicon using orang.png -->
     <link rel="icon" type="image/png" href="orang.png">
@@ -665,7 +665,7 @@
         renderRecentRelease();
         renderSelectedWorks();
 
-        <!-- STREAMING_CHUNK:Creating velocity rolling text without cropping... -->
+        <!-- STREAMING_CHUNK:Creating velocity rolling text with sparse random letters... -->
         function createVelocityText() {
             document.querySelectorAll('.velocity-line').forEach(line => {
                 const text = line.getAttribute('data-text');
@@ -960,7 +960,7 @@
         
         let targetVel = 0;
         let currentVel = 0;
-        const scrambleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%&*";
+        const scrambleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         lenis.on('scroll', (e) => {
             ScrollTrigger.update();
@@ -968,7 +968,7 @@
             targetVel = Math.abs(vel);
         });
 
-        <!-- STREAMING_CHUNK:Running scramble text ticker responsive to scroll speed... -->
+        <!-- STREAMING_CHUNK:Running sparse and random letter scramble ticker responsive to scroll speed... -->
         gsap.ticker.add((time) => {
             lenis.raf(time * 1000);
             
@@ -976,9 +976,10 @@
             targetVel *= 0.9;
 
             const chars = document.querySelectorAll('.scramble-char');
-            if (currentVel > 0.3) {
+            if (currentVel > 0.2) {
+                // Sparse random scrambling: only a few characters flicker randomly based on speed
                 chars.forEach(char => {
-                    if (Math.random() < currentVel * 0.05) {
+                    if (Math.random() < 0.05 * Math.min(currentVel, 5)) {
                         char.textContent = scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
                     }
                 });
@@ -986,7 +987,7 @@
                 chars.forEach(char => {
                     const orig = char.dataset.orig;
                     if (char.textContent !== orig) {
-                        if (Math.random() < 0.25) {
+                        if (Math.random() < 0.3) {
                             char.textContent = orig;
                         }
                     }
