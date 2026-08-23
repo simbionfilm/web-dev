@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMBION FILM</title>
+    <title>SIMBION FILM | Selected Works</title>
     
     <!-- Browser Tab Favicon using orang.png -->
     <link rel="icon" type="image/png" href="orang.png">
@@ -108,12 +108,10 @@
 
         .slot-wrapper {
             display: inline-block;
-            overflow: hidden; /* Tetap hidden agar efek slotnya muncul */
+            overflow: hidden;
             vertical-align: bottom;
-            /* Height dan Line-height dinaikkan agar huruf tebal/miring tidak terpotong atas/bawah */
             height: 1.25em; 
             line-height: 1.25em;
-            /* Padding agar tidak terpotong samping */
             padding: 0 0.05em; 
             margin: 0 -0.02em;
         }
@@ -121,7 +119,6 @@
             display: flex;
             flex-direction: column;
             will-change: transform;
-            /* Transisi super halus dan pelan */
             transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .slot-char {
@@ -345,32 +342,21 @@
 
     <div id="recent-release-container"></div>
 
-    <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center items-center px-4 md:px-8 bg-black z-10 shadow-2xl overflow-hidden">
-        <div class="w-full max-w-2xl flex justify-center parallax-hero z-10">
-            <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-full h-auto object-contain interactive-el" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
+    <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center px-6 md:px-16 bg-black z-10 shadow-2xl overflow-hidden">
+        
+        <!-- Right side GIF - Smaller and pushed to background -->
+        <div class="absolute right-4 md:right-[5vw] top-1/2 -translate-y-1/2 w-[55vw] md:w-[32vw] max-w-md parallax-hero z-10 mix-blend-screen opacity-40 md:opacity-60 pointer-events-none">
+            <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-full h-auto object-contain" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
         </div>
-        <div class="absolute bottom-16 left-4 md:left-12 flex gap-8 max-w-3xl hero-fade opacity-0 leading-tight z-20">
-            <p class="interactive-el text-base md:text-xl lg:text-2xl font-medium tracking-wide text-white hover-text-fx">
-                Every project deserves its own fit. We tailor each one from scratch, carefully stitching every frame together with passion and dedication.
-            </p>
+
+        <!-- Left side Dynamic Paragraph block with kinetic word shifting on scroll -->
+        <div class="absolute top-[12vh] md:top-[14vh] left-6 md:left-12 lg:left-16 flex flex-col w-[90vw] md:w-[75vw] lg:w-[68vw] z-20 text-[min(3.8vw,3.2vh)] md:text-[min(2.4vw,3vh)] font-bold uppercase tracking-tighter leading-[1.2] text-white" id="hero-statement">
+            <p id="hero-quote" class="flex flex-wrap gap-x-[0.3em] gap-y-[0.15em]"></p>
         </div>
     </section>
 
+    <!-- SECTION: "The Soul" -->
     <section id="the-soul" class="relative w-full min-h-[120dvh] bg-black text-white flex flex-col justify-center px-0 py-24 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
-        <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 mb-16">
-            <div class="w-full relative">
-                <div class="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-24">
-                    <h2 id="soul-title" class="text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.95] text-white md:w-7/12 interactive-el hover-text-fx">
-                        The soul behind every frame.
-                    </h2>
-                    <p id="soul-desc" class="text-sm md:text-base lg:text-lg tracking-wide leading-relaxed text-gray-300 md:w-4/12 font-bold md:mt-4 lg:mt-5">
-                        We craft every frame with passion and purpose. We believe that behind every beautiful frame are people who care deeply about what they create and share a vision of what it could become. Great work begins when different minds and talents come together with purpose.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="relative w-full overflow-hidden py-16 bts-enter opacity-0">
             <div id="marquee-track" class="flex w-max will-change-transform items-center">
                 <!-- Group 1 -->
                 <div class="flex shrink-0 items-center -space-x-4 md:-space-x-8">
@@ -719,6 +705,26 @@
         renderRecentRelease();
         renderSelectedWorks();
 
+        // Populate Hero Paragraph and setup kinetic word-shifting on scroll
+        const heroQuoteEl = document.getElementById('hero-quote');
+        const paragraphText = "Every project deserves its own fit. We tailor each one from scratch, carefully stitching every frame together with passion, purpose, and dedication. We believe great work comes from bringing together the right people, ideas, and perspectives that align with the vision. Every detail matters, every frame has a purpose, and every project deserves the care to make it feel truly its own.";
+        
+        const wordSpans = [];
+        const animatedWordIndices = new Set();
+        
+        paragraphText.toUpperCase().split(' ').forEach((word, idx) => {
+            const span = document.createElement('span');
+            span.className = 'inline-block will-change-transform hover-text-fx interactive-el';
+            span.textContent = word;
+            heroQuoteEl.appendChild(span);
+            wordSpans.push(span);
+            
+            // Pilih beberapa kata secara acak untuk bergeser bergantian kiri/kanan saat di-scroll
+            if (idx % 3 === 1 || idx % 4 === 0) {
+                animatedWordIndices.add(idx);
+            }
+        });
+
         function createSlotText() {
             document.querySelectorAll('.velocity-line').forEach(line => {
                 const text = line.getAttribute('data-text');
@@ -737,7 +743,6 @@
                     track.className = 'slot-track';
                     track.dataset.orig = char;
 
-                    // Menggunakan karakter yang sama berulang kali agar saat rolling tetap huruf itu sendiri tanpa ganti karakter
                     const letters = [char, char, char, char, char];
 
                     letters.forEach(l => {
@@ -1012,7 +1017,6 @@
             });
         });
 
-        // Menambah durasi Lenis dan Easing Eksponensial untuk stopping yg sangat mulus (tidak ngerem mendadak)
         const lenis = new Lenis({
             duration: 3.0, 
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
@@ -1024,14 +1028,44 @@
         let targetVel = 0;
         let currentVel = 0;
         let frameCount = 0;
+        let scrollTimeout;
 
         lenis.on('scroll', (e) => {
             ScrollTrigger.update();
             const vel = e.velocity || 0;
             targetVel = Math.abs(vel);
+
+            const absVel = Math.abs(vel);
+            if (absVel > 0.05) {
+                wordSpans.forEach((span, i) => {
+                    if (animatedWordIndices.has(i)) {
+                        const direction = (i % 2 === 0) ? 1 : -1;
+                        const shiftAmount = Math.min(absVel * 70, 180) * direction;
+                        gsap.to(span, {
+                            x: shiftAmount,
+                            duration: 0.15,
+                            ease: "power1.out",
+                            overwrite: "auto"
+                        });
+                    }
+                });
+
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    wordSpans.forEach((span, i) => {
+                        if (animatedWordIndices.has(i)) {
+                            gsap.to(span, {
+                                x: 0,
+                                duration: 0.9,
+                                ease: "elastic.out(1, 0.4)",
+                                overwrite: "auto"
+                            });
+                        }
+                    });
+                }, 180);
+            }
         });
 
-        /* Ticker dengan peredaman (damping) inertia yang sangat halus dan organik */
         gsap.ticker.add((time) => {
             lenis.raf(time * 1000);
             
@@ -1093,23 +1127,35 @@
         initBTSFloat();
 
         const heroTl = gsap.timeline();
-        heroTl.to('.hero-fade', {
-            opacity: 1, y: 0, duration: 1.2, ease: "power3.out", stagger: 0.15, delay: 0.3
-        });
+        heroTl.fromTo('#hero-quote span', 
+            { y: 25, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1.0, ease: "power4.out", stagger: 0.02, delay: 0.2 }
+        );
         
         gsap.to('.parallax-hero', {
             yPercent: 30, rotation: 2, ease: "none",
             scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 1.5 }
         });
 
-        gsap.to('#hero', {
-            yPercent: 100,
+        gsap.to('#hero-statement', {
+            y: "-35vh", 
             opacity: 0,
             ease: "none",
             scrollTrigger: {
-                trigger: "#hero",
+                trigger: "body",
                 start: "top top",
-                end: "bottom top",
+                end: "700px top",
+                scrub: 1.2
+            }
+        });
+
+        gsap.to('#hero', {
+            opacity: 0,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "body",
+                start: "100px top",
+                end: "800px top",
                 scrub: true
             }
         });
@@ -1125,20 +1171,18 @@
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
-                end: () => "+=" + (filmTrack.scrollWidth + window.innerWidth * 1.2), 
-                scrub: 2.5, // Ditingkatkan menjadi 2.5 agar gerakannya memiliki inertia dan easy ease (berhenti dan jalan halus sekali)
+                end: () => "+=" + (filmTrack.scrollWidth * 1.5), 
+                scrub: 2.5, 
                 pin: true, 
                 invalidateOnRefresh: true
             }
         });
 
         trackTl.to(filmTrack, {
-            x: () => -(filmTrack.scrollWidth), 
-            ease: "power2.inOut", // Diganti dari none agar memiliki perlambatan dan percepatan di ujung-ujung scroll
+            x: () => -(filmTrack.scrollWidth - window.innerWidth), 
+            ease: "power2.inOut",
             duration: 1
         });
-        
-        trackTl.to({}, { duration: 0.4 });
 
         gsap.to("#selected-title", {
             opacity: 0,
@@ -1170,7 +1214,7 @@
                 const inner = item.querySelector('.gallery-item-inner');
                 item.addEventListener('mouseenter', () => {
                     gsap.set(item, { zIndex: 100 });
-                    gsap.to(inner, { scale: 1.5, duration: 0.8, ease: "power3.out", overwrite: "auto" });
+                    gsap.to(inner, { scale: 1.5, duration: 1.2, delay: 0.1, ease: "power3.out", overwrite: "auto" });
 
                     const isMobile = window.innerWidth < 768;
                     const pushVal = isMobile ? 12 : 8; 
@@ -1178,17 +1222,17 @@
                     galleryItems.forEach((other, otherIndex) => {
                         if (otherIndex !== index) {
                             const pushAmount = otherIndex < index ? `-${pushVal}vw` : `${pushVal}vw`;
-                            gsap.to(other, { x: pushAmount, duration: 0.8, ease: "power3.out", overwrite: "auto" });
+                            gsap.to(other, { x: pushAmount, duration: 1.2, delay: 0.1, ease: "power3.out", overwrite: "auto" });
                         }
                     });
                 });
                 item.addEventListener('mouseleave', () => {
                     gsap.to(inner, { 
-                        scale: 1, duration: 0.8, ease: "power3.out", overwrite: "auto",
+                        scale: 1, duration: 1.0, delay: 0, ease: "power3.out", overwrite: "auto",
                         onComplete: () => gsap.set(item, { zIndex: 10 }) 
                     });
                     galleryItems.forEach((other) => {
-                        gsap.to(other, { x: "0vw", duration: 0.8, ease: "power3.out", overwrite: "auto" });
+                        gsap.to(other, { x: "0vw", duration: 1.0, delay: 0, ease: "power3.out", overwrite: "auto" });
                     });
                 });
             });
