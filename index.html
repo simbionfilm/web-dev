@@ -725,7 +725,6 @@
         renderRecentRelease();
         renderSelectedWorks();
 
-        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         function createSlotText() {
             document.querySelectorAll('.velocity-line').forEach(line => {
                 const text = line.getAttribute('data-text');
@@ -744,11 +743,8 @@
                     track.className = 'slot-track';
                     track.dataset.orig = char;
 
-                    const letters = [char];
-                    for (let i = 0; i < 4; i++) {
-                        letters.push(alphabet[Math.floor(Math.random() * alphabet.length)]);
-                    }
-                    letters.push(char);
+                    // Menggunakan karakter yang sama berulang kali agar saat rolling tetap huruf itu sendiri
+                    const letters = [char, char, char, char, char];
 
                     letters.forEach(l => {
                         const span = document.createElement('span');
