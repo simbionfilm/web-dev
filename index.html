@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMBION FILM</title>
+    <title>SIMBION FILM | Selected Works</title>
     
     <!-- Browser Tab Favicon using orang.png -->
     <link rel="icon" type="image/png" href="orang.png">
@@ -116,7 +116,7 @@
         .slot-char {
             display: inline-block;
             will-change: transform;
-            transform: translateY(0%);
+            transform: translateY(120%);
         }
         .velocity-char {
             display: inline-block;
@@ -1046,29 +1046,47 @@
         const filmTrack = document.getElementById("film-track");
 
         gsap.to(filmTrack, {
-            x: () => -(filmTrack.scrollWidth - window.innerWidth),
+            x: () => -(filmTrack.scrollWidth),
             ease: "none",
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
-                end: () => "+=" + (filmTrack.scrollWidth - window.innerWidth), 
+                end: () => "+=" + (filmTrack.scrollWidth + window.innerWidth * 0.5), 
                 scrub: 1.2, 
                 pin: true, 
                 invalidateOnRefresh: true
             }
         });
 
-        gsap.to("#selected-title", {
-            opacity: 0,
-            y: -25,
-            ease: "power1.out",
-            scrollTrigger: {
-                trigger: "#selected-work",
-                start: "top top",
-                end: "+=350",
-                scrub: true
+        gsap.fromTo("#selected-title .slot-char", 
+            { y: "120%" }, 
+            {
+                y: "0%",
+                ease: "none",
+                stagger: 0.05,
+                scrollTrigger: {
+                    trigger: "#selected-work",
+                    start: "top 85%",
+                    end: "top 30%",
+                    scrub: 1
+                }
             }
-        });
+        );
+
+        gsap.fromTo("#about-title .slot-char", 
+            { y: "120%" }, 
+            {
+                y: "0%",
+                ease: "none",
+                stagger: 0.05,
+                scrollTrigger: {
+                    trigger: "#about",
+                    start: "top 85%",
+                    end: "top 30%",
+                    scrub: 1
+                }
+            }
+        );
 
         const wrapper = document.getElementById('selected-work');
         const parallaxWraps = gsap.utils.toArray(".parallax-wrap");
