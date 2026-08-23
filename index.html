@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMBION FILM</title>
+    <title>SIMBION FILM | Selected Works</title>
     
     <!-- Browser Tab Favicon using orang.png -->
     <link rel="icon" type="image/png" href="orang.png">
@@ -83,6 +83,7 @@
             transition: width 0.2s, height 0.2s;
         }
 
+        <!-- STREAMING_CHUNK:Styling header blur mask... -->
         .header-blur-mask {
             position: fixed;
             top: 0;
@@ -106,21 +107,16 @@
             animation: floatSlow 5s ease-in-out infinite;
         }
 
+        <!-- STREAMING_CHUNK:Styling title components without cropping... -->
         .slot-wrapper {
             display: inline-block;
-            overflow: hidden;
+            overflow: visible;
             vertical-align: bottom;
-            height: 1.1em;
-            padding-bottom: 0.05em;
-        }
-        .slot-char {
-            display: inline-block;
-            will-change: transform;
-            transform: translateY(120%);
+            padding: 0 0.02em;
         }
         .velocity-char {
             display: inline-block;
-            will-change: transform;
+            will-change: transform, content;
         }
 
         .hover-text-fx {
@@ -128,12 +124,12 @@
             position: relative;
             font-variation-settings: "slnt" 0;
             -webkit-font-smoothing: antialiased;
-            will-change: transform, font-variation-settings, color;
+            will-change: transform;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             -webkit-transform: translateZ(0);
             transform: translateZ(0);
-            transition: transform 0.3s ease, color 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
         .we-are-container { cursor: none !important; }
@@ -485,7 +481,7 @@
     <!-- SECTION: "Selected Works" -->
     <section id="selected-work" class="relative bg-black z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.9)] w-full h-[100dvh] overflow-hidden flex flex-col">
         <div class="absolute top-20 md:top-24 left-6 md:left-12 z-50 pointer-events-none mix-blend-difference">
-            <!-- Container Teks 2 Baris untuk Rolling Text Slot -->
+            <!-- Container Teks 2 Baris untuk Rolling Text Slot tanpa crop -->
             <h2 id="selected-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase pointer-events-auto w-fit">
                 <div class="velocity-line interactive-el hover-text-fx" data-text="SELECTED"></div>
                 <div class="velocity-line interactive-el hover-text-fx" data-text="WORKS"></div>
@@ -499,7 +495,7 @@
     <!-- SECTION: "About Us" -->
     <section id="about" class="relative w-full min-h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-20 py-24 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
         <div class="max-w-6xl w-full mx-auto space-y-12">
-            <!-- Container Teks 2 Baris untuk Rolling Text Slot -->
+            <!-- Container Teks 2 Baris untuk Rolling Text Slot tanpa crop -->
             <h2 id="about-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase mb-12 w-fit">
                 <div class="velocity-line interactive-el hover-text-fx" data-text="ABOUT"></div>
                 <div class="velocity-line interactive-el hover-text-fx" data-text="US"></div>
@@ -669,6 +665,7 @@
         renderRecentRelease();
         renderSelectedWorks();
 
+        <!-- STREAMING_CHUNK:Creating velocity rolling text without cropping... -->
         function createVelocityText() {
             document.querySelectorAll('.velocity-line').forEach(line => {
                 const text = line.getAttribute('data-text');
@@ -683,15 +680,12 @@
                     const wrapper = document.createElement('span');
                     wrapper.className = 'slot-wrapper';
                     
-                    const slotChar = document.createElement('span');
-                    slotChar.className = 'slot-char block';
-                    
                     const velChar = document.createElement('span');
-                    velChar.className = 'velocity-char block';
+                    velChar.className = 'velocity-char scramble-char';
                     velChar.textContent = char;
+                    velChar.dataset.orig = char;
                     
-                    slotChar.appendChild(velChar);
-                    wrapper.appendChild(slotChar);
+                    wrapper.appendChild(velChar);
                     line.appendChild(wrapper);
                 });
             });
@@ -964,19 +958,41 @@
             smoothTouch: false,
         });
         
+        let targetVel = 0;
+        let currentVel = 0;
+        const scrambleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%&*";
+
         lenis.on('scroll', (e) => {
             ScrollTrigger.update();
             const vel = e.velocity || 0;
-            const yOffset = gsap.utils.clamp(-50, 50, vel * 3); 
-            gsap.to('.velocity-char', {
-                y: `${yOffset}%`,
-                duration: 0.3,
-                ease: "power2.out",
-                overwrite: true 
-            });
+            targetVel = Math.abs(vel);
         });
 
-        gsap.ticker.add((time) => lenis.raf(time * 1000));
+        <!-- STREAMING_CHUNK:Running scramble text ticker responsive to scroll speed... -->
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+            
+            currentVel += (targetVel - currentVel) * 0.1;
+            targetVel *= 0.9;
+
+            const chars = document.querySelectorAll('.scramble-char');
+            if (currentVel > 0.3) {
+                chars.forEach(char => {
+                    if (Math.random() < currentVel * 0.05) {
+                        char.textContent = scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+                    }
+                });
+            } else {
+                chars.forEach(char => {
+                    const orig = char.dataset.orig;
+                    if (char.textContent !== orig) {
+                        if (Math.random() < 0.25) {
+                            char.textContent = orig;
+                        }
+                    }
+                });
+            }
+        });
         gsap.ticker.lagSmoothing(0);
 
         const soulTl = gsap.timeline({
@@ -1045,48 +1061,37 @@
 
         const filmTrack = document.getElementById("film-track");
 
-        gsap.to(filmTrack, {
-            x: () => -(filmTrack.scrollWidth),
-            ease: "none",
+        <!-- STREAMING_CHUNK:Configuring timeline for complete thumbnail exit and black page pause... -->
+        const trackTl = gsap.timeline({
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
-                end: () => "+=" + (filmTrack.scrollWidth + window.innerWidth * 0.5), 
+                end: () => "+=" + (filmTrack.scrollWidth + window.innerWidth * 1.2), 
                 scrub: 1.2, 
                 pin: true, 
                 invalidateOnRefresh: true
             }
         });
 
-        gsap.fromTo("#selected-title .slot-char", 
-            { y: "120%" }, 
-            {
-                y: "0%",
-                ease: "none",
-                stagger: 0.05,
-                scrollTrigger: {
-                    trigger: "#selected-work",
-                    start: "top 85%",
-                    end: "top 30%",
-                    scrub: 1
-                }
-            }
-        );
+        trackTl.to(filmTrack, {
+            x: () => -(filmTrack.scrollWidth), 
+            ease: "none",
+            duration: 1
+        });
+        
+        trackTl.to({}, { duration: 0.4 });
 
-        gsap.fromTo("#about-title .slot-char", 
-            { y: "120%" }, 
-            {
-                y: "0%",
-                ease: "none",
-                stagger: 0.05,
-                scrollTrigger: {
-                    trigger: "#about",
-                    start: "top 85%",
-                    end: "top 30%",
-                    scrub: 1
-                }
+        gsap.to("#selected-title", {
+            opacity: 0,
+            y: -25,
+            ease: "power1.out",
+            scrollTrigger: {
+                trigger: "#selected-work",
+                start: "top top",
+                end: "+=350",
+                scrub: true
             }
-        );
+        });
 
         const wrapper = document.getElementById('selected-work');
         const parallaxWraps = gsap.utils.toArray(".parallax-wrap");
@@ -1149,21 +1154,14 @@
         if (window.matchMedia("(hover: hover)").matches) {
             document.querySelectorAll('.hover-text-fx').forEach(el => {
                 el.addEventListener('mouseenter', () => {
-                    gsap.to(el, { x: 16, skewX: -6, fontVariationSettings: '"slnt" -16', color: '#0616C6', duration: 0.05, ease: "power1.out", overwrite: "auto" });
+                    gsap.to(el, { x: 16, duration: 0.05, ease: "power1.out", overwrite: "auto" });
                 });
                 el.addEventListener('mouseleave', () => {
-                    gsap.to(el, { x: 0, skewX: 0, fontVariationSettings: '"slnt" 0', color: '#FFFFFF', duration: 0.05, ease: "power1.out", overwrite: "auto" });
-                });
-            });
-            document.querySelectorAll('.about-line').forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    gsap.to(el, { x: 8, fontVariationSettings: '"slnt" -12', color: '#0616C6', duration: 0.05, ease: "power1.out", overwrite: "auto" });
-                });
-                el.addEventListener('mouseleave', () => {
-                    gsap.to(el, { x: 0, fontVariationSettings: '"slnt" 0', color: '#FFFFFF', duration: 0.05, ease: "power1.out", overwrite: "auto" });
+                    gsap.to(el, { x: 0, duration: 0.05, ease: "power1.out", overwrite: "auto" });
                 });
             });
         }
     </script>
 </body>
 </html>
+```eof
