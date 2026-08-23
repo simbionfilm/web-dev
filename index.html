@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMBION FILM | Selected Works</title>
+    <title>SIMBION FILM</title>
     
     <!-- Browser Tab Favicon using orang.png -->
     <link rel="icon" type="image/png" href="orang.png">
@@ -83,20 +83,20 @@
             transition: width 0.2s, height 0.2s;
         }
 
-        /* Gradient Glass Header Mask */
+        /* Gradient Glass Header Mask - Adjusted for lower coverage & ~15% subtle blur */
         .header-blur-mask {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 160px;
+            height: 220px;
             z-index: 90;
             pointer-events: none;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 100%);
-            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 100%);
-            background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 100%);
         }
 
         @keyframes floatSlow {
@@ -607,9 +607,9 @@
             gsap.killTweensOf('.idle-float');
             gsap.utils.toArray('.idle-float').forEach((el) => {
                 gsap.to(el, {
-                    y: () => gsap.utils.random(-25, 25), // Meningkatkan gerak atas-bawah
-                    x: () => gsap.utils.random(-15, 15), // Meningkatkan gerak kiri-kanan
-                    rotation: () => gsap.utils.random(-6, 6), // Menambah efek rotasi dinamis agar tidak kaku
+                    y: () => gsap.utils.random(-25, 25),
+                    x: () => gsap.utils.random(-15, 15),
+                    rotation: () => gsap.utils.random(-6, 6),
                     duration: () => gsap.utils.random(4, 7),
                     ease: "sine.inOut",
                     repeat: -1,
@@ -630,7 +630,6 @@
                 let subHtml = '';
                 items.forEach((item, idx) => {
                     const leftPos = 110 + (idx * 18);
-                    // MEMBERIKAN ROTASI AWAL ACAK AGAR TERLIHAT ORGANIK/ARTISTIK
                     const baseRotation = (Math.random() - 0.5) * 8; 
 
                     subHtml += `
@@ -672,7 +671,6 @@
         renderRecentRelease();
         renderSelectedWorks();
 
-        // GENERATOR UNTUK EFEK ROLLING TEXT & VELOCITY SCROLL
         function createVelocityText() {
             document.querySelectorAll('.velocity-line').forEach(line => {
                 const text = line.getAttribute('data-text');
@@ -971,7 +969,6 @@
         lenis.on('scroll', (e) => {
             ScrollTrigger.update();
             const vel = e.velocity || 0;
-            // VELOCITY SCROLL EFFECT: Membuat huruf bergeser naik/turun sesuai seberapa kencang scroll ditarik
             const yOffset = gsap.utils.clamp(-50, 50, vel * 3); 
             gsap.to('.velocity-char', {
                 y: `${yOffset}%`,
@@ -984,7 +981,6 @@
         gsap.ticker.add((time) => lenis.raf(time * 1000));
         gsap.ticker.lagSmoothing(0);
 
-        // Animasi "The Soul" (Fade in judul & teks)
         const soulTl = gsap.timeline({
             scrollTrigger: {
                 trigger: "#the-soul",
@@ -997,7 +993,6 @@
               .to("#soul-desc", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
               .to(".bts-enter", { opacity: 1, duration: 1.2, ease: "power3.out" }, "-=0.6");
 
-        // INFINITE MARQUEE RUNNING TEXT
         const marqueeTrack = document.getElementById('marquee-track');
         if (marqueeTrack) {
             gsap.to(marqueeTrack, {
@@ -1008,7 +1003,6 @@
             });
         }
 
-        // FLOATING INTERAKTIF ORGANIK BTS
         function initBTSFloat() {
             gsap.utils.toArray('.bts-float').forEach((el) => {
                 gsap.to(el, {
@@ -1034,7 +1028,6 @@
             scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 1.5 }
         });
 
-        // EFEK HERO JATUH KE BAWAH KELUAR LAYAR KETIKA DI-SCROLL
         gsap.to('#hero', {
             yPercent: 100,
             opacity: 0,
@@ -1054,9 +1047,8 @@
 
         const filmTrack = document.getElementById("film-track");
 
-        // HORIZONTAL SCROLL PADA SELECTED WORKS
         gsap.to(filmTrack, {
-            x: () => -(filmTrack.scrollWidth - window.innerWidth), // Rumus scroll yang benar agar nyangkut / tepat
+            x: () => -(filmTrack.scrollWidth - window.innerWidth),
             ease: "none",
             scrollTrigger: {
                 trigger: "#selected-work",
@@ -1068,7 +1060,6 @@
             }
         });
 
-        // Judul SELECTED WORKS fade out secara mulus saat masuk mode scroll ke kanan
         gsap.to("#selected-title", {
             opacity: 0,
             y: -25,
@@ -1081,7 +1072,6 @@
             }
         });
 
-        // ROLLING TEXT REVEAL: Efek slot bergulir saat masuk ke area scroll
         ScrollTrigger.create({
             trigger: "#selected-work",
             start: "top 80%",
