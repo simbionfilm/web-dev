@@ -29,7 +29,7 @@
         }
     </script>
 
-    <!-- STREAMING_CHUNK:Configuring stylesheet rules and static-color line reveal animations... -->
+    <!-- STREAMING_CHUNK:Configuring stylesheet rules and line reveal animations... -->
     <style>
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto; }
@@ -132,22 +132,15 @@
         .line-reveal-wrap {
             overflow: hidden;
             display: block;
-            padding-bottom: 0.15em;
+            padding-bottom: 0.2em;
         }
 
         .line-reveal-inner {
             display: block;
-            transform: translateY(120%) skewY(4deg);
+            transform: translateY(110%);
             opacity: 0;
             color: #FFFFFF;
             will-change: transform, opacity;
-            transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .line-reveal-inner.revealed {
-            transform: translateY(0%) skewY(0deg);
-            opacity: 1;
-            color: #FFFFFF;
         }
 
         .we-are-container { cursor: none !important; }
@@ -347,11 +340,18 @@
     </section>
 
     <!-- STREAMING_CHUNK:2. About Us Section (Scroll line-reveal animation) -->
-    <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-end px-8 md:px-20 lg:px-32 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
-        <div class="relative w-full max-w-[50vw] md:max-w-[42vw] lg:max-w-[38vw] my-auto flex flex-col z-20">
-            <div id="about-desc-text" class="interactive-el text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug md:leading-snug text-justify drop-shadow-md">
-                SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA. WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US. WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.
-            </div>
+    <section id="about" class="about-section relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-end px-8 md:px-20 lg:px-32 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+        <div class="relative w-full max-w-[50vw] md:max-w-[42vw] lg:max-w-[38vw] my-auto flex flex-col z-20 space-y-2">
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">BASED IN SOUTH JAKARTA, INDONESIA.</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">WE STARTED FROM THE GROUND UP, DRIVEN BY</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">A GROUP OF PASSIONATE FILMMAKERS WITH</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">A SHARED LOVE FOR THE CRAFT AND A CURIOSITY</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">FOR WHERE IT CAN TAKE US. WORKING INDEPENDENTLY</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">HAS ALWAYS BEEN PART OF WHO WE ARE.</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">IT KEEPS US CLOSE TO THE WORK, OPEN TO</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">DIFFERENT PERSPECTIVES, AND CONNECTED</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">TO THE PEOPLE WE WORK WITH.</span></span>
         </div>
     </section>
 
@@ -512,11 +512,18 @@
     </section>
 
     <!-- STREAMING_CHUNK:6. Project Fit Section (Scroll line-reveal animation) -->
-    <section id="project-fit" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-48 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
-        <div class="relative w-full max-w-[55vw] md:max-w-[48vw] lg:max-w-[44vw] my-auto flex flex-col z-20">
-            <div id="fit-desc-text" class="interactive-el text-[4.4vw] md:text-[26px] lg:text-[32px] xl:text-[38px] font-bold uppercase tracking-tight text-white leading-snug md:leading-snug text-justify drop-shadow-md">
-                EVERY PROJECT DESERVES ITS OWN FIT. WE TAILOR EACH ONE FROM SCRATCH, CAREFULLY STITCHING EVERY FRAME TOGETHER WITH PASSION, PURPOSE, AND DEDICATION. WE BELIEVE GREAT WORK COMES FROM BRINGING TOGETHER THE RIGHT PEOPLE, IDEAS, AND PERSPECTIVES THAT ALIGN WITH THE VISION. EVERY DETAIL MATTERS, EVERY FRAME HAS A PURPOSE, AND EVERY PROJECT DESERVES THE CARE TO MAKE IT FEEL TRULY ITS OWN.
-            </div>
+    <section id="project-fit" class="fit-section relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-48 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+        <div class="relative w-full max-w-[55vw] md:max-w-[48vw] lg:max-w-[44vw] my-auto flex flex-col z-20 space-y-2">
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[4.4vw] md:text-[26px] lg:text-[32px] xl:text-[38px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">EVERY PROJECT DESERVES ITS OWN FIT.</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[4.4vw] md:text-[26px] lg:text-[32px] xl:text-[38px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">WE TAILOR EACH ONE FROM SCRATCH, CAREFULLY</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[4.4vw] md:text-[26px] lg:text-[32px] xl:text-[38px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">STITCHING EVERY FRAME TOGETHER WITH</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[4.4vw] md:text-[26px] lg:text-[32px] xl:text-[38px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">PASSION, PURPOSE, AND DEDICATION.</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[4.4vw] md:text-[26px] lg:text-[32px] xl:text-[38px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">WE BELIEVE GREAT WORK COMES FROM</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[4.4vw] md:text-[26px] lg:text-[32px] xl:text-[38px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">BRINGING TOGETHER THE RIGHT PEOPLE, IDEAS,</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[4.4vw] md:text-[26px] lg:text-[32px] xl:text-[38px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">AND PERSPECTIVES THAT ALIGN WITH THE VISION.</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[4.4vw] md:text-[26px] lg:text-[32px] xl:text-[38px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">EVERY DETAIL MATTERS, EVERY FRAME HAS A PURPOSE,</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[4.4vw] md:text-[26px] lg:text-[32px] xl:text-[38px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">AND EVERY PROJECT DESERVES THE CARE</span></span>
+            <span class="line-reveal-wrap"><span class="line-reveal-inner text-[4.4vw] md:text-[26px] lg:text-[32px] xl:text-[38px] font-bold uppercase tracking-tight leading-snug md:leading-snug text-justify drop-shadow-md">TO MAKE IT FEEL TRULY ITS OWN.</span></span>
         </div>
     </section>
 
@@ -539,7 +546,7 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Initializing JavaScript logic, Lenis, and Scroll Line Reveal animations... -->
+    <!-- STREAMING_CHUNK:Initializing JavaScript logic, Lenis, and GSAP ScrollTrigger animations... -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Fake Loader Animation Logic (3 seconds duration)
@@ -564,79 +571,28 @@
                 if (loaderPercentage) loaderPercentage.textContent = currentPercent + '%';
             }, 50);
 
-            // Function to split paragraph into responsive text lines (per baris)
-            function setupLineReveal(containerId) {
-                const container = document.getElementById(containerId);
-                if (!container) return;
-                
-                const text = container.textContent.trim();
-                container.textContent = '';
-                
-                const measureEl = document.createElement('div');
-                measureEl.style.cssText = window.getComputedStyle(container).cssText;
-                measureEl.style.position = 'absolute';
-                measureEl.style.visibility = 'hidden';
-                measureEl.style.height = 'auto';
-                measureEl.style.width = container.clientWidth + 'px';
-                document.body.appendChild(measureEl);
+            // GSAP ScrollTrigger for Line Reveals (per baris)
+            function initScrollLineReveals(sectionSelector) {
+                const section = document.querySelector(sectionSelector);
+                if (!section) return;
+                const lines = section.querySelectorAll('.line-reveal-inner');
 
-                const words = text.split(/\s+/);
-                let currentLineWords = [];
-                let lines = [];
-
-                words.forEach(word => {
-                    currentLineWords.push(word);
-                    measureEl.textContent = currentLineWords.join(' ');
-                    if (measureEl.offsetHeight > parseInt(window.getComputedStyle(measureEl).lineHeight || 30) * 1.5) {
-                        currentLineWords.pop();
-                        lines.push(currentLineWords.join(' '));
-                        currentLineWords = [word];
-                        measureEl.textContent = word;
+                gsap.to(lines, {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1.2,
+                    stagger: 0.1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 65%",
+                        toggleActions: "play none none reverse"
                     }
-                });
-                if (currentLineWords.length > 0) {
-                    lines.push(currentLineWords.join(' '));
-                }
-                document.body.removeChild(measureEl);
-
-                lines.forEach(line => {
-                    const wrap = document.createElement('span');
-                    wrap.className = 'line-reveal-wrap';
-                    const inner = document.createElement('span');
-                    inner.className = 'line-reveal-inner';
-                    inner.textContent = line;
-                    wrap.appendChild(inner);
-                    container.appendChild(wrap);
                 });
             }
 
-            setupLineReveal('about-desc-text');
-            setupLineReveal('fit-desc-text');
-
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px 0px -10% 0px',
-                threshold: 0.15
-            };
-
-            const observer = new IntersectionObserver((entries, obs) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const inners = entry.target.querySelectorAll('.line-reveal-inner');
-                        inners.forEach((inner, idx) => {
-                            setTimeout(() => {
-                                inner.classList.add('revealed');
-                            }, idx * 120);
-                        });
-                        obs.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            const aboutSec = document.getElementById('about');
-            const fitSec = document.getElementById('project-fit');
-            if (aboutSec) observer.observe(aboutSec);
-            if (fitSec) observer.observe(fitSec);
+            initScrollLineReveals('#about');
+            initScrollLineReveals('#project-fit');
 
             const cursor = document.getElementById('custom-cursor');
             const isDesktop = window.matchMedia("(pointer: fine)").matches;
