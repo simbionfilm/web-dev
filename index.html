@@ -107,7 +107,7 @@
             animation: floatSlow 5s ease-in-out infinite;
         }
 
-        <!-- STREAMING_CHUNK:Styling rolling text and slot components... -->
+        <!-- STREAMING_CHUNK:Styling rolling text slot components... -->
         .slot-wrapper {
             display: inline-block;
             overflow: hidden;
@@ -968,14 +968,6 @@
         
         lenis.on('scroll', (e) => {
             ScrollTrigger.update();
-            const vel = e.velocity || 0;
-            const yOffset = gsap.utils.clamp(-50, 50, vel * 3); 
-            gsap.to('.velocity-char', {
-                y: `${yOffset}%`,
-                duration: 0.3,
-                ease: "power2.out",
-                overwrite: true 
-            });
         });
 
         gsap.ticker.add((time) => lenis.raf(time * 1000));
@@ -1073,44 +1065,34 @@
             }
         });
 
-        <!-- STREAMING_CHUNK:Setting up section title animations... -->
+        <!-- STREAMING_CHUNK:Setting up stable title animations... -->
         ScrollTrigger.create({
             trigger: "#selected-work",
             start: "top 80%",
+            once: true,
             onEnter: () => { 
-                gsap.fromTo("#selected-title .slot-char", 
-                    { y: "120%" }, 
-                    {
-                        y: "0%",
-                        duration: () => gsap.utils.random(1.2, 2.0),
-                        ease: "power3.out",
-                        stagger: { amount: 0.6, from: "random" },
-                        overwrite: "auto"
-                    }
-                );
-            },
-            onLeaveBack: () => { 
-                gsap.to("#selected-title .slot-char", { y: "120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
+                gsap.to("#selected-title .slot-char", {
+                    y: "0%",
+                    duration: 1.2,
+                    ease: "power3.out",
+                    stagger: { amount: 0.4, from: "start" },
+                    overwrite: "auto"
+                });
             }
         });
 
         ScrollTrigger.create({
             trigger: "#about",
             start: "top 80%",
+            once: true,
             onEnter: () => { 
-                gsap.fromTo("#about-title .slot-char", 
-                    { y: "120%" }, 
-                    {
-                        y: "0%",
-                        duration: () => gsap.utils.random(1.2, 2.0),
-                        ease: "power3.out",
-                        stagger: { amount: 0.6, from: "random" },
-                        overwrite: "auto"
-                    }
-                );
-            },
-            onLeaveBack: () => { 
-                gsap.to("#about-title .slot-char", { y: "120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
+                gsap.to("#about-title .slot-char", {
+                    y: "0%",
+                    duration: 1.2,
+                    ease: "power3.out",
+                    stagger: { amount: 0.4, from: "start" },
+                    overwrite: "auto"
+                });
             }
         });
 
