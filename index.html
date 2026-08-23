@@ -353,12 +353,12 @@
         </div>
 
         <!-- Left side MASSIVE Typography block -->
-        <div class="absolute top-[12vh] md:top-[8vh] left-4 md:left-12 flex flex-col w-[90vw] md:w-[75vw] z-20 text-[11.5vw] md:text-[6.8vw] font-black uppercase tracking-tighter leading-[0.82] text-white" id="hero-statement">
+        <div class="absolute top-[8vh] md:top-[10vh] left-4 md:left-8 lg:left-12 flex flex-col w-[92vw] md:w-[85vw] lg:w-[80vw] z-20 text-[min(8.5vw,7.2vh)] md:text-[min(5.5vw,7vh)] font-bold uppercase tracking-tighter leading-[0.95] text-white" id="hero-statement">
             <div class="overflow-hidden pt-2 -mt-2 pb-2 -mb-2"><div class="statement-line flex justify-start"><span class="hover-text-fx interactive-el">EVERY PROJECT</span></div></div>
             <div class="overflow-hidden pt-2 -mt-2 pb-2 -mb-2"><div class="statement-line flex justify-between"><span class="hover-text-fx interactive-el">DESERVES</span> <span class="opacity-50 hover-text-fx interactive-el">ITS</span></div></div>
-            <div class="overflow-hidden pt-2 -mt-2 pb-2 -mb-2"><div class="statement-line flex justify-end pr-8 md:pr-[12vw]"><span class="hover-text-fx interactive-el text-transparent" style="-webkit-text-stroke: 1.5px rgba(255,255,255,0.8);">OWN FIT.</span></div></div>
+            <div class="overflow-hidden pt-2 -mt-2 pb-2 -mb-2"><div class="statement-line flex justify-end pr-8 md:pr-[12vw]"><span class="hover-text-fx interactive-el text-transparent" style="-webkit-text-stroke: 1px rgba(255,255,255,0.8);">OWN FIT.</span></div></div>
             <div class="overflow-hidden pt-2 -mt-2 pb-2 -mb-2"><div class="statement-line flex justify-start pl-8 md:pl-[6vw]"><span class="hover-text-fx interactive-el">WE TAILOR</span></div></div>
-            <div class="overflow-hidden pt-2 -mt-2 pb-2 -mb-2"><div class="statement-line flex justify-between"><span class="hover-text-fx interactive-el">EACH ONE</span> <span class="hover-text-fx interactive-el text-transparent" style="-webkit-text-stroke: 1.5px rgba(255,255,255,0.8);">FROM</span></div></div>
+            <div class="overflow-hidden pt-2 -mt-2 pb-2 -mb-2"><div class="statement-line flex justify-between"><span class="hover-text-fx interactive-el">EACH ONE</span> <span class="hover-text-fx interactive-el text-transparent" style="-webkit-text-stroke: 1px rgba(255,255,255,0.8);">FROM</span></div></div>
             <div class="overflow-hidden pt-2 -mt-2 pb-2 -mb-2"><div class="statement-line flex justify-center pr-[10vw]"><span class="hover-text-fx interactive-el">SCRATCH,</span></div></div>
             <div class="overflow-hidden pt-2 -mt-2 pb-2 -mb-2"><div class="statement-line flex justify-start"><span class="hover-text-fx interactive-el">CAREFULLY</span></div></div>
             <div class="overflow-hidden pt-2 -mt-2 pb-2 -mb-2"><div class="statement-line flex justify-between"><span class="hover-text-fx interactive-el">STITCHING</span> <span class="hover-text-fx interactive-el opacity-40">EVERY</span></div></div>
@@ -370,7 +370,7 @@
     </section>
 
     <!-- SECTION: "The Soul" -->
-        <div class="relative w-full overflow-hidden py-16 bts-enter opacity-0">
+    <section id="the-soul" class="relative w-full min-h-[120dvh] bg-black text-white flex flex-col justify-center px-0 py-24 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
             <div id="marquee-track" class="flex w-max will-change-transform items-center">
                 <!-- Group 1 -->
                 <div class="flex shrink-0 items-center -space-x-4 md:-space-x-8">
@@ -1139,20 +1139,22 @@
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
-                end: () => "+=" + (filmTrack.scrollWidth + window.innerWidth * 1.2), 
-                scrub: 2.5, // Ditingkatkan menjadi 2.5 agar gerakannya memiliki inertia dan easy ease (berhenti dan jalan halus sekali)
+                // Mengalikan scrollWidth dengan 1.5 agar butuh scroll lebih panjang (membuat gerakan terasa lebih lambat dan santai)
+                end: () => "+=" + (filmTrack.scrollWidth * 1.5), 
+                scrub: 2.5, 
                 pin: true, 
                 invalidateOnRefresh: true
             }
         });
 
         trackTl.to(filmTrack, {
-            x: () => -(filmTrack.scrollWidth), 
-            ease: "power2.inOut", // Diganti dari none agar memiliki perlambatan dan percepatan di ujung-ujung scroll
+            // Berhenti tepat di ujung track dikurangi lebar layar, sehingga menghilangkan blank page kosong di akhir
+            x: () => -(filmTrack.scrollWidth - window.innerWidth), 
+            ease: "power2.inOut",
             duration: 1
         });
         
-        trackTl.to({}, { duration: 0.4 });
+        // Block delay kosong ( trackTl.to({}, { duration: 0.4 }) ) dihilangkan agar langsung lanjut ke About Us
 
         gsap.to("#selected-title", {
             opacity: 0,
@@ -1184,7 +1186,8 @@
                 const inner = item.querySelector('.gallery-item-inner');
                 item.addEventListener('mouseenter', () => {
                     gsap.set(item, { zIndex: 100 });
-                    gsap.to(inner, { scale: 1.5, duration: 0.8, ease: "power3.out", overwrite: "auto" });
+                    // Ditambahkan delay 0.1s dan durasi 1.2s agar tidak terlalu sensitif/cepat saat tidak sengaja tersentuh kursor
+                    gsap.to(inner, { scale: 1.5, duration: 1.2, delay: 0.1, ease: "power3.out", overwrite: "auto" });
 
                     const isMobile = window.innerWidth < 768;
                     const pushVal = isMobile ? 12 : 8; 
@@ -1192,17 +1195,17 @@
                     galleryItems.forEach((other, otherIndex) => {
                         if (otherIndex !== index) {
                             const pushAmount = otherIndex < index ? `-${pushVal}vw` : `${pushVal}vw`;
-                            gsap.to(other, { x: pushAmount, duration: 0.8, ease: "power3.out", overwrite: "auto" });
+                            gsap.to(other, { x: pushAmount, duration: 1.2, delay: 0.1, ease: "power3.out", overwrite: "auto" });
                         }
                     });
                 });
                 item.addEventListener('mouseleave', () => {
                     gsap.to(inner, { 
-                        scale: 1, duration: 0.8, ease: "power3.out", overwrite: "auto",
+                        scale: 1, duration: 1.0, delay: 0, ease: "power3.out", overwrite: "auto",
                         onComplete: () => gsap.set(item, { zIndex: 10 }) 
                     });
                     galleryItems.forEach((other) => {
-                        gsap.to(other, { x: "0vw", duration: 0.8, ease: "power3.out", overwrite: "auto" });
+                        gsap.to(other, { x: "0vw", duration: 1.0, delay: 0, ease: "power3.out", overwrite: "auto" });
                     });
                 });
             });
