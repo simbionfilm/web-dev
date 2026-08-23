@@ -691,24 +691,19 @@
         renderRecentRelease();
         renderSelectedWorks();
 
-        // Populate Hero Paragraph and setup kinetic word shifting on scroll
+        // Populate Hero Paragraph with hoverable words (no scroll word shifting)
         const heroQuoteEl = document.getElementById('hero-quote');
         const paragraphText = "Every project deserves its own fit. We tailor each one from scratch, carefully stitching every frame together with passion, purpose, and dedication. We believe great work comes from bringing together the right people, ideas, and perspectives that align with the vision. Every detail matters, every frame has a purpose, and every project deserves the care to make it feel truly its own.";
         
-        const wordSpans = [];
-        const animatedWordIndices = new Set();
-        
-        paragraphText.toUpperCase().split(' ').forEach((word, idx) => {
-            const span = document.createElement('span');
-            span.className = 'inline-block will-change-transform mr-[0.3em] mb-[0.15em] interactive-el';
-            span.textContent = word;
-            heroQuoteEl.appendChild(span);
-            wordSpans.push(span);
-            
-            if (idx % 3 === 1 || idx % 4 === 0) {
-                animatedWordIndices.add(idx);
-            }
-        });
+        if (heroQuoteEl) {
+            heroQuoteEl.innerHTML = '';
+            paragraphText.toUpperCase().split(' ').forEach(word => {
+                const span = document.createElement('span');
+                span.className = 'inline-block mr-[0.3em] mb-[0.15em] hover-text-fx interactive-el';
+                span.textContent = word;
+                heroQuoteEl.appendChild(span);
+            });
+        }
 
         function createSlotText() {
             document.querySelectorAll('.velocity-line').forEach(line => {
@@ -1013,42 +1008,11 @@
         let targetVel = 0;
         let currentVel = 0;
         let frameCount = 0;
-        let scrollTimeout;
 
         lenis.on('scroll', (e) => {
             ScrollTrigger.update();
             const vel = e.velocity || 0;
             targetVel = Math.abs(vel);
-
-            const absVel = Math.abs(vel);
-            if (absVel > 0.05) {
-                wordSpans.forEach((span, i) => {
-                    if (animatedWordIndices.has(i)) {
-                        const direction = (i % 2 === 0) ? 1 : -1;
-                        const shiftAmount = Math.min(absVel * 70, 180) * direction;
-                        gsap.to(span, {
-                            x: shiftAmount,
-                            duration: 0.15,
-                            ease: "power1.out",
-                            overwrite: "auto"
-                        });
-                    }
-                });
-
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    wordSpans.forEach((span, i) => {
-                        if (animatedWordIndices.has(i)) {
-                            gsap.to(span, {
-                                x: 0,
-                                duration: 0.9,
-                                ease: "elastic.out(1, 0.4)",
-                                overwrite: "auto"
-                            });
-                        }
-                    });
-                }, 180);
-            }
         });
 
         gsap.ticker.add((time) => {
@@ -1114,7 +1078,7 @@
         const heroTl = gsap.timeline();
         heroTl.fromTo('#hero-quote span', 
             { y: 25, opacity: 0 },
-            { y: 0, opacity: 1, duration: 1.0, ease: "power4.out", stagger: 0.02, delay: 0.2 }
+            { y: 0, opacity: 1, duration: 1.0, ease: "power4.out", stagger: 0.015, delay: 0.2 }
         );
 
         gsap.to('#hero-statement', {
