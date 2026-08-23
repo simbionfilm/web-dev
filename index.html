@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMBION FILM</title>
+    <title>SIMBION FILM | Selected Works</title>
     
     <!-- Browser Tab Favicon using orang.png -->
     <link rel="icon" type="image/png" href="orang.png">
@@ -83,6 +83,7 @@
             transition: width 0.2s, height 0.2s;
         }
 
+        /* STREAMING_CHUNK:Styling header blur mask... */
         .header-blur-mask {
             position: fixed;
             top: 0;
@@ -106,6 +107,7 @@
             animation: floatSlow 5s ease-in-out infinite;
         }
 
+        /* STREAMING_CHUNK:Styling slot machine smooth rolling transition... */
         .slot-wrapper {
             display: inline-block;
             overflow: hidden;
@@ -117,7 +119,7 @@
             display: flex;
             flex-direction: column;
             will-change: transform;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .slot-char {
             display: block;
@@ -217,23 +219,6 @@
     
     <!-- Seamless Gradient Blur Mask Header -->
     <div class="header-blur-mask"></div>
-
-    <!-- Custom Notification Toast (Replaces alert) -->
-    <div id="custom-toast" class="fixed top-8 left-1/2 -translate-x-1/2 z-[350] bg-neutral-900/90 backdrop-blur-xl border border-white/20 text-white px-6 py-3 rounded-2xl shadow-2xl opacity-0 pointer-events-none transition-all duration-300 transform -translate-y-4">
-        <span id="toast-message" class="text-xs font-mono uppercase tracking-widest">Notification</span>
-    </div>
-
-    <!-- Custom Confirm Modal (Replaces confirm) -->
-    <div id="custom-confirm-modal" class="fixed inset-0 z-[320] bg-black/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
-        <div class="bg-neutral-900 border border-white/20 rounded-3xl w-full max-w-sm p-6 text-white text-center shadow-2xl">
-            <h3 id="confirm-title" class="font-bold text-base uppercase tracking-wider mb-2">Confirmation</h3>
-            <p id="confirm-desc" class="text-xs text-mutedText font-mono mb-6">Are you sure?</p>
-            <div class="flex gap-3 justify-center">
-                <button id="confirm-no" class="bg-white/10 px-5 py-2.5 rounded-xl text-xs font-mono uppercase hover:bg-white/25 transition-colors">Cancel</button>
-                <button id="confirm-yes" class="bg-simbionBlue px-6 py-2.5 rounded-xl text-xs font-mono uppercase font-bold hover:opacity-90 transition-opacity">Confirm</button>
-            </div>
-        </div>
-    </div>
 
     <!-- Persistent Floating Horizontal Speech Balloon Trigger -->
     <div id="chat-balloon" class="fixed bottom-32 md:bottom-40 right-6 md:right-10 z-[105] group cursor-pointer interactive-el floating-widget transition-all duration-500 origin-bottom-right">
@@ -566,42 +551,6 @@
             }
         });
 
-        function showToast(msg) {
-            const toast = document.getElementById('custom-toast');
-            const msgEl = document.getElementById('toast-message');
-            msgEl.textContent = msg;
-            toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
-            toast.classList.add('opacity-100', 'translate-y-0');
-            setTimeout(() => {
-                toast.classList.remove('opacity-100', 'translate-y-0');
-                toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
-            }, 3000);
-        }
-
-        function showConfirm(title, desc, onConfirm) {
-            const modal = document.getElementById('custom-confirm-modal');
-            document.getElementById('confirm-title').textContent = title;
-            document.getElementById('confirm-desc').textContent = desc;
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            
-            const yesBtn = document.getElementById('confirm-yes');
-            const noBtn = document.getElementById('confirm-no');
-
-            const cleanup = () => {
-                modal.classList.add('opacity-0', 'pointer-events-none');
-                yesBtn.onclick = null;
-                noBtn.onclick = null;
-            };
-
-            yesBtn.onclick = () => {
-                cleanup();
-                onConfirm();
-            };
-            noBtn.onclick = () => {
-                cleanup();
-            };
-        }
-
         const SECRET_KEYWORD = "fundamental"; 
         const ADMIN_PASSWORD = "simbiosismutualisme"; 
 
@@ -725,6 +674,7 @@
         renderRecentRelease();
         renderSelectedWorks();
 
+        /* STREAMING_CHUNK:Creating slot machine text with identical character loop for smooth vertical rolls... */
         function createSlotText() {
             document.querySelectorAll('.velocity-line').forEach(line => {
                 const text = line.getAttribute('data-text');
@@ -743,7 +693,7 @@
                     track.className = 'slot-track';
                     track.dataset.orig = char;
 
-                    // Menggunakan karakter yang sama berulang kali agar saat rolling tetap huruf itu sendiri
+                    // Menggunakan karakter yang sama berulang kali agar saat rolling tetap huruf itu sendiri tanpa ganti karakter
                     const letters = [char, char, char, char, char];
 
                     letters.forEach(l => {
@@ -798,15 +748,15 @@
                 });
                 const result = await response.json();
                 if (result.success) {
-                    showToast("Pesan berhasil terkirim ke Simbion Film!");
+                    alert("Pesan berhasil terkirim ke Simbion Film!");
                     chatForm.reset();
                     closeChatModal();
                 } else {
-                    showToast("Gagal mengirim pesan. Silakan coba lagi.");
+                    alert("Gagal mengirim pesan. Silakan coba lagi.");
                 }
             } catch (error) {
                 console.error(error);
-                showToast("Terjadi kesalahan koneksi.");
+                alert("Terjadi kesalahan koneksi.");
             } finally {
                 submitBtn.textContent = "SEND MESSAGE";
             }
@@ -922,7 +872,7 @@
                 closePasswordModal();
                 openCmsModal();
             } else {
-                showToast('Incorrect Password!');
+                alert('Incorrect Password!');
                 adminPasswordInput.value = '';
             }
         });
@@ -1008,14 +958,14 @@
         });
 
         resetCmsBtn.addEventListener('click', () => {
-            showConfirm("Reset Defaults", "Reset all items to default?", () => {
+            if (confirm('Reset all items to default?')) {
                 localStorage.removeItem('simbion_cms');
                 cmsData = JSON.parse(JSON.stringify(defaultCMS));
                 renderRecentRelease();
                 renderSelectedWorks();
                 closeCmsModal();
                 window.location.reload();
-            });
+            }
         });
 
         const lenis = new Lenis({
@@ -1036,6 +986,7 @@
             targetVel = Math.abs(vel);
         });
 
+        /* STREAMING_CHUNK:Running slowed down and smooth sparse random slot rolling ticker... */
         gsap.ticker.add((time) => {
             lenis.raf(time * 1000);
             
@@ -1043,18 +994,16 @@
             targetVel *= 0.9;
 
             frameCount++;
-            // Throttle checks and introduce delay so it rolls leisurely and only on sparse random letters
-            if (frameCount % 6 === 0) {
+            // Dibatasi dengan jeda frame dan probabilitas rendah agar rolling lambat, santai, dan hanya pada beberapa huruf acak saja
+            if (frameCount % 8 === 0) {
                 const tracks = document.querySelectorAll('.slot-track');
                 tracks.forEach(track => {
                     if (currentVel > 0.25) {
-                        // Only ~15% chance per frame check to roll a specific character
-                        if (Math.random() < 0.18) {
+                        if (Math.random() < 0.15) {
                             const randomShift = (Math.floor(Math.random() * 4)) * -1;
                             track.style.transform = `translateY(${randomShift}em)`;
                         }
                     } else {
-                        // Return smoothly to original position when scrolling slows down
                         track.style.transform = `translateY(0em)`;
                     }
                 });
@@ -1128,6 +1077,7 @@
 
         const filmTrack = document.getElementById("film-track");
 
+        /* STREAMING_CHUNK:Configuring timeline for complete thumbnail exit and black page pause... */
         const trackTl = gsap.timeline({
             scrollTrigger: {
                 trigger: "#selected-work",
@@ -1230,3 +1180,5 @@
     </script>
 </body>
 </html>
+
+```eof
