@@ -1,4 +1,3 @@
-<!-- STREAMING_CHUNK:Initializing HTML structure and CDN resources... -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -30,7 +29,6 @@
         }
     </script>
 
-    <!-- STREAMING_CHUNK:Configuring custom styles and animations... -->
     <style>
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto; }
@@ -228,7 +226,6 @@
 </head>
 <body class="font-sans">
 
-    <!-- STREAMING_CHUNK:Rendering navigation, widgets, and modals... -->
     <div class="custom-cursor" id="custom-cursor"></div>
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
     
@@ -357,22 +354,20 @@
 
     <div id="recent-release-container"></div>
 
-    <!-- STREAMING_CHUNK:Rendering Hero Section with higher paragraph & top-right falling cameraman... -->
-    <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-start px-6 md:px-12 pt-24 md:pt-28 pb-12 bg-black z-10 shadow-2xl overflow-hidden">
-        <!-- Falling cameraman positioned at top right, aligned with paragraph top -->
-        <div class="absolute right-6 md:right-12 top-24 md:top-28 w-[40vw] md:w-[28vw] max-w-md parallax-hero z-10 pointer-events-none opacity-80 mix-blend-screen">
-            <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-full h-auto object-contain" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
+    <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center px-6 md:px-12 pb-12 bg-black z-10 shadow-2xl overflow-hidden">
+        <!-- Falling cameraman centered in the remaining empty right margin space, enlarged 20%, 100% opaque -->
+        <div class="absolute left-[48%] md:left-[52%] right-0 top-0 h-full flex items-center justify-center parallax-hero z-10 pointer-events-none opacity-100">
+            <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-[50vw] md:w-[36vw] max-w-xl h-auto object-contain" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
         </div>
 
-        <!-- Left side Paragraph Layout: moved slightly higher -->
-        <div class="relative w-full max-w-[48vw] lg:max-w-[44vw] mt-4 md:mt-6 flex flex-col hero-fade opacity-0 z-20">
+        <!-- Left side Paragraph Layout: vertically centered in hero section -->
+        <div class="relative w-full max-w-[48vw] lg:max-w-[44vw] my-auto flex flex-col hero-fade opacity-0 z-20">
             <p id="hero-desc-text" class="interactive-el text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold uppercase tracking-tight text-white leading-none text-justify">
                 EVERY PROJECT DESERVES ITS OWN FIT. WE TAILOR EACH ONE FROM SCRATCH, CAREFULLY STITCHING EVERY FRAME TOGETHER WITH PASSION, PURPOSE, AND DEDICATION. WE BELIEVE GREAT WORK COMES FROM BRINGING TOGETHER THE RIGHT PEOPLE, IDEAS, AND PERSPECTIVES THAT ALIGN WITH THE VISION. EVERY DETAIL MATTERS, EVERY FRAME HAS A PURPOSE, AND EVERY PROJECT DESERVES THE CARE TO MAKE IT FEEL TRULY ITS OWN.
             </p>
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Rendering The Soul section... -->
     <section id="the-soul" class="relative w-full min-h-[120dvh] bg-black text-white flex flex-col justify-center px-0 py-24 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
         <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 mb-16">
             <div class="w-full relative">
@@ -500,7 +495,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Rendering We Are What We've Made section... -->
     <section id="we-are-made" class="relative w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-8 md:px-24 z-30 shadow-[0_-30px_60px_rgba(0,0,0,0.9)] overflow-hidden">
         <div class="we-are-container relative z-10 my-auto flex flex-col items-center justify-center gap-2 md:gap-4 select-none w-full max-w-7xl">
             <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask">
@@ -515,7 +509,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Rendering Selected Works horizontal scroll gallery with reduced trailing padding... -->
     <section id="selected-work" class="relative bg-black z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.9)] w-full h-[100dvh] overflow-hidden flex flex-col">
         <div class="absolute top-20 md:top-24 left-6 md:left-12 z-50 pointer-events-none mix-blend-difference">
             <h2 id="selected-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase pointer-events-auto w-fit">
@@ -528,7 +521,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Rendering About Us section... -->
     <section id="about" class="relative w-full min-h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-20 py-24 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
         <div class="max-w-6xl w-full mx-auto space-y-12">
             <h2 id="about-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase mb-12 w-fit">
@@ -549,7 +541,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Rendering Contact section... -->
     <section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-8 py-16 z-[60] shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
         <div class="relative z-10 flex flex-col items-center text-center w-full my-auto">
             <div class="flex flex-col w-full font-bold leading-[0.9] tracking-tighter">
@@ -568,7 +559,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Initializing JavaScript logic, animations, and CMS storage safely on DOMContentLoaded... -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Split hero paragraph text into individual sentences for sentence-by-sentence right margin expansion hover effect
@@ -740,7 +730,6 @@
                 html += renderRows(row3, 68);
 
                 const maxItems = Math.max(row1.length, row2.length, row3.length);
-                // Reduced trailing width from +200 to +90 so scroll length is shorter
                 const dynamicWidth = 110 + ((maxItems - 1) * 18) + 60 + 90; 
                 track.style.width = `${dynamicWidth}vw`;
                 track.innerHTML = html;
@@ -1206,7 +1195,7 @@
                     trigger: "#selected-work",
                     start: "top top",
                     end: "+=350",
-                    scrub: term => term // scrub true
+                    scrub: true
                 }
             });
 
