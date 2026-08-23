@@ -1,3 +1,4 @@
+<!-- STREAMING_CHUNK:Initializing HTML structure and CDN resources... -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -28,6 +29,7 @@
         }
     </script>
 
+    <!-- STREAMING_CHUNK:Configuring robust styles and animations... -->
     <style>
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto; }
@@ -108,8 +110,8 @@
             display: inline-block;
             overflow: hidden; 
             vertical-align: bottom;
-            height: 1.25em; 
-            line-height: 1.25em;
+            height: 1.2em; 
+            line-height: 1.2em;
             padding: 0 0.05em; 
             margin: 0 -0.02em;
         }
@@ -117,13 +119,13 @@
             display: flex;
             flex-direction: column;
             will-change: transform;
-            transform: translateY(-6.25em);
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(-6em);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .slot-char {
             display: block;
-            height: 1.25em;
-            line-height: 1.25em;
+            height: 1.2em;
+            line-height: 1.2em;
             text-align: center;
         }
 
@@ -225,13 +227,14 @@
 </head>
 <body class="font-sans selection:bg-simbionBlue selection:text-white">
 
+    <!-- STREAMING_CHUNK:Rendering 3-second Fake Loader Screen with 50% enlarged falling cameraman... -->
     <div id="fake-loader" class="fixed inset-0 z-[9999] bg-simbionBlue flex flex-col items-center justify-center overflow-hidden">
-        <div class="relative z-10 flex flex-col items-center gap-1 p-4 text-center">
-            <div id="loader-img-wrap" class="w-64 md:w-80 h-auto drop-shadow-2xl transition-all duration-500 brightness-0 invert scale-125">
+        <div class="relative z-10 flex flex-col items-center gap-3 p-6 text-center">
+            <div id="loader-img-wrap" class="w-72 md:w-96 h-auto drop-shadow-2xl transition-all duration-500 brightness-0 invert scale-150 mb-2">
                 <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Loading Cameraman" class="w-full h-auto object-contain">
             </div>
             <div class="flex flex-col items-center gap-1">
-                <span id="loader-text" class="text-xs md:text-sm font-mono tracking-[0.2em] uppercase text-white/90">Hang on! We’re almost ready to roll.</span>
+                <span id="loader-text" class="text-xs md:text-sm font-mono font-bold tracking-[0.25em] uppercase text-white/95">Hang on! We’re almost ready to roll.</span>
                 <span id="loader-percentage" class="text-2xl md:text-4xl font-black font-mono tracking-tighter text-white">0%</span>
             </div>
         </div>
@@ -517,11 +520,11 @@
     </section>
 
     <section id="selected-work" class="relative bg-black z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] w-full h-[100dvh] overflow-hidden flex flex-col">
-        <div class="absolute top-20 md:top-24 left-6 md:left-12 z-50 pointer-events-none mix-blend-difference">
-            <h2 id="selected-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase pointer-events-auto w-fit">
+        <div class="absolute top-20 md:top-24 left-6 md:left-12 z-50 pointer-events-none">
+            <div id="selected-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase pointer-events-auto w-fit drop-shadow-lg">
                 <div class="velocity-line interactive-el hover-text-fx" data-text="SELECTED"></div>
                 <div class="velocity-line interactive-el hover-text-fx" data-text="WORKS"></div>
-            </h2>
+            </div>
         </div>
         <div class="relative w-full flex-1 overflow-hidden bg-gradient-to-r from-black/80 via-transparent to-black/80">
             <div class="film-track" id="film-track"></div>
@@ -530,10 +533,10 @@
 
     <section id="about" class="relative w-full min-h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-20 py-32 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
         <div class="max-w-7xl w-full mx-auto space-y-12">
-            <h2 id="about-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase mb-16 w-fit">
+            <div id="about-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase mb-16 w-fit drop-shadow-lg">
                 <div class="velocity-line interactive-el hover-text-fx" data-text="ABOUT"></div>
                 <div class="velocity-line interactive-el hover-text-fx" data-text="US"></div>
-            </h2>
+            </div>
             <div class="space-y-8 md:space-y-10 pl-0 md:pl-8 lg:pl-16 border-l-0 md:border-l border-white/20">
                 <p class="text-xl md:text-3xl lg:text-4xl font-bold tracking-tight leading-tight uppercase text-white interactive-el about-line hover-text-fx drop-shadow-md">
                     SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA.
@@ -568,14 +571,13 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Fake Loader Animation Logic (2 seconds duration)
+            // Fake Loader Animation Logic (3 seconds duration)
             const loader = document.getElementById('fake-loader');
             const loaderPercentage = document.getElementById('loader-percentage');
 
             let currentPercent = 0;
-            // 50ms interval * 40 steps = 2000ms (2 seconds)
             const loadInterval = setInterval(() => {
-                currentPercent += Math.floor(Math.random() * 5) + 3;
+                currentPercent += Math.floor(Math.random() * 3) + 2;
                 if (currentPercent >= 100) {
                     currentPercent = 100;
                     clearInterval(loadInterval);
@@ -586,7 +588,7 @@
                             loader.style.transform = 'translateY(-100%)';
                             setTimeout(() => loader.remove(), 1000);
                         }
-                    }, 400);
+                    }, 300);
                 }
                 if (loaderPercentage) loaderPercentage.textContent = currentPercent + '%';
             }, 50);
@@ -1136,14 +1138,14 @@
                     const dir = vel > 0 ? -1 : 1; 
                     tracks.forEach((track, i) => {
                         const slots = (i % 2 === 0) ? 1.5 : 1;
-                        track.style.transform = `translateY(${-6.25 + (dir * slots * 1.25)}em)`;
+                        track.style.transform = `translateY(${-6 + (dir * slots * 1.2)}em)`;
                     });
                 }
 
                 clearTimeout(scrollTimeout);
                 scrollTimeout = setTimeout(() => {
                     tracks.forEach(track => {
-                        track.style.transform = `translateY(-6.25em)`;
+                        track.style.transform = `translateY(-6em)`;
                     });
                 }, 150);
             });
@@ -1317,3 +1319,4 @@
     </script>
 </body>
 </html>
+```eof
