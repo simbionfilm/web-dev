@@ -108,12 +108,10 @@
 
         .slot-wrapper {
             display: inline-block;
-            overflow: hidden; /* Tetap hidden agar efek slotnya muncul */
+            overflow: hidden; 
             vertical-align: bottom;
-            /* Height dan Line-height dinaikkan agar huruf tebal/miring tidak terpotong atas/bawah */
             height: 1.25em; 
             line-height: 1.25em;
-            /* Padding agar tidak terpotong samping */
             padding: 0 0.05em; 
             margin: 0 -0.02em;
         }
@@ -121,7 +119,6 @@
             display: flex;
             flex-direction: column;
             will-change: transform;
-            /* Transisi super halus dan pelan */
             transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .slot-char {
@@ -1125,20 +1122,20 @@
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
-                end: () => "+=" + (filmTrack.scrollWidth + window.innerWidth * 1.2), 
-                scrub: 2.5, // Ditingkatkan menjadi 2.5 agar gerakannya memiliki inertia dan easy ease (berhenti dan jalan halus sekali)
+                // Memperpanjang jarak scroll (`end`) agar gerakan horizontal thumbnail terasa lebih lambat, lembut, dan leluasa
+                end: () => "+=" + (filmTrack.scrollWidth * 2.0), 
+                scrub: 3, 
                 pin: true, 
                 invalidateOnRefresh: true
             }
         });
 
         trackTl.to(filmTrack, {
-            x: () => -(filmTrack.scrollWidth), 
-            ease: "power2.inOut", // Diganti dari none agar memiliki perlambatan dan percepatan di ujung-ujung scroll
+            // Berhenti tepat di ujung track tanpa menyisakan blank space kosong di belakang thumbnail sebelum About Us
+            x: () => -(filmTrack.scrollWidth - window.innerWidth), 
+            ease: "none",
             duration: 1
         });
-        
-        trackTl.to({}, { duration: 0.4 });
 
         gsap.to("#selected-title", {
             opacity: 0,
