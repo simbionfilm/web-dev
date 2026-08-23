@@ -132,13 +132,23 @@
             display: inline-block;
             position: relative;
             font-variation-settings: "slnt" 0;
+            font-style: normal;
             -webkit-font-smoothing: antialiased;
-            will-change: transform;
+            will-change: transform, font-variation-settings;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             -webkit-transform: translateZ(0);
             transform: translateZ(0);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, font-style 0.3s ease, font-variation-settings 0.3s ease, color 0.3s ease;
+        }
+
+        @media (hover: hover) {
+            .hover-text-fx:hover, .about-line:hover {
+                font-style: italic !important;
+                font-variation-settings: "slnt" -12 !important;
+                transform: translateX(12px) skewX(-4deg) scale(1.02);
+                color: #0616C6 !important;
+            }
         }
 
         .we-are-container { cursor: none !important; }
@@ -173,13 +183,15 @@
             display: inline-block;
             width: fit-content;
             font-variation-settings: "slnt" 0;
+            font-style: normal;
             -webkit-font-smoothing: antialiased;
             cursor: none !important;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             -webkit-transform: translateZ(0);
             transform: translateZ(0);
-            will-change: transform, font-variation-settings, color;
+            will-change: transform, font-variation-settings, font-style, color;
+            transition: transform 0.3s ease, font-style 0.3s ease, font-variation-settings 0.3s ease, color 0.3s ease;
         }
 
         ::-webkit-scrollbar { display: none; }
@@ -515,13 +527,13 @@
                 <div class="velocity-line interactive-el hover-text-fx" data-text="US"></div>
             </h2>
             <div class="space-y-8">
-                <p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase text-white interactive-el about-line">
+                <p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase text-white interactive-el about-line hover-text-fx">
                     SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA.
                 </p>
-                <p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase text-gray-300 interactive-el about-line">
+                <p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase text-gray-300 interactive-el about-line hover-text-fx">
                     WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US.
                 </p>
-                <p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase text-gray-300 interactive-el about-line">
+                <p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase text-gray-300 interactive-el about-line hover-text-fx">
                     WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.
                 </p>
             </div>
@@ -704,7 +716,8 @@
             html += renderRows(row3, 68);
 
             const maxItems = Math.max(row1.length, row2.length, row3.length);
-            const dynamicWidth = 110 + ((maxItems - 1) * 18) + 60; 
+            // Menambahkan 200vw extra width (2 scroll blank pages) di belakang thumbnail terakhir
+            const dynamicWidth = 110 + ((maxItems - 1) * 18) + 60 + 200; 
             track.style.width = `${dynamicWidth}vw`;
             track.innerHTML = html;
             
@@ -734,7 +747,6 @@
                     track.className = 'slot-track';
                     track.dataset.orig = char;
 
-                    // Menggunakan karakter yang sama berulang kali agar saat rolling tetap huruf itu sendiri tanpa ganti karakter
                     const letters = [char, char, char, char, char];
 
                     letters.forEach(l => {
@@ -1009,7 +1021,6 @@
             });
         });
 
-        // Menambah durasi Lenis dan Easing Eksponensial untuk stopping yg sangat mulus (tidak ngerem mendadak)
         const lenis = new Lenis({
             duration: 3.0, 
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
@@ -1028,7 +1039,6 @@
             targetVel = Math.abs(vel);
         });
 
-        /* Ticker dengan peredaman (damping) inertia yang sangat halus dan organik */
         gsap.ticker.add((time) => {
             lenis.raf(time * 1000);
             
@@ -1122,16 +1132,15 @@
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
-                // Memperpanjang jarak scroll (`end`) agar gerakan horizontal thumbnail terasa lebih lambat, lembut, dan leluasa
-                end: () => "+=" + (filmTrack.scrollWidth * 2.0), 
-                scrub: 3, 
+                // Scroll duration disesuaikan dengan extra 200vw width (2 scroll blank pages di belakang thumbnail)
+                end: () => "+=" + (filmTrack.scrollWidth * 1.6), 
+                scrub: 2.5, 
                 pin: true, 
                 invalidateOnRefresh: true
             }
         });
 
         trackTl.to(filmTrack, {
-            // Berhenti tepat di ujung track tanpa menyisakan blank space kosong di belakang thumbnail sebelum About Us
             x: () => -(filmTrack.scrollWidth - window.innerWidth), 
             ease: "none",
             duration: 1
@@ -1206,17 +1215,6 @@
             scrollTrigger: { trigger: '.reveal-quote', start: "top 90%" },
             y: 0, opacity: 1, duration: 1.5, ease: "expo.out"
         });
-
-        if (window.matchMedia("(hover: hover)").matches) {
-            document.querySelectorAll('.hover-text-fx').forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    gsap.to(el, { x: 16, duration: 0.05, ease: "power1.out", overwrite: "auto" });
-                });
-                el.addEventListener('mouseleave', () => {
-                    gsap.to(el, { x: 0, duration: 0.05, ease: "power1.out", overwrite: "auto" });
-                });
-            });
-        }
     </script>
 </body>
 </html>
