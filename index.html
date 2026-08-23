@@ -525,16 +525,25 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:6. Project Fit Section (Left-aligned, justified text) -->
-    <section id="project-fit" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
-        <div class="relative w-full max-w-[50vw] md:max-w-[42vw] lg:max-w-[38vw] my-auto flex flex-col z-20">
-            <p id="fit-desc-text" class="interactive-el text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug md:leading-snug text-justify drop-shadow-md">
-                EVERY PROJECT DESERVES ITS OWN FIT. WE TAILOR EACH ONE FROM SCRATCH, CAREFULLY STITCHING EVERY FRAME TOGETHER WITH PASSION, PURPOSE, AND DEDICATION. WE BELIEVE GREAT WORK COMES FROM BRINGING TOGETHER THE RIGHT PEOPLE, IDEAS, AND PERSPECTIVES THAT ALIGN WITH THE VISION. EVERY DETAIL MATTERS, EVERY FRAME HAS A PURPOSE, AND EVERY PROJECT DESERVES THE CARE TO MAKE IT FEEL TRULY ITS OWN.
+    <!-- STREAMING_CHUNK:6. Project Fit Section Part 1 (Left-aligned, larger font) -->
+    <section id="project-fit-1" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-48 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+        <div class="relative w-full max-w-[55vw] md:max-w-[46vw] lg:max-w-[42vw] my-auto flex flex-col z-20">
+            <p id="fit-desc-1" class="interactive-el text-[4.2vw] md:text-[24px] lg:text-[29px] xl:text-[35px] font-bold uppercase tracking-tight text-white leading-snug md:leading-snug text-justify drop-shadow-md">
+                EVERY PROJECT DESERVES ITS OWN FIT. WE TAILOR EACH ONE FROM SCRATCH, CAREFULLY STITCHING EVERY FRAME TOGETHER WITH PASSION, PURPOSE, AND DEDICATION.
             </p>
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:7. Contact Section -->
+    <!-- STREAMING_CHUNK:7. Project Fit Section Part 2 (Left-aligned, larger font) -->
+    <section id="project-fit-2" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-49 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+        <div class="relative w-full max-w-[55vw] md:max-w-[46vw] lg:max-w-[42vw] my-auto flex flex-col z-20">
+            <p id="fit-desc-2" class="interactive-el text-[4.2vw] md:text-[24px] lg:text-[29px] xl:text-[35px] font-bold uppercase tracking-tight text-white leading-snug md:leading-snug text-justify drop-shadow-md">
+                WE BELIEVE GREAT WORK COMES FROM BRINGING TOGETHER THE RIGHT PEOPLE, IDEAS, AND PERSPECTIVES THAT ALIGN WITH THE VISION. EVERY DETAIL MATTERS, EVERY FRAME HAS A PURPOSE, AND EVERY PROJECT DESERVES THE CARE TO MAKE IT FEEL TRULY ITS OWN.
+            </p>
+        </div>
+    </section>
+
+    <!-- STREAMING_CHUNK:8. Contact Section -->
     <section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-12 py-16 z-[60] shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
         <div class="relative z-10 flex flex-col items-center text-center w-full my-auto">
             <div class="flex flex-col w-full font-bold leading-[0.9] tracking-tighter">
@@ -586,12 +595,20 @@
                 aboutPara.innerHTML = sentences.map(s => `<span class="hero-sentence inline-block transition-all duration-400 mr-[0.8em] hover:mr-[2.5em] mb-[0.4em] hover:text-simbionBlue hover:scale-[1.02] cursor-pointer">${s}</span>`).join(' ');
             }
 
-            // Project Fit sentence hover effect
-            const fitPara = document.getElementById('fit-desc-text');
-            if (fitPara) {
-                const rawText = fitPara.textContent.trim();
+            // Project Fit Part 1 sentence hover effect
+            const fit1Para = document.getElementById('fit-desc-1');
+            if (fit1Para) {
+                const rawText = fit1Para.textContent.trim();
                 const sentences = rawText.split(/(?<=[.!?])\s+/);
-                fitPara.innerHTML = sentences.map(s => `<span class="hero-sentence inline-block transition-all duration-400 mr-[0.8em] hover:mr-[2.5em] mb-[0.4em] hover:text-simbionBlue hover:scale-[1.02] cursor-pointer">${s}</span>`).join(' ');
+                fit1Para.innerHTML = sentences.map(s => `<span class="hero-sentence inline-block transition-all duration-400 mr-[0.8em] hover:mr-[2.5em] mb-[0.4em] hover:text-simbionBlue hover:scale-[1.02] cursor-pointer">${s}</span>`).join(' ');
+            }
+
+            // Project Fit Part 2 sentence hover effect
+            const fit2Para = document.getElementById('fit-desc-2');
+            if (fit2Para) {
+                const rawText = fit2Para.textContent.trim();
+                const sentences = rawText.split(/(?<=[.!?])\s+/);
+                fit2Para.innerHTML = sentences.map(s => `<span class="hero-sentence inline-block transition-all duration-400 mr-[0.8em] hover:mr-[2.5em] mb-[0.4em] hover:text-simbionBlue hover:scale-[1.02] cursor-pointer">${s}</span>`).join(' ');
             }
 
             const cursor = document.getElementById('custom-cursor');
