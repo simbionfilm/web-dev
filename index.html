@@ -29,7 +29,7 @@
         }
     </script>
 
-    <!-- STREAMING_CHUNK:Configuring stylesheet rules and scroll animations... -->
+    <!-- STREAMING_CHUNK:Configuring stylesheet rules and static-color line reveal animations... -->
     <style>
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto; }
@@ -139,6 +139,7 @@
             display: block;
             transform: translateY(120%) skewY(4deg);
             opacity: 0;
+            color: #FFFFFF;
             will-change: transform, opacity;
             transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -146,6 +147,7 @@
         .line-reveal-inner.revealed {
             transform: translateY(0%) skewY(0deg);
             opacity: 1;
+            color: #FFFFFF;
         }
 
         .we-are-container { cursor: none !important; }
@@ -570,7 +572,6 @@
                 const text = container.textContent.trim();
                 container.textContent = '';
                 
-                // Temporary helper element to measure line heights and wrapping
                 const measureEl = document.createElement('div');
                 measureEl.style.cssText = window.getComputedStyle(container).cssText;
                 measureEl.style.position = 'absolute';
@@ -586,7 +587,6 @@
                 words.forEach(word => {
                     currentLineWords.push(word);
                     measureEl.textContent = currentLineWords.join(' ');
-                    // If height changes or exceeds a single line, push previous words as a line
                     if (measureEl.offsetHeight > parseInt(window.getComputedStyle(measureEl).lineHeight || 30) * 1.5) {
                         currentLineWords.pop();
                         lines.push(currentLineWords.join(' '));
@@ -599,7 +599,6 @@
                 }
                 document.body.removeChild(measureEl);
 
-                // Build HTML structure with wrapping containers for line reveal
                 lines.forEach(line => {
                     const wrap = document.createElement('span');
                     wrap.className = 'line-reveal-wrap';
@@ -614,7 +613,6 @@
             setupLineReveal('about-desc-text');
             setupLineReveal('fit-desc-text');
 
-            // ScrollObserver to trigger per-line reveal on scroll
             const observerOptions = {
                 root: null,
                 rootMargin: '0px 0px -10% 0px',
@@ -628,7 +626,7 @@
                         inners.forEach((inner, idx) => {
                             setTimeout(() => {
                                 inner.classList.add('revealed');
-                            }, idx * 120); // Stagger each line by 120ms
+                            }, idx * 120);
                         });
                         obs.unobserve(entry.target);
                     }
