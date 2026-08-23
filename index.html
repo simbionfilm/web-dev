@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMBION FILM | Selected Works</title>
+    <title>SIMBION FILM</title>
     
     <!-- Browser Tab Favicon using orang.png -->
     <link rel="icon" type="image/png" href="orang.png">
@@ -106,26 +106,28 @@
             animation: floatSlow 5s ease-in-out infinite;
         }
 
-        /* STREAMING_CHUNK:Refining slot-wrapper kerning and silky ease-out transition... */
         .slot-wrapper {
             display: inline-block;
-            overflow: visible;
+            overflow: hidden; /* Tetap hidden agar efek slotnya muncul */
             vertical-align: bottom;
-            height: 1.15em;
-            line-height: 1.15em;
-            padding: 0.05em 0.02em;
-            margin: 0 -0.01em;
+            /* Height dan Line-height dinaikkan agar huruf tebal/miring tidak terpotong atas/bawah */
+            height: 1.25em; 
+            line-height: 1.25em;
+            /* Padding agar tidak terpotong samping */
+            padding: 0 0.05em; 
+            margin: 0 -0.02em;
         }
         .slot-track {
             display: flex;
             flex-direction: column;
             will-change: transform;
+            /* Transisi super halus dan pelan */
             transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .slot-char {
             display: block;
-            height: 1.15em;
-            line-height: 1.15em;
+            height: 1.25em;
+            line-height: 1.25em;
             text-align: center;
         }
 
@@ -184,7 +186,7 @@
         }
 
         ::-webkit-scrollbar { display: none; }
-        .clip-mask { overflow: visible; display: block; padding: 0.2em 0.1em; }
+        .clip-mask { overflow: visible; display: block; padding: 0.3em 0.2em; } 
 
         .gallery-item {
             position: absolute;
@@ -218,10 +220,8 @@
     <div class="custom-cursor" id="custom-cursor"></div>
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
     
-    <!-- Seamless Gradient Blur Mask Header -->
     <div class="header-blur-mask"></div>
 
-    <!-- Persistent Floating Horizontal Speech Balloon Trigger -->
     <div id="chat-balloon" class="fixed bottom-32 md:bottom-40 right-6 md:right-10 z-[105] group cursor-pointer interactive-el floating-widget transition-all duration-500 origin-bottom-right">
         <div id="chat-balloon-inner" class="relative bg-simbionBlue/60 backdrop-blur-xl text-white px-5 py-3 rounded-2xl shadow-2xl group-hover:scale-110 transition-all duration-300 flex items-center gap-3 border border-white/30">
             <div id="chat-balloon-tail" class="absolute -bottom-2 right-7 w-3 h-3 bg-simbionBlue/60 backdrop-blur-xl border-r border-b border-white/30 transform rotate-45 pointer-events-none transition-all duration-300"></div>
@@ -230,7 +230,6 @@
         </div>
     </div>
 
-    <!-- The Interactive Chat Box Modal -->
     <div id="chat-modal" class="fixed bottom-32 md:bottom-40 right-6 md:right-10 z-[110] w-[calc(100vw-3rem)] md:w-96 opacity-0 pointer-events-none transition-all duration-500 transform translate-y-8 scale-95 origin-bottom-right">
         <div class="bg-black/90 backdrop-blur-2xl border border-white/20 rounded-3xl p-6 shadow-2xl flex flex-col gap-5">
             <div class="flex justify-between items-center border-b border-white/10 pb-4">
@@ -253,7 +252,23 @@
         </div>
     </div>
 
-    <!-- Password Prompt Modal -->
+    <!-- Custom Notification Toast (Replaces alert) -->
+    <div id="custom-toast" class="fixed top-8 left-1/2 -translate-x-1/2 z-[350] bg-neutral-900/90 backdrop-blur-xl border border-white/20 text-white px-6 py-3 rounded-2xl shadow-2xl opacity-0 pointer-events-none transition-all duration-300 transform -translate-y-4">
+        <span id="toast-message" class="text-xs font-mono uppercase tracking-widest">Notification</span>
+    </div>
+
+    <!-- Custom Confirm Modal (Replaces confirm) -->
+    <div id="custom-confirm-modal" class="fixed inset-0 z-[320] bg-black/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
+        <div class="bg-neutral-900 border border-white/20 rounded-3xl w-full max-w-sm p-6 text-white text-center shadow-2xl">
+            <h3 id="confirm-title" class="font-bold text-base uppercase tracking-wider mb-2">Confirmation</h3>
+            <p id="confirm-desc" class="text-xs text-mutedText font-mono mb-6">Are you sure?</p>
+            <div class="flex gap-3 justify-center">
+                <button id="confirm-no" class="bg-white/10 px-5 py-2.5 rounded-xl text-xs font-mono uppercase hover:bg-white/25 transition-colors">Cancel</button>
+                <button id="confirm-yes" class="bg-simbionBlue px-6 py-2.5 rounded-xl text-xs font-mono uppercase font-bold hover:opacity-90 transition-opacity">Confirm</button>
+            </div>
+        </div>
+    </div>
+
     <div id="password-modal" class="fixed inset-0 z-[300] bg-black/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4 overflow-y-auto">
         <div class="bg-neutral-900 border border-white/20 rounded-3xl w-full max-w-md p-6 text-white relative shadow-2xl text-center my-auto">
             <h3 class="font-bold text-lg uppercase tracking-wider mb-2">ADMIN ACCESS</h3>
@@ -268,7 +283,6 @@
         </div>
     </div>
 
-    <!-- CMS Admin Modal Drawer -->
     <div id="cms-modal" class="fixed inset-0 z-[250] bg-black/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4 md:p-8 overflow-y-auto">
         <div class="bg-neutral-900 border border-white/20 rounded-3xl w-full max-w-4xl p-6 md:p-8 text-white relative shadow-2xl my-auto">
             <div class="flex justify-between items-center pb-6 border-b border-white/10 mb-6">
@@ -312,7 +326,6 @@
         </div>
     </div>
 
-    <!-- Immersive Video Player Modal -->
     <div id="video-modal" class="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
         <button id="close-modal" class="absolute top-6 right-8 text-white text-xs font-mono tracking-[0.3em] uppercase hover:opacity-70 transition-opacity z-10 p-4 interactive-el">
             CLOSE
@@ -332,7 +345,6 @@
 
     <div id="recent-release-container"></div>
 
-    <!-- HERO SECTION -->
     <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center items-center px-4 md:px-8 bg-black z-10 shadow-2xl overflow-hidden">
         <div class="w-full max-w-2xl flex justify-center parallax-hero z-10">
             <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-full h-auto object-contain interactive-el" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
@@ -344,7 +356,6 @@
         </div>
     </section>
 
-    <!-- SECTION: "The Soul" -->
     <section id="the-soul" class="relative w-full min-h-[120dvh] bg-black text-white flex flex-col justify-center px-0 py-24 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
         <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 mb-16">
             <div class="w-full relative">
@@ -359,7 +370,6 @@
             </div>
         </div>
 
-        <!-- BTS GALLERY -->
         <div class="relative w-full overflow-hidden py-16 bts-enter opacity-0">
             <div id="marquee-track" class="flex w-max will-change-transform items-center">
                 <!-- Group 1 -->
@@ -473,7 +483,6 @@
         </div>
     </section>
 
-    <!-- SECTION: "We Are What We've Made" -->
     <section id="we-are-made" class="relative w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-8 md:px-24 z-30 shadow-[0_-30px_60px_rgba(0,0,0,0.9)] overflow-hidden">
         <div class="we-are-container relative z-10 my-auto flex flex-col items-center justify-center gap-2 md:gap-4 select-none w-full max-w-7xl">
             <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask">
@@ -488,7 +497,6 @@
         </div>
     </section>
 
-    <!-- SECTION: "Selected Works" -->
     <section id="selected-work" class="relative bg-black z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.9)] w-full h-[100dvh] overflow-hidden flex flex-col">
         <div class="absolute top-20 md:top-24 left-6 md:left-12 z-50 pointer-events-none mix-blend-difference">
             <!-- Container Teks 2 Baris untuk Slot Roller Animation -->
@@ -502,7 +510,6 @@
         </div>
     </section>
 
-    <!-- SECTION: "About Us" -->
     <section id="about" class="relative w-full min-h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-20 py-24 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
         <div class="max-w-6xl w-full mx-auto space-y-12">
             <!-- Container Teks 2 Baris untuk Slot Roller Animation -->
@@ -524,7 +531,6 @@
         </div>
     </section>
 
-    <!-- SECTION: "Contact" -->
     <section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-8 py-16 z-[60] shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
         <div class="relative z-10 flex flex-col items-center text-center w-full my-auto">
             <div class="flex flex-col w-full font-bold leading-[0.9] tracking-tighter">
@@ -551,6 +557,44 @@
                 cursor.style.top = e.clientY + 'px';
             }
         });
+
+        // Function for Custom Toast Replacement
+        function showToast(msg) {
+            const toast = document.getElementById('custom-toast');
+            const msgEl = document.getElementById('toast-message');
+            msgEl.textContent = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
+            }, 3000);
+        }
+
+        // Function for Custom Confirm Replacement
+        function showConfirm(title, desc, onConfirm) {
+            const modal = document.getElementById('custom-confirm-modal');
+            document.getElementById('confirm-title').textContent = title;
+            document.getElementById('confirm-desc').textContent = desc;
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            
+            const yesBtn = document.getElementById('confirm-yes');
+            const noBtn = document.getElementById('confirm-no');
+
+            const cleanup = () => {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                yesBtn.onclick = null;
+                noBtn.onclick = null;
+            };
+
+            yesBtn.onclick = () => {
+                cleanup();
+                onConfirm();
+            };
+            noBtn.onclick = () => {
+                cleanup();
+            };
+        }
 
         const SECRET_KEYWORD = "fundamental"; 
         const ADMIN_PASSWORD = "simbiosismutualisme"; 
@@ -693,6 +737,7 @@
                     track.className = 'slot-track';
                     track.dataset.orig = char;
 
+                    // Menggunakan karakter yang sama berulang kali agar saat rolling tetap huruf itu sendiri tanpa ganti karakter
                     const letters = [char, char, char, char, char];
 
                     letters.forEach(l => {
@@ -747,15 +792,15 @@
                 });
                 const result = await response.json();
                 if (result.success) {
-                    alert("Pesan berhasil terkirim ke Simbion Film!");
+                    showToast("Pesan berhasil terkirim ke Simbion Film!");
                     chatForm.reset();
                     closeChatModal();
                 } else {
-                    alert("Gagal mengirim pesan. Silakan coba lagi.");
+                    showToast("Gagal mengirim pesan. Silakan coba lagi.");
                 }
             } catch (error) {
                 console.error(error);
-                alert("Terjadi kesalahan koneksi.");
+                showToast("Terjadi kesalahan koneksi.");
             } finally {
                 submitBtn.textContent = "SEND MESSAGE";
             }
@@ -871,7 +916,7 @@
                 closePasswordModal();
                 openCmsModal();
             } else {
-                alert('Incorrect Password!');
+                showToast('Incorrect Password!');
                 adminPasswordInput.value = '';
             }
         });
@@ -957,19 +1002,20 @@
         });
 
         resetCmsBtn.addEventListener('click', () => {
-            if (confirm('Reset all items to default?')) {
+            showConfirm("Reset Defaults", "Reset all items to default?", () => {
                 localStorage.removeItem('simbion_cms');
                 cmsData = JSON.parse(JSON.stringify(defaultCMS));
                 renderRecentRelease();
                 renderSelectedWorks();
                 closeCmsModal();
                 window.location.reload();
-            }
+            });
         });
 
+        // Menambah durasi Lenis dan Easing Eksponensial untuk stopping yg sangat mulus (tidak ngerem mendadak)
         const lenis = new Lenis({
-            duration: 2.5, 
-            easing: (t) => 1 - Math.pow(1 - t, 5),
+            duration: 3.0, 
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
             direction: 'vertical',
             smooth: true,
             smoothTouch: false,
@@ -999,7 +1045,7 @@
                     if (currentVel > 0.12) {
                         if (Math.random() < 0.10) {
                             const randomShift = (Math.floor(Math.random() * 3)) * -1;
-                            track.style.transform = `translateY(${randomShift * 1.15}em)`;
+                            track.style.transform = `translateY(${randomShift * 1.25}em)`;
                         }
                     } else {
                         track.style.transform = `translateY(0em)`;
@@ -1080,7 +1126,7 @@
                 trigger: "#selected-work",
                 start: "top top",
                 end: () => "+=" + (filmTrack.scrollWidth + window.innerWidth * 1.2), 
-                scrub: 1.2, 
+                scrub: 2.5, // Ditingkatkan menjadi 2.5 agar gerakannya memiliki inertia dan easy ease (berhenti dan jalan halus sekali)
                 pin: true, 
                 invalidateOnRefresh: true
             }
@@ -1088,7 +1134,7 @@
 
         trackTl.to(filmTrack, {
             x: () => -(filmTrack.scrollWidth), 
-            ease: "none",
+            ease: "power2.inOut", // Diganti dari none agar memiliki perlambatan dan percepatan di ujung-ujung scroll
             duration: 1
         });
         
@@ -1136,12 +1182,44 @@
                         }
                     });
                 });
-                item.I will now update the code to fix the title kerning/clipping issues (by expanding the bounding clip-mask padding) and implement smoother "easy ease" inertia for Lenis and GSAP scrolling so it stops and starts without any abrupt braking.
+                item.addEventListener('mouseleave', () => {
+                    gsap.to(inner, { 
+                        scale: 1, duration: 0.8, ease: "power3.out", overwrite: "auto",
+                        onComplete: () => gsap.set(item, { zIndex: 10 }) 
+                    });
+                    galleryItems.forEach((other) => {
+                        gsap.to(other, { x: "0vw", duration: 0.8, ease: "power3.out", overwrite: "auto" });
+                    });
+                });
+            });
+        }
+        initGalleryInteractions();
 
-http://googleusercontent.com/immersive_entry_chip/0
+        gsap.utils.toArray('.contact-title-line').forEach(line => {
+            gsap.fromTo(line,
+                { y: "110%", filter: "blur(10px)", scale: 1.2 },
+                {
+                    scrollTrigger: { trigger: "#contact", start: "top 75%" },
+                    y: "0%", filter: "blur(0px)", scale: 1, duration: 1.5, ease: "power4.out", stagger: 0.1
+                }
+            );
+        });
+        
+        gsap.to('.reveal-quote', {
+            scrollTrigger: { trigger: '.reveal-quote', start: "top 90%" },
+            y: 0, opacity: 1, duration: 1.5, ease: "expo.out"
+        });
 
-### Ringkasan Perubahan:
-1. **Kerning & Clipping (`.clip-mask`):** Menambahkan padding horizontal dan vertikal yang lebih longgar (`padding: 0.3em 0.5em`) dengan `overflow: visible` agar huruf tebal beraksen miring (*italic/bold*) tidak terpotong pada batas tepi kotak teks.
-2. **Easy Ease & Rem Halus (`Lenis & GSAP Scrub`):** 
-   - Durasi momentum Lenis ditingkatkan menjadi `3.0` dengan kurva easing eksponensial agar pemberhentian terasa mulus seperti luncuran mobil (tidak ada rem mendadak).
-   - Nilai `scrub` pada ScrollTrigger galeri horizontal dinaikkan menjadi `2.5` dengan tambahan `ease: "power2.inOut"` untuk memberikan efek *easy ease* transisi yang sangat halus saat masuk, bergerak, maupun berhenti.
+        if (window.matchMedia("(hover: hover)").matches) {
+            document.querySelectorAll('.hover-text-fx').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    gsap.to(el, { x: 16, duration: 0.05, ease: "power1.out", overwrite: "auto" });
+                });
+                el.addEventListener('mouseleave', () => {
+                    gsap.to(el, { x: 0, duration: 0.05, ease: "power1.out", overwrite: "auto" });
+                });
+            });
+        }
+    </script>
+</body>
+</html>
