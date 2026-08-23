@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMBION FILM | Selected Works</title>
+    <title>SIMBION FILM</title>
     
     <!-- Browser Tab Favicon using orang.png -->
     <link rel="icon" type="image/png" href="orang.png">
@@ -117,7 +117,7 @@
             display: flex;
             flex-direction: column;
             will-change: transform;
-            transition: transform 0.1s ease-out;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .slot-char {
             display: block;
@@ -346,6 +346,7 @@
 
     <div id="recent-release-container"></div>
 
+    <!-- HERO SECTION -->
     <section id="hero" class="sticky top-0 w-full h-[100dvh] flex flex-col justify-center items-center px-4 md:px-8 bg-black z-10 shadow-2xl overflow-hidden">
         <div class="w-full max-w-2xl flex justify-center parallax-hero z-10">
             <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-full h-auto object-contain interactive-el" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
@@ -486,6 +487,7 @@
         </div>
     </section>
 
+    <!-- SECTION: "We Are What We've Made" -->
     <section id="we-are-made" class="relative w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-8 md:px-24 z-30 shadow-[0_-30px_60px_rgba(0,0,0,0.9)] overflow-hidden">
         <div class="we-are-container relative z-10 my-auto flex flex-col items-center justify-center gap-2 md:gap-4 select-none w-full max-w-7xl">
             <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask">
@@ -1030,6 +1032,7 @@
         
         let targetVel = 0;
         let currentVel = 0;
+        let frameCount = 0;
 
         lenis.on('scroll', (e) => {
             ScrollTrigger.update();
@@ -1040,18 +1043,26 @@
         gsap.ticker.add((time) => {
             lenis.raf(time * 1000);
             
-            currentVel += (targetVel - currentVel) * 0.15;
-            targetVel *= 0.85;
+            currentVel += (targetVel - currentVel) * 0.1;
+            targetVel *= 0.9;
 
-            const tracks = document.querySelectorAll('.slot-track');
-            tracks.forEach(track => {
-                if (currentVel > 0.3) {
-                    const randomShift = (Math.floor(Math.random() * 4)) * -1;
-                    track.style.transform = `translateY(${randomShift}em)`;
-                } else {
-                    track.style.transform = `translateY(0em)`;
-                }
-            });
+            frameCount++;
+            // Throttle checks and introduce delay so it rolls leisurely and only on sparse random letters
+            if (frameCount % 6 === 0) {
+                const tracks = document.querySelectorAll('.slot-track');
+                tracks.forEach(track => {
+                    if (currentVel > 0.25) {
+                        // Only ~15% chance per frame check to roll a specific character
+                        if (Math.random() < 0.18) {
+                            const randomShift = (Math.floor(Math.random() * 4)) * -1;
+                            track.style.transform = `translateY(${randomShift}em)`;
+                        }
+                    } else {
+                        // Return smoothly to original position when scrolling slows down
+                        track.style.transform = `translateY(0em)`;
+                    }
+                });
+            }
         });
         gsap.ticker.lagSmoothing(0);
 
