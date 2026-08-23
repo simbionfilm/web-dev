@@ -91,25 +91,22 @@
             animation: floatSlow 5s ease-in-out infinite;
         }
 
-        /* Editorial Hover Effect (Stretch) */
-        .stretch-hover {
-            display: block;
-            transform-origin: left center;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), letter-spacing 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
-            will-change: transform, letter-spacing, opacity;
-            cursor: none !important; /* using custom cursor */
+        /* Rolling Slot Text Styles */
+        .slot-wrapper {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+            height: 1.1em;
+            padding-bottom: 0.05em;
         }
-        @media (hover: hover) {
-            .stretch-hover:hover {
-                transform: scaleX(1.15);
-                letter-spacing: 0.04em;
-                opacity: 0.8;
-            }
+        .slot-char {
+            display: inline-block;
+            will-change: transform;
+            transform: translateY(120%);
         }
-        @media (pointer: coarse) {
-            .stretch-hover {
-                cursor: auto !important;
-            }
+        .velocity-char {
+            display: inline-block;
+            will-change: transform;
         }
 
         .hover-text-fx {
@@ -122,6 +119,7 @@
             backface-visibility: hidden;
             -webkit-transform: translateZ(0);
             transform: translateZ(0);
+            transition: transform 0.3s ease, color 0.3s ease;
         }
 
         .we-are-container { cursor: none !important; }
@@ -130,7 +128,6 @@
             filter: blur(10px);
             opacity: 0.35;
             transition: filter 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease, color 0.3s ease;
-            -webkit-transition: -webkit-filter 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), -webkit-transform 0.3s ease, color 0.3s ease;
             -webkit-font-smoothing: antialiased;
             will-change: filter, opacity, transform;
             -webkit-backface-visibility: hidden;
@@ -144,7 +141,6 @@
                 filter: blur(0px) !important;
                 opacity: 1 !important;
                 transform: translateX(12px) skewX(-4deg) scale(1.02);
-                -webkit-transform: translateX(12px) skewX(-4deg) scale(1.02);
                 color: #0616C6 !important;
             }
         }
@@ -472,9 +468,10 @@
     <!-- SECTION: "Selected Works" -->
     <section id="selected-work" class="relative bg-black z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.9)] w-full h-[100dvh] overflow-hidden flex flex-col">
         <div class="absolute top-20 md:top-24 left-6 md:left-12 z-50 pointer-events-none mix-blend-difference">
+            <!-- Container Teks 2 Baris untuk Rolling Text Slot -->
             <h2 id="selected-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase pointer-events-auto w-fit">
-                <span class="stretch-hover interactive-el">SELECTED</span>
-                <span class="stretch-hover interactive-el">WORKS</span>
+                <div class="velocity-line interactive-el" data-text="SELECTED"></div>
+                <div class="velocity-line interactive-el" data-text="WORKS"></div>
             </h2>
         </div>
         <div class="relative w-full flex-1 overflow-hidden">
@@ -485,9 +482,10 @@
     <!-- SECTION: "About Us" -->
     <section id="about" class="relative w-full min-h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-20 py-24 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.9)]">
         <div class="max-w-6xl w-full mx-auto space-y-12">
+            <!-- Container Teks 2 Baris untuk Rolling Text Slot -->
             <h2 id="about-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase mb-12 w-fit">
-                <span class="stretch-hover interactive-el">ABOUT</span>
-                <span class="stretch-hover interactive-el">US</span>
+                <div class="velocity-line interactive-el" data-text="ABOUT"></div>
+                <div class="velocity-line interactive-el" data-text="US"></div>
             </h2>
             <div class="space-y-8">
                 <p class="text-lg md:text-2xl lg:text-3xl font-bold tracking-widest leading-tight uppercase text-white interactive-el about-line">
@@ -645,14 +643,40 @@
             initVideoTriggers();
             initGalleryInteractions();
             initIdleFloat();
-
-            if (typeof ScrollTrigger !== 'undefined') {
-                ScrollTrigger.refresh();
-            }
         }
 
         renderRecentRelease();
         renderSelectedWorks();
+
+        // GENERATOR UNTUK EFEK ROLLING TEXT & VELOCITY SCROLL
+        function createVelocityText() {
+            document.querySelectorAll('.velocity-line').forEach(line => {
+                const text = line.getAttribute('data-text');
+                line.innerHTML = '';
+                text.split('').forEach(char => {
+                    if (char === ' ') {
+                        const space = document.createElement('span');
+                        space.className = 'inline-block w-[0.3em]';
+                        line.appendChild(space);
+                        return;
+                    }
+                    const wrapper = document.createElement('span');
+                    wrapper.className = 'slot-wrapper';
+                    
+                    const slotChar = document.createElement('span');
+                    slotChar.className = 'slot-char block';
+                    
+                    const velChar = document.createElement('span');
+                    velChar.className = 'velocity-char block';
+                    velChar.textContent = char;
+                    
+                    slotChar.appendChild(velChar);
+                    wrapper.appendChild(slotChar);
+                    line.appendChild(wrapper);
+                });
+            });
+        }
+        createVelocityText(); // Eksekusi pembuatan struktur sebelum ScrollTrigger jalan
 
         const chatBalloon = document.getElementById('chat-balloon');
         const chatModal = document.getElementById('chat-modal');
@@ -922,6 +946,15 @@
         
         lenis.on('scroll', (e) => {
             ScrollTrigger.update();
+            const vel = e.velocity || 0;
+            // VELOCITY SCROLL EFFECT: Membuat huruf bergeser naik/turun sesuai seberapa kencang scroll ditarik
+            const yOffset = gsap.utils.clamp(-50, 50, vel * 3); 
+            gsap.to('.velocity-char', {
+                y: `${yOffset}%`,
+                duration: 0.3,
+                ease: "power2.out",
+                overwrite: true 
+            });
         });
 
         gsap.ticker.add((time) => lenis.raf(time * 1000));
@@ -997,21 +1030,21 @@
 
         const filmTrack = document.getElementById("film-track");
 
-        // Horizontal Scroll
+        // HORIZONTAL SCROLL PADA SELECTED WORKS (Ini yang menyebabkan BUG pada kode sebelumnya, sekarang FIX)
         gsap.to(filmTrack, {
-            x: () => -filmTrack.scrollWidth,
+            x: () => -(filmTrack.scrollWidth - window.innerWidth), // Rumus scroll yang benar agar nyangkut / tepat
             ease: "none",
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
-                end: () => "+=" + filmTrack.scrollWidth, 
+                end: () => "+=" + (filmTrack.scrollWidth - window.innerWidth), 
                 scrub: 1.2, 
                 pin: true, 
                 invalidateOnRefresh: true
             }
         });
 
-        // Judul SELECTED WORKS fade out secara mulus
+        // Judul SELECTED WORKS fade out secara mulus saat masuk mode scroll ke kanan
         gsap.to("#selected-title", {
             opacity: 0,
             y: -25,
@@ -1021,6 +1054,47 @@
                 start: "top top",
                 end: "+=350",
                 scrub: true
+            }
+        });
+
+        // ROLLING TEXT REVEAL: Efek slot bergulir saat masuk ke area scroll
+        ScrollTrigger.create({
+            trigger: "#selected-work",
+            start: "top 80%",
+            onEnter: () => { 
+                gsap.fromTo("#selected-title .slot-char", 
+                    { y: "120%" }, 
+                    {
+                        y: "0%",
+                        duration: () => gsap.utils.random(1.2, 2.0),
+                        ease: "power3.out",
+                        stagger: { amount: 0.6, from: "random" },
+                        overwrite: "auto"
+                    }
+                );
+            },
+            onLeaveBack: () => { 
+                gsap.to("#selected-title .slot-char", { y: "120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
+            }
+        });
+
+        ScrollTrigger.create({
+            trigger: "#about",
+            start: "top 80%",
+            onEnter: () => { 
+                gsap.fromTo("#about-title .slot-char", 
+                    { y: "120%" }, 
+                    {
+                        y: "0%",
+                        duration: () => gsap.utils.random(1.2, 2.0),
+                        ease: "power3.out",
+                        stagger: { amount: 0.6, from: "random" },
+                        overwrite: "auto"
+                    }
+                );
+            },
+            onLeaveBack: () => { 
+                gsap.to("#about-title .slot-char", { y: "120%", duration: 0.4, ease: "power2.in", overwrite: "auto" });
             }
         });
 
