@@ -120,7 +120,7 @@
             flex-direction: column;
             will-change: transform;
             transform: translateY(-6em);
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .slot-char {
             display: block;
@@ -811,6 +811,33 @@
             }
             createSlotText();
 
+            // Active Scroll-Driven Slot Rolling Effect
+            let lastScrollY = window.pageYOffset;
+            let slotScrollTimeout;
+
+            window.addEventListener('scroll', () => {
+                const currentScrollY = window.pageYOffset;
+                const delta = currentScrollY - lastScrollY;
+                lastScrollY = currentScrollY;
+
+                const tracks = document.querySelectorAll('.slot-track');
+                if (Math.abs(delta) > 0.2) {
+                    const dir = delta > 0 ? 1 : -1;
+                    tracks.forEach((track, i) => {
+                        const multiplier = (i % 2 === 0) ? 1.2 : 0.8;
+                        const offset = Math.max(-9, Math.min(-3, -6 + (dir * multiplier * Math.min(Math.abs(delta) * 0.2, 2.8))));
+                        track.style.transform = `translateY(${offset}em)`;
+                    });
+                }
+
+                clearTimeout(slotScrollTimeout);
+                slotScrollTimeout = setTimeout(() => {
+                    tracks.forEach(track => {
+                        track.style.transform = `translateY(-6em)`;
+                    });
+                }, 150);
+            });
+
             // Contact Chat Form Logic
             const chatBalloon = document.getElementById('chat-balloon');
             const chatModal = document.getElementById('chat-modal');
@@ -1124,30 +1151,6 @@
                 direction: 'vertical',
                 smooth: true,
                 smoothTouch: false,
-            });
-            
-            let scrollTimeout;
-
-            lenis.on('scroll', (e) => {
-                ScrollTrigger.update();
-                
-                const vel = e.velocity || 0;
-                const tracks = document.querySelectorAll('.slot-track');
-                
-                if (Math.abs(vel) > 1.0) {
-                    const dir = vel > 0 ? -1 : 1; 
-                    tracks.forEach((track, i) => {
-                        const slots = (i % 2 === 0) ? 1.5 : 1;
-                        track.style.transform = `translateY(${-6 + (dir * slots * 1.2)}em)`;
-                    });
-                }
-
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    tracks.forEach(track => {
-                        track.style.transform = `translateY(-6em)`;
-                    });
-                }, 150);
             });
 
             gsap.ticker.add((time) => {
