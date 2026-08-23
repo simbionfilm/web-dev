@@ -227,7 +227,7 @@
 </head>
 <body class="font-sans selection:bg-simbionBlue selection:text-white">
 
-    <!-- STREAMING_CHUNK:Rendering 3-second Fake Loader Screen with 50% enlarged falling cameraman... -->
+    <!-- STREAMING_CHUNK:Rendering 3-second Fake Loader Screen... -->
     <div id="fake-loader" class="fixed inset-0 z-[9999] bg-simbionBlue flex flex-col items-center justify-center overflow-hidden">
         <div class="relative z-10 flex flex-col items-center gap-3 p-6 text-center">
             <div id="loader-img-wrap" class="w-72 md:w-96 h-auto drop-shadow-2xl transition-all duration-500 brightness-0 invert scale-150 mb-2">
@@ -366,19 +366,62 @@
 
     <div id="recent-release-container"></div>
 
-    <section id="hero" class="relative w-full h-[100dvh] min-h-[600px] flex flex-col justify-center px-6 md:px-12 pt-24 pb-16 bg-black z-10 shadow-2xl overflow-hidden">
-        <div class="absolute left-[45%] md:left-[50%] lg:left-[48%] right-0 top-0 h-full flex items-center justify-center parallax-hero z-10 pointer-events-none opacity-100 mix-blend-normal">
-            <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto object-contain drop-shadow-2xl" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
+    <!-- STREAMING_CHUNK:Section 1 - Hero -->
+    <section id="hero" class="relative w-full h-[100dvh] min-h-[600px] flex flex-col justify-center items-center px-6 md:px-12 pt-24 pb-16 bg-black z-10 shadow-2xl overflow-hidden text-center">
+        <div class="absolute inset-0 flex items-center justify-center parallax-hero z-10 pointer-events-none opacity-90 mix-blend-normal">
+            <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-[75vw] md:w-[50vw] max-w-4xl h-auto object-contain drop-shadow-2xl" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
         </div>
+        <div class="relative z-20 flex flex-col items-center gap-4 hero-fade opacity-0">
+            <span class="text-xs md:text-sm font-mono tracking-[0.4em] uppercase text-simbionBlue font-bold">INDEPENDENT FILMMAKING BOUTIQUE</span>
+            <h1 class="text-4xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white">SIMBION FILM</h1>
+        </div>
+    </section>
 
-        <div class="relative w-full max-w-[52vw] md:max-w-[48vw] lg:max-w-[44vw] my-auto flex flex-col hero-fade opacity-0 z-20">
-            <p id="hero-desc-text" class="interactive-el text-[4.4vw] md:text-[22px] lg:text-[26.5px] xl:text-[33px] font-bold uppercase tracking-tight text-white leading-snug md:leading-tight text-justify drop-shadow-md">
-                EVERY PROJECT DESERVES ITS OWN FIT. WE TAILOR EACH ONE FROM SCRATCH, CAREFULLY STITCHING EVERY FRAME TOGETHER WITH PASSION, PURPOSE, AND DEDICATION. WE BELIEVE GREAT WORK COMES FROM BRINGING TOGETHER THE RIGHT PEOPLE, IDEAS, AND PERSPECTIVES THAT ALIGN WITH THE VISION. EVERY DETAIL MATTERS, EVERY FRAME HAS A PURPOSE, AND EVERY PROJECT DESERVES THE CARE TO MAKE IT FEEL TRULY ITS OWN.
+    <!-- STREAMING_CHUNK:Section 2 - About (Without About Us title) -->
+    <section id="about" class="relative w-full min-h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-20 py-32 z-25 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+        <div class="max-w-7xl w-full mx-auto space-y-10 pl-0 md:pl-8 lg:pl-16 border-l-0 md:border-l border-white/20">
+            <p class="text-xl md:text-3xl lg:text-4xl font-bold tracking-tight leading-tight uppercase text-white interactive-el about-line hover-text-fx drop-shadow-md">
+                SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA.
+            </p>
+            <p class="text-xl md:text-3xl lg:text-4xl font-bold tracking-tight leading-tight uppercase text-gray-400 interactive-el about-line hover-text-fx">
+                WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US.
+            </p>
+            <p class="text-xl md:text-3xl lg:text-4xl font-bold tracking-tight leading-tight uppercase text-gray-500 interactive-el about-line hover-text-fx">
+                WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.
             </p>
         </div>
     </section>
 
-    <section id="the-soul" class="relative w-full min-h-[120dvh] bg-black text-white flex flex-col justify-center px-0 py-24 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+    <!-- STREAMING_CHUNK:Section 3 - We Are What We've Made -->
+    <section id="we-are-made" class="relative w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-8 md:px-24 z-30 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] overflow-hidden">
+        <div class="we-are-container relative z-10 my-auto flex flex-col items-center justify-center gap-2 md:gap-4 select-none w-full max-w-7xl">
+            <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask">
+                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-white italic transform -rotate-1">WE</span></div>
+                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-white italic transform -rotate-1">ARE</span></div>
+            </div>
+            <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask mt-1 md:mt-3">
+                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-white italic transform -rotate-1">WHAT</span></div>
+                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-white italic transform -rotate-1">WE'VE</span></div>
+                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-white italic transform -rotate-1">MADE</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STREAMING_CHUNK:Section 4 - Selected Work -->
+    <section id="selected-work" class="relative bg-black z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] w-full h-[100dvh] overflow-hidden flex flex-col">
+        <div class="absolute top-20 md:top-24 left-6 md:left-12 z-50 pointer-events-none">
+            <div id="selected-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase pointer-events-auto w-fit drop-shadow-lg">
+                <div class="velocity-line interactive-el hover-text-fx" data-text="SELECTED"></div>
+                <div class="velocity-line interactive-el hover-text-fx" data-text="WORKS"></div>
+            </div>
+        </div>
+        <div class="relative w-full flex-1 overflow-hidden bg-gradient-to-r from-black/80 via-transparent to-black/80">
+            <div class="film-track" id="film-track"></div>
+        </div>
+    </section>
+
+    <!-- STREAMING_CHUNK:Section 5 - BTS -->
+    <section id="the-soul" class="relative w-full min-h-[120dvh] bg-black text-white flex flex-col justify-center px-0 py-24 z-45 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
         <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 mb-16 lg:mb-24">
             <div class="w-full relative">
                 <div class="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-20">
@@ -505,52 +548,16 @@
         </div>
     </section>
 
-    <section id="we-are-made" class="relative w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-8 md:px-24 z-30 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] overflow-hidden">
-        <div class="we-are-container relative z-10 my-auto flex flex-col items-center justify-center gap-2 md:gap-4 select-none w-full max-w-7xl">
-            <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask">
-                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-white italic transform -rotate-1">WE</span></div>
-                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-white italic transform -rotate-1">ARE</span></div>
-            </div>
-            <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask mt-1 md:mt-3">
-                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-white italic transform -rotate-1">WHAT</span></div>
-                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-white italic transform -rotate-1">WE'VE</span></div>
-                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-white italic transform -rotate-1">MADE</span></div>
-            </div>
+    <!-- STREAMING_CHUNK:Section 6 - Project Fit -->
+    <section id="project-fit" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-center px-8 md:px-24 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+        <div class="max-w-5xl w-full mx-auto text-center">
+            <p id="hero-desc-text" class="interactive-el text-[4.5vw] md:text-[26px] lg:text-[32px] font-bold uppercase tracking-tight text-white leading-snug md:leading-snug drop-shadow-lg">
+                EVERY PROJECT DESERVES ITS OWN FIT. WE TAILOR EACH ONE FROM SCRATCH, CAREFULLY STITCHING EVERY FRAME TOGETHER WITH PASSION, PURPOSE, AND DEDICATION. WE BELIEVE GREAT WORK COMES FROM BRINGING TOGETHER THE RIGHT PEOPLE, IDEAS, AND PERSPECTIVES THAT ALIGN WITH THE VISION. EVERY DETAIL MATTERS, EVERY FRAME HAS A PURPOSE, AND EVERY PROJECT DESERVES THE CARE TO MAKE IT FEEL TRULY ITS OWN.
+            </p>
         </div>
     </section>
 
-    <section id="selected-work" class="relative bg-black z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] w-full h-[100dvh] overflow-hidden flex flex-col">
-        <div class="absolute top-20 md:top-24 left-6 md:left-12 z-50 pointer-events-none">
-            <div id="selected-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase pointer-events-auto w-fit drop-shadow-lg">
-                <div class="velocity-line interactive-el hover-text-fx" data-text="SELECTED"></div>
-                <div class="velocity-line interactive-el hover-text-fx" data-text="WORKS"></div>
-            </div>
-        </div>
-        <div class="relative w-full flex-1 overflow-hidden bg-gradient-to-r from-black/80 via-transparent to-black/80">
-            <div class="film-track" id="film-track"></div>
-        </div>
-    </section>
-
-    <section id="about" class="relative w-full min-h-[100dvh] bg-black text-white flex flex-col justify-center px-6 md:px-20 py-32 z-50 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
-        <div class="max-w-7xl w-full mx-auto space-y-12">
-            <div id="about-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase mb-16 w-fit drop-shadow-lg">
-                <div class="velocity-line interactive-el hover-text-fx" data-text="ABOUT"></div>
-                <div class="velocity-line interactive-el hover-text-fx" data-text="US"></div>
-            </div>
-            <div class="space-y-8 md:space-y-10 pl-0 md:pl-8 lg:pl-16 border-l-0 md:border-l border-white/20">
-                <p class="text-xl md:text-3xl lg:text-4xl font-bold tracking-tight leading-tight uppercase text-white interactive-el about-line hover-text-fx drop-shadow-md">
-                    SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA.
-                </p>
-                <p class="text-xl md:text-3xl lg:text-4xl font-bold tracking-tight leading-tight uppercase text-gray-400 interactive-el about-line hover-text-fx">
-                    WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US.
-                </p>
-                <p class="text-xl md:text-3xl lg:text-4xl font-bold tracking-tight leading-tight uppercase text-gray-500 interactive-el about-line hover-text-fx">
-                    WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.
-                </p>
-            </div>
-        </div>
-    </section>
-
+    <!-- STREAMING_CHUNK:Section 7 - Ready to Roll (Contact) -->
     <section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-12 py-16 z-[60] shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
         <div class="relative z-10 flex flex-col items-center text-center w-full my-auto">
             <div class="flex flex-col w-full font-bold leading-[0.9] tracking-tighter">
@@ -569,6 +576,7 @@
         </div>
     </section>
 
+    <!-- STREAMING_CHUNK:Initializing JavaScript logic and animations... -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Fake Loader Animation Logic (3 seconds duration)
@@ -593,7 +601,7 @@
                 if (loaderPercentage) loaderPercentage.textContent = currentPercent + '%';
             }, 50);
 
-            // Hero sentence hover effect
+            // Project Fit sentence hover effect
             const heroPara = document.getElementById('hero-desc-text');
             if (heroPara) {
                 const rawText = heroPara.textContent.trim();
@@ -1205,18 +1213,6 @@
                 scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 1.5 }
             });
 
-            gsap.to('#hero', {
-                yPercent: 100,
-                opacity: 0,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#hero",
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-            
             gsap.to('#progress-bar', {
                 scaleX: 1, ease: "none",
                 scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.1 }
