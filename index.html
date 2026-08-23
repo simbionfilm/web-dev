@@ -84,29 +84,6 @@
         animation: floatSlow 5s ease-in-out infinite;
     }
 
-    .slot-wrapper {
-        display: inline-block;
-        overflow: hidden;
-        vertical-align: bottom;
-        height: 1.1em;
-        padding-bottom: 0.05em;
-    }
-    .slot-char {
-        display: inline-block;
-        will-change: transform;
-        transform: translateY(120%);
-        -webkit-transform: translateY(120%);
-    }
-    .slot-char.static {
-        transform: translateY(0%);
-        -webkit-transform: translateY(0%);
-    }
-
-    .velocity-char {
-        display: inline-block;
-        will-change: transform;
-    }
-
     .hover-text-fx {
         display: inline-block;
         position: relative;
@@ -926,14 +903,6 @@
     
     lenis.on('scroll', (e) => {
         ScrollTrigger.update();
-        const vel = e.velocity || 0;
-        const yOffset = gsap.utils.clamp(-60, 60, vel * 4); 
-        gsap.to('.velocity-char', {
-            y: `${yOffset}%`,
-            duration: 0.3,
-            ease: "power2.out",
-            overwrite: true 
-        });
     });
 
     gsap.ticker.add((time) => lenis.raf(time * 1000));
