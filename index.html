@@ -461,7 +461,7 @@
         </div>
     </section>
 
-    <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-end px-8 md:px-20 lg:px-32 z-20 overflow-hidden">
+    <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-20 overflow-hidden">
         <div class="relative w-full max-w-[55vw] md:max-w-[45vw] lg:max-w-[40vw] my-auto flex flex-col z-20">
             <!-- Teks dijadikan satu paragraf agar wrapping natural dan animasi GSAP bekerja, interaktif tanpa blur/shadow -->
             <p id="about-desc-text" class="interactive-el text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug cursor-default text-justify relative">
@@ -832,18 +832,19 @@
 
                 // Initial clean hidden state (pure translation, zero blur)
                 gsap.set(slideElements, { 
-                    yPercent: 120, 
-                    opacity: 0,
+                    yPercent: 110, 
+                    opacity: 0.15,
                     rotateX: -15
                 });
 
-                // ScrollTrigger timeline that cascades smoothly on scroll enter
+                // ScrollTrigger timeline that scrubs smoothly as user scrolls past About
                 const tl = gsap.timeline({
                     scrollTrigger: {
                         trigger: "#about",
                         start: "top 75%",
-                        toggleActions: "play none none none",
-                        once: true
+                        end: "top 20%",
+                        scrub: 1.2,
+                        invalidateOnRefresh: true
                     }
                 });
 
@@ -852,10 +853,10 @@
                         yPercent: 0,
                         opacity: 1,
                         rotateX: 0,
-                        duration: 0.85,
                         stagger: 0.02,
-                        ease: "power4.out"
-                    }, 0.1 + (lineIndex * 0.12));
+                        duration: 1,
+                        ease: "power3.out"
+                    }, lineIndex * 0.3);
                 });
 
                 para._textTl = tl;
