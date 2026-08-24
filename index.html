@@ -107,23 +107,26 @@
         .slot-wrapper {
             display: inline-block;
             overflow: hidden; 
-            vertical-align: bottom;
-            height: 1.2em; 
-            line-height: 1.2em;
-            padding: 0 0.05em; 
-            margin: 0 -0.02em;
+            vertical-align: middle;
+            height: 1.15em; 
+            line-height: 1.15em;
+            margin-top: -0.12em;
+            margin-bottom: -0.12em;
+            padding: 0 0.02em;
         }
         .slot-track {
             display: flex;
             flex-direction: column;
             will-change: transform;
-            transform: translateY(-6em);
-            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(-5.75em);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .slot-char {
-            display: block;
-            height: 1.2em;
-            line-height: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 1.15em;
+            line-height: 1;
             text-align: center;
         }
 
@@ -376,14 +379,12 @@
         </div>
     </section>
 
-    <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-end px-8 md:px-20 lg:px-32 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+    <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-end px-8 md:px-20 lg:px-32 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] overflow-hidden">
         <div class="relative w-full max-w-[55vw] md:max-w-[45vw] lg:max-w-[40vw] my-auto flex flex-col z-20">
-            <span class="block hover-anim-nocolor text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md cursor-pointer origin-left mb-2">SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA.</span>
-            <span class="block hover-anim-nocolor text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md cursor-pointer origin-left">WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS</span>
-            <span class="block hover-anim-nocolor text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md cursor-pointer origin-left mb-2">WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US.</span>
-            <span class="block hover-anim-nocolor text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md cursor-pointer origin-left">WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE.</span>
-            <span class="block hover-anim-nocolor text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md cursor-pointer origin-left">IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES,</span>
-            <span class="block hover-anim-nocolor text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md cursor-pointer origin-left">AND CONNECTED TO THE PEOPLE WE WORK WITH.</span>
+            <!-- Teks dijadikan satu paragraf agar wrapping natural dan animasi GSAP bekerja, hover spasi per baris melebar -->
+            <p id="about-desc-text" class="interactive-el text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md cursor-default text-justify relative">
+                SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA. WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US. WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.
+            </p>
         </div>
     </section>
 
@@ -540,9 +541,10 @@
         </div>
     </section>
 
-    <section id="project-fit" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-48 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
-        <div class="relative w-full max-w-[70vw] md:max-w-[65vw] lg:max-w-[55vw] my-auto flex flex-col z-20">
-            <p id="fit-desc-text" class="interactive-el text-[4.7vw] md:text-[28px] lg:text-[36px] xl:text-[44px] font-semibold uppercase tracking-tight text-white leading-snug md:leading-snug text-justify drop-shadow-md">
+    <section id="project-fit" class="relative w-full min-h-[100dvh] py-24 md:py-32 bg-black text-white flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-48 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] overflow-hidden">
+        <div class="relative w-full md:w-[50vw] my-auto flex flex-col z-20">
+            <!-- Font diperbesar 30%, semibold, efek hover hanya berimpact pada spasi antar kata/huruf (satu baris) -->
+            <p id="fit-desc-text" class="interactive-el text-[4.9vw] md:text-[29px] lg:text-[38px] xl:text-[46px] font-semibold uppercase tracking-tight text-white leading-snug text-justify drop-shadow-md cursor-default relative">
                 EVERY PROJECT DESERVES ITS OWN FIT. WE TAILOR EACH ONE FROM SCRATCH, CAREFULLY STITCHING EVERY FRAME TOGETHER WITH PASSION, PURPOSE, AND DEDICATION. WE BELIEVE GREAT WORK COMES FROM BRINGING TOGETHER THE RIGHT PEOPLE, IDEAS, AND PERSPECTIVES THAT ALIGN WITH THE VISION. EVERY DETAIL MATTERS, EVERY FRAME HAS A PURPOSE, AND EVERY PROJECT DESERVES THE CARE TO MAKE IT FEEL TRULY ITS OWN.
             </p>
         </div>
@@ -590,13 +592,82 @@
                 if (loaderPercentage) loaderPercentage.textContent = currentPercent + '%';
             }, 50);
 
-            // Project Fit sentence hover effect (Custom smooth animation without color change)
-            const fitPara = document.getElementById('fit-desc-text');
-            if (fitPara) {
-                const rawText = fitPara.textContent.trim();
-                const sentences = rawText.split(/(?<=[.!?])\s+/);
-                fitPara.innerHTML = sentences.map(s => `<span class="inline-block hover-anim-nocolor cursor-pointer origin-left mr-[0.8em] mb-[0.4em]">${s}</span>`).join(' ');
+            // Function to animate paragraph by lines
+            function animateTextByLine(paraId, wordClass, triggerId) {
+                const para = document.getElementById(paraId);
+                if (!para) return;
+
+                const rawText = para.textContent.trim();
+                const words = rawText.split(/\s+/);
+                
+                // Wrap in overflow hidden spans
+                para.innerHTML = words.map(word => 
+                    `<span class="inline-flex overflow-hidden pt-2 pb-2 -mt-2 -mb-2 align-bottom"><span class="${wordClass} inline-block origin-left">${word}</span></span>`
+                ).join(' ');
+
+                // We need to wait for layout to settle before calculating offsets
+                const wordElements = Array.from(para.querySelectorAll(`.${wordClass}`));
+                let currentLineTop = -1;
+                let lines = [];
+                let currentLine = [];
+                
+                wordElements.forEach(word => {
+                    // Get the top of the wrapper
+                    const top = word.parentElement.offsetTop;
+                    if (currentLineTop === -1) {
+                        currentLineTop = top;
+                    } else if (top > currentLineTop + 10) { // A new line (with 10px tolerance)
+                        lines.push(currentLine);
+                        currentLine = [];
+                        currentLineTop = top;
+                    }
+                    currentLine.push(word);
+                });
+                if (currentLine.length > 0) {
+                    lines.push(currentLine);
+                }
+
+                // Initial state
+                gsap.set(wordElements, { yPercent: 120, opacity: 0 });
+
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: triggerId,
+                        start: "top 75%",
+                    }
+                });
+
+                lines.forEach((lineWords, index) => {
+                    tl.to(lineWords, {
+                        yPercent: 0,
+                        opacity: 1,
+                        duration: 0.9,
+                        ease: "power4.out",
+                    }, index * 0.15); // delay of 0.15s per line
+                });
+
+                // Scroll scrub for text spacing
+                gsap.to(para, {
+                    letterSpacing: "0.04em",
+                    wordSpacing: "0.4em",
+                    ease: "power2.inOut",
+                    scrollTrigger: {
+                        trigger: triggerId,
+                        start: "top 80%",
+                        end: "top 10%",
+                        scrub: 1.2
+                    }
+                });
             }
+
+            // Apply line-by-line animations after fonts load
+            document.fonts.ready.then(() => {
+                // Short delay to ensure rendering is complete
+                setTimeout(() => {
+                    animateTextByLine('fit-desc-text', 'fit-word', '#project-fit');
+                    animateTextByLine('about-desc-text', 'about-word', '#about');
+                }, 100);
+            });
 
             // Custom Cursor Logic
             const cursor = document.getElementById('custom-cursor');
@@ -777,6 +848,18 @@
             renderSelectedWorks();
 
             function createSlotText() {
+                let totalChars = 0;
+                document.querySelectorAll('.velocity-line').forEach(line => {
+                    const text = line.getAttribute('data-text');
+                    if (text) totalChars += text.replace(/ /g, '').length;
+                });
+                
+                const impactedIndices = new Set();
+                while(impactedIndices.size < 5 && impactedIndices.size < totalChars) {
+                    impactedIndices.add(Math.floor(Math.random() * totalChars));
+                }
+
+                let currentIndex = 0;
                 document.querySelectorAll('.velocity-line').forEach(line => {
                     const text = line.getAttribute('data-text');
                     if (!text) return;
@@ -794,6 +877,10 @@
                         const track = document.createElement('div');
                         track.className = 'slot-track';
                         track.dataset.orig = char;
+
+                        const isImpacted = impactedIndices.has(currentIndex);
+                        track.dataset.impact = isImpacted ? 'true' : 'false';
+                        currentIndex++;
 
                         const letters = Array(11).fill(char);
 
@@ -821,19 +908,25 @@
                 lastScrollY = currentScrollY;
 
                 const tracks = document.querySelectorAll('.slot-track');
+
                 if (Math.abs(delta) > 0.2) {
                     const dir = delta > 0 ? 1 : -1;
                     tracks.forEach((track, i) => {
-                        const multiplier = (i % 2 === 0) ? 1.2 : 0.8;
-                        const offset = Math.max(-9, Math.min(-3, -6 + (dir * multiplier * Math.min(Math.abs(delta) * 0.2, 2.8))));
-                        track.style.transform = `translateY(${offset}em)`;
+                        if (track.dataset.impact === 'true') {
+                            const multiplier = (i % 2 === 0) ? 1.5 : 0.9;
+                            const dynamicOffset = dir * multiplier * Math.min(Math.abs(delta) * 0.15, 2.75);
+                            const offset = Math.max(-8.5, Math.min(-3.0, -5.75 + dynamicOffset));
+                            track.style.transform = `translateY(${offset}em)`;
+                        }
                     });
                 }
 
                 clearTimeout(slotScrollTimeout);
                 slotScrollTimeout = setTimeout(() => {
                     tracks.forEach(track => {
-                        track.style.transform = `translateY(-6em)`;
+                        if (track.dataset.impact === 'true') {
+                            track.style.transform = `translateY(-5.75em)`;
+                        }
                     });
                 }, 150);
             });
@@ -1213,6 +1306,32 @@
                 }
             });
 
+            // About (Page 2) scroll fall transition
+            gsap.to('#about', {
+                yPercent: 30,
+                opacity: 0.3,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#we-are-made",
+                    start: "top bottom",
+                    end: "top top",
+                    scrub: true
+                }
+            });
+
+            // Project Fit (Page 6) scroll fall transition
+            gsap.to('#project-fit', {
+                yPercent: 30,
+                opacity: 0.3,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#contact",
+                    start: "top bottom",
+                    end: "top top",
+                    scrub: true
+                }
+            });
+
             gsap.to('#progress-bar', {
                 scaleX: 1, ease: "none",
                 scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.1 }
@@ -1240,13 +1359,13 @@
 
             gsap.to("#selected-title", {
                 opacity: 0,
-                y: -30,
+                x: -50,
                 ease: "power1.out",
                 scrollTrigger: {
                     trigger: "#selected-work",
                     start: "top top",
-                    end: "+=350",
-                    scrub: true
+                    end: "+=600",
+                    scrub: 1.5
                 }
             });
 
