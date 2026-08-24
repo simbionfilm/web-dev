@@ -966,67 +966,24 @@
                 const chars = Array.from(section.querySelectorAll('.we-are-char'));
                 const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
-                let isIdle = true;
-                let idleAnimId = null;
+                let mouseX = -9999;
+                let mouseY = -9999;
+                let isHovered = false;
+                const startTime = Date.now();
 
-                function startIdleWave() {
-                    if (!isIdle) return;
-                    const startTime = Date.now();
-                    
-                    function updateWave() {
-                        if (!isIdle) return;
-                        const t = (Date.now() - startTime) * 0.0018;
-                        chars.forEach((ch, idx) => {
-                            const waveY = Math.sin(t + idx * 0.22) * 14;
-                            const randomBlur = Math.abs(Math.sin(t * 1.3 + idx * 1.8)) * 2.2;
-                            
-                            gsap.set(ch, {
-                                y: waveY,
-                                z: 0,
-                                rotateX: 0,
-                                rotateY: 0,
-                                rotateZ: 0,
-                                scale: 1,
-                                filter: `blur(${randomBlur}px)`,
-                                color: '#FFFFFF',
-                                overwrite: "auto"
-                            });
-                        });
-                        idleAnimId = requestAnimationFrame(updateWave);
-                    }
-                    updateWave();
-                }
-
-                function stopIdleWave() {
-                    isIdle = false;
-                    if (idleAnimId) {
-                        cancelAnimationFrame(idleAnimId);
-                        idleAnimId = null;
-                    }
-                }
-
-                startIdleWave();
-
-                let lastMove = 0;
-                section.addEventListener('mousemove', (e) => {
-                    if (isTouch) return;
-                    const now = Date.now();
-                    if (now - lastMove < 16) return;
-                    lastMove = now;
-
-                    if (isIdle) stopIdleWave();
-
-                    const mouseX = e.clientX;
-                    const mouseY = e.clientY;
+                // Continuous wave loop running from the beginning
+                function updateWave() {
+                    const t = (Date.now() - startTime) * 0.0018;
                     const radius = 180;
 
-                    chars.forEach(ch => {
+                    chars.forEach((ch, idx) => {
                         const rect = ch.getBoundingClientRect();
                         const cx = rect.left + rect.width / 2;
                         const cy = rect.top + rect.height / 2;
                         const dist = Math.hypot(mouseX - cx, mouseY - cy);
 
-                        if (dist < radius) {
+                        if (isHovered && dist < radius) {
+                            // Mouse interaction takes precedence for characters near cursor
                             const power = Math.pow(1 - (dist / radius), 1.6);
                             gsap.to(ch, {
                                 x: (cx - mouseX) * 0.2 * power,
@@ -1043,62 +1000,54 @@
                                 overwrite: "auto"
                             });
                         } else {
-                            gsap.to(ch, {
+                            // Continuous 2D wave + random moving blur, pure white
+                            const waveY = Math.sin(t + idx * 0.22) * 14;
+                            const randomBlur = Math.abs(Math.sin(t * 1.3 + idx * 1.8)) * 2.2;
+
+                            gsap.set(ch, {
                                 x: 0,
-                                y: 0,
+                                y: waveY,
                                 z: 0,
                                 rotateX: 0,
                                 rotateY: 0,
                                 rotateZ: 0,
                                 scale: 1,
-                                filter: 'blur(0px)',
+                                filter: `blur(${randomBlur}px)`,
                                 color: '#FFFFFF',
-                                duration: 0.4,
-                                ease: "power2.out",
                                 overwrite: "auto"
                             });
                         }
                     });
+                    requestAnimationFrame(updateWave);
+                }
+                requestAnimationFrame(updateWave);
+
+                let lastMove = 0;
+                section.addEventListener('mousemove', (e) => {
+                    if (isTouch) return;
+                    const now = Date.now();
+                    if (now - lastMove < 16) return;
+                    lastMove = now;
+
+                    isHovered = true;
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
                 });
 
-                let leaveTimeout;
                 section.addEventListener('mouseleave', () => {
                     if (isTouch) return;
-                    gsap.to(chars, {
-                        x: 0,
-                        y: 0,
-                        z: 0,
-                        rotateX: 0,
-                        rotateY: 0,
-                        rotateZ: 0,
-                        scale: 1,
-                        filter: 'blur(0px)',
-                        color: '#FFFFFF',
-                        duration: 0.6,
-                        ease: "elastic.out(1.2, 0.4)",
-                        stagger: {
-                            each: 0.003,
-                            from: "center"
-                        },
-                        overwrite: "auto",
-                        onComplete: () => {
-                            clearTimeout(leaveTimeout);
-                            leaveTimeout = setTimeout(() => {
-                                isIdle = true;
-                                startIdleWave();
-                            }, 400);
-                        }
-                    });
+                    isHovered = false;
+                    mouseX = -9999;
+                    mouseY = -9999;
                 });
 
                 section.addEventListener('mouseenter', () => {
                     if (isTouch) return;
-                    stopIdleWave();
+                    isHovered = true;
                 });
 
                 // Insane Click Shockwave Explosion
                 section.addEventListener('click', (e) => {
-                    stopIdleWave();
                     const clickX = e.clientX;
                     const clickY = e.clientY;
 
@@ -1107,7 +1056,6 @@
                         const cx = rect.left + rect.width / 2;
                         const cy = rect.top + rect.height / 2;
                         const angle = Math.atan2(cy - clickY, cx - clickX);
-                        const distance = Math.hypot(clickX - cx, clickY - cy);
 
                         const randomDist = 80 + Math.random() * 140;
                         const targetX = Math.cos(angle) * randomDist;
@@ -1138,15 +1086,7 @@
                             filter: 'blur(0px)',
                             color: '#FFFFFF',
                             duration: 0.85,
-                            ease: "elastic.out(1.3, 0.3)",
-                            onComplete: () => {
-                                if (idx === chars.length - 1) {
-                                    setTimeout(() => {
-                                        isIdle = true;
-                                        startIdleWave();
-                                    }, 500);
-                                }
-                            }
+                            ease: "elastic.out(1.3, 0.3)"
                         }, 0.2 + (idx * 0.006));
                     });
                 });
