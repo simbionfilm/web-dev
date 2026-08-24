@@ -311,7 +311,6 @@
     </div>
 
     <div class="custom-cursor" id="custom-cursor"></div>
-    <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
     
     <!-- Full-Height Vertical Track with Blue Falling Cameraman Indicator starting below logo and reaching bottom (Desktop Only) -->
     <aside id="left-scroll-indicator" class="fixed left-0 sm:left-1 md:left-1.5 lg:left-2 top-[65px] md:top-[75px] bottom-5 md:bottom-8 z-[100] hidden lg:flex flex-col items-center pointer-events-none opacity-0 select-none w-20 md:w-24" aria-label="Page Scroll Progress">
@@ -1703,11 +1702,6 @@
                 const p = Math.max(0, Math.min(1, progress));
                 const trackContainer = document.getElementById('scroll-track-container');
                 const runner = document.getElementById('falling-cameraman-runner');
-                const progressBar = document.getElementById('progress-bar');
-
-                if (progressBar) {
-                    progressBar.style.transform = `scaleX(${p})`;
-                }
 
                 if (trackContainer && runner) {
                     const trackHeight = trackContainer.clientHeight;
