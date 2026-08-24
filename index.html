@@ -150,6 +150,27 @@
             }
         }
 
+        .hover-anim-nocolor {
+            position: relative;
+            font-variation-settings: "slnt" 0;
+            font-style: normal;
+            -webkit-font-smoothing: antialiased;
+            will-change: transform, font-variation-settings;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), font-style 0.4s ease, font-variation-settings 0.4s ease;
+        }
+
+        @media (hover: hover) {
+            .hover-anim-nocolor:hover {
+                font-style: italic !important;
+                font-variation-settings: "slnt" -12 !important;
+                transform: translateX(12px) skewX(-4deg) scale(1.02);
+            }
+        }
+
         .we-are-container { cursor: none !important; }
         .we-are-word {
             display: inline-block;
@@ -357,13 +378,13 @@
 
     <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-end px-8 md:px-20 lg:px-32 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
         <div class="relative w-full max-w-[55vw] md:max-w-[45vw] lg:max-w-[40vw] my-auto flex flex-col z-20">
-            <!-- Teks diatur baris demi baris, hover animasi aktif TANPA warna biru -->
-            <span class="block text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md transition-all duration-400 mb-2 hover:italic hover:translate-x-3 hover:scale-[1.01] cursor-pointer origin-left">SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA.</span>
-            <span class="block text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md transition-all duration-400 hover:italic hover:translate-x-3 hover:scale-[1.01] cursor-pointer origin-left">WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS</span>
-            <span class="block text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md transition-all duration-400 mb-2 hover:italic hover:translate-x-3 hover:scale-[1.01] cursor-pointer origin-left">WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US.</span>
-            <span class="block text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md transition-all duration-400 hover:italic hover:translate-x-3 hover:scale-[1.01] cursor-pointer origin-left">WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE.</span>
-            <span class="block text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md transition-all duration-400 hover:italic hover:translate-x-3 hover:scale-[1.01] cursor-pointer origin-left">IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES,</span>
-            <span class="block text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md transition-all duration-400 hover:italic hover:translate-x-3 hover:scale-[1.01] cursor-pointer origin-left">AND CONNECTED TO THE PEOPLE WE WORK WITH.</span>
+            <!-- Teks diatur baris demi baris, hover animasi custom smooth TANPA ganti warna -->
+            <span class="block hover-anim-nocolor text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md cursor-pointer origin-left mb-2">SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA.</span>
+            <span class="block hover-anim-nocolor text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md cursor-pointer origin-left">WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS</span>
+            <span class="block hover-anim-nocolor text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md cursor-pointer origin-left mb-2">WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US.</span>
+            <span class="block hover-anim-nocolor text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md cursor-pointer origin-left">WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE.</span>
+            <span class="block hover-anim-nocolor text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md cursor-pointer origin-left">IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES,</span>
+            <span class="block hover-anim-nocolor text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md cursor-pointer origin-left">AND CONNECTED TO THE PEOPLE WE WORK WITH.</span>
         </div>
     </section>
 
@@ -571,12 +592,12 @@
                 if (loaderPercentage) loaderPercentage.textContent = currentPercent + '%';
             }, 50);
 
-            // Project Fit sentence hover effect (No color change, just italic, shift, scale)
+            // Project Fit sentence hover effect (Custom smooth animation without color change)
             const fitPara = document.getElementById('fit-desc-text');
             if (fitPara) {
                 const rawText = fitPara.textContent.trim();
                 const sentences = rawText.split(/(?<=[.!?])\s+/);
-                fitPara.innerHTML = sentences.map(s => `<span class="inline-block transition-all duration-400 mr-[0.8em] mb-[0.4em] hover:italic hover:scale-[1.02] hover:translate-x-2 cursor-pointer origin-left">${s}</span>`).join(' ');
+                fitPara.innerHTML = sentences.map(s => `<span class="inline-block hover-anim-nocolor cursor-pointer origin-left mr-[0.8em] mb-[0.4em]">${s}</span>`).join(' ');
             }
 
             // Custom Cursor Logic
