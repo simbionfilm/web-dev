@@ -966,32 +966,44 @@
                 const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
                 let isIdle = true;
-                let idleTweens = [];
+                let idleAnimId = null;
 
                 function startIdleWave() {
                     if (!isIdle) return;
-                    idleTweens = chars.map((ch, idx) => {
-                        return gsap.to(ch, {
-                            y: Math.sin(Date.now() * 0.002 + idx * 0.4) * 10,
-                            x: Math.cos(Date.now() * 0.0015 + idx * 0.3) * 6,
-                            z: Math.sin(Date.now() * 0.0025 + idx * 0.5) * 25,
-                            rotateX: Math.cos(Date.now() * 0.002 + idx * 0.3) * 15,
-                            rotateY: Math.sin(Date.now() * 0.0018 + idx * 0.35) * 20,
-                            rotateZ: Math.sin(Date.now() * 0.001 + idx * 0.2) * 8,
-                            scale: 1 + Math.sin(Date.now() * 0.003 + idx * 0.2) * 0.1,
-                            filter: 'blur(0.5px)',
-                            color: (idx % 2 === 0) ? '#D1D7FF' : '#FFFFFF',
-                            duration: 2,
-                            ease: "sine.inOut",
-                            repeat: -1,
-                            yoyo: true
+                    const startTime = Date.now();
+                    
+                    function updateWave() {
+                        if (!isIdle) return;
+                        const t = (Date.now() - startTime) * 0.0018;
+                        chars.forEach((ch, idx) => {
+                            const waveY = Math.sin(t + idx * 0.22) * 18;
+                            const waveZ = Math.cos(t * 0.8 + idx * 0.28) * 32;
+                            const waveRotateX = Math.sin(t * 1.1 + idx * 0.2) * 22;
+                            const waveRotateY = Math.cos(t * 0.9 + idx * 0.25) * 28;
+                            const waveScale = 1 + Math.sin(t * 1.4 + idx * 0.3) * 0.12;
+                            
+                            gsap.set(ch, {
+                                y: waveY,
+                                z: waveZ,
+                                rotateX: waveRotateX,
+                                rotateY: waveRotateY,
+                                scale: waveScale,
+                                filter: 'blur(0.4px)',
+                                color: idx % 3 === 0 ? '#B8C2FF' : '#FFFFFF',
+                                overwrite: "auto"
+                            });
                         });
-                    });
+                        idleAnimId = requestAnimationFrame(updateWave);
+                    }
+                    updateWave();
                 }
 
                 function stopIdleWave() {
                     isIdle = false;
-                    idleTweens.forEach(t => t.kill());
+                    if (idleAnimId) {
+                        cancelAnimationFrame(idleAnimId);
+                        idleAnimId = null;
+                    }
                 }
 
                 startIdleWave();
