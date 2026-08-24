@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="overflow-x-hidden w-full max-w-full">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIMBION FILM</title>
     
     <link rel="icon" type="image/png" href="orang.png">
@@ -29,6 +29,19 @@
     </script>
 
     <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto; }
         .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
@@ -42,7 +55,6 @@
         body {
             background-color: #000000;
             color: #FFFFFF;
-            overflow-x: hidden; 
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
@@ -85,7 +97,8 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
+            right: 0;
+            width: 100%;
             height: 85px;
             z-index: 90;
             pointer-events: none;
@@ -1590,15 +1603,18 @@
                     scrollTrigger: {
                         trigger: "#selected-work",
                         start: "top top",
-                        end: () => "+=" + (filmTrack.scrollWidth * 1.5),
-                        scrub: 2.4,
+                        end: () => "+=" + Math.max(800, (filmTrack.scrollWidth - window.innerWidth) * 1.2),
+                        scrub: 2,
                         pin: true, 
                         invalidateOnRefresh: true
                     }
                 });
 
                 trackTl.to(filmTrack, {
-                    x: () => -(filmTrack.scrollWidth - window.innerWidth), 
+                    x: () => {
+                        const maxMove = filmTrack.scrollWidth - window.innerWidth;
+                        return maxMove > 0 ? -maxMove : 0;
+                    }, 
                     ease: "none"
                 });
             }
