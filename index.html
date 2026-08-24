@@ -299,21 +299,22 @@
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
     
     <!-- Full-Height Vertical Scroll Line with Blue Falling Cameraman Indicator -->
-    <aside id="left-scroll-indicator" class="fixed left-2 md:left-4 lg:left-6 top-0 bottom-0 z-[100] hidden sm:flex flex-col items-center pointer-events-auto opacity-0 -translate-x-4 select-none w-12 md:w-16" aria-label="Page Scroll Progress">
+    <aside id="left-scroll-indicator" class="fixed left-3 md:left-6 lg:left-8 top-0 bottom-0 z-[100] hidden sm:flex flex-col items-center pointer-events-auto opacity-0 -translate-x-4 select-none w-24 md:w-32" aria-label="Page Scroll Progress">
         <!-- Interactive Track spanning top to bottom -->
         <div id="scroll-track-container" class="relative w-full h-[calc(100vh-3.5rem)] my-auto flex justify-center cursor-pointer group" title="Click to scroll">
             
             <!-- Floating Blue Falling Cameraman GIF Runner (Without vertical line) -->
-            <div id="falling-cameraman-runner" class="absolute left-1/2 -translate-x-1/2 top-100 pointer-events-none transition-all duration-75 ease-out flex flex-col items-center z-30" style="transform: translate(-100%, -100%);">
+            <div id="falling-cameraman-runner" class="absolute left-1/2 -translate-x-1/2 top-0 pointer-events-none transition-all duration-75 ease-out flex flex-col items-center z-30" style="transform: translate(-50%, -50%);">
                 <!-- Cameraman GIF in Blue (Clearly visible size) with drop shadow & tooltip -->
                 <div class="relative group/cameraman flex items-center justify-center pointer-events-auto cursor-grab">
-                    <img src="orang jatuh.gif" 
+                    <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" 
                          alt="Falling Cameraman Indicator" 
-                         class="w-14 sm:w-16 md:w-100 lg:w-24 h-auto object-contain falling-cameraman-blue drop-shadow-[0_0_14px_rgba(6,22,198,0.95)] transform rotate-[-0deg] hover:rotate-0 hover:scale-110 transition-all duration-300">
+                         style="width: 72px; min-width: 60px; max-width: 90px; height: auto;"
+                         class="falling-cameraman-blue drop-shadow-[0_0_14px_rgba(6,22,198,0.95)] transform rotate-[-6deg] hover:rotate-0 hover:scale-110 transition-all duration-300">
                     
                     <!-- HUD Tooltip on the right side of cameraman -->
-                    <div id="cameraman-badge" class="absolute left-full ml-2 px-2 py-1 rounded bg-black/90 border border-simbionBlue/60 backdrop-blur-md flex items-center gap-1.5 shadow-[0_0_14px_rgba(6,22,198,0.5)] whitespace-nowrap pointer-events-none opacity-0 group-hover/cameraman:opacity-100 transition-opacity duration-200">
-                        <span id="cameraman-pct" class="text-[8.5px] font-mono font-bold text-white/90">0%</span>
+                    <div id="cameraman-badge" class="absolute left-full ml-3 px-2 py-1 rounded bg-black/90 border border-simbionBlue/60 backdrop-blur-md flex items-center gap-1.5 shadow-[0_0_14px_rgba(6,22,198,0.5)] whitespace-nowrap pointer-events-none opacity-0 group-hover/cameraman:opacity-100 transition-opacity duration-200">
+                        <span id="cameraman-pct" class="text-[9px] font-mono font-bold text-white/90">0%</span>
                     </div>
                 </div>
             </div>
