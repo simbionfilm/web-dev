@@ -322,9 +322,9 @@
             <div id="falling-cameraman-runner" class="absolute left-1/2 -translate-x-1/2 top-0 pointer-events-none flex flex-col items-center z-30 will-change-transform">
                 <!-- Cameraman GIF in Blue (No hover effect, pure blue aesthetic) -->
                 <div class="relative flex items-center justify-center pointer-events-none">
-                    <img src="orang jatuh.gif" 
+                    <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" 
                          alt="Falling Cameraman Indicator" 
-                         style="width: 200px; min-width: 60px; max-width: 200px; height: auto;"
+                         style="width: 72px; min-width: 60px; max-width: 90px; height: auto;"
                          class="falling-cameraman-blue transform rotate-[-6deg]">
                 </div>
             </div>
@@ -1212,11 +1212,11 @@
                 gsap.killTweensOf('.idle-float');
                 const floatElements = gsap.utils.toArray('.idle-float');
                 floatElements.forEach((el, i) => {
-                    // Enhanced multi-phase organic floating bobbing
-                    const yDist = (i % 2 === 0 ? 38 : -38) + gsap.utils.random(-15, 15);
-                    const xDist = (i % 3 === 0 ? 22 : -22) + gsap.utils.random(-10, 10);
-                    const rotDist = (i % 2 === 0 ? 5.5 : -5.5) + gsap.utils.random(-2, 2);
-                    const dur = gsap.utils.random(3.2, 5.2);
+                    // Outer space calm floating: very slow, gentle, non-colliding
+                    const yDist = (i % 2 === 0 ? 14 : -14) + gsap.utils.random(-6, 6);
+                    const xDist = (i % 3 === 0 ? 10 : -10) + gsap.utils.random(-5, 5);
+                    const rotDist = (i % 2 === 0 ? 2.5 : -2.5) + gsap.utils.random(-1, 1);
+                    const dur = gsap.utils.random(9.0, 16.0);
 
                     gsap.to(el, {
                         y: yDist,
@@ -1226,7 +1226,7 @@
                         ease: "sine.inOut",
                         repeat: -1,
                         yoyo: true,
-                        delay: (i * 0.12) % 2
+                        delay: (i * 0.4) % 3
                     });
                 });
             }
@@ -1903,35 +1903,42 @@
                     
                     if (isDesktop) {
                         item.addEventListener('mouseenter', () => {
-                            gsap.set(item, { zIndex: 100 });
-                            gsap.to(inner, { 
-                                scale: 1.42, 
-                                y: -10,
-                                duration: 0.7, 
-                                ease: "power3.out", 
-                                overwrite: "auto" 
-                            });
+                            if (item._hoverTimeout) clearTimeout(item._hoverTimeout);
+                            item._hoverTimeout = setTimeout(() => {
+                                gsap.set(item, { zIndex: 100 });
+                                gsap.to(inner, { 
+                                    scale: 1.42, 
+                                    y: -10,
+                                    duration: 1.1, 
+                                    ease: "power3.out", 
+                                    overwrite: "auto" 
+                                });
 
-                            const pushVal = 12; 
+                                const pushVal = 12; 
 
-                            galleryItems.forEach((other, otherIndex) => {
-                                if (otherIndex !== index) {
-                                    const pushAmount = otherIndex < index ? `-${pushVal}vw` : `${pushVal}vw`;
-                                    gsap.to(other, { x: pushAmount, duration: 0.7, ease: "power3.out", overwrite: "auto" });
-                                }
-                            });
+                                galleryItems.forEach((other, otherIndex) => {
+                                    if (otherIndex !== index) {
+                                        const pushAmount = otherIndex < index ? `-${pushVal}vw` : `${pushVal}vw`;
+                                        gsap.to(other, { x: pushAmount, duration: 1.1, ease: "power3.out", overwrite: "auto" });
+                                    }
+                                });
+                            }, 180); // Deliberate hover delay
                         });
                         item.addEventListener('mouseleave', () => {
+                            if (item._hoverTimeout) {
+                                clearTimeout(item._hoverTimeout);
+                                item._hoverTimeout = null;
+                            }
                             gsap.to(inner, { 
                                 scale: 1, 
                                 y: 0,
-                                duration: 0.8, 
+                                duration: 1.0, 
                                 ease: "power3.out", 
                                 overwrite: "auto",
                                 onComplete: () => gsap.set(item, { zIndex: 10 }) 
                             });
                             galleryItems.forEach((other) => {
-                                gsap.to(other, { x: "0vw", duration: 0.8, ease: "power3.out", overwrite: "auto" });
+                                gsap.to(other, { x: "0vw", duration: 1.0, ease: "power3.out", overwrite: "auto" });
                             });
                         });
                     }
