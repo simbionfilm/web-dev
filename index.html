@@ -65,11 +65,21 @@
             cursor: none !important;
         }
 
-        @media (pointer: coarse), (max-width: 768px) {
-            body, a, button, input, select, textarea, .interactive-el, .gallery-item, .video-trigger {
+        /* Hide custom cursor & scroll indicator on mobile, iPad, tablets, and all touch devices */
+        @media (pointer: coarse), (hover: none), (max-width: 1024px) {
+            body, a, button, input, select, textarea, .interactive-el, .gallery-item, .video-trigger, .we-are-container {
                 cursor: auto !important;
             }
-            .custom-cursor { display: none !important; }
+            .custom-cursor {
+                display: none !important;
+                opacity: 0 !important;
+                pointer-events: none !important;
+            }
+            #left-scroll-indicator {
+                display: none !important;
+                opacity: 0 !important;
+                pointer-events: none !important;
+            }
         }
 
         ::selection {
@@ -267,13 +277,12 @@
             }
         }
 
-        /* Falling Cameraman Blue Scroll Indicator */
+        /* Falling Cameraman Pure Simbion Blue (#0616C6) Scroll Indicator - No Hover Effects */
         .falling-cameraman-blue {
-            filter: brightness(0) saturate(100%) invert(14%) sepia(98%) saturate(7200%) hue-rotate(243deg) brightness(85%) contrast(140%) drop-shadow(0 0 10px rgba(6, 22, 198, 0.95)) drop-shadow(0 0 20px rgba(6, 22, 198, 0.6));
-            will-change: transform, top;
-        }
-        .falling-cameraman-blue:hover {
-            filter: brightness(0) saturate(100%) invert(20%) sepia(98%) saturate(7500%) hue-rotate(240deg) brightness(110%) contrast(150%) drop-shadow(0 0 16px rgba(6, 22, 198, 1)) drop-shadow(0 0 30px rgba(6, 22, 198, 0.8));
+            filter: brightness(0) saturate(100%) invert(14%) sepia(98%) saturate(7200%) hue-rotate(243deg) brightness(85%) contrast(140%) drop-shadow(0 0 12px rgba(6, 22, 198, 0.95)) drop-shadow(0 0 24px rgba(6, 22, 198, 0.6));
+            will-change: transform;
+            pointer-events: none;
+            user-select: none;
         }
     </style>
 
@@ -298,24 +307,19 @@
     <div class="custom-cursor" id="custom-cursor"></div>
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
     
-    <!-- Full-Height Vertical Track with Blue Falling Cameraman Indicator starting below logo and reaching bottom -->
-    <aside id="left-scroll-indicator" class="fixed left-0 sm:left-1 md:left-1.5 lg:left-2 top-[65px] md:top-[75px] bottom-5 md:bottom-8 z-[100] hidden sm:flex flex-col items-center pointer-events-auto opacity-0 -translate-x-4 select-none w-20 md:w-24" aria-label="Page Scroll Progress">
+    <!-- Full-Height Vertical Track with Blue Falling Cameraman Indicator starting below logo and reaching bottom (Desktop Only) -->
+    <aside id="left-scroll-indicator" class="fixed left-0 sm:left-1 md:left-1.5 lg:left-2 top-[65px] md:top-[75px] bottom-5 md:bottom-8 z-[100] hidden lg:flex flex-col items-center pointer-events-none opacity-0 select-none w-20 md:w-24" aria-label="Page Scroll Progress">
         <!-- Interactive Track spanning from below logo to bottom -->
-        <div id="scroll-track-container" class="relative w-full h-full flex justify-center cursor-pointer group" title="Click to scroll">
+        <div id="scroll-track-container" class="relative w-full h-full flex justify-center pointer-events-none">
             
             <!-- Floating Blue Falling Cameraman GIF Runner (Without vertical line) -->
             <div id="falling-cameraman-runner" class="absolute left-1/2 -translate-x-1/2 top-0 pointer-events-none transition-transform duration-75 ease-out flex flex-col items-center z-30">
-                <!-- Cameraman GIF in Blue (Clearly visible size) with drop shadow & tooltip -->
-                <div class="relative group/cameraman flex items-center justify-center pointer-events-auto cursor-grab">
+                <!-- Cameraman GIF in Blue (No hover effect, pure blue aesthetic) -->
+                <div class="relative flex items-center justify-center pointer-events-none">
                     <img src="orang jatuh.gif" 
                          alt="Falling Cameraman Indicator" 
-                         style="width: 1000px; min-width: 60px; max-width: 200px; height: auto;"
-                         class="falling-cameraman-blue drop-shadow-[0_0_14px_rgba(6,22,198,0.95)] transform rotate-[-6deg] hover:rotate-0 hover:scale-110 transition-all duration-300">
-                    
-                    <!-- HUD Tooltip on the right side of cameraman -->
-                    <div id="cameraman-badge" class="absolute left-full ml-3 px-2 py-1 rounded bg-black/90 border border-simbionBlue/60 backdrop-blur-md flex items-center gap-1.5 shadow-[0_0_14px_rgba(6,22,198,0.5)] whitespace-nowrap pointer-events-none opacity-0 group-hover/cameraman:opacity-100 transition-opacity duration-200">
-                        <span id="cameraman-pct" class="text-[9px] font-mono font-bold text-white/90">0%</span>
-                    </div>
+                         style="width: 200px; min-width: 60px; max-width: 200px; height: auto;"
+                         class="falling-cameraman-blue transform rotate-[-6deg]">
                 </div>
             </div>
         </div>
@@ -857,16 +861,14 @@
                 });
             }
 
-            // Custom Cursor Logic
+            // Custom Cursor Logic (Desktop Only with fine pointer & hover)
             const cursor = document.getElementById('custom-cursor');
-            const isDesktop = window.matchMedia("(pointer: fine)").matches;
+            const isDesktop = window.matchMedia("(pointer: fine) and (hover: hover) and (min-width: 1025px)").matches;
 
-            if (isDesktop) {
+            if (isDesktop && cursor) {
                 window.addEventListener('mousemove', (e) => {
-                    if (cursor) {
-                        cursor.style.left = e.clientX + 'px';
-                        cursor.style.top = e.clientY + 'px';
-                    }
+                    cursor.style.left = e.clientX + 'px';
+                    cursor.style.top = e.clientY + 'px';
                 });
             }
 
@@ -1446,76 +1448,68 @@
                 infinite: false,
             });
 
-            lenis.on('scroll', ScrollTrigger.update);
+            // Accurate Full Page Scroll Progress Calculator
+            function getPageScrollProgress() {
+                const total = document.documentElement.scrollHeight - window.innerHeight;
+                if (total <= 0) return 0;
+                const current = window.pageYOffset || document.documentElement.scrollTop || 0;
+                return Math.max(0, Math.min(1, current / total));
+            }
+
+            function updateScrollIndicator(progress) {
+                const p = Math.max(0, Math.min(1, progress));
+                const trackContainer = document.getElementById('scroll-track-container');
+                const runner = document.getElementById('falling-cameraman-runner');
+                const progressBar = document.getElementById('progress-bar');
+
+                if (progressBar) {
+                    progressBar.style.transform = `scaleX(${p})`;
+                }
+
+                if (trackContainer && runner) {
+                    const trackHeight = trackContainer.clientHeight;
+                    const runnerHeight = runner.offsetHeight || 72;
+                    const maxTravel = Math.max(0, trackHeight - runnerHeight);
+                    const currentY = p * maxTravel;
+                    runner.style.transform = `translate(-50%, ${currentY}px)`;
+                }
+            }
+
+            // Sync with Lenis smooth scroll
+            lenis.on('scroll', (e) => {
+                ScrollTrigger.update();
+                const p = typeof e.progress === 'number' ? e.progress : getPageScrollProgress();
+                updateScrollIndicator(p);
+            });
+
+            // Native scroll event fallback
+            window.addEventListener('scroll', () => {
+                const p = getPageScrollProgress();
+                updateScrollIndicator(p);
+            }, { passive: true });
 
             gsap.ticker.add((time) => {
                 lenis.raf(time * 1000);
             });
             gsap.ticker.lagSmoothing(0);
 
-            // Full-Height Vertical Track & Falling Cameraman Scroll Indicator Logic
+            // Full-Height Vertical Track & Falling Cameraman Scroll Indicator Logic (Desktop Only)
             function initScrollIndicator() {
                 const indicator = document.getElementById('left-scroll-indicator');
-                const trackContainer = document.getElementById('scroll-track-container');
-                const runner = document.getElementById('falling-cameraman-runner');
-                const pctEl = document.getElementById('cameraman-pct');
+                const isDesktopFine = window.matchMedia("(pointer: fine) and (hover: hover) and (min-width: 1025px)").matches;
 
-                if (!indicator || !trackContainer || !runner) return;
+                if (!indicator || !isDesktopFine) return;
 
-                // Animate entrance of the indicator
+                // Animate entrance of the indicator only on supported desktop screens
                 gsap.to(indicator, {
                     opacity: 1,
-                    x: 0,
                     duration: 1,
                     ease: "power2.out",
                     delay: 0.4
                 });
 
-                function updateRunner(p) {
-                    const trackHeight = trackContainer.clientHeight;
-                    const runnerHeight = runner.offsetHeight || 72;
-                    const maxTravel = Math.max(0, trackHeight - runnerHeight);
-                    const currentY = p * maxTravel;
-                    
-                    runner.style.transform = `translate(-50%, ${currentY}px)`;
-                    
-                    if (pctEl) {
-                        const pct = Math.min(100, Math.round(p * 100));
-                        pctEl.textContent = `${pct}%`;
-                    }
-                }
-
                 // Initial position
-                updateRunner(0);
-
-                // Smoothly update falling cameraman position along the track during scroll
-                ScrollTrigger.create({
-                    trigger: document.body,
-                    start: "top top",
-                    end: "bottom bottom",
-                    scrub: 0.1,
-                    onUpdate: (self) => {
-                        updateRunner(self.progress);
-                    },
-                    onRefresh: (self) => {
-                        updateRunner(self.progress);
-                    }
-                });
-
-                // Click anywhere on track to scroll to that progress location
-                trackContainer.addEventListener('click', (e) => {
-                    const rect = trackContainer.getBoundingClientRect();
-                    const clickY = e.clientY - rect.top;
-                    const clickRatio = Math.max(0, Math.min(1, clickY / rect.height));
-                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-                    const targetScroll = clickRatio * maxScroll;
-                    if (lenis) {
-                        lenis.scrollTo(targetScroll, {
-                            duration: 1.4,
-                            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
-                        });
-                    }
-                });
+                updateScrollIndicator(getPageScrollProgress());
             }
 
             initScrollIndicator();
@@ -1593,11 +1587,6 @@
             if (statementSection) {
                 gsap.set(statementSection, { opacity: 1, yPercent: 0 });
             }
-
-            gsap.to('#progress-bar', {
-                scaleX: 1, ease: "none",
-                scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.1 }
-            });
 
             const filmTrack = document.getElementById("film-track");
 
