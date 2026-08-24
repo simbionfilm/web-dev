@@ -228,10 +228,23 @@
         }
 
         /* Statement page interactive animations */
+        .statement-mask {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: baseline;
+            padding-top: 0.1em;
+            padding-bottom: 0.1em;
+        }
+        .statement-slide {
+            display: inline-block;
+            will-change: transform, opacity;
+            transform-origin: 0% 100%;
+        }
         .statement-word {
             display: inline-block;
             transition: color 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.35s ease;
             will-change: transform, color;
+            cursor: default;
         }
         @media (hover: hover) {
             .statement-word:hover {
@@ -239,6 +252,15 @@
                 transform: translateY(-3px) scale(1.08) skewX(-4deg);
                 text-shadow: 0 0 25px rgba(6, 22, 198, 0.8), 0 0 50px rgba(6, 22, 198, 0.4);
             }
+        }
+
+        /* Falling Cameraman Blue Scroll Indicator */
+        .falling-cameraman-blue {
+            filter: brightness(0) saturate(100%) invert(14%) sepia(98%) saturate(7200%) hue-rotate(243deg) brightness(85%) contrast(140%) drop-shadow(0 0 10px rgba(6, 22, 198, 0.95)) drop-shadow(0 0 20px rgba(6, 22, 198, 0.6));
+            will-change: transform, top;
+        }
+        .falling-cameraman-blue:hover {
+            filter: brightness(0) saturate(100%) invert(20%) sepia(98%) saturate(7500%) hue-rotate(240deg) brightness(110%) contrast(150%) drop-shadow(0 0 16px rgba(6, 22, 198, 1)) drop-shadow(0 0 30px rgba(6, 22, 198, 0.8));
         }
     </style>
 
@@ -251,7 +273,7 @@
     <div id="fake-loader" class="fixed inset-0 z-[9999] bg-simbionBlue flex flex-col items-center justify-center overflow-hidden">
         <div class="relative z-10 flex flex-col items-center gap-3 p-6 text-center">
             <div id="loader-img-wrap" class="w-72 md:w-96 h-auto drop-shadow-2xl transition-all duration-500 brightness-0 invert scale-150 mb-2">
-                <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Loading Cameraman" class="w-full h-auto object-contain">
+                <img src="orang jatuh.gif" alt="Loading Cameraman" class="w-full h-auto object-contain">
             </div>
             <div class="flex flex-col items-center gap-1">
                 <span id="loader-text" class="text-xs md:text-sm font-mono font-bold tracking-[0.25em] uppercase text-white/95">Hang on! We’re almost ready to roll.</span>
@@ -262,6 +284,34 @@
 
     <div class="custom-cursor" id="custom-cursor"></div>
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
+    
+    <!-- Full-Height Vertical Scroll Line with Blue Falling Cameraman Indicator -->
+    <aside id="left-scroll-indicator" class="fixed left-1 md:left-2 lg:left-3 top-0 bottom-0 z-[100] hidden sm:flex flex-col items-center pointer-events-auto opacity-0 -translate-x-4 select-none w-5 md:w-6" aria-label="Page Scroll Progress">
+        <!-- Interactive Track spanning top to bottom -->
+        <div id="scroll-track-container" class="relative w-full h-[calc(100vh-3.5rem)] my-auto flex justify-center cursor-pointer group" title="Click to scroll">
+            
+            <!-- Full Height Background Rail Line (Blue Translucent) -->
+            <div class="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-[2.2px] bg-simbionBlue/30 rounded-full"></div>
+            
+            <!-- Active Simbion Blue Filled Progress Line (Thickened Blue Solid + Glow) -->
+            <div id="scroll-track-fill" class="absolute top-0 left-1/2 -translate-x-1/2 w-[2.5px] bg-simbionBlue origin-top scale-y-0 rounded-full shadow-[0_0_12px_rgba(6,22,198,1)]"></div>
+            
+            <!-- Floating Blue Falling Cameraman GIF Runner -->
+            <div id="falling-cameraman-runner" class="absolute left-1/2 -translate-x-1/2 top-0 pointer-events-none transition-all duration-75 ease-out flex flex-col items-center z-30" style="transform: translate(-50%, -50%);">
+                <!-- Cameraman GIF in Blue (Small size) with drop shadow & tooltip -->
+                <div class="relative group/cameraman flex items-center justify-center pointer-events-auto cursor-grab">
+                    <img src="orang jatuh.gif" 
+                         alt="Falling Cameraman Indicator" 
+                         class="w-6 md:w-7 h-auto object-contain falling-cameraman-blue drop-shadow-[0_0_10px_rgba(6,22,198,0.95)] transform rotate-[-6deg] hover:rotate-0 hover:scale-125 transition-all duration-300">
+                    
+                    <!-- HUD Tooltip on the right side of cameraman -->
+                    <div id="cameraman-badge" class="absolute left-full ml-2 px-1.5 py-0.5 rounded bg-black/90 border border-simbionBlue/60 backdrop-blur-md flex items-center gap-1 shadow-[0_0_12px_rgba(6,22,198,0.4)] whitespace-nowrap pointer-events-none opacity-0 group-hover/cameraman:opacity-100 transition-opacity duration-200">
+                        <span id="cameraman-pct" class="text-[7.5px] font-mono font-bold text-white/90">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
     
     <div class="header-blur-mask"></div>
 
@@ -694,14 +744,91 @@
                 para._textTl = tl;
             }
 
+            // Function to animate Statement text on scroll with words per line sliding inside clipping justify boxes
+            function animateStatementScroll() {
+                const para = document.getElementById('statement-desc-text') || document.getElementById('fit-desc-text');
+                if (!para) return;
+
+                if (!para.dataset.originalText) {
+                    para.dataset.originalText = para.textContent.trim().replace(/\s+/g, ' ');
+                }
+                const rawText = para.dataset.originalText;
+                const words = rawText.split(' ');
+
+                if (para._textTl) {
+                    if (para._textTl.scrollTrigger) para._textTl.scrollTrigger.kill();
+                    para._textTl.kill();
+                    para._textTl = null;
+                }
+
+                // Wrap each word in clipping mask + sliding element + interactive word
+                para.innerHTML = words.map(word => 
+                    `<span class="statement-mask"><span class="statement-slide"><span class="statement-word select-none">${word}</span></span></span> `
+                ).join('');
+
+                const slideElements = Array.from(para.querySelectorAll('.statement-slide'));
+                if (slideElements.length === 0) return;
+
+                // Group words into visual lines based on bounding rect top in the justified container
+                let lines = [];
+                let currentLine = [];
+                let prevTop = null;
+
+                slideElements.forEach(el => {
+                    const top = Math.round(el.getBoundingClientRect().top);
+                    if (prevTop === null) {
+                        prevTop = top;
+                        currentLine.push(el);
+                    } else if (Math.abs(top - prevTop) > 6) {
+                        lines.push(currentLine);
+                        currentLine = [el];
+                        prevTop = top;
+                    } else {
+                        currentLine.push(el);
+                    }
+                });
+                if (currentLine.length > 0) {
+                    lines.push(currentLine);
+                }
+
+                // Initial position: tucked below each word's clipping mask box
+                gsap.set(slideElements, { 
+                    yPercent: 125, 
+                    opacity: 0,
+                    filter: "blur(4px)",
+                    rotateX: -20
+                });
+
+                // ScrollTrigger timeline that scrubs smoothly as user scrolls past Statement
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: "#statement",
+                        start: "top 80%",
+                        end: "top 20%",
+                        scrub: 1.2,
+                        invalidateOnRefresh: true
+                    }
+                });
+
+                lines.forEach((lineWords, lineIndex) => {
+                    tl.to(lineWords, {
+                        yPercent: 0,
+                        opacity: 1,
+                        filter: "blur(0px)",
+                        rotateX: 0,
+                        stagger: 0.02,
+                        duration: 1,
+                        ease: "power2.out"
+                    }, lineIndex * 0.35);
+                });
+
+                para._textTl = tl;
+            }
+
             // Function to initialize all paragraph animations
             function initParagraphAnimations() {
                 animateTextByLine('about-desc-text', 'about-word', '#about');
-                if (document.getElementById('statement-desc-text')) {
-                    animateTextByLine('statement-desc-text', 'statement-word', '#statement');
-                } else if (document.getElementById('fit-desc-text')) {
-                    animateTextByLine('fit-desc-text', 'statement-word', '#statement, #project-fit');
-                }
+                animateStatementScroll();
             }
 
             // Statement section ambient mouse tracking for blue aura glow
@@ -1317,6 +1444,65 @@
                 lenis.raf(time * 1000);
             });
             gsap.ticker.lagSmoothing(0);
+
+            // Full-Height Blue Line & Blue Falling Cameraman Scroll Indicator Logic & Animations
+            function initScrollIndicator() {
+                const indicator = document.getElementById('left-scroll-indicator');
+                const trackContainer = document.getElementById('scroll-track-container');
+                const trackFill = document.getElementById('scroll-track-fill');
+                const runner = document.getElementById('falling-cameraman-runner');
+                const pctEl = document.getElementById('cameraman-pct');
+
+                if (!indicator || !trackContainer || !runner) return;
+
+                // Animate entrance of the indicator
+                gsap.to(indicator, {
+                    opacity: 1,
+                    x: 0,
+                    duration: 1,
+                    ease: "power2.out",
+                    delay: 0.4
+                });
+
+                // Smoothly update falling cameraman along the vertical line during scroll
+                ScrollTrigger.create({
+                    trigger: document.body,
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 0.1,
+                    onUpdate: (self) => {
+                        const p = self.progress;
+                        const pct = Math.min(100, Math.round(p * 100));
+
+                        if (trackFill) {
+                            trackFill.style.transform = `scaleY(${p})`;
+                        }
+                        if (runner) {
+                            runner.style.top = `${p * 100}%`;
+                        }
+                        if (pctEl) {
+                            pctEl.textContent = `${pct}%`;
+                        }
+                    }
+                });
+
+                // Click anywhere on track to scroll to that progress location
+                trackContainer.addEventListener('click', (e) => {
+                    const rect = trackContainer.getBoundingClientRect();
+                    const clickY = e.clientY - rect.top;
+                    const clickRatio = Math.max(0, Math.min(1, clickY / rect.height));
+                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                    const targetScroll = clickRatio * maxScroll;
+                    if (lenis) {
+                        lenis.scrollTo(targetScroll, {
+                            duration: 1.4,
+                            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                        });
+                    }
+                });
+            }
+
+            initScrollIndicator();
 
             const soulTl = gsap.timeline({
                 scrollTrigger: {
