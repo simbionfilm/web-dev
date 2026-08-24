@@ -250,36 +250,40 @@
             will-change: transform;
         }
 
-        /* Statement page interactive animations */
-        .statement-mask {
+        /* Statement & About Us interactive text animations - Clean, Crisp & High-Contrast (No Glow / No Shadow) */
+        .text-mask-wrap, .statement-mask, .about-mask {
             display: inline-block;
             overflow: hidden;
             vertical-align: baseline;
-            padding-top: 0.1em;
-            padding-bottom: 0.1em;
+            padding-top: 0.14em;
+            padding-bottom: 0.14em;
         }
-        .statement-slide {
+        .text-slide-wrap, .statement-slide, .about-slide {
             display: inline-block;
             will-change: transform, opacity;
-            transform-origin: 0% 100%;
+            transform-origin: 50% 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
-        .statement-word {
+        .statement-word, .about-word {
             display: inline-block;
-            transition: color 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.35s ease;
-            will-change: transform, color;
-            cursor: default;
+            will-change: transform, color, font-variation-settings;
+            cursor: pointer;
+            -webkit-font-smoothing: antialiased;
+            transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), font-style 0.25s ease, font-variation-settings 0.25s ease;
+            user-select: none;
         }
         @media (hover: hover) {
-            .statement-word:hover {
+            .statement-word:hover, .about-word:hover {
                 color: #0616C6 !important;
-                transform: translateY(-3px) scale(1.08) skewX(-4deg);
-                text-shadow: 0 0 25px rgba(6, 22, 198, 0.8), 0 0 50px rgba(6, 22, 198, 0.4);
+                font-style: italic !important;
+                font-variation-settings: "slnt" -12 !important;
             }
         }
 
-        /* Falling Cameraman Pure Simbion Blue (#0616C6) Scroll Indicator - No Hover Effects */
+        /* Falling Cameraman Pure Simbion Blue (#0616C6) Scroll Indicator - Clean Solid Blue, No Glow / Drop-Shadow */
         .falling-cameraman-blue {
-            filter: brightness(0) saturate(100%) invert(14%) sepia(98%) saturate(7200%) hue-rotate(243deg) brightness(85%) contrast(140%) drop-shadow(0 0 12px rgba(6, 22, 198, 0.95)) drop-shadow(0 0 24px rgba(6, 22, 198, 0.6));
+            filter: brightness(0) saturate(100%) invert(14%) sepia(98%) saturate(7200%) hue-rotate(243deg) brightness(85%) contrast(140%);
             will-change: transform;
             pointer-events: none;
             user-select: none;
@@ -430,11 +434,11 @@
         </div>
     </div>
 
-    <div id="video-modal" class="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
+    <div id="video-modal" class="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
         <button id="close-modal" class="absolute top-6 right-8 text-white text-xs font-mono tracking-[0.3em] uppercase hover:opacity-70 transition-opacity z-10 p-4 interactive-el">
             CLOSE [X]
         </button>
-        <div class="w-[95vw] md:w-[80vw] aspect-video max-w-6xl bg-neutral-900 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(6,22,198,0.3)] relative border border-white/10 transform scale-95 transition-transform duration-500 modal-inner">
+        <div class="w-[95vw] md:w-[80vw] aspect-video max-w-6xl bg-neutral-900 rounded-2xl overflow-hidden relative border border-white/10 transform scale-95 transition-transform duration-500 modal-inner">
             <iframe id="modal-iframe" src="" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </div>
@@ -449,22 +453,22 @@
 
     <div id="recent-release-container"></div>
 
-    <section id="hero" class="relative w-full h-[100dvh] min-h-[600px] flex flex-col justify-center items-center px-6 md:px-12 bg-black z-10 shadow-2xl overflow-hidden">
+    <section id="hero" class="relative w-full h-[100dvh] min-h-[600px] flex flex-col justify-center items-center px-6 md:px-12 bg-black z-10 overflow-hidden">
         <div class="absolute inset-0 flex items-center justify-center parallax-hero z-10 pointer-events-none opacity-100 mix-blend-normal">
-            <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto object-contain drop-shadow-2xl" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
+            <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto object-contain" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
         </div>
     </section>
 
-    <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-end px-8 md:px-20 lg:px-32 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] overflow-hidden">
+    <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-end px-8 md:px-20 lg:px-32 z-20 overflow-hidden">
         <div class="relative w-full max-w-[55vw] md:max-w-[45vw] lg:max-w-[40vw] my-auto flex flex-col z-20">
-            <!-- Teks dijadikan satu paragraf agar wrapping natural dan animasi GSAP bekerja, hover spasi per baris melebar -->
-            <p id="about-desc-text" class="interactive-el text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md cursor-default text-justify relative">
+            <!-- Teks dijadikan satu paragraf agar wrapping natural dan animasi GSAP bekerja, interaktif tanpa blur/shadow -->
+            <p id="about-desc-text" class="interactive-el text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug cursor-default text-justify relative">
                 SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA. WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US. WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.
             </p>
         </div>
     </section>
 
-    <section id="we-are-made" class="relative w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-8 md:px-24 z-30 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] overflow-hidden">
+    <section id="we-are-made" class="relative w-full h-[100dvh] bg-black flex flex-col justify-center items-center px-8 md:px-24 z-30 overflow-hidden">
         <div class="we-are-container relative z-10 my-auto flex flex-col items-center justify-center gap-2 md:gap-4 select-none w-full max-w-7xl">
             <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask">
                 <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-white italic transform -rotate-1">WE</span></div>
@@ -478,9 +482,9 @@
         </div>
     </section>
 
-    <section id="selected-work" class="relative bg-black z-40 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] w-full h-[100dvh] overflow-hidden flex flex-col">
+    <section id="selected-work" class="relative bg-black z-40 w-full h-[100dvh] overflow-hidden flex flex-col">
         <div class="absolute top-20 md:top-24 left-6 md:left-12 z-50 pointer-events-none">
-            <div id="selected-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase pointer-events-auto w-fit drop-shadow-lg">
+            <div id="selected-title" class="flex flex-col text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-white uppercase pointer-events-auto w-fit">
                 <div class="velocity-line interactive-el hover-text-fx" data-text="SELECTED"></div>
                 <div class="velocity-line interactive-el hover-text-fx" data-text="WORKS"></div>
             </div>
@@ -490,11 +494,11 @@
         </div>
     </section>
 
-    <section id="the-soul" class="relative w-full min-h-[120dvh] bg-black text-white flex flex-col justify-center px-0 py-24 z-45 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+    <section id="the-soul" class="relative w-full min-h-[120dvh] bg-black text-white flex flex-col justify-center px-0 py-24 z-45">
         <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 mb-16 lg:mb-24">
             <div class="w-full relative">
                 <div class="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-20">
-                    <h2 id="soul-title" class="text-5xl md:text-7xl lg:text-[7.5vw] font-bold tracking-tighter leading-[0.95] text-white md:w-7/12 interactive-el hover-text-fx drop-shadow-lg">
+                    <h2 id="soul-title" class="text-5xl md:text-7xl lg:text-[7.5vw] font-bold tracking-tighter leading-[0.95] text-white md:w-7/12 interactive-el hover-text-fx">
                         The soul behind every frame.
                     </h2>
                     <p id="soul-desc" class="text-sm md:text-base lg:text-lg tracking-wide leading-relaxed text-gray-300 md:w-4/12 font-bold md:mt-4 lg:mt-6">
@@ -617,20 +621,16 @@
         </div>
     </section>
 
-    <section id="statement" data-id="project-fit" class="relative w-full min-h-[100dvh] py-12 md:py-20 bg-black text-white flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-48 shadow-[0_-30px_60px_rgba(0,0,0,0.95)] overflow-hidden">
-        <!-- Ambient Cinematic Glow / Aura -->
-        <div id="statement-aura" class="absolute -top-32 -left-32 w-[55vw] h-[55vw] rounded-full bg-simbionBlue/15 blur-[120px] pointer-events-none z-10 transition-opacity duration-1000 opacity-60"></div>
-        <div class="absolute -bottom-40 -right-40 w-[45vw] h-[45vw] rounded-full bg-simbionBlue/10 blur-[140px] pointer-events-none z-10 opacity-40"></div>
-
+    <section id="statement" data-id="project-fit" class="relative w-full min-h-[100dvh] py-12 md:py-20 bg-black text-white flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-48 overflow-hidden">
         <div class="relative w-full max-w-[92vw] sm:max-w-[85vw] md:max-w-[54vw] lg:max-w-[48vw] my-auto flex flex-col z-20">
-            <!-- Teks tebal, putih bersih, ukuran proporsional, perataan justify, reveal baris-demi-baris -->
-            <p id="statement-desc-text" data-alias="fit-desc-text" class="interactive-el text-[3.8vw] sm:text-[3vw] md:text-[22px] lg:text-[28px] xl:text-[34px] font-bold uppercase tracking-tight text-white leading-snug text-justify drop-shadow-lg cursor-default relative">
+            <!-- Teks tebal, putih bersih, ukuran proporsional, perataan justify, reveal baris-demi-baris interaktif -->
+            <p id="statement-desc-text" data-alias="fit-desc-text" class="interactive-el text-[3.8vw] sm:text-[3vw] md:text-[22px] lg:text-[28px] xl:text-[34px] font-bold uppercase tracking-tight text-white leading-snug text-justify cursor-default relative">
                 EVERY PROJECT DESERVES ITS OWN FIT. WE TAILOR EACH ONE FROM SCRATCH, CAREFULLY STITCHING EVERY FRAME TOGETHER WITH PASSION, PURPOSE, AND DEDICATION. WE BELIEVE GREAT WORK COMES FROM BRINGING TOGETHER THE RIGHT PEOPLE, IDEAS, AND PERSPECTIVES THAT ALIGN WITH THE VISION. EVERY DETAIL MATTERS, EVERY FRAME HAS A PURPOSE, AND EVERY PROJECT DESERVES THE CARE TO MAKE IT FEEL TRULY ITS OWN.
             </p>
         </div>
     </section>
 
-    <section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-12 py-16 z-[60] shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+    <section id="contact" class="relative w-full h-[100dvh] bg-black flex flex-col justify-between px-4 md:px-12 py-16 z-[60]">
         <div class="relative z-10 flex flex-col items-center text-center w-full my-auto">
             <div class="flex flex-col w-full font-bold leading-[0.9] tracking-tighter">
                 <div class="clip-mask w-full flex justify-center"><span class="contact-title-line block uppercase text-[12vw] md:text-[9vw] text-white interactive-el hover-text-fx transition-colors">READY TO</span></div>
@@ -672,91 +672,197 @@
                 if (loaderPercentage) loaderPercentage.textContent = currentPercent + '%';
             }, 50);
 
-            // Function to animate paragraph line by line with cinematic reveals
-            function animateTextByLine(paraId, wordClass, triggerId) {
+            // Setup Fluid Kinetic Proximity & Click Ripple Interaction for Paragraphs
+            function setupInteractiveParagraph(paraId, wordSelector) {
                 const para = document.getElementById(paraId);
                 if (!para) return;
 
-                // Cache the original clean text once to prevent destruction on repeated runs
+                const isTouch = window.matchMedia("(pointer: coarse)").matches;
+
+                // Cache words array
+                const getWords = () => Array.from(para.querySelectorAll(wordSelector));
+
+                let lastMove = 0;
+                para.addEventListener('mousemove', (e) => {
+                    if (isTouch) return;
+                    const now = Date.now();
+                    if (now - lastMove < 16) return; // ~60fps throttle
+                    lastMove = now;
+
+                    const words = getWords();
+                    const mouseX = e.clientX;
+                    const mouseY = e.clientY;
+                    const maxRadius = 120; // proximity threshold in px
+
+                    words.forEach(word => {
+                        const rect = word.getBoundingClientRect();
+                        const wordCenterX = rect.left + rect.width / 2;
+                        const wordCenterY = rect.top + rect.height / 2;
+                        const dist = Math.hypot(mouseX - wordCenterX, mouseY - wordCenterY);
+
+                        if (dist < maxRadius) {
+                            const intensity = Math.pow(1 - (dist / maxRadius), 1.5);
+                            gsap.to(word, {
+                                y: -10 * intensity,
+                                scale: 1 + 0.14 * intensity,
+                                skewX: -6 * intensity,
+                                color: intensity > 0.45 ? '#0616C6' : (intensity > 0.2 ? '#3E4EF0' : '#FFFFFF'),
+                                duration: 0.2,
+                                ease: "power2.out",
+                                overwrite: "auto"
+                            });
+                        } else {
+                            gsap.to(word, {
+                                y: 0,
+                                scale: 1,
+                                skewX: 0,
+                                color: '#FFFFFF',
+                                duration: 0.35,
+                                ease: "power2.out",
+                                overwrite: "auto"
+                            });
+                        }
+                    });
+                });
+
+                para.addEventListener('mouseleave', () => {
+                    if (isTouch) return;
+                    const words = getWords();
+                    gsap.to(words, {
+                        y: 0,
+                        scale: 1,
+                        skewX: 0,
+                        color: '#FFFFFF',
+                        duration: 0.45,
+                        ease: "elastic.out(1, 0.5)",
+                        stagger: {
+                            each: 0.005,
+                            from: "center"
+                        },
+                        overwrite: "auto"
+                    });
+                });
+
+                // Playful Click Ripple / Cascade Wave across paragraph
+                para.addEventListener('click', (e) => {
+                    const words = getWords();
+                    if (words.length === 0) return;
+
+                    const clickX = e.clientX;
+                    const clickY = e.clientY;
+
+                    // Sort words by distance from click
+                    const sortedWords = words.map(w => {
+                        const r = w.getBoundingClientRect();
+                        const d = Math.hypot(clickX - (r.left + r.width / 2), clickY - (r.top + r.height / 2));
+                        return { el: w, dist: d };
+                    }).sort((a, b) => a.dist - b.dist);
+
+                    const tl = gsap.timeline();
+                    sortedWords.forEach((item, idx) => {
+                        const delay = idx * 0.012;
+                        tl.to(item.el, {
+                            y: -14,
+                            scale: 1.2,
+                            skewX: -8,
+                            color: '#0616C6',
+                            duration: 0.15,
+                            ease: "power2.out"
+                        }, delay)
+                        .to(item.el, {
+                            y: 0,
+                            scale: 1,
+                            skewX: 0,
+                            color: '#FFFFFF',
+                            duration: 0.35,
+                            ease: "elastic.out(1.2, 0.4)"
+                        }, delay + 0.15);
+                    });
+                });
+            }
+
+            // Function to animate About Us paragraph line by line cleanly (Zero Blur / Zero Glow)
+            function animateAboutText() {
+                const para = document.getElementById('about-desc-text');
+                if (!para) return;
+
                 if (!para.dataset.originalText) {
                     para.dataset.originalText = para.textContent.trim().replace(/\s+/g, ' ');
                 }
                 const rawText = para.dataset.originalText;
                 const words = rawText.split(' ');
 
-                // Kill prior timeline & triggers on this element if any
                 if (para._textTl) {
                     if (para._textTl.scrollTrigger) para._textTl.scrollTrigger.kill();
                     para._textTl.kill();
                     para._textTl = null;
                 }
 
-                // Render words wrapped in clipping containers with trailing space for natural justify
+                // Render words wrapped in clean clipping containers
                 para.innerHTML = words.map(word => 
-                    `<span class="inline-block overflow-hidden py-0.5"><span class="${wordClass} inline-block select-none">${word}</span></span> `
+                    `<span class="about-mask"><span class="about-slide"><span class="about-word">${word}</span></span></span> `
                 ).join('');
 
-                const wordElements = Array.from(para.querySelectorAll(`.${wordClass}`));
-                if (wordElements.length === 0) return;
+                const slideElements = Array.from(para.querySelectorAll('.about-slide'));
+                if (slideElements.length === 0) return;
 
+                // Group words into visual lines based on bounding top in justified container
                 let lines = [];
                 let currentLine = [];
                 let prevTop = null;
 
-                wordElements.forEach(word => {
-                    const top = Math.round(word.getBoundingClientRect().top);
+                slideElements.forEach(el => {
+                    const top = Math.round(el.getBoundingClientRect().top);
                     if (prevTop === null) {
                         prevTop = top;
-                        currentLine.push(word);
-                    } else if (Math.abs(top - prevTop) > 6) { // Detected visual line break
+                        currentLine.push(el);
+                    } else if (Math.abs(top - prevTop) > 6) {
                         lines.push(currentLine);
-                        currentLine = [word];
+                        currentLine = [el];
                         prevTop = top;
                     } else {
-                        currentLine.push(word);
+                        currentLine.push(el);
                     }
                 });
                 if (currentLine.length > 0) {
                     lines.push(currentLine);
                 }
 
-                // Set initial hidden state with subtle 3D tilt & blur for high cinematic feel
-                gsap.set(wordElements, { 
+                // Initial clean hidden state (pure translation, zero blur)
+                gsap.set(slideElements, { 
                     yPercent: 120, 
                     opacity: 0,
-                    filter: "blur(4px)",
                     rotateX: -15
                 });
 
-                // Find trigger element or fallback to section/para
-                const targetTrigger = document.querySelector(triggerId) || para;
-
-                // ScrollTrigger timeline per line
+                // ScrollTrigger timeline that cascades smoothly on scroll enter
                 const tl = gsap.timeline({
                     scrollTrigger: {
-                        trigger: targetTrigger,
-                        start: "top 80%",
+                        trigger: "#about",
+                        start: "top 75%",
                         toggleActions: "play none none none",
                         once: true
                     }
                 });
 
-                lines.forEach((lineWords, index) => {
+                lines.forEach((lineWords, lineIndex) => {
                     tl.to(lineWords, {
                         yPercent: 0,
                         opacity: 1,
-                        filter: "blur(0px)",
                         rotateX: 0,
-                        duration: 0.9,
+                        duration: 0.85,
                         stagger: 0.02,
-                        ease: "power4.out",
-                    }, 0.1 + (index * 0.14));
+                        ease: "power4.out"
+                    }, 0.1 + (lineIndex * 0.12));
                 });
 
                 para._textTl = tl;
+
+                // Hook proximity & ripple interactions
+                setupInteractiveParagraph('about-desc-text', '.about-word');
             }
 
-            // Function to animate Statement text on scroll with words per line sliding inside clipping justify boxes
+            // Function to animate Statement text on scroll (Crisp, High-Contrast, Zero Blur / Zero Glow)
             function animateStatementScroll() {
                 const para = document.getElementById('statement-desc-text') || document.getElementById('fit-desc-text');
                 if (!para) return;
@@ -775,7 +881,7 @@
 
                 // Wrap each word in clipping mask + sliding element + interactive word
                 para.innerHTML = words.map(word => 
-                    `<span class="statement-mask"><span class="statement-slide"><span class="statement-word select-none">${word}</span></span></span> `
+                    `<span class="statement-mask"><span class="statement-slide"><span class="statement-word">${word}</span></span></span> `
                 ).join('');
 
                 const slideElements = Array.from(para.querySelectorAll('.statement-slide'));
@@ -803,20 +909,19 @@
                     lines.push(currentLine);
                 }
 
-                // Initial position: tucked below each word's clipping mask box
+                // Initial position: dimmed cleanly and slightly tucked
                 gsap.set(slideElements, { 
-                    yPercent: 125, 
-                    opacity: 0,
-                    filter: "blur(4px)",
-                    rotateX: -20
+                    yPercent: 110, 
+                    opacity: 0.15,
+                    rotateX: -15
                 });
 
                 // ScrollTrigger timeline that scrubs smoothly as user scrolls past Statement
                 const tl = gsap.timeline({
                     scrollTrigger: {
                         trigger: "#statement",
-                        start: "top 80%",
-                        end: "top 20%",
+                        start: "top 75%",
+                        end: "top 18%",
                         scrub: 1.2,
                         invalidateOnRefresh: true
                     }
@@ -826,39 +931,23 @@
                     tl.to(lineWords, {
                         yPercent: 0,
                         opacity: 1,
-                        filter: "blur(0px)",
                         rotateX: 0,
                         stagger: 0.02,
                         duration: 1,
-                        ease: "power2.out"
-                    }, lineIndex * 0.35);
+                        ease: "power3.out"
+                    }, lineIndex * 0.3);
                 });
 
                 para._textTl = tl;
+
+                // Hook proximity & ripple interactions
+                setupInteractiveParagraph('statement-desc-text', '.statement-word');
             }
 
             // Function to initialize all paragraph animations
             function initParagraphAnimations() {
-                animateTextByLine('about-desc-text', 'about-word', '#about');
+                animateAboutText();
                 animateStatementScroll();
-            }
-
-            // Statement section ambient mouse tracking for blue aura glow
-            const statementEl = document.getElementById('statement');
-            const statementAura = document.getElementById('statement-aura');
-            if (statementEl && statementAura) {
-                statementEl.addEventListener('mousemove', (e) => {
-                    const rect = statementEl.getBoundingClientRect();
-                    const relX = e.clientX - rect.left;
-                    const relY = e.clientY - rect.top;
-                    gsap.to(statementAura, {
-                        x: relX - rect.width * 0.25,
-                        y: relY - rect.height * 0.25,
-                        duration: 1.5,
-                        ease: "power2.out",
-                        overwrite: "auto"
-                    });
-                });
             }
 
             // Custom Cursor Logic (Desktop Only with fine pointer & hover)
