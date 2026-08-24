@@ -304,8 +304,7 @@
                 <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Loading Cameraman" class="w-full h-auto object-contain">
             </div>
             <div class="flex flex-col items-center gap-1">
-                <span id="loader-text" class="text-xs md:text-sm font-mono font-bold tracking-[0.25em] uppercase text-white/95">Hang on! We’re almost ready to roll.</span>
-                <span id="loader-percentage" class="text-2xl md:text-4xl font-bold font-mono tracking-tighter text-white">0%</span>
+                <span id="loader-text" class="text-sm md:text-base font-mono font-bold tracking-[0.3em] uppercase text-white/95">SOUND SPEED</span>
             </div>
         </div>
     </div>
@@ -611,17 +610,29 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Fake Loader Animation Logic
+            // Shooting Callout Preloader Logic: standby -> sound speed -> camera speed -> action -> slide up (max 4s)
             const loader = document.getElementById('fake-loader');
-            const loaderPercentage = document.getElementById('loader-percentage');
+            const loaderText = document.getElementById('loader-text');
 
-            let currentPercent = 0;
-            const loadInterval = setInterval(() => {
-                currentPercent += Math.floor(Math.random() * 3) + 2;
-                if (currentPercent >= 100) {
-                    currentPercent = 100;
-                    clearInterval(loadInterval);
+            const steps = ["SOUND SPEED", "CAMERA SPEED", "AND", "ACTION!"];
+            let currentStep = 0;
+            const stepDuration = 800; // Total ~3.2s, well under 4 seconds max
 
+            const runPreloadStep = () => {
+                if (currentStep < steps.length) {
+                    if (loaderText) {
+                        loaderText.style.opacity = '0';
+                        loaderText.style.transform = 'translateY(12px)';
+                        setTimeout(() => {
+                            loaderText.textContent = steps[currentStep];
+                            loaderText.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                            loaderText.style.opacity = '1';
+                            loaderText.style.transform = 'translateY(0)';
+                        }, 120);
+                    }
+                    currentStep++;
+                    setTimeout(runPreloadStep, stepDuration);
+                } else {
                     setTimeout(() => {
                         if (loader) {
                             loader.style.transition = 'transform 1s cubic-bezier(0.16, 1, 0.3, 1)';
@@ -630,8 +641,13 @@
                         }
                     }, 300);
                 }
-                if (loaderPercentage) loaderPercentage.textContent = currentPercent + '%';
-            }, 50);
+            };
+
+            if (loaderText) {
+                loaderText.textContent = steps[0];
+                loaderText.style.opacity = '1';
+            }
+            setTimeout(runPreloadStep, stepDuration);
 
             // Setup Fluid Kinetic Proximity & Click Ripple Interaction for Paragraphs
             function setupInteractiveParagraph(paraId, wordSelector) {
