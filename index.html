@@ -257,6 +257,7 @@
         </div>
     </div>
 
+    <!-- Modals (Toast, Confirm, Password, CMS Editor, Video Player) -->
     <div id="custom-toast" class="fixed top-8 left-1/2 -translate-x-1/2 z-[350] bg-neutral-900/95 backdrop-blur-xl border border-white/20 text-white px-6 py-3 rounded-2xl shadow-2xl opacity-0 pointer-events-none transition-all duration-300 transform -translate-y-4">
         <span id="toast-message" class="text-xs font-mono uppercase tracking-widest">Notification</span>
     </div>
@@ -354,11 +355,15 @@
         </div>
     </section>
 
-    <section id="about" class="relative w-full min-h-[100dvh] py-24 bg-black text-white flex flex-col justify-center items-end px-8 md:px-20 lg:px-32 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+    <section id="about" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-end px-8 md:px-20 lg:px-32 z-20 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
         <div class="relative w-full max-w-[55vw] md:max-w-[45vw] lg:max-w-[40vw] my-auto flex flex-col z-20">
-            <p id="about-desc-text" class="interactive-el text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug md:leading-snug text-justify drop-shadow-md">
-                SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA. WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US. WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.
-            </p>
+            <!-- Teks diatur baris demi baris, hover animasi aktif TANPA warna biru -->
+            <span class="block text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md transition-all duration-400 mb-2 hover:italic hover:translate-x-3 hover:scale-[1.01] cursor-pointer origin-left">SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA.</span>
+            <span class="block text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md transition-all duration-400 hover:italic hover:translate-x-3 hover:scale-[1.01] cursor-pointer origin-left">WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS</span>
+            <span class="block text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md transition-all duration-400 mb-2 hover:italic hover:translate-x-3 hover:scale-[1.01] cursor-pointer origin-left">WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US.</span>
+            <span class="block text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md transition-all duration-400 hover:italic hover:translate-x-3 hover:scale-[1.01] cursor-pointer origin-left">WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE.</span>
+            <span class="block text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md transition-all duration-400 hover:italic hover:translate-x-3 hover:scale-[1.01] cursor-pointer origin-left">IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES,</span>
+            <span class="block text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-white leading-snug drop-shadow-md transition-all duration-400 hover:italic hover:translate-x-3 hover:scale-[1.01] cursor-pointer origin-left">AND CONNECTED TO THE PEOPLE WE WORK WITH.</span>
         </div>
     </section>
 
@@ -396,117 +401,117 @@
                         The soul behind every frame.
                     </h2>
                     <p id="soul-desc" class="text-sm md:text-base lg:text-lg tracking-wide leading-relaxed text-gray-300 md:w-4/12 font-bold md:mt-4 lg:mt-6">
-                        We craft every frame with passion and purpose. We believe that behind every beautiful frame are people who care dearly about what they create and share a vision of what it could become. Great work begins when different minds and talents come together with purpose.
+                        We craft every frame with passion and purpose. We believe that behind every beautiful frame are people who care deeply about what they create and share a vision of what it could become. Great work begins when different minds and talents come together with purpose.
                     </p>
                 </div>
             </div>
         </div>
 
-        <div class="relative w-full overflow-hidden py-16 lg:py-24 bts-enter opacity-0">
+        <div class="relative w-full py-16 lg:py-24 bts-enter opacity-0" style="perspective: 1000px;">
             <div id="marquee-track" class="flex w-max will-change-transform items-center">
                 <!-- Group 1 -->
-                <div class="flex shrink-0 items-center -space-x-4 md:-space-x-8">
-                    <div class="bts-float shrink-0 transform -translate-y-16 rotate-[-5deg] z-20 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                <div class="flex shrink-0 items-center -space-x-4 md:-space-x-8 px-4">
+                    <div class="bts-float shrink-0 transform -translate-y-16 rotate-[-5deg] z-20 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="1.webp" alt="BTS 1" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform translate-y-20 rotate-[4deg] z-10 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform translate-y-20 rotate-[3deg] z-10 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="2.webp" alt="BTS 2" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform -translate-y-6 rotate-[2deg] z-30 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform -translate-y-8 rotate-[1deg] z-30 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="3.webp" alt="BTS 3" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform translate-y-14 rotate-[-3deg] z-20 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform translate-y-12 rotate-[-2deg] z-20 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="4.webp" alt="BTS 4" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform -translate-y-20 rotate-[6deg] z-40 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform -translate-y-24 rotate-[4deg] z-40 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="5.webp" alt="BTS 5" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform translate-y-8 rotate-[-2deg] z-10 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform translate-y-8 rotate-[-1deg] z-10 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="6.webp" alt="BTS 6" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform -translate-y-12 rotate-[-4deg] z-30 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform -translate-y-12 rotate-[-3deg] z-30 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="7.webp" alt="BTS 7" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform translate-y-18 rotate-[3deg] z-20 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform translate-y-16 rotate-[2deg] z-20 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="8.webp" alt="BTS 8" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform -translate-y-14 rotate-[2deg] z-10 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform -translate-y-10 rotate-[1deg] z-10 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="9.webp" alt="BTS 9" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform translate-y-6 rotate-[-3deg] z-30 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform translate-y-6 rotate-[-2deg] z-30 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="10.webp" alt="BTS 10" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
                         </div>
                     </div>
                 </div>
 
                 <!-- Group 2 -->
-                <div class="flex shrink-0 items-center -space-x-4 md:-space-x-8">
-                    <div class="bts-float shrink-0 transform -translate-y-16 rotate-[-5deg] z-20 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                <div class="flex shrink-0 items-center -space-x-4 md:-space-x-8 px-4">
+                    <div class="bts-float shrink-0 transform -translate-y-16 rotate-[-5deg] z-20 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="1.webp" alt="BTS 1" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform translate-y-20 rotate-[4deg] z-10 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform translate-y-20 rotate-[3deg] z-10 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="2.webp" alt="BTS 2" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform -translate-y-6 rotate-[2deg] z-30 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform -translate-y-8 rotate-[1deg] z-30 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="3.webp" alt="BTS 3" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform translate-y-14 rotate-[-3deg] z-20 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform translate-y-12 rotate-[-2deg] z-20 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="4.webp" alt="BTS 4" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform -translate-y-20 rotate-[6deg] z-40 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform -translate-y-24 rotate-[4deg] z-40 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="5.webp" alt="BTS 5" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform translate-y-8 rotate-[-2deg] z-10 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform translate-y-8 rotate-[-1deg] z-10 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="6.webp" alt="BTS 6" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform -translate-y-12 rotate-[-4deg] z-30 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform -translate-y-12 rotate-[-3deg] z-30 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="7.webp" alt="BTS 7" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform translate-y-18 rotate-[3deg] z-20 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform translate-y-16 rotate-[2deg] z-20 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="8.webp" alt="BTS 8" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform -translate-y-14 rotate-[2deg] z-10 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform -translate-y-10 rotate-[1deg] z-10 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="9.webp" alt="BTS 9" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
                         </div>
                     </div>
-                    <div class="bts-float shrink-0 transform translate-y-6 rotate-[-3deg] z-30 hover:z-50">
-                        <div class="relative cursor-pointer group rounded-2xl shadow-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/40 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
+                    <div class="bts-float shrink-0 transform translate-y-6 rotate-[-2deg] z-30 hover:z-50 transition-all duration-500">
+                        <div class="relative cursor-pointer group rounded-2xl p-2 md:p-3 bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/50 hover:scale-125 hover:shadow-[0_20px_50px_rgba(6,22,198,0.35)] transition-all duration-500 ease-out origin-center">
                             <img src="10.webp" alt="BTS 10" class="h-28 md:h-44 w-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity duration-500 ease-out" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
                         </div>
                     </div>
@@ -515,8 +520,9 @@
         </div>
     </section>
 
-    <section id="project-fit" class="relative w-full min-h-[100dvh] py-24 bg-black text-white flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-48 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
-        <div class="relative w-full max-w-[75vw] md:max-w-[65vw] lg:max-w-[58vw] my-auto flex flex-col z-20">
+    <section id="project-fit" class="relative w-full h-[100dvh] bg-black text-white flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-48 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
+        <div class="relative w-full max-w-[70vw] md:max-w-[65vw] lg:max-w-[55vw] my-auto flex flex-col z-20">
+            <!-- Font diperbesar 30%, semibold, efek JS hover ada di tag script (tanpa warna biru) -->
             <p id="fit-desc-text" class="interactive-el text-[4.7vw] md:text-[28px] lg:text-[36px] xl:text-[44px] font-semibold uppercase tracking-tight text-white leading-snug md:leading-snug text-justify drop-shadow-md">
                 EVERY PROJECT DESERVES ITS OWN FIT. WE TAILOR EACH ONE FROM SCRATCH, CAREFULLY STITCHING EVERY FRAME TOGETHER WITH PASSION, PURPOSE, AND DEDICATION. WE BELIEVE GREAT WORK COMES FROM BRINGING TOGETHER THE RIGHT PEOPLE, IDEAS, AND PERSPECTIVES THAT ALIGN WITH THE VISION. EVERY DETAIL MATTERS, EVERY FRAME HAS A PURPOSE, AND EVERY PROJECT DESERVES THE CARE TO MAKE IT FEEL TRULY ITS OWN.
             </p>
@@ -540,48 +546,40 @@
             <div class="hover-text-fx text-white/50">&copy; 2026 Simbion Film</div>
         </div>
     </section>
-            // About line hover effect (per line, no color change)
-            const aboutPara = document.getElementById('about-desc-text');
-            if (aboutPara) {
-                const lines = [
-                    "SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA.",
-                    "WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS",
-                    "WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US.",
-                    "WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE.",
-                    "IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES,",
-                    "AND CONNECTED TO THE PEOPLE WE WORK WITH."
-                ];
-                aboutPara.innerHTML = lines.map(line => `<span class="about-line block transition-all duration-400 mb-2 hover:italic hover:translate-x-3 hover:scale-[1.01] cursor-pointer origin-left">${line}</span>`).join('');
-            }
 
-            // Project Fit sentence hover effect (no color change)
-            const fitPara = document.getElementById('fit-desc-text');
-            if (fitPara) {
-                const rawText = fitPara.textContent.trim();
-                const sentences = rawText.split(/(?<=[.!?])\s+/);
-                fitPara.innerHTML = sentences.map(s => `<span class="hero-sentence inline-block transition-all duration-400 mr-[0.8em] mb-[0.4em] hover:italic hover:scale-[1.02] hover:translate-x-2 cursor-pointer origin-left">${s}</span>`).join(' ');
-            }
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fake Loader Animation Logic
+            const loader = document.getElementById('fake-loader');
+            const loaderPercentage = document.getElementById('loader-percentage');
+
+            let currentPercent = 0;
+            const loadInterval = setInterval(() => {
+                currentPercent += Math.floor(Math.random() * 3) + 2;
+                if (currentPercent >= 100) {
+                    currentPercent = 100;
+                    clearInterval(loadInterval);
+
+                    setTimeout(() => {
+                        if (loader) {
+                            loader.style.transition = 'transform 1s cubic-bezier(0.16, 1, 0.3, 1)';
+                            loader.style.transform = 'translateY(-100%)';
+                            setTimeout(() => loader.remove(), 1000);
+                        }
                     }, 300);
                 }
                 if (loaderPercentage) loaderPercentage.textContent = currentPercent + '%';
             }, 50);
 
-            // About sentence hover effect
-            const aboutPara = document.getElementById('about-desc-text');
-            if (aboutPara) {
-                const rawText = aboutPara.textContent.trim();
-                const sentences = rawText.split(/(?<=[.!?])\s+/);
-                aboutPara.innerHTML = sentences.map(s => `<span class="hero-sentence inline-block transition-all duration-400 mr-[0.8em] hover:mr-[2.5em] mb-[0.4em] hover:text-simbionBlue hover:scale-[1.02] cursor-pointer">${s}</span>`).join(' ');
-            }
-
-            // Project Fit sentence hover effect
+            // Project Fit sentence hover effect (No color change, just italic, shift, scale)
             const fitPara = document.getElementById('fit-desc-text');
             if (fitPara) {
                 const rawText = fitPara.textContent.trim();
                 const sentences = rawText.split(/(?<=[.!?])\s+/);
-                fitPara.innerHTML = sentences.map(s => `<span class="hero-sentence inline-block transition-all duration-400 mr-[0.8em] hover:mr-[2.5em] mb-[0.4em] hover:text-simbionBlue hover:scale-[1.02] cursor-pointer">${s}</span>`).join(' ');
+                fitPara.innerHTML = sentences.map(s => `<span class="inline-block transition-all duration-400 mr-[0.8em] mb-[0.4em] hover:italic hover:scale-[1.02] hover:translate-x-2 cursor-pointer origin-left">${s}</span>`).join(' ');
             }
 
+            // Custom Cursor Logic
             const cursor = document.getElementById('custom-cursor');
             const isDesktop = window.matchMedia("(pointer: fine)").matches;
 
@@ -594,6 +592,7 @@
                 });
             }
 
+            // Modals & Notifications
             window.showToast = function(msg) {
                 const toast = document.getElementById('custom-toast');
                 const msgEl = document.getElementById('toast-message');
@@ -632,6 +631,7 @@
                 noBtn.onclick = () => { cleanup(); };
             }
 
+            // CMS Data and Secrets
             const SECRET_KEYWORD = "fundamental"; 
             const ADMIN_PASSWORD = "simbiosismutualisme"; 
 
@@ -1181,7 +1181,7 @@
                 scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 1.5 }
             });
 
-            // Original smooth parallax fade-out transition for Hero
+            // Hero scroll fade transition
             gsap.to('#hero', {
                 yPercent: 100,
                 opacity: 0,
