@@ -298,18 +298,18 @@
     <div class="custom-cursor" id="custom-cursor"></div>
     <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-simbionBlue w-full origin-left scale-x-0 z-[100]"></div>
     
-    <!-- Full-Height Vertical Scroll Line with Blue Falling Cameraman Indicator -->
-    <aside id="left-scroll-indicator" class="fixed left-3 md:left-6 lg:left-8 top-0 bottom-0 z-[100] hidden sm:flex flex-col items-center pointer-events-auto opacity-0 -translate-x-4 select-none w-24 md:w-32" aria-label="Page Scroll Progress">
-        <!-- Interactive Track spanning top to bottom -->
-        <div id="scroll-track-container" class="relative w-full h-[calc(100vh-3.5rem)] my-auto flex justify-center cursor-pointer group" title="Click to scroll">
+    <!-- Full-Height Vertical Track with Blue Falling Cameraman Indicator starting below logo and reaching bottom -->
+    <aside id="left-scroll-indicator" class="fixed left-2 sm:left-3 md:left-5 lg:left-6 top-[65px] md:top-[75px] bottom-5 md:bottom-8 z-[100] hidden sm:flex flex-col items-center pointer-events-auto opacity-0 -translate-x-4 select-none w-20 md:w-28" aria-label="Page Scroll Progress">
+        <!-- Interactive Track spanning from below logo to bottom -->
+        <div id="scroll-track-container" class="relative w-full h-full flex justify-center cursor-pointer group" title="Click to scroll">
             
             <!-- Floating Blue Falling Cameraman GIF Runner (Without vertical line) -->
-            <div id="falling-cameraman-runner" class="absolute left-1/2 -translate-x-1/2 top-0 pointer-events-none transition-all duration-75 ease-out flex flex-col items-center z-30" style="transform: translate(-50%, -50%);">
+            <div id="falling-cameraman-runner" class="absolute left-1/2 -translate-x-1/2 top-0 pointer-events-none transition-transform duration-75 ease-out flex flex-col items-center z-30">
                 <!-- Cameraman GIF in Blue (Clearly visible size) with drop shadow & tooltip -->
                 <div class="relative group/cameraman flex items-center justify-center pointer-events-auto cursor-grab">
                     <img src="orang jatuh.gif" 
                          alt="Falling Cameraman Indicator" 
-                         style="width: 200px; min-width: 60px; max-width: 90px; height: auto;"
+                         style="width: 500px; min-width: 60px; max-width: 90px; height: auto;"
                          class="falling-cameraman-blue drop-shadow-[0_0_14px_rgba(6,22,198,0.95)] transform rotate-[-6deg] hover:rotate-0 hover:scale-110 transition-all duration-300">
                     
                     <!-- HUD Tooltip on the right side of cameraman -->
@@ -1453,11 +1453,10 @@
             });
             gsap.ticker.lagSmoothing(0);
 
-            // Full-Height Blue Line & Blue Falling Cameraman Scroll Indicator Logic & Animations
+            // Full-Height Vertical Track & Falling Cameraman Scroll Indicator Logic
             function initScrollIndicator() {
                 const indicator = document.getElementById('left-scroll-indicator');
                 const trackContainer = document.getElementById('scroll-track-container');
-                const trackFill = document.getElementById('scroll-track-fill');
                 const runner = document.getElementById('falling-cameraman-runner');
                 const pctEl = document.getElementById('cameraman-pct');
 
@@ -1472,25 +1471,34 @@
                     delay: 0.4
                 });
 
-                // Smoothly update falling cameraman along the vertical line during scroll
+                function updateRunner(p) {
+                    const trackHeight = trackContainer.clientHeight;
+                    const runnerHeight = runner.offsetHeight || 72;
+                    const maxTravel = Math.max(0, trackHeight - runnerHeight);
+                    const currentY = p * maxTravel;
+                    
+                    runner.style.transform = `translate(-50%, ${currentY}px)`;
+                    
+                    if (pctEl) {
+                        const pct = Math.min(100, Math.round(p * 100));
+                        pctEl.textContent = `${pct}%`;
+                    }
+                }
+
+                // Initial position
+                updateRunner(0);
+
+                // Smoothly update falling cameraman position along the track during scroll
                 ScrollTrigger.create({
                     trigger: document.body,
                     start: "top top",
                     end: "bottom bottom",
                     scrub: 0.1,
                     onUpdate: (self) => {
-                        const p = self.progress;
-                        const pct = Math.min(100, Math.round(p * 100));
-
-                        if (trackFill) {
-                            trackFill.style.transform = `scaleY(${p})`;
-                        }
-                        if (runner) {
-                            runner.style.top = `${p * 100}%`;
-                        }
-                        if (pctEl) {
-                            pctEl.textContent = `${pct}%`;
-                        }
+                        updateRunner(self.progress);
+                    },
+                    onRefresh: (self) => {
+                        updateRunner(self.progress);
                     }
                 });
 
