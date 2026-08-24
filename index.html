@@ -197,27 +197,29 @@
             }
         }
 
-        .we-are-container { cursor: none !important; }
-        .we-are-word {
-            display: inline-block;
-            filter: blur(10px);
-            opacity: 0.35;
-            transition: filter 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s ease, color 0.4s ease;
-            -webkit-font-smoothing: antialiased;
-            will-change: filter, opacity, transform;
-            -webkit-backface-visibility: hidden;
+        .we-are-container { 
+            cursor: pointer;
+            perspective: 1200px;
         }
-        @media (hover: hover) {
-            .we-are-container:hover .we-are-word {
-                filter: blur(6px);
-                opacity: 0.5;
-            }
-            .we-are-container .we-are-word:hover {
-                filter: blur(0px) !important;
-                opacity: 1 !important;
-                transform: translateX(12px) skewX(-4deg) scale(1.05);
-                color: #0616C6 !important;
-            }
+        .we-are-word {
+            display: inline-flex;
+            opacity: 1;
+            -webkit-font-smoothing: antialiased;
+            will-change: transform, color;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            user-select: none;
+            margin-right: 0.15em;
+        }
+        .we-are-char {
+            display: inline-block;
+            will-change: transform, color;
+            cursor: pointer;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            font-style: italic;
+            font-variation-settings: "slnt" -12;
+            transform-style: preserve-3d;
         }
         .we-are-word-wrap {
             display: inline-block;
@@ -944,10 +946,206 @@
                 setupInteractiveParagraph('statement-desc-text', '.statement-word');
             }
 
+            // Crazy 3D Character Physics for "WE ARE WHAT WE'VE MADE" Section
+            function initWeAreCrazy() {
+                const section = document.getElementById('we-are-made');
+                if (!section) return;
+
+                const words = section.querySelectorAll('.we-are-word');
+                words.forEach(wordEl => {
+                    if (!wordEl.dataset.originalText) {
+                        wordEl.dataset.originalText = wordEl.textContent.trim();
+                    }
+                    const text = wordEl.dataset.originalText;
+                    wordEl.innerHTML = text.split('').map(char => 
+                        `<span class="we-are-char">${char === ' ' ? '&nbsp;' : char}</span>`
+                    ).join('');
+                });
+
+                const chars = Array.from(section.querySelectorAll('.we-are-char'));
+                const isTouch = window.matchMedia("(pointer: coarse)").matches;
+
+                let isIdle = true;
+                let idleTweens = [];
+
+                function startIdleWave() {
+                    if (!isIdle) return;
+                    idleTweens = chars.map((ch, idx) => {
+                        return gsap.to(ch, {
+                            y: Math.sin(Date.now() * 0.002 + idx * 0.4) * 10,
+                            x: Math.cos(Date.now() * 0.0015 + idx * 0.3) * 6,
+                            z: Math.sin(Date.now() * 0.0025 + idx * 0.5) * 25,
+                            rotateX: Math.cos(Date.now() * 0.002 + idx * 0.3) * 15,
+                            rotateY: Math.sin(Date.now() * 0.0018 + idx * 0.35) * 20,
+                            rotateZ: Math.sin(Date.now() * 0.001 + idx * 0.2) * 8,
+                            scale: 1 + Math.sin(Date.now() * 0.003 + idx * 0.2) * 0.1,
+                            filter: 'blur(0.5px)',
+                            color: (idx % 2 === 0) ? '#D1D7FF' : '#FFFFFF',
+                            duration: 2,
+                            ease: "sine.inOut",
+                            repeat: -1,
+                            yoyo: true
+                        });
+                    });
+                }
+
+                function stopIdleWave() {
+                    isIdle = false;
+                    idleTweens.forEach(t => t.kill());
+                }
+
+                startIdleWave();
+
+                let lastMove = 0;
+                section.addEventListener('mousemove', (e) => {
+                    if (isTouch) return;
+                    const now = Date.now();
+                    if (now - lastMove < 16) return;
+                    lastMove = now;
+
+                    if (isIdle) stopIdleWave();
+
+                    const mouseX = e.clientX;
+                    const mouseY = e.clientY;
+                    const radius = 180;
+
+                    chars.forEach(ch => {
+                        const rect = ch.getBoundingClientRect();
+                        const cx = rect.left + rect.width / 2;
+                        const cy = rect.top + rect.height / 2;
+                        const dist = Math.hypot(mouseX - cx, mouseY - cy);
+
+                        if (dist < radius) {
+                            const power = Math.pow(1 - (dist / radius), 1.6);
+                            gsap.to(ch, {
+                                x: (cx - mouseX) * 0.2 * power,
+                                y: -45 * power,
+                                z: 80 * power,
+                                rotateX: 60 * power,
+                                rotateY: (cx > mouseX ? 60 : -60) * power,
+                                rotateZ: (Math.random() - 0.5) * 45 * power,
+                                scale: 1 + 0.6 * power,
+                                filter: `blur(${power * 4}px)`,
+                                color: power > 0.45 ? '#0616C6' : (power > 0.2 ? '#3E4EF0' : '#FFFFFF'),
+                                duration: 0.12,
+                                ease: "power2.out",
+                                overwrite: "auto"
+                            });
+                        } else {
+                            gsap.to(ch, {
+                                x: 0,
+                                y: 0,
+                                z: 0,
+                                rotateX: 0,
+                                rotateY: 0,
+                                rotateZ: 0,
+                                scale: 1,
+                                filter: 'blur(0px)',
+                                color: '#FFFFFF',
+                                duration: 0.4,
+                                ease: "power2.out",
+                                overwrite: "auto"
+                            });
+                        }
+                    });
+                });
+
+                let leaveTimeout;
+                section.addEventListener('mouseleave', () => {
+                    if (isTouch) return;
+                    gsap.to(chars, {
+                        x: 0,
+                        y: 0,
+                        z: 0,
+                        rotateX: 0,
+                        rotateY: 0,
+                        rotateZ: 0,
+                        scale: 1,
+                        filter: 'blur(0px)',
+                        color: '#FFFFFF',
+                        duration: 0.6,
+                        ease: "elastic.out(1.2, 0.4)",
+                        stagger: {
+                            each: 0.003,
+                            from: "center"
+                        },
+                        overwrite: "auto",
+                        onComplete: () => {
+                            clearTimeout(leaveTimeout);
+                            leaveTimeout = setTimeout(() => {
+                                isIdle = true;
+                                startIdleWave();
+                            }, 400);
+                        }
+                    });
+                });
+
+                section.addEventListener('mouseenter', () => {
+                    if (isTouch) return;
+                    stopIdleWave();
+                });
+
+                // Insane Click Shockwave Explosion
+                section.addEventListener('click', (e) => {
+                    stopIdleWave();
+                    const clickX = e.clientX;
+                    const clickY = e.clientY;
+
+                    chars.forEach((ch, idx) => {
+                        const rect = ch.getBoundingClientRect();
+                        const cx = rect.left + rect.width / 2;
+                        const cy = rect.top + rect.height / 2;
+                        const angle = Math.atan2(cy - clickY, cx - clickX);
+                        const distance = Math.hypot(clickX - cx, clickY - cy);
+
+                        const randomDist = 80 + Math.random() * 140;
+                        const targetX = Math.cos(angle) * randomDist;
+                        const targetY = Math.sin(angle) * randomDist;
+
+                        const tl = gsap.timeline();
+                        tl.to(ch, {
+                            x: targetX,
+                            y: targetY,
+                            z: 180 + Math.random() * 120,
+                            rotateX: (Math.random() - 0.5) * 360,
+                            rotateY: (Math.random() - 0.5) * 360,
+                            rotateZ: (Math.random() - 0.5) * 180,
+                            scale: 1.8,
+                            filter: 'blur(3px)',
+                            color: '#0616C6',
+                            duration: 0.2,
+                            ease: "power3.out"
+                        })
+                        .to(ch, {
+                            x: 0,
+                            y: 0,
+                            z: 0,
+                            rotateX: 0,
+                            rotateY: 0,
+                            rotateZ: 0,
+                            scale: 1,
+                            filter: 'blur(0px)',
+                            color: '#FFFFFF',
+                            duration: 0.85,
+                            ease: "elastic.out(1.3, 0.3)",
+                            onComplete: () => {
+                                if (idx === chars.length - 1) {
+                                    setTimeout(() => {
+                                        isIdle = true;
+                                        startIdleWave();
+                                    }, 500);
+                                }
+                            }
+                        }, 0.2 + (idx * 0.006));
+                    });
+                });
+            }
+
             // Function to initialize all paragraph animations
             function initParagraphAnimations() {
                 animateAboutText();
                 animateStatementScroll();
+                initWeAreCrazy();
             }
 
             // Custom Cursor Logic (Desktop Only with fine pointer & hover)
