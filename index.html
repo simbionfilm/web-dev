@@ -313,7 +313,7 @@
         <div id="scroll-track-container" class="relative w-full h-full flex justify-center pointer-events-none">
             
             <!-- Floating Blue Falling Cameraman GIF Runner (Without vertical line) -->
-            <div id="falling-cameraman-runner" class="absolute left-1/2 -translate-x-1/2 top-0 pointer-events-none transition-transform duration-75 ease-out flex flex-col items-center z-30">
+            <div id="falling-cameraman-runner" class="absolute left-1/2 -translate-x-1/2 top-0 pointer-events-none flex flex-col items-center z-30 will-change-transform">
                 <!-- Cameraman GIF in Blue (No hover effect, pure blue aesthetic) -->
                 <div class="relative flex items-center justify-center pointer-events-none">
                     <img src="orang jatuh.gif" 
@@ -1448,8 +1448,11 @@
                 infinite: false,
             });
 
-            // Accurate Full Page Scroll Progress Calculator
+            // Accurate Realtime Full Page Scroll Progress Calculator
             function getPageScrollProgress() {
+                if (typeof lenis !== 'undefined' && lenis && typeof lenis.progress === 'number' && !isNaN(lenis.progress)) {
+                    return Math.max(0, Math.min(1, lenis.progress));
+                }
                 const total = document.documentElement.scrollHeight - window.innerHeight;
                 if (total <= 0) return 0;
                 const current = window.pageYOffset || document.documentElement.scrollTop || 0;
@@ -1471,11 +1474,11 @@
                     const runnerHeight = runner.offsetHeight || 72;
                     const maxTravel = Math.max(0, trackHeight - runnerHeight);
                     const currentY = p * maxTravel;
-                    runner.style.transform = `translate(-50%, ${currentY}px)`;
+                    runner.style.transform = `translate3d(-50%, ${currentY}px, 0)`;
                 }
             }
 
-            // Sync with Lenis smooth scroll
+            // Real-time synchronization with smooth scroll & requestAnimationFrame
             lenis.on('scroll', (e) => {
                 ScrollTrigger.update();
                 const p = typeof e.progress === 'number' ? e.progress : getPageScrollProgress();
@@ -1484,12 +1487,17 @@
 
             // Native scroll event fallback
             window.addEventListener('scroll', () => {
-                const p = getPageScrollProgress();
-                updateScrollIndicator(p);
+                updateScrollIndicator(getPageScrollProgress());
+            }, { passive: true });
+
+            // Window resize handler to ensure track height re-adjusts accurately
+            window.addEventListener('resize', () => {
+                updateScrollIndicator(getPageScrollProgress());
             }, { passive: true });
 
             gsap.ticker.add((time) => {
                 lenis.raf(time * 1000);
+                updateScrollIndicator(getPageScrollProgress());
             });
             gsap.ticker.lagSmoothing(0);
 
