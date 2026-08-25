@@ -233,6 +233,11 @@
             width: 42vw;
             aspect-ratio: 16 / 9;
         }
+        .gallery-item-inner {
+            will-change: transform, filter;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
         @media (min-width: 768px) {
             .gallery-item { width: 15vw; }
         }
@@ -1241,13 +1246,8 @@
             }
 
             let idleFloatTweens = [];
-            let idleFloatST = null;
 
             function initIdleFloat() {
-                if (idleFloatST) {
-                    idleFloatST.kill();
-                    idleFloatST = null;
-                }
                 idleFloatTweens.forEach(t => t.kill());
                 idleFloatTweens = [];
                 gsap.killTweensOf('.idle-float');
@@ -1258,7 +1258,7 @@
                     const yDist = (i % 2 === 0 ? 14 : -14) + gsap.utils.random(-6, 6);
                     const xDist = (i % 3 === 0 ? 10 : -10) + gsap.utils.random(-5, 5);
                     const rotDist = (i % 2 === 0 ? 2.5 : -2.5) + gsap.utils.random(-1, 1);
-                    const dur = gsap.utils.random(9.0, 16.0);
+                    const dur = gsap.utils.random(8.0, 14.0);
 
                     const tw = gsap.to(el, {
                         y: yDist,
@@ -1268,21 +1268,9 @@
                         ease: "sine.inOut",
                         repeat: -1,
                         yoyo: true,
-                        delay: (i * 0.4) % 3,
-                        paused: true
+                        delay: (i * 0.3) % 2.5
                     });
                     idleFloatTweens.push(tw);
-                });
-
-                // Only animate floating when selected-work is in or near viewport
-                idleFloatST = ScrollTrigger.create({
-                    trigger: "#selected-work",
-                    start: "top bottom",
-                    end: "bottom top",
-                    onEnter: () => idleFloatTweens.forEach(t => t.play()),
-                    onLeave: () => idleFloatTweens.forEach(t => t.pause()),
-                    onEnterBack: () => idleFloatTweens.forEach(t => t.play()),
-                    onLeaveBack: () => idleFloatTweens.forEach(t => t.pause())
                 });
             }
 
@@ -1391,20 +1379,11 @@
             }
             createSlotText();
 
-            // Active Scroll-Driven Slot Rolling Effect (only active when section is in viewport)
+            // Active Scroll-Driven Slot Rolling Effect
             let lastScrollY = window.pageYOffset;
             let slotScrollTimeout;
-            let isSlotSectionVisible = false;
-
-            ScrollTrigger.create({
-                trigger: "#about",
-                start: "top bottom",
-                end: "bottom top",
-                onToggle: self => { isSlotSectionVisible = self.isActive; }
-            });
 
             window.addEventListener('scroll', () => {
-                if (!isSlotSectionVisible) return;
                 const currentScrollY = window.pageYOffset;
                 const delta = currentScrollY - lastScrollY;
                 lastScrollY = currentScrollY;
@@ -1948,6 +1927,10 @@
             const filmTrack = document.getElementById("film-track");
 
             if (filmTrack) {
+                // Velocity-based motion blur & skew during horizontal scrolling
+                let blurTimeout;
+                const galleryItemsList = () => gsap.utils.toArray('.gallery-item-inner');
+
                 const trackTl = gsap.timeline({
                     scrollTrigger: {
                         trigger: "#selected-work",
@@ -1956,7 +1939,42 @@
                         scrub: isTouchDevice ? 1.0 : 1.8,
                         pin: true,
                         anticipatePin: 1,
-                        invalidateOnRefresh: true
+                        invalidateOnRefresh: true,
+                        onUpdate: (self) => {
+                            if (!self.isActive) return;
+                            const vel = self.getVelocity();
+                            // Velocity scaled for subtle, elegant cinematographic motion blur
+                            const absVel = Math.abs(vel);
+                            const blurAmount = Math.min(3.5, absVel / 650);
+                            const skewAmount = Math.max(-2.5, Math.min(2.5, -vel / 1200));
+
+                            if (absVel > 30) {
+                                gsap.to(galleryItemsList(), {
+                                    filter: `blur(${blurAmount.toFixed(2)}px)`,
+                                    skewX: `${skewAmount.toFixed(2)}deg`,
+                                    duration: 0.15,
+                                    ease: "power1.out",
+                                    overwrite: "auto"
+                                });
+
+                                clearTimeout(blurTimeout);
+                                blurTimeout = setTimeout(() => {
+                                    gsap.to(galleryItemsList(), {
+                                        filter: "blur(0px)",
+                                        skewX: "0deg",
+                                        duration: 0.35,
+                                        ease: "power2.out",
+                                        overwrite: "auto"
+                                    });
+                                }, 80);
+                            }
+                        },
+                        onLeave: () => {
+                            gsap.to(galleryItemsList(), { filter: "blur(0px)", skewX: "0deg", duration: 0.2, overwrite: "auto" });
+                        },
+                        onLeaveBack: () => {
+                            gsap.to(galleryItemsList(), { filter: "blur(0px)", skewX: "0deg", duration: 0.2, overwrite: "auto" });
+                        }
                     }
                 });
 
@@ -2012,21 +2030,19 @@
                     if (!inner) return;
                     
                     if (isDesktop) {
-                        item.addEventListener('mouseenter', () => {
+                        inner.addEventListener('mouseenter', () => {
                             gsap.set(item, { zIndex: 100 });
                             gsap.to(inner, { 
-                                scale: 1.25, 
-                                y: -10,
-                                duration: 0.8, 
+                                scale: 1.18, 
+                                duration: 0.5, 
                                 ease: "power2.out", 
                                 overwrite: "auto" 
                             });
                         });
-                        item.addEventListener('mouseleave', () => {
+                        inner.addEventListener('mouseleave', () => {
                             gsap.to(inner, { 
                                 scale: 1, 
-                                y: 0,
-                                duration: 0.8, 
+                                duration: 0.5, 
                                 ease: "power2.out", 
                                 overwrite: "auto",
                                 onComplete: () => gsap.set(item, { zIndex: 10 }) 
