@@ -65,17 +65,12 @@
             cursor: none !important;
         }
 
-        /* Hide custom cursor & scroll indicator on mobile, iPad, tablets, and all touch devices */
+        /* Hide custom cursor on mobile, iPad, tablets, and all touch devices */
         @media (pointer: coarse), (hover: none), (max-width: 1024px) {
             body, a, button, input, select, textarea, .interactive-el, .gallery-item, .video-trigger, .we-are-container {
                 cursor: auto !important;
             }
             .custom-cursor {
-                display: none !important;
-                opacity: 0 !important;
-                pointer-events: none !important;
-            }
-            #left-scroll-indicator {
                 display: none !important;
                 opacity: 0 !important;
                 pointer-events: none !important;
@@ -234,13 +229,17 @@
             position: absolute;
             transition: z-index 0.3s;
             z-index: 10;
-            will-change: transform, left, top;
+            will-change: transform;
             cursor: none !important;
             width: 42vw;
             aspect-ratio: 16 / 9;
         }
         @media (min-width: 768px) {
             .gallery-item { width: 15vw; }
+        }
+
+        .bts-float {
+            will-change: transform;
         }
         
         .film-track {
@@ -304,15 +303,15 @@
                 <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Loading Cameraman" class="w-full h-auto object-contain">
             </div>
             <div class="flex flex-col items-center gap-1">
-                <span id="loader-text" class="text-sm md:text-base font-mono font-bold tracking-[0.3em] uppercase text-white/95">SOUND SPEED</span>
+                <span id="loader-text" class="text-sm md:text-base font-mono font-bold tracking-[0.3em] uppercase text-white/95">CAMERA ROLL</span>
             </div>
         </div>
     </div>
 
     <div class="custom-cursor" id="custom-cursor"></div>
     
-    <!-- Full-Height Vertical Track with Blue Falling Cameraman Indicator starting below logo and reaching bottom (Desktop Only) -->
-    <aside id="left-scroll-indicator" class="fixed left-0 sm:left-1 md:left-1.5 lg:left-2 top-[65px] md:top-[75px] bottom-5 md:bottom-8 z-[100] hidden lg:flex flex-col items-center pointer-events-none opacity-0 select-none w-20 md:w-24" aria-label="Page Scroll Progress">
+    <!-- Full-Height Vertical Track with Blue Falling Cameraman Indicator starting below logo and reaching bottom -->
+    <aside id="left-scroll-indicator" class="fixed left-0 sm:left-1 md:left-1.5 lg:left-2 top-[48px] sm:top-[60px] md:top-[75px] bottom-3 sm:bottom-5 md:bottom-8 z-[100] flex flex-col items-center pointer-events-none opacity-0 select-none w-10 sm:w-14 md:w-20 lg:w-24" aria-label="Page Scroll Progress">
         <!-- Interactive Track spanning from below logo to bottom -->
         <div id="scroll-track-container" class="relative w-full h-full flex justify-center pointer-events-none">
             
@@ -322,8 +321,7 @@
                 <div class="relative flex items-center justify-center pointer-events-none">
                     <img src="orang jatuh.gif" 
                          alt="Falling Cameraman Indicator" 
-                         style="width: 200px; min-width: 60px; max-width: 200px; height: auto;"
-                         class="falling-cameraman-blue transform rotate-[-6deg]">
+                         class="falling-cameraman-blue transform rotate-[-6deg] w-[50px] sm:w-[85px] md:w-[130px] lg:w-[190px] h-auto max-w-[190px]">
                 </div>
             </div>
         </div>
@@ -494,8 +492,8 @@
         </div>
     </section>
 
-    <section id="the-soul" class="relative w-full min-h-[100dvh] bg-black text-white flex flex-col justify-center px-0 py-16 z-45 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
-        <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 mb-8 lg:mb-12">
+    <section id="the-soul" class="relative w-full min-h-[90dvh] bg-black text-white flex flex-col justify-center px-0 py-8 md:py-12 z-45">
+        <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 mb-6 lg:mb-10">
             <div class="w-full relative">
                 <div class="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-20">
                     <h2 id="soul-title" class="text-5xl md:text-7xl lg:text-[7.5vw] font-bold tracking-tighter leading-[0.95] text-white md:w-7/12 interactive-el hover-text-fx">
@@ -508,108 +506,108 @@
             </div>
         </div>
 
-        <div class="relative w-full py-8 lg:py-12 bts-enter opacity-0 overflow-hidden" style="perspective: 1000px;">
+        <div class="relative w-full py-4 lg:py-8 bts-enter opacity-0 overflow-hidden" style="perspective: 1000px;">
             <div id="marquee-track" class="flex w-max will-change-transform items-center">
                 <!-- Group 1 (14 Photos: 7 Top, 7 Bottom with randomized layout) -->
-                <div class="flex shrink-0 flex-col gap-6 px-4">
+                <div class="flex shrink-0 flex-col gap-4 md:gap-6 px-4">
                     <!-- Top Row (7 Photos) -->
                     <div class="flex items-center space-x-6 md:space-x-10">
-                        <div class="bts-float shrink-0 transform -translate-y-5 rotate-[-5deg] z-20 hover:z-50 transition-all duration-500">
-                            <img src="1.webp" alt="BTS 1" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
+                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-5deg] z-20 hover:z-50 transition-all duration-500">
+                            <img src="1.webp" alt="BTS 1" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[3deg] z-10 hover:z-50 transition-all duration-500">
-                            <img src="2.webp" alt="BTS 2" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
+                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[3deg] z-10 hover:z-50 transition-all duration-500">
+                            <img src="2.webp" alt="BTS 2" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-7 rotate-[-2deg] z-30 hover:z-50 transition-all duration-500">
-                            <img src="3.webp" alt="BTS 3" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
+                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-2deg] z-30 hover:z-50 transition-all duration-500">
+                            <img src="3.webp" alt="BTS 3" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-6 rotate-[6deg] z-20 hover:z-50 transition-all duration-500">
-                            <img src="4.webp" alt="BTS 4" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
+                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[6deg] z-20 hover:z-50 transition-all duration-500">
+                            <img src="4.webp" alt="BTS 4" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-4deg] z-40 hover:z-50 transition-all duration-500">
-                            <img src="5.webp" alt="BTS 5" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
+                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-4deg] z-40 hover:z-50 transition-all duration-500">
+                            <img src="5.webp" alt="BTS 5" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-5 rotate-[2deg] z-10 hover:z-50 transition-all duration-500">
-                            <img src="6.webp" alt="BTS 6" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
+                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[2deg] z-10 hover:z-50 transition-all duration-500">
+                            <img src="6.webp" alt="BTS 6" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-6 rotate-[-6deg] z-30 hover:z-50 transition-all duration-500">
-                            <img src="7.webp" alt="BTS 7" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
+                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-6deg] z-30 hover:z-50 transition-all duration-500">
+                            <img src="7.webp" alt="BTS 7" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
                         </div>
                     </div>
                     <!-- Bottom Row (7 Photos with staggered offset) -->
                     <div class="flex items-center space-x-6 md:space-x-10 transform translate-x-12">
-                        <div class="bts-float shrink-0 transform translate-y-5 rotate-[4deg] z-20 hover:z-50 transition-all duration-500">
-                            <img src="8.webp" alt="BTS 8" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
+                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[4deg] z-20 hover:z-50 transition-all duration-500">
+                            <img src="8.webp" alt="BTS 8" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-5 rotate-[-3deg] z-10 hover:z-50 transition-all duration-500">
-                            <img src="9.webp" alt="BTS 9" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
+                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-3deg] z-10 hover:z-50 transition-all duration-500">
+                            <img src="9.webp" alt="BTS 9" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[2deg] z-30 hover:z-50 transition-all duration-500">
-                            <img src="10.webp" alt="BTS 10" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
+                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[2deg] z-30 hover:z-50 transition-all duration-500">
+                            <img src="10.webp" alt="BTS 10" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-7 rotate-[-5deg] z-20 hover:z-50 transition-all duration-500">
-                            <img src="11.webp" alt="BTS 11" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+11'">
+                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-5deg] z-20 hover:z-50 transition-all duration-500">
+                            <img src="11.webp" alt="BTS 11" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+11'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-6 rotate-[5deg] z-40 hover:z-50 transition-all duration-500">
-                            <img src="12.webp" alt="BTS 12" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+12'">
+                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[5deg] z-40 hover:z-50 transition-all duration-500">
+                            <img src="12.webp" alt="BTS 12" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+12'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-2deg] z-10 hover:z-50 transition-all duration-500">
-                            <img src="13.webp" alt="BTS 13" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+13'">
+                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-2deg] z-10 hover:z-50 transition-all duration-500">
+                            <img src="13.webp" alt="BTS 13" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+13'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-7 rotate-[4deg] z-30 hover:z-50 transition-all duration-500">
-                            <img src="14.webp" alt="BTS 14" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+14'">
+                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[4deg] z-30 hover:z-50 transition-all duration-500">
+                            <img src="14.webp" alt="BTS 14" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+14'">
                         </div>
                     </div>
                 </div>
 
                 <!-- Group 2 (Duplicate for seamless infinite marquee loop) -->
-                <div class="flex shrink-0 flex-col gap-6 px-4">
+                <div class="flex shrink-0 flex-col gap-4 md:gap-6 px-4">
                     <!-- Top Row (7 Photos) -->
                     <div class="flex items-center space-x-6 md:space-x-10">
-                        <div class="bts-float shrink-0 transform -translate-y-5 rotate-[-5deg] z-20 hover:z-50 transition-all duration-500">
-                            <img src="1.webp" alt="BTS 1" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
+                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-5deg] z-20 hover:z-50 transition-all duration-500">
+                            <img src="1.webp" alt="BTS 1" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[3deg] z-10 hover:z-50 transition-all duration-500">
-                            <img src="2.webp" alt="BTS 2" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
+                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[3deg] z-10 hover:z-50 transition-all duration-500">
+                            <img src="2.webp" alt="BTS 2" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-7 rotate-[-2deg] z-30 hover:z-50 transition-all duration-500">
-                            <img src="3.webp" alt="BTS 3" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
+                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-2deg] z-30 hover:z-50 transition-all duration-500">
+                            <img src="3.webp" alt="BTS 3" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-6 rotate-[6deg] z-20 hover:z-50 transition-all duration-500">
-                            <img src="4.webp" alt="BTS 4" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
+                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[6deg] z-20 hover:z-50 transition-all duration-500">
+                            <img src="4.webp" alt="BTS 4" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-4deg] z-40 hover:z-50 transition-all duration-500">
-                            <img src="5.webp" alt="BTS 5" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
+                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-4deg] z-40 hover:z-50 transition-all duration-500">
+                            <img src="5.webp" alt="BTS 5" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-5 rotate-[2deg] z-10 hover:z-50 transition-all duration-500">
-                            <img src="6.webp" alt="BTS 6" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
+                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[2deg] z-10 hover:z-50 transition-all duration-500">
+                            <img src="6.webp" alt="BTS 6" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-6 rotate-[-6deg] z-30 hover:z-50 transition-all duration-500">
-                            <img src="7.webp" alt="BTS 7" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
+                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-6deg] z-30 hover:z-50 transition-all duration-500">
+                            <img src="7.webp" alt="BTS 7" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
                         </div>
                     </div>
                     <!-- Bottom Row (7 Photos) -->
                     <div class="flex items-center space-x-6 md:space-x-10 transform translate-x-12">
-                        <div class="bts-float shrink-0 transform translate-y-5 rotate-[4deg] z-20 hover:z-50 transition-all duration-500">
-                            <img src="8.webp" alt="BTS 8" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
+                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[4deg] z-20 hover:z-50 transition-all duration-500">
+                            <img src="8.webp" alt="BTS 8" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-5 rotate-[-3deg] z-10 hover:z-50 transition-all duration-500">
-                            <img src="9.webp" alt="BTS 9" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
+                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-3deg] z-10 hover:z-50 transition-all duration-500">
+                            <img src="9.webp" alt="BTS 9" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[2deg] z-30 hover:z-50 transition-all duration-500">
-                            <img src="10.webp" alt="BTS 10" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
+                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[2deg] z-30 hover:z-50 transition-all duration-500">
+                            <img src="10.webp" alt="BTS 10" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-7 rotate-[-5deg] z-20 hover:z-50 transition-all duration-500">
-                            <img src="11.webp" alt="BTS 11" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+11'">
+                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-5deg] z-20 hover:z-50 transition-all duration-500">
+                            <img src="11.webp" alt="BTS 11" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+11'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-6 rotate-[5deg] z-40 hover:z-50 transition-all duration-500">
-                            <img src="12.webp" alt="BTS 12" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+12'">
+                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[5deg] z-40 hover:z-50 transition-all duration-500">
+                            <img src="12.webp" alt="BTS 12" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+12'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-2deg] z-10 hover:z-50 transition-all duration-500">
-                            <img src="13.webp" alt="BTS 13" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+14'">
+                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-2deg] z-10 hover:z-50 transition-all duration-500">
+                            <img src="13.webp" alt="BTS 13" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+13'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-7 rotate-[4deg] z-30 hover:z-50 transition-all duration-500">
-                            <img src="14.webp" alt="BTS 14" class="h-28 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+14'">
+                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[4deg] z-30 hover:z-50 transition-all duration-500">
+                            <img src="14.webp" alt="BTS 14" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+14'">
                         </div>
                     </div>
                 </div>
@@ -646,44 +644,48 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Shooting Callout Preloader Logic: standby -> sound speed -> camera speed -> action -> slide up (max 4s)
+            // Shooting Callout Preloader Logic: Camera Roll -> And -> Action! with organic spoken cadence
             const loader = document.getElementById('fake-loader');
             const loaderText = document.getElementById('loader-text');
 
-            const steps = ["SOUND SPEED", "CAMERA SPEED", "AND", "ACTION!"];
+            const steps = [
+                { text: "CAMERA ROLL", duration: 750 },
+                { text: "AND", duration: 400 },
+                { text: "ACTION!", duration: 700 }
+            ];
             let currentStep = 0;
-            const stepDuration = 800; // Total ~3.2s, well under 4 seconds max
 
             const runPreloadStep = () => {
+                currentStep++;
                 if (currentStep < steps.length) {
+                    const next = steps[currentStep];
                     if (loaderText) {
                         loaderText.style.opacity = '0';
-                        loaderText.style.transform = 'translateY(12px)';
+                        loaderText.style.transform = 'translateY(10px)';
                         setTimeout(() => {
-                            loaderText.textContent = steps[currentStep];
-                            loaderText.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                            loaderText.textContent = next.text;
+                            loaderText.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
                             loaderText.style.opacity = '1';
                             loaderText.style.transform = 'translateY(0)';
-                        }, 120);
+                        }, 100);
                     }
-                    currentStep++;
-                    setTimeout(runPreloadStep, stepDuration);
+                    setTimeout(runPreloadStep, next.duration);
                 } else {
                     setTimeout(() => {
                         if (loader) {
-                            loader.style.transition = 'transform 1s cubic-bezier(0.16, 1, 0.3, 1)';
+                            loader.style.transition = 'transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
                             loader.style.transform = 'translateY(-100%)';
-                            setTimeout(() => loader.remove(), 1000);
+                            setTimeout(() => loader.remove(), 900);
                         }
-                    }, 300);
+                    }, 350);
                 }
             };
 
             if (loaderText) {
-                loaderText.textContent = steps[0];
+                loaderText.textContent = steps[0].text;
                 loaderText.style.opacity = '1';
             }
-            setTimeout(runPreloadStep, stepDuration);
+            setTimeout(runPreloadStep, steps[0].duration);
 
             // Setup Fluid Kinetic Proximity & Click Ripple Interaction for Paragraphs
             function setupInteractiveParagraph(paraId, wordSelector) {
@@ -1687,17 +1689,23 @@
                 });
             }
 
+            // Optimize Lenis configuration for smooth touch & scroll-snap response
+            const isTouchDevice = window.matchMedia("(pointer: coarse), (hover: none), (max-width: 1024px)").matches;
+
             const lenis = new Lenis({
-                duration: 2.2, 
+                duration: isTouchDevice ? 1.4 : 2.0, 
                 easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
                 direction: 'vertical',
                 gestureDirection: 'vertical',
                 smooth: true,
-                smoothTouch: false,
-                wheelMultiplier: 0.65, 
-                touchMultiplier: 1.2,
+                smoothTouch: true,
+                touchMultiplier: 1.6,
+                wheelMultiplier: 0.75, 
                 infinite: false,
             });
+
+            // Prevent mobile browser address bar resize jitters
+            ScrollTrigger.config({ ignoreMobileResize: true });
 
             // Accurate Realtime Full Page Scroll Progress Calculator
             function getPageScrollProgress() {
@@ -1747,14 +1755,12 @@
             });
             gsap.ticker.lagSmoothing(0);
 
-            // Full-Height Vertical Track & Falling Cameraman Scroll Indicator Logic (Desktop Only)
+            // Full-Height Vertical Track & Falling Cameraman Scroll Indicator Logic
             function initScrollIndicator() {
                 const indicator = document.getElementById('left-scroll-indicator');
-                const isDesktopFine = window.matchMedia("(pointer: fine) and (hover: hover) and (min-width: 1025px)").matches;
+                if (!indicator) return;
 
-                if (!indicator || !isDesktopFine) return;
-
-                // Animate entrance of the indicator only on supported desktop screens
+                // Animate entrance of the indicator across all screen types
                 gsap.to(indicator, {
                     opacity: 1,
                     duration: 1,
@@ -1849,9 +1855,10 @@
                     scrollTrigger: {
                         trigger: "#selected-work",
                         start: "top top",
-                        end: () => "+=" + Math.max(800, (filmTrack.scrollWidth - window.innerWidth) * 1.2),
-                        scrub: 2,
-                        pin: true, 
+                        end: () => "+=" + Math.max(isTouchDevice ? 600 : 800, (filmTrack.scrollWidth - window.innerWidth) * (isTouchDevice ? 1.0 : 1.2)),
+                        scrub: isTouchDevice ? 1.0 : 1.8,
+                        pin: true,
+                        anticipatePin: 1,
                         invalidateOnRefresh: true
                     }
                 });
