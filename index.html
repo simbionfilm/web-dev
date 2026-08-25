@@ -1910,48 +1910,29 @@
 
             function initGalleryInteractions() {
                 const galleryItems = document.querySelectorAll('.gallery-item');
-                galleryItems.forEach((item, index) => {
+                galleryItems.forEach((item) => {
                     const inner = item.querySelector('.gallery-item-inner');
                     if (!inner) return;
                     
                     if (isDesktop) {
                         item.addEventListener('mouseenter', () => {
-                            if (item._hoverTimeout) clearTimeout(item._hoverTimeout);
-                            item._hoverTimeout = setTimeout(() => {
-                                gsap.set(item, { zIndex: 100 });
-                                gsap.to(inner, { 
-                                    scale: 1.42, 
-                                    y: -10,
-                                    duration: 1.1, 
-                                    ease: "power3.out", 
-                                    overwrite: "auto" 
-                                });
-
-                                const pushVal = 12; 
-
-                                galleryItems.forEach((other, otherIndex) => {
-                                    if (otherIndex !== index) {
-                                        const pushAmount = otherIndex < index ? `-${pushVal}vw` : `${pushVal}vw`;
-                                        gsap.to(other, { x: pushAmount, duration: 1.1, ease: "power3.out", overwrite: "auto" });
-                                    }
-                                });
-                            }, 180); // Deliberate hover delay
+                            gsap.set(item, { zIndex: 100 });
+                            gsap.to(inner, { 
+                                scale: 1.25, 
+                                y: -10,
+                                duration: 0.8, 
+                                ease: "power2.out", 
+                                overwrite: "auto" 
+                            });
                         });
                         item.addEventListener('mouseleave', () => {
-                            if (item._hoverTimeout) {
-                                clearTimeout(item._hoverTimeout);
-                                item._hoverTimeout = null;
-                            }
                             gsap.to(inner, { 
                                 scale: 1, 
                                 y: 0,
-                                duration: 1.0, 
-                                ease: "power3.out", 
+                                duration: 0.8, 
+                                ease: "power2.out", 
                                 overwrite: "auto",
                                 onComplete: () => gsap.set(item, { zIndex: 10 }) 
-                            });
-                            galleryItems.forEach((other) => {
-                                gsap.to(other, { x: "0vw", duration: 1.0, ease: "power3.out", overwrite: "auto" });
                             });
                         });
                     }
