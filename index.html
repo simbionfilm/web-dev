@@ -238,6 +238,11 @@
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
         }
+        .velocity-parallax {
+            will-change: transform;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
         @media (min-width: 768px) {
             .gallery-item { width: 15vw; }
         }
@@ -510,55 +515,55 @@
             </div>
         </div>
 
-        <div class="relative w-full py-4 lg:py-8 bts-enter opacity-0 overflow-hidden" style="perspective: 1000px;">
+        <div class="relative w-full py-4 lg:py-8 bts-enter overflow-hidden" style="perspective: 1000px;">
             <div id="marquee-track" class="flex w-max will-change-transform items-center">
                 <!-- Group 1 (14 Photos: 7 Top, 7 Bottom with randomized layout) -->
                 <div class="flex shrink-0 flex-col gap-4 md:gap-6 px-4">
                     <!-- Top Row (7 Photos) -->
                     <div class="flex items-center space-x-6 md:space-x-10">
-                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-5deg] z-20 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-20 hover:z-50">
                             <img src="1.webp" alt="BTS 1" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[3deg] z-10 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-10 hover:z-50">
                             <img src="2.webp" alt="BTS 2" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-2deg] z-30 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-30 hover:z-50">
                             <img src="3.webp" alt="BTS 3" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[6deg] z-20 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-20 hover:z-50">
                             <img src="4.webp" alt="BTS 4" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-4deg] z-40 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-40 hover:z-50">
                             <img src="5.webp" alt="BTS 5" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[2deg] z-10 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-10 hover:z-50">
                             <img src="6.webp" alt="BTS 6" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-6deg] z-30 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-30 hover:z-50">
                             <img src="7.webp" alt="BTS 7" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
                         </div>
                     </div>
                     <!-- Bottom Row (7 Photos with staggered offset) -->
                     <div class="flex items-center space-x-6 md:space-x-10 transform translate-x-12">
-                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[4deg] z-20 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-20 hover:z-50">
                             <img src="8.webp" alt="BTS 8" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-3deg] z-10 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-10 hover:z-50">
                             <img src="9.webp" alt="BTS 9" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[2deg] z-30 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-30 hover:z-50">
                             <img src="10.webp" alt="BTS 10" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-5deg] z-20 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-20 hover:z-50">
                             <img src="11.webp" alt="BTS 11" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+11'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[5deg] z-40 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-40 hover:z-50">
                             <img src="12.webp" alt="BTS 12" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+12'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-2deg] z-10 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-10 hover:z-50">
                             <img src="13.webp" alt="BTS 13" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+13'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[4deg] z-30 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-30 hover:z-50">
                             <img src="14.webp" alt="BTS 14" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+14'">
                         </div>
                     </div>
@@ -568,49 +573,49 @@
                 <div class="flex shrink-0 flex-col gap-4 md:gap-6 px-4">
                     <!-- Top Row (7 Photos) -->
                     <div class="flex items-center space-x-6 md:space-x-10">
-                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-5deg] z-20 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-20 hover:z-50">
                             <img src="1.webp" alt="BTS 1" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[3deg] z-10 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-10 hover:z-50">
                             <img src="2.webp" alt="BTS 2" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-2deg] z-30 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-30 hover:z-50">
                             <img src="3.webp" alt="BTS 3" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[6deg] z-20 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-20 hover:z-50">
                             <img src="4.webp" alt="BTS 4" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-4deg] z-40 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-40 hover:z-50">
                             <img src="5.webp" alt="BTS 5" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[2deg] z-10 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-10 hover:z-50">
                             <img src="6.webp" alt="BTS 6" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-6deg] z-30 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-30 hover:z-50">
                             <img src="7.webp" alt="BTS 7" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
                         </div>
                     </div>
                     <!-- Bottom Row (7 Photos) -->
                     <div class="flex items-center space-x-6 md:space-x-10 transform translate-x-12">
-                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[4deg] z-20 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-20 hover:z-50">
                             <img src="8.webp" alt="BTS 8" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-3deg] z-10 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-10 hover:z-50">
                             <img src="9.webp" alt="BTS 9" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-3 rotate-[2deg] z-30 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-30 hover:z-50">
                             <img src="10.webp" alt="BTS 10" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-4 rotate-[-5deg] z-20 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-20 hover:z-50">
                             <img src="11.webp" alt="BTS 11" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+11'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[5deg] z-40 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-40 hover:z-50">
                             <img src="12.webp" alt="BTS 12" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+12'">
                         </div>
-                        <div class="bts-float shrink-0 transform -translate-y-3 rotate-[-2deg] z-10 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-10 hover:z-50">
                             <img src="13.webp" alt="BTS 13" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+13'">
                         </div>
-                        <div class="bts-float shrink-0 transform translate-y-4 rotate-[4deg] z-30 hover:z-50 transition-all duration-500">
+                        <div class="bts-float shrink-0 z-30 hover:z-50">
                             <img src="14.webp" alt="BTS 14" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 transition-all duration-500 ease-out origin-center cursor-pointer shadow-2xl" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+14'">
                         </div>
                     </div>
@@ -1283,23 +1288,28 @@
                 const row2 = cmsData.works.filter(w => w.row === 2);
                 const row3 = cmsData.works.filter(w => w.row === 3);
 
-                function renderRows(items, topPercent) {
+                function renderRows(items, topPercent, rowNum) {
                     let subHtml = '';
+                    const baseDepth = rowNum === 1 ? 0.72 : (rowNum === 2 ? 1.0 : 1.38);
                     items.forEach((item, idx) => {
                         const leftPos = 110 + (idx * 18);
                         const baseRotation = (Math.random() - 0.5) * 8; 
+                        const depthFactor = (baseDepth + (idx % 2 === 0 ? 0.06 : -0.06)).toFixed(2);
+                        const depthFactorY = ((idx % 3 === 0 ? 1.0 : -0.8) * (rowNum === 2 ? 0.6 : 1.0)).toFixed(2);
 
                         subHtml += `
                             <div class="gallery-item cms-gallery-item" style="left: ${leftPos}vw; top: ${topPercent}%;">
                                 <div class="w-full h-full" style="transform: rotate(${baseRotation}deg);">
                                     <div class="parallax-wrap w-full h-full" data-mx="${(idx % 2 === 0 ? -4 : 5)}" data-my="${(idx % 3 === 0 ? 6 : -5)}">
-                                        <div class="idle-float w-full h-full">
-                                            <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl rounded-sm group cursor-pointer bg-black video-trigger border border-white/10 hover:border-simbionBlue/60 transition-colors duration-500" data-video-id="${item.videoId}">
-                                                <img src="https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=${encodeURIComponent(item.title)}'" alt="${item.title}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out">
-                                                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0 text-left pointer-events-none z-20">
-                                                    <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent -z-10"></div>
-                                                    <span class="text-[7px] md:text-[9px] text-simbionBlue tracking-[0.2em] font-bold font-mono block uppercase drop-shadow-md">${item.year} — ${item.artist}</span>
-                                                    <h3 class="text-xs md:text-sm font-bold tracking-tight text-white mt-1 uppercase drop-shadow-md">${item.title}</h3>
+                                        <div class="velocity-parallax w-full h-full" data-depth="${depthFactor}" data-depth-y="${depthFactorY}">
+                                            <div class="idle-float w-full h-full">
+                                                <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl rounded-sm group cursor-pointer bg-black video-trigger border border-white/10 hover:border-simbionBlue/60 transition-colors duration-500" data-video-id="${item.videoId}">
+                                                    <img src="https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=${encodeURIComponent(item.title)}'" alt="${item.title}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out">
+                                                    <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0 text-left pointer-events-none z-20">
+                                                        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent -z-10"></div>
+                                                        <span class="text-[7px] md:text-[9px] text-simbionBlue tracking-[0.2em] font-bold font-mono block uppercase drop-shadow-md">${item.year} — ${item.artist}</span>
+                                                        <h3 class="text-xs md:text-sm font-bold tracking-tight text-white mt-1 uppercase drop-shadow-md">${item.title}</h3>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1311,9 +1321,9 @@
                     return subHtml;
                 }
 
-                html += renderRows(row1, 14);
-                html += renderRows(row2, 41);
-                html += renderRows(row3, 68);
+                html += renderRows(row1, 14, 1);
+                html += renderRows(row2, 41, 2);
+                html += renderRows(row3, 68, 3);
 
                 const maxItems = Math.max(row1.length, row2.length, row3.length);
                 const dynamicWidth = 110 + ((maxItems - 1) * 18) + 60 + 90; 
@@ -1825,64 +1835,34 @@
                   .to(".bts-enter", { opacity: 1, duration: 1.5, ease: "power3.out" }, "-=0.8");
 
             const marqueeTrack = document.getElementById('marquee-track');
-            let marqueeTween = null;
             if (marqueeTrack) {
-                marqueeTween = gsap.to(marqueeTrack, {
+                gsap.to(marqueeTrack, {
                     xPercent: -50,
-                    duration: 45,
+                    duration: 32,
                     ease: "none",
-                    repeat: -1,
-                    paused: true
+                    repeat: -1
                 });
             }
 
-            let btsTweens = [];
-            let soulST = null;
-
             function initBTSFloat() {
-                if (soulST) {
-                    soulST.kill();
-                    soulST = null;
-                }
-                btsTweens.forEach(t => t.kill());
-                btsTweens = [];
                 gsap.killTweensOf('.bts-float');
 
-                gsap.utils.toArray('.bts-float').forEach((el) => {
-                    const tw = gsap.to(el, {
-                        y: "random(-15, 15)",
-                        x: "random(-10, 10)",
-                        rotation: "random(-6, 6)",
-                        duration: "random(4, 6)",
+                gsap.utils.toArray('.bts-float').forEach((el, i) => {
+                    const yDist = (i % 2 === 0 ? 14 : -14) + gsap.utils.random(-6, 6);
+                    const xDist = (i % 3 === 0 ? 10 : -10) + gsap.utils.random(-5, 5);
+                    const rotDist = (i % 2 === 0 ? 4.5 : -4.5) + gsap.utils.random(-2, 2);
+                    const dur = gsap.utils.random(4, 7);
+
+                    gsap.to(el, {
+                        y: yDist,
+                        x: xDist,
+                        rotation: rotDist,
+                        duration: dur,
                         ease: "sine.inOut",
                         repeat: -1,
                         yoyo: true,
-                        paused: true
+                        delay: (i * 0.25) % 2.5
                     });
-                    btsTweens.push(tw);
-                });
-
-                // Pause floating & marquee when #the-soul is out of the viewport
-                soulST = ScrollTrigger.create({
-                    trigger: "#the-soul",
-                    start: "top bottom",
-                    end: "bottom top",
-                    onEnter: () => {
-                        btsTweens.forEach(t => t.play());
-                        if (marqueeTween) marqueeTween.play();
-                    },
-                    onLeave: () => {
-                        btsTweens.forEach(t => t.pause());
-                        if (marqueeTween) marqueeTween.pause();
-                    },
-                    onEnterBack: () => {
-                        btsTweens.forEach(t => t.play());
-                        if (marqueeTween) marqueeTween.play();
-                    },
-                    onLeaveBack: () => {
-                        btsTweens.forEach(t => t.pause());
-                        if (marqueeTween) marqueeTween.pause();
-                    }
                 });
             }
             initBTSFloat();
@@ -1927,9 +1907,11 @@
             const filmTrack = document.getElementById("film-track");
 
             if (filmTrack) {
-                // Velocity-based motion blur & skew during horizontal scrolling
+                // Velocity-based motion blur, skew & dynamic parallax intensity during horizontal scrolling
                 let blurTimeout;
+                let velParallaxTimeout;
                 const galleryItemsList = () => gsap.utils.toArray('.gallery-item-inner');
+                const velParallaxItems = () => gsap.utils.toArray('.velocity-parallax');
 
                 const trackTl = gsap.timeline({
                     scrollTrigger: {
@@ -1943,8 +1925,9 @@
                         onUpdate: (self) => {
                             if (!self.isActive) return;
                             const vel = self.getVelocity();
-                            // Velocity scaled for subtle, elegant cinematographic motion blur
                             const absVel = Math.abs(vel);
+
+                            // 1. Velocity-based cinematographic motion blur & skew
                             const blurAmount = Math.min(3.5, absVel / 650);
                             const skewAmount = Math.max(-2.5, Math.min(2.5, -vel / 1200));
 
@@ -1968,12 +1951,50 @@
                                     });
                                 }, 80);
                             }
+
+                            // 2. Dynamic Parallax Intensity scaling with scroll velocity
+                            if (absVel > 15) {
+                                const pItems = velParallaxItems();
+                                pItems.forEach((el) => {
+                                    const depth = parseFloat(el.getAttribute('data-depth')) || 1.0;
+                                    const depthY = parseFloat(el.getAttribute('data-depth-y')) || 1.0;
+                                    const speedDelta = (depth - 1.0); // positive for foreground, negative for background
+
+                                    // Dynamic horizontal separation and vertical inertia proportional to velocity
+                                    const shiftX = Math.max(-60, Math.min(60, -(vel * speedDelta * 0.052)));
+                                    const shiftY = Math.max(-20, Math.min(20, (vel / 900) * depthY * 6));
+                                    const scaleShift = 1 + Math.max(-0.03, Math.min(0.04, (absVel / 2500) * speedDelta));
+
+                                    gsap.to(el, {
+                                        x: shiftX,
+                                        y: shiftY,
+                                        scale: scaleShift,
+                                        duration: 0.18,
+                                        ease: "power1.out",
+                                        overwrite: "auto"
+                                    });
+                                });
+
+                                clearTimeout(velParallaxTimeout);
+                                velParallaxTimeout = setTimeout(() => {
+                                    gsap.to(velParallaxItems(), {
+                                        x: 0,
+                                        y: 0,
+                                        scale: 1,
+                                        duration: 0.65,
+                                        ease: "power2.out",
+                                        overwrite: "auto"
+                                    });
+                                }, 90);
+                            }
                         },
                         onLeave: () => {
                             gsap.to(galleryItemsList(), { filter: "blur(0px)", skewX: "0deg", duration: 0.2, overwrite: "auto" });
+                            gsap.to(velParallaxItems(), { x: 0, y: 0, scale: 1, duration: 0.35, overwrite: "auto" });
                         },
                         onLeaveBack: () => {
                             gsap.to(galleryItemsList(), { filter: "blur(0px)", skewX: "0deg", duration: 0.2, overwrite: "auto" });
+                            gsap.to(velParallaxItems(), { x: 0, y: 0, scale: 1, duration: 0.35, overwrite: "auto" });
                         }
                     }
                 });
