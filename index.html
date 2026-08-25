@@ -982,9 +982,16 @@
                 let mouseY = -9999;
                 let isHovered = false;
                 const startTime = Date.now();
+                let isWeAreVisible = false;
+                let waveRafId = null;
 
-                // Continuous wave loop running from the beginning
+                // Continuous wave loop running only when section is in viewport
                 function updateWave() {
+                    if (!isWeAreVisible) {
+                        waveRafId = null;
+                        return;
+                    }
+
                     const t = (Date.now() - startTime) * 0.0018;
                     const radius = 180;
 
@@ -1032,9 +1039,23 @@
                             });
                         }
                     });
-                    requestAnimationFrame(updateWave);
+                    waveRafId = requestAnimationFrame(updateWave);
                 }
-                requestAnimationFrame(updateWave);
+
+                // Intersection Observer to completely pause wave calculations when out of view
+                const weAreObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        isWeAreVisible = entry.isIntersecting;
+                        if (isWeAreVisible && !waveRafId) {
+                            waveRafId = requestAnimationFrame(updateWave);
+                        } else if (!isWeAreVisible && waveRafId) {
+                            cancelAnimationFrame(waveRafId);
+                            waveRafId = null;
+                        }
+                    });
+                }, { rootMargin: "150px" });
+
+                weAreObserver.observe(section);
 
                 let lastMove = 0;
                 section.addEventListener('mousemove', (e) => {
@@ -1219,8 +1240,18 @@
                 `;
             }
 
+            let idleFloatTweens = [];
+            let idleFloatST = null;
+
             function initIdleFloat() {
+                if (idleFloatST) {
+                    idleFloatST.kill();
+                    idleFloatST = null;
+                }
+                idleFloatTweens.forEach(t => t.kill());
+                idleFloatTweens = [];
                 gsap.killTweensOf('.idle-float');
+
                 const floatElements = gsap.utils.toArray('.idle-float');
                 floatElements.forEach((el, i) => {
                     // Outer space calm floating: very slow, gentle, non-colliding
@@ -1229,7 +1260,7 @@
                     const rotDist = (i % 2 === 0 ? 2.5 : -2.5) + gsap.utils.random(-1, 1);
                     const dur = gsap.utils.random(9.0, 16.0);
 
-                    gsap.to(el, {
+                    const tw = gsap.to(el, {
                         y: yDist,
                         x: xDist,
                         rotation: rotDist,
@@ -1237,8 +1268,21 @@
                         ease: "sine.inOut",
                         repeat: -1,
                         yoyo: true,
-                        delay: (i * 0.4) % 3
+                        delay: (i * 0.4) % 3,
+                        paused: true
                     });
+                    idleFloatTweens.push(tw);
+                });
+
+                // Only animate floating when selected-work is in or near viewport
+                idleFloatST = ScrollTrigger.create({
+                    trigger: "#selected-work",
+                    start: "top bottom",
+                    end: "bottom top",
+                    onEnter: () => idleFloatTweens.forEach(t => t.play()),
+                    onLeave: () => idleFloatTweens.forEach(t => t.pause()),
+                    onEnterBack: () => idleFloatTweens.forEach(t => t.play()),
+                    onLeaveBack: () => idleFloatTweens.forEach(t => t.pause())
                 });
             }
 
@@ -1347,11 +1391,20 @@
             }
             createSlotText();
 
-            // Active Scroll-Driven Slot Rolling Effect
+            // Active Scroll-Driven Slot Rolling Effect (only active when section is in viewport)
             let lastScrollY = window.pageYOffset;
             let slotScrollTimeout;
+            let isSlotSectionVisible = false;
+
+            ScrollTrigger.create({
+                trigger: "#about",
+                start: "top bottom",
+                end: "bottom top",
+                onToggle: self => { isSlotSectionVisible = self.isActive; }
+            });
 
             window.addEventListener('scroll', () => {
+                if (!isSlotSectionVisible) return;
                 const currentScrollY = window.pageYOffset;
                 const delta = currentScrollY - lastScrollY;
                 lastScrollY = currentScrollY;
@@ -1378,7 +1431,7 @@
                         }
                     });
                 }, 150);
-            });
+            }, { passive: true });
 
             // Contact Chat Form Logic
             const chatBalloon = document.getElementById('chat-balloon');
@@ -1716,40 +1769,46 @@
                 return Math.max(0, Math.min(1, current / total));
             }
 
-            function updateScrollIndicator(progress) {
-                const p = Math.max(0, Math.min(1, progress));
-                const trackContainer = document.getElementById('scroll-track-container');
-                const runner = document.getElementById('falling-cameraman-runner');
+            const trackContainer = document.getElementById('scroll-track-container');
+            const runner = document.getElementById('falling-cameraman-runner');
+            let cachedTrackHeight = 0;
+            let cachedRunnerHeight = 72;
 
+            function measureScrollTrack() {
                 if (trackContainer && runner) {
-                    const trackHeight = trackContainer.clientHeight;
-                    const runnerHeight = runner.offsetHeight || 72;
-                    const maxTravel = Math.max(0, trackHeight - runnerHeight);
-                    const currentY = p * maxTravel;
-                    runner.style.transform = `translate3d(-50%, ${currentY}px, 0)`;
+                    cachedTrackHeight = trackContainer.clientHeight;
+                    cachedRunnerHeight = runner.offsetHeight || 72;
                 }
             }
+            measureScrollTrack();
 
-            // Real-time synchronization with smooth scroll & requestAnimationFrame
+            function updateScrollIndicator(progress) {
+                if (!runner) return;
+                const p = Math.max(0, Math.min(1, progress));
+                const maxTravel = Math.max(0, cachedTrackHeight - cachedRunnerHeight);
+                const currentY = p * maxTravel;
+                runner.style.transform = `translate3d(-50%, ${currentY}px, 0)`;
+            }
+
+            // Real-time synchronization with smooth scroll
             lenis.on('scroll', (e) => {
                 ScrollTrigger.update();
                 const p = typeof e.progress === 'number' ? e.progress : getPageScrollProgress();
                 updateScrollIndicator(p);
             });
 
-            // Native scroll event fallback
+            // Native scroll & resize event listeners with cached measurement
             window.addEventListener('scroll', () => {
                 updateScrollIndicator(getPageScrollProgress());
             }, { passive: true });
 
-            // Window resize handler to ensure track height re-adjusts accurately
             window.addEventListener('resize', () => {
+                measureScrollTrack();
                 updateScrollIndicator(getPageScrollProgress());
             }, { passive: true });
 
             gsap.ticker.add((time) => {
                 lenis.raf(time * 1000);
-                updateScrollIndicator(getPageScrollProgress());
             });
             gsap.ticker.lagSmoothing(0);
 
@@ -1757,6 +1816,8 @@
             function initScrollIndicator() {
                 const indicator = document.getElementById('left-scroll-indicator');
                 if (!indicator) return;
+
+                measureScrollTrack();
 
                 // Animate entrance of the indicator across all screen types
                 gsap.to(indicator, {
@@ -1785,26 +1846,64 @@
                   .to(".bts-enter", { opacity: 1, duration: 1.5, ease: "power3.out" }, "-=0.8");
 
             const marqueeTrack = document.getElementById('marquee-track');
+            let marqueeTween = null;
             if (marqueeTrack) {
-                gsap.to(marqueeTrack, {
+                marqueeTween = gsap.to(marqueeTrack, {
                     xPercent: -50,
                     duration: 45,
                     ease: "none",
-                    repeat: -1
+                    repeat: -1,
+                    paused: true
                 });
             }
 
+            let btsTweens = [];
+            let soulST = null;
+
             function initBTSFloat() {
+                if (soulST) {
+                    soulST.kill();
+                    soulST = null;
+                }
+                btsTweens.forEach(t => t.kill());
+                btsTweens = [];
+                gsap.killTweensOf('.bts-float');
+
                 gsap.utils.toArray('.bts-float').forEach((el) => {
-                    gsap.to(el, {
+                    const tw = gsap.to(el, {
                         y: "random(-15, 15)",
                         x: "random(-10, 10)",
                         rotation: "random(-6, 6)",
                         duration: "random(4, 6)",
                         ease: "sine.inOut",
                         repeat: -1,
-                        yoyo: true
+                        yoyo: true,
+                        paused: true
                     });
+                    btsTweens.push(tw);
+                });
+
+                // Pause floating & marquee when #the-soul is out of the viewport
+                soulST = ScrollTrigger.create({
+                    trigger: "#the-soul",
+                    start: "top bottom",
+                    end: "bottom top",
+                    onEnter: () => {
+                        btsTweens.forEach(t => t.play());
+                        if (marqueeTween) marqueeTween.play();
+                    },
+                    onLeave: () => {
+                        btsTweens.forEach(t => t.pause());
+                        if (marqueeTween) marqueeTween.pause();
+                    },
+                    onEnterBack: () => {
+                        btsTweens.forEach(t => t.play());
+                        if (marqueeTween) marqueeTween.play();
+                    },
+                    onLeaveBack: () => {
+                        btsTweens.forEach(t => t.pause());
+                        if (marqueeTween) marqueeTween.pause();
+                    }
                 });
             }
             initBTSFloat();
