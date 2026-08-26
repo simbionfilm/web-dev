@@ -117,8 +117,8 @@
             height: 64px;
             z-index: 90;
             pointer-events: none;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             background: transparent;
             border-bottom: 1px solid rgba(222, 222, 222, 0.01);
         }
@@ -782,7 +782,7 @@
             </div>
             <p class="text-[10px] md:text-sm tracking-[0.2em] md:tracking-[0.3em] text-lightText/70 opacity-0 transform translate-y-4 reveal-quote mt-10 interactive-el hover-text-fx font-mono">( Guess we’ll see you at the first PPM )</p>
         </div>
-        <div class="w-full px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-6 z-10 text-[10px] tracking-[0.15em] text-mutedText font-mono uppercase">
+        <div id="footer-bottom" class="w-full px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-6 z-10 text-[10px] tracking-[0.15em] text-mutedText font-mono uppercase">
             <div class="flex gap-8"><a href="https://mail.google.com/mail/?view=cm&fs=1&to=play@simbionfilm.com" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx text-lightText hover:text-simbionBlue ">play@simbionfilm.com</a></div>
             <div class="flex gap-6 md:gap-10">
                 <a href="https://www.instagram.com/simbionfilm/" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx text-lightText hover:text-simbionBlue ">INSTAGRAM</a>
@@ -2107,6 +2107,19 @@
             window.addEventListener('scroll', () => {
                 updateScrollIndicator(getPageScrollProgress());
                 updateHeaderSceneState(window.pageYOffset);
+
+                const cb = document.getElementById('chat-balloon');
+                const fb = document.getElementById('footer-bottom');
+                if (cb && fb) {
+                    const fbRect = fb.getBoundingClientRect();
+                    // If the footer is visible in the viewport (its top is less than the window height + a small buffer)
+                    if (fbRect.top < window.innerHeight) {
+                        // Move chat balloon up by 60px to avoid the footer
+                        cb.style.transform = 'translateY(-60px)';
+                    } else {
+                        cb.style.transform = 'translateY(0)';
+                    }
+                }
             }, { passive: true });
 
             window.addEventListener('resize', () => {
