@@ -243,6 +243,11 @@
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
         }
+        .idle-float {
+            will-change: transform;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
         @media (min-width: 768px) {
             .gallery-item { width: 15vw; }
         }
@@ -1848,10 +1853,10 @@
                 gsap.killTweensOf('.bts-float');
 
                 gsap.utils.toArray('.bts-float').forEach((el, i) => {
-                    const yDist = (i % 2 === 0 ? 14 : -14) + gsap.utils.random(-6, 6);
-                    const xDist = (i % 3 === 0 ? 10 : -10) + gsap.utils.random(-5, 5);
-                    const rotDist = (i % 2 === 0 ? 4.5 : -4.5) + gsap.utils.random(-2, 2);
-                    const dur = gsap.utils.random(4, 7);
+                    const yDist = (i % 2 === 0 ? 22 : -22) + gsap.utils.random(-8, 8);
+                    const xDist = (i % 3 === 0 ? 14 : -14) + gsap.utils.random(-6, 6);
+                    const rotDist = (i % 2 === 0 ? 6.5 : -6.5) + gsap.utils.random(-2.5, 2.5);
+                    const dur = gsap.utils.random(3.5, 5.8);
 
                     gsap.to(el, {
                         y: yDist,
@@ -1861,11 +1866,34 @@
                         ease: "sine.inOut",
                         repeat: -1,
                         yoyo: true,
-                        delay: (i * 0.25) % 2.5
+                        delay: (i * 0.22) % 2.5
                     });
                 });
             }
             initBTSFloat();
+
+            function initIdleFloat() {
+                gsap.killTweensOf('.idle-float');
+
+                gsap.utils.toArray('.idle-float').forEach((el, i) => {
+                    const yDist = (i % 2 === 0 ? 20 : -20) + gsap.utils.random(-7, 7);
+                    const xDist = (i % 3 === 0 ? 12 : -12) + gsap.utils.random(-5, 5);
+                    const rotDist = (i % 2 === 0 ? 3.8 : -3.8) + gsap.utils.random(-1.5, 1.5);
+                    const dur = gsap.utils.random(3.6, 5.8);
+
+                    gsap.to(el, {
+                        y: yDist,
+                        x: xDist,
+                        rotation: rotDist,
+                        duration: dur,
+                        ease: "sine.inOut",
+                        repeat: -1,
+                        yoyo: true,
+                        delay: (i * 0.2) % 3.0
+                    });
+                });
+            }
+            initIdleFloat();
             
             gsap.to('.parallax-hero', {
                 yPercent: 35, rotation: 3, ease: "none",
