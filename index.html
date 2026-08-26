@@ -18,9 +18,11 @@
             theme: {
                 extend: {
                     colors: {
+                        black: '#0a0a0a',
+                        white: '#dedede',
                         simbionBlue: '#000AC2',
-                        darkBg: '#0f0f0f',
-                        lightText: '#EDEDED',
+                        darkBg: '#0a0a0a',
+                        lightText: '#dedede',
                         mutedText: '#888888',
                         borderGray: '#222222'
                     },
@@ -115,10 +117,10 @@
             height: 64px;
             z-index: 90;
             pointer-events: none;
-            backdrop-filter: blur(2px);
-            -webkit-backdrop-filter: blur(2px);
-            background: rgba(255, 255, 255, 0.02);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            background: transparent;
+            border-bottom: 1px solid rgba(222, 222, 222, 0.01);
         }
 
         @keyframes floatSlow {
@@ -321,7 +323,7 @@
         }
         .vinyl-disc {
             background: radial-gradient(circle at center, #1c1c1c 0%, #0f0f0f 55%, #050505 100%);
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8), inset 0 0 4px rgba(255, 255, 255, 0.12);
+            box-shadow: 0 4px 14px rgba(10, 10, 10, 0.8), inset 0 0 4px rgba(222, 222, 222, 0.12);
         }
 
         /* Periodic Subtle Floating Text Animation for Scene Navigation */
@@ -418,10 +420,10 @@
     <div class="header-blur-mask"></div>
 
     <div id="chat-balloon" class="fixed bottom-12 md:bottom-16 right-6 md:right-10 z-[105] group cursor-pointer interactive-el floating-widget  transition-all duration-500 origin-bottom-right">
-        <div id="chat-balloon-inner" class="relative bg-simbionBlue  text-lightText px-5 py-3 rounded-2xl  group-hover:scale-105  transition-all duration-300 flex items-center gap-3 border border-white/30">
-            <div id="chat-balloon-tail" class="absolute -bottom-2 right-7 w-3 h-3 bg-simbionBlue  border-r border-b border-white/30 transform rotate-45 pointer-events-none  transition-all duration-300"></div>
-            <span class="w-2.5 h-2.5 rounded-full bg-white animate-ping shrink-0"></span>
-            <span class="text-[10px] md:text-xs font-black font-mono tracking-widest uppercase text-lightText">ANYTHING ON YOUR MIND?</span>
+        <div id="chat-balloon-inner" class="relative bg-simbionBlue  text-lightText px-3.5 py-2 rounded-2xl  group-hover:scale-105  transition-all duration-300 flex items-center gap-2 border border-white/10">
+            <div id="chat-balloon-tail" class="absolute -bottom-2 right-7 w-3 h-3 bg-simbionBlue  border-r border-b border-white/10 transform rotate-45 pointer-events-none  transition-all duration-300"></div>
+            <span class="w-2 h-2 rounded-full bg-white animate-ping shrink-0"></span>
+            <span class="text-[9px] md:text-[10px] font-black font-mono tracking-widest uppercase text-lightText">ANYTHING ON YOUR MIND?</span>
         </div>
     </div>
 
@@ -532,7 +534,7 @@
     <nav class="fixed top-0 w-full z-[100] p-6 mix-blend-difference flex justify-between items-start pointer-events-none text-xs md:text-sm tracking-widest text-lightText">
         <div class="pointer-events-auto flex flex-col gap-1">
             <a href="#hero" class=" ">
-                <img src="LOGOmuter.gif" alt="SIMBION FILM" class="h-[17px] md:h-[23px] w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/120x30/000000/FFFFFF?text=SIMBION';">
+                <img src="LOGOmuter.gif" alt="SIMBION FILM" class="h-[17px] md:h-[23px] w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/120x30/0a0a0a/dedede?text=SIMBION';">
             </a>
         </div>
     </nav>
@@ -541,7 +543,7 @@
 
     <section id="hero" class="relative w-full h-[100dvh] min-h-[600px] flex flex-col justify-center items-center px-6 md:px-12 bg-darkBg z-10 overflow-hidden">
         <div class="absolute inset-0 flex items-center justify-center parallax-hero z-10 pointer-events-none opacity-100 mix-blend-normal">
-            <img id="hero-main-gif" src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto object-contain will-change-transform" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
+            <img id="hero-main-gif" src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto object-contain will-change-transform" onerror="this.src='https://placehold.co/600x400/0a0a0a/dedede?text=Falling+Cameraman+GIF'">
         </div>
     </section>
 
@@ -912,7 +914,7 @@
                                 y: -10 * intensity,
                                 scale: 1 + 0.14 * intensity,
                                 skewX: -6 * intensity,
-                                color: intensity > 0.45 ? '#0616C6' : (intensity > 0.2 ? '#3E4EF0' : '#FFFFFF'),
+                                color: intensity > 0.45 ? '#0616C6' : (intensity > 0.2 ? '#3E4EF0' : '#DEDEDE'),
                                 duration: 0.2,
                                 ease: "power2.out",
                                 overwrite: "auto"
@@ -922,7 +924,7 @@
                                 y: 0,
                                 scale: 1,
                                 skewX: 0,
-                                color: '#FFFFFF',
+                                color: '#DEDEDE',
                                 duration: 0.35,
                                 ease: "power2.out",
                                 overwrite: "auto"
@@ -938,7 +940,7 @@
                         y: 0,
                         scale: 1,
                         skewX: 0,
-                        color: '#FFFFFF',
+                        color: '#DEDEDE',
                         duration: 0.45,
                         ease: "elastic.out(1, 0.5)",
                         stagger: {
@@ -979,7 +981,7 @@
                             y: 0,
                             scale: 1,
                             skewX: 0,
-                            color: '#FFFFFF',
+                            color: '#DEDEDE',
                             duration: 0.35,
                             ease: "elastic.out(1.2, 0.4)"
                         }, delay + 0.15);
@@ -1205,7 +1207,7 @@
                                 rotateZ: (Math.random() - 0.5) * 45 * power,
                                 scale: 1 + 0.6 * power,
                                 filter: `blur(${power * 4}px)`,
-                                color: power > 0.45 ? '#0616C6' : (power > 0.2 ? '#3E4EF0' : '#FFFFFF'),
+                                color: power > 0.45 ? '#0616C6' : (power > 0.2 ? '#3E4EF0' : '#DEDEDE'),
                                 duration: 0.12,
                                 ease: "power2.out",
                                 overwrite: "auto"
@@ -1226,7 +1228,7 @@
                                 rotateZ: 0,
                                 scale: liquidScale,
                                 filter: `blur(${liquidBlur}px)`,
-                                color: '#FFFFFF',
+                                color: '#DEDEDE',
                                 overwrite: "auto"
                             });
                         }
@@ -1311,7 +1313,7 @@
                             rotateZ: 0,
                             scale: 1,
                             filter: 'blur(0px)',
-                            color: '#FFFFFF',
+                            color: '#DEDEDE',
                             duration: 0.85,
                             ease: "elastic.out(1.3, 0.3)"
                         }, 0.2 + (idx * 0.006));
@@ -1508,7 +1510,7 @@
                                         <div class="absolute inset-[9.5px] rounded-full border border-white/[0.06] pointer-events-none"></div>
                                         
                                         <!-- Vinyl Gloss / Light Reflection -->
-                                        <div class="absolute inset-0 rounded-full bg-[conic-gradient(from_0deg,transparent_0_30deg,rgba(255,255,255,0.16)_45deg,transparent_60_210deg,rgba(255,255,255,0.16)_225deg,transparent_240deg)] pointer-events-none"></div>
+                                        <div class="absolute inset-0 rounded-full bg-[conic-gradient(from_0deg,transparent_0_30deg,rgba(222,222,222,0.16)_45deg,transparent_60_210deg,rgba(222,222,222,0.16)_225deg,transparent_240deg)] pointer-events-none"></div>
                                         
                                         <!-- Center Record Label with Thumbnail Art & Center Spindle Hole -->
                                         <div class="relative w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-simbionBlue overflow-hidden flex items-center justify-center border border-white/40  z-20">
@@ -1751,6 +1753,12 @@
             if (chatBalloon) chatBalloon.addEventListener('click', openChatModal);
             if (closeChatBtn) closeChatBtn.addEventListener('click', closeChatModal);
 
+            document.addEventListener('click', (e) => {
+                if (chatModal && !chatModal.classList.contains('opacity-0') && !chatModal.contains(e.target) && !chatBalloon.contains(e.target)) {
+                    closeChatModal();
+                }
+            });
+
             if (chatForm) {
                 chatForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
@@ -1802,15 +1810,15 @@
                 }
 
                 if (isOverlapping && chatInner && chatTail) {
-                    chatInner.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
-                    chatInner.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                    chatTail.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
-                    chatTail.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    chatInner.style.backgroundColor = 'rgba(10, 10, 10, 0.85)';
+                    chatInner.style.borderColor = 'rgba(222, 222, 222, 0.1)';
+                    chatTail.style.backgroundColor = 'rgba(10, 10, 10, 0.85)';
+                    chatTail.style.borderColor = 'rgba(222, 222, 222, 0.1)';
                 } else if (chatInner && chatTail) {
                     chatInner.style.backgroundColor = 'rgba(6, 22, 198, 0.8)';
-                    chatInner.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                    chatInner.style.borderColor = 'rgba(222, 222, 222, 0.1)';
                     chatTail.style.backgroundColor = 'rgba(6, 22, 198, 0.8)';
-                    chatTail.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                    chatTail.style.borderColor = 'rgba(222, 222, 222, 0.1)';
                 }
             }
 
