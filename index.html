@@ -6,6 +6,11 @@
     <title>SIMBION FILM</title>
     
     <link rel="icon" type="image/png" href="orang.png">
+    
+    <!-- Google Fonts: Google Sans Flex & Google Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -20,8 +25,9 @@
                         borderGray: '#222222'
                     },
                     fontFamily: {
-                        sans: ['"Google Sans Flex"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-                        display: ['"Google Sans Flex"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        sans: ['"Google Sans Flex"', '"Google Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        display: ['"Google Sans Flex"', '"Google Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        mono: ['"Space Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
                     }
                 }
             }
@@ -49,7 +55,13 @@
         .lenis.lenis-scrolling iframe { pointer-events: none; }
         
         body, h1, h2, h3, h4, h5, h6, p, span, a, button, input, select, textarea {
-            font-family: "Google Sans Flex", -apple-system, BlinkMacSystemFont, sans-serif !important;
+            font-family: "Google Sans Flex", "Google Sans", -apple-system, BlinkMacSystemFont, sans-serif !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .font-mono, font-mono {
+            font-family: "Space Mono", ui-monospace, SFMono-Regular, Menlo, monospace !important;
         }
 
         body {
@@ -150,44 +162,40 @@
         .hover-text-fx {
             display: inline-block;
             position: relative;
-            font-variation-settings: "slnt" 0;
             font-style: normal;
             -webkit-font-smoothing: antialiased;
-            will-change: transform, font-variation-settings;
+            will-change: transform;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             -webkit-transform: translateZ(0);
             transform: translateZ(0);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), font-style 0.4s ease, font-variation-settings 0.4s ease, color 0.4s ease;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), font-style 0.4s ease, color 0.4s ease;
         }
 
         @media (hover: hover) {
             .hover-text-fx:hover, .contact-title-line:hover {
                 font-style: italic !important;
-                font-variation-settings: "slnt" -12 !important;
-                transform: translateX(12px) skewX(-4deg) scale(1.02);
+                transform: translateX(12px) skewX(-6deg) scale(1.02);
                 color: #0616C6 !important;
             }
         }
 
         .hover-anim-nocolor {
             position: relative;
-            font-variation-settings: "slnt" 0;
             font-style: normal;
             -webkit-font-smoothing: antialiased;
-            will-change: transform, font-variation-settings;
+            will-change: transform;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             -webkit-transform: translateZ(0);
             transform: translateZ(0);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), font-style 0.4s ease, font-variation-settings 0.4s ease;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), font-style 0.4s ease;
         }
 
         @media (hover: hover) {
             .hover-anim-nocolor:hover {
                 font-style: italic !important;
-                font-variation-settings: "slnt" -12 !important;
-                transform: translateX(12px) skewX(-4deg) scale(1.02);
+                transform: translateX(12px) skewX(-6deg) scale(1.02);
             }
         }
 
@@ -212,7 +220,6 @@
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             font-style: italic;
-            font-variation-settings: "slnt" -12;
             transform-style: preserve-3d;
         }
         .we-are-word-wrap {
@@ -282,23 +289,23 @@
         }
         .statement-word, .about-word {
             display: inline-block;
-            will-change: transform, color, font-variation-settings;
+            will-change: transform, color;
             cursor: pointer;
             -webkit-font-smoothing: antialiased;
-            transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), font-style 0.25s ease, font-variation-settings 0.25s ease;
+            transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), font-style 0.25s ease;
             user-select: none;
         }
         @media (hover: hover) {
             .statement-word:hover, .about-word:hover {
                 color: #0616C6 !important;
                 font-style: italic !important;
-                font-variation-settings: "slnt" -12 !important;
             }
         }
 
-        /* Falling Cameraman Pure Simbion Blue (#0616C6) Scroll Indicator - Clean Solid Blue, No Glow / Drop-Shadow */
+        /* Falling Cameraman Pure Simbion Blue (#0616C6) Scroll Indicator - Cross-Browser SVG Matrix & WebKit Safe */
         .falling-cameraman-blue {
-            filter: brightness(0) saturate(100%) invert(14%) sepia(98%) saturate(7200%) hue-rotate(243deg) brightness(85%) contrast(140%);
+            filter: url(#simbion-blue-filter);
+            -webkit-filter: url(#simbion-blue-filter);
             will-change: transform;
             pointer-events: none;
             user-select: none;
@@ -310,6 +317,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body class="font-sans selection:bg-simbionBlue selection:text-white">
+
+    <!-- Global SVG Filter Definitions for Consistent Cross-Browser Color Matrix Rendering -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="absolute w-0 h-0 overflow-hidden pointer-events-none opacity-0" aria-hidden="true" style="position: absolute; width: 0; height: 0; pointer-events: none;">
+        <defs>
+            <filter id="simbion-blue-filter" color-interpolation-filters="sRGB" x="0%" y="0%" width="100%" height="100%">
+                <feColorMatrix type="matrix" values="
+                    0 0 0 0 0.023529
+                    0 0 0 0 0.086274
+                    0 0 0 0 0.776470
+                    0 0 0 1 0" />
+            </filter>
+        </defs>
+    </svg>
 
     <div id="fake-loader" class="fixed inset-0 z-[9999] bg-simbionBlue flex flex-col items-center justify-center overflow-hidden">
         <div class="relative z-10 flex flex-col items-center gap-3 p-6 text-center">
@@ -1210,26 +1230,29 @@
                     link: "https://www.youtube.com/watch?v=GM71bWErDoo"
                 },
                 works: [
+                    // Row 1 (Sorted by Year Descending: 2026 -> 2025 -> 2024)
                     { title: "ANTARA", artist: "STEREOWALL", year: "2026", videoId: "7KA1LaIy804", row: 1 },
-                    { title: "TERJEBAK IMAJINASI", artist: "STEREOWALL", year: "2024", videoId: "4vevtQBeH78", row: 1 },
-                    { title: "BERI AKU KESEMPATAN", artist: "STEVAN PASARIBU", year: "2025", videoId: "2x_EYv5H68o", row: 1 },
                     { title: "SEANDAINYA", artist: "DIFKI KHALIF & PRINSA MANDAGIE", year: "2026", videoId: "7UJ1DoYP-Qw", row: 1 },
+                    { title: "BERI AKU KESEMPATAN", artist: "STEVAN PASARIBU", year: "2025", videoId: "2x_EYv5H68o", row: 1 },
                     { title: "GELANG", artist: "THE MARSOEDI FT. RIZKA NADIYAH", year: "2025", videoId: "9NhXdGxEQA0", row: 1 },
                     { title: "PUTUSIN AKU DONG", artist: "PROJECT POP", year: "2025", videoId: "cI8VzJE1tNg", row: 1 },
+                    { title: "TERJEBAK IMAJINASI", artist: "STEREOWALL", year: "2024", videoId: "4vevtQBeH78", row: 1 },
                     
-                    { title: "KISAH KASIH DI JAKARTA", artist: "RAFI SUDIRMAN FT. GAC", year: "2025", videoId: "A5YICW1I_kc", row: 2 },
+                    // Row 2 (Sorted by Year Descending: 2026 -> 2025 -> 2024 -> 2023)
                     { title: "JALAN TENGAH", artist: "MIKHA TAMBAYONG & RAYI PUTRA", year: "2026", videoId: "GM71bWErDoo", row: 2 },
                     { title: "TIBA TIBA KAU", artist: "DNANDA", year: "2026", videoId: "8ma_y-Xmo-Q", row: 2 },
-                    { title: "MAK COMBLANG", artist: "AQEELA CALISTA", year: "2023", videoId: "kzYYiRGzODI", row: 2 },
+                    { title: "KISAH KASIH DI JAKARTA", artist: "RAFI SUDIRMAN FT. GAC", year: "2025", videoId: "A5YICW1I_kc", row: 2 },
                     { title: "MERAYAKAN HARI INI", artist: "ARAJI", year: "2024", videoId: "LAVUtHyvisM", row: 2 },
+                    { title: "MAK COMBLANG", artist: "AQEELA CALISTA", year: "2023", videoId: "kzYYiRGzODI", row: 2 },
                     { title: "BERJALAN LAGI", artist: "RICKY ZAKNO", year: "2023", videoId: "h2ODH39tzAQ", row: 2 },
 
+                    // Row 3 (Sorted by Year Descending: 2024 -> 2022)
+                    { title: "AKU BUTUH PERAWATAN", artist: "SITI BADRIAH", year: "2024", videoId: "JhjB7e1twX8", row: 3 },
+                    { title: "SELALU UNTUK SELAMANYA", artist: "STEVAN PASARIBU & HANIN DHIYA", year: "2024", videoId: "0NMZVR4TaDk", row: 3 },
                     { title: "SATU TUJU", artist: "MAHALINI X RIZKY FEBIAN", year: "2022", videoId: "g89VhNDBrsY", row: 3 },
                     { title: "YOU'RE MINE", artist: "RIZKY FEBIAN & MAHALINI", year: "2022", videoId: "mvvddC6NZT4", row: 3 },
                     { title: "AMINLAH BERSAMAKU", artist: "RIZKY FEBIAN", year: "2022", videoId: "Za2t7fFrkUw", row: 3 },
-                    { title: "HINGGA TUA BERSAMA", artist: "RIZKY FEBIAN", year: "2022", videoId: "b5ZQob-mDGM", row: 3 },
-                    { title: "AKU BUTUH PERAWATAN", artist: "SITI BADRIAH", year: "2024", videoId: "JhjB7e1twX8", row: 3 },
-                    { title: "SELALU UNTUK SELAMANYA", artist: "STEVAN PASARIBU & HANIN DHIYA", year: "2024", videoId: "0NMZVR4TaDk", row: 3 }
+                    { title: "HINGGA TUA BERSAMA", artist: "RIZKY FEBIAN", year: "2022", videoId: "b5ZQob-mDGM", row: 3 }
                 ]
             };
 
@@ -1289,9 +1312,15 @@
                 if (!track) return;
                 let html = '';
                 
-                const row1 = cmsData.works.filter(w => w.row === 1);
-                const row2 = cmsData.works.filter(w => w.row === 2);
-                const row3 = cmsData.works.filter(w => w.row === 3);
+                const row1 = cmsData.works
+                    .filter(w => w.row === 1)
+                    .sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
+                const row2 = cmsData.works
+                    .filter(w => w.row === 2)
+                    .sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
+                const row3 = cmsData.works
+                    .filter(w => w.row === 3)
+                    .sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
 
                 function renderRows(items, topPercent, rowNum) {
                     let subHtml = '';
