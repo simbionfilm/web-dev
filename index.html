@@ -18,7 +18,7 @@
             theme: {
                 extend: {
                     colors: {
-                        simbionBlue: '#0616C6',
+                        simbionBlue: '#000AC2',
                         darkBg: '#0f0f0f',
                         lightText: '#EDEDED',
                         mutedText: '#888888',
@@ -115,8 +115,8 @@
             height: 64px;
             z-index: 90;
             pointer-events: none;
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
             background: rgba(255, 255, 255, 0.02);
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
@@ -165,7 +165,7 @@
             backface-visibility: hidden;
             -webkit-transform: translateZ(0);
             transform: translateZ(0);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), font-style 0.4s ease, color 0.4s ease;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), font-style 0.4s ease;
         }
 
         @media (hover: hover) {
@@ -288,7 +288,7 @@
             will-change: transform, color;
             cursor: pointer;
             -webkit-font-smoothing: antialiased;
-            transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), font-style 0.25s ease;
+            transition: font-style 0.25s ease;
             user-select: none;
         }
         @media (hover: hover) {
@@ -376,9 +376,9 @@
         <defs>
             <filter id="simbion-blue-filter" color-interpolation-filters="sRGB" x="0%" y="0%" width="100%" height="100%">
                 <feColorMatrix type="matrix" values="
-                    0 0 0 0 0.023529
-                    0 0 0 0 0.086274
-                    0 0 0 0 0.776470
+                    0 0 0 0 0.0
+                    0 0 0 0 0.0392
+                    0 0 0 0 0.7608
                     0 0 0 1 0" />
             </filter>
         </defs>
@@ -386,11 +386,11 @@
 
     <div id="fake-loader" class="fixed inset-0 z-[9999] bg-simbionBlue flex flex-col items-center justify-center overflow-hidden">
         <div class="relative z-10 flex flex-col items-center justify-center w-full h-full text-center">
-            <div id="loader-img-wrap" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto drop-shadow-2xl will-change-transform flex flex-col items-center justify-center pointer-events-none relative">
+            <div id="loader-img-wrap" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto will-change-transform flex flex-col items-center justify-center pointer-events-none relative">
                 <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Loading Cameraman" class="w-full h-auto object-contain pointer-events-none">
                 <!-- Text placed directly close to the cameraman GIF figure -->
                 <div id="loader-text-wrap" class="absolute bottom-6 sm:bottom-10 md:bottom-14 lg:bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none whitespace-nowrap z-20">
-                    <span id="loader-text" class="text-xs sm:text-sm md:text-base font-mono font-bold tracking-[0.3em] uppercase text-lightText/95 drop-shadow-md">CAMERA ROLL</span>
+                    <span id="loader-text" class="text-xs sm:text-sm md:text-base font-mono font-bold tracking-[0.3em] uppercase text-lightText/95">CAMERA ROLL</span>
                 </div>
             </div>
         </div>
@@ -417,30 +417,30 @@
     
     <div class="header-blur-mask"></div>
 
-    <div id="chat-balloon" class="fixed bottom-12 md:bottom-16 right-6 md:right-10 z-[105] group cursor-pointer interactive-el floating-widget transition-all duration-500 origin-bottom-right">
-        <div id="chat-balloon-inner" class="relative bg-simbionBlue/80 backdrop-blur-xl text-lightText px-5 py-3 rounded-2xl shadow-2xl group-hover:scale-105 transition-all duration-300 flex items-center gap-3 border border-white/30">
-            <div id="chat-balloon-tail" class="absolute -bottom-2 right-7 w-3 h-3 bg-simbionBlue/80 backdrop-blur-xl border-r border-b border-white/30 transform rotate-45 pointer-events-none transition-all duration-300"></div>
+    <div id="chat-balloon" class="fixed bottom-12 md:bottom-16 right-6 md:right-10 z-[105] group cursor-pointer interactive-el floating-widget  transition-all duration-500 origin-bottom-right">
+        <div id="chat-balloon-inner" class="relative bg-simbionBlue  text-lightText px-5 py-3 rounded-2xl  group-hover:scale-105  transition-all duration-300 flex items-center gap-3 border border-white/30">
+            <div id="chat-balloon-tail" class="absolute -bottom-2 right-7 w-3 h-3 bg-simbionBlue  border-r border-b border-white/30 transform rotate-45 pointer-events-none  transition-all duration-300"></div>
             <span class="w-2.5 h-2.5 rounded-full bg-white animate-ping shrink-0"></span>
-            <span class="text-[10px] md:text-xs font-black font-mono tracking-widest uppercase text-lightText drop-shadow-md">ANYTHING ON YOUR MIND?</span>
+            <span class="text-[10px] md:text-xs font-black font-mono tracking-widest uppercase text-lightText">ANYTHING ON YOUR MIND?</span>
         </div>
     </div>
 
-    <div id="chat-modal" class="fixed bottom-12 md:bottom-16 right-6 md:right-10 z-[110] w-[calc(100vw-3rem)] md:w-96 opacity-0 pointer-events-none transition-all duration-500 transform translate-y-8 scale-95 origin-bottom-right">
-        <div class="bg-darkBg/95 backdrop-blur-2xl border border-white/20 rounded-3xl p-6 shadow-2xl flex flex-col gap-5">
+    <div id="chat-modal" class="fixed bottom-12 md:bottom-16 right-6 md:right-10 z-[110] w-[calc(100vw-3rem)] md:w-96 opacity-0 pointer-events-none  transition-all duration-500 transform translate-y-8 scale-95 origin-bottom-right">
+        <div class="bg-darkBg  border border-white/20 rounded-3xl p-6  flex flex-col gap-5">
             <div class="flex justify-between items-center border-b border-white/10 pb-4">
                 <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-simbionBlue animate-pulse"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-simbionBlue "></span>
                     <h3 class="font-bold text-sm uppercase tracking-wider text-lightText">LET'S TALK</h3>
                 </div>
-                <button id="close-chat" class="text-[10px] font-mono text-mutedText hover:text-lightText transition-colors uppercase tracking-widest cursor-pointer interactive-el">CLOSE [X]</button>
+                <button id="close-chat" class="text-[10px] font-mono text-mutedText hover:text-lightText  uppercase tracking-widest cursor-pointer interactive-el">CLOSE [X]</button>
             </div>
             
             <form id="contact-chat-form" class="flex flex-col gap-3">
                 <input type="hidden" name="access_key" value="37b802f2-c5e1-4645-b47f-d69dc4ca3aec">
-                <input type="email" id="chat-email" name="email" required placeholder="Your email, please" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-lightText tracking-wide transition-colors interactive-el">
-                <input type="text" id="chat-subject" name="subject" required placeholder="What are we making?" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-lightText tracking-wide transition-colors interactive-el">
-                <textarea id="chat-body" name="message" required rows="3" placeholder="Tell us what’s on your mind" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-lightText tracking-wide resize-none transition-colors interactive-el"></textarea>
-                <button type="submit" id="chat-submit-btn" class="bg-simbionBlue text-lightText font-bold text-xs font-mono uppercase tracking-widest px-6 py-3.5 rounded-xl hover:bg-blue-700 transition-all mt-2 interactive-el shadow-lg hover:shadow-simbionBlue/50">
+                <input type="email" id="chat-email" name="email" required placeholder="Your email, please" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-lightText tracking-wide  interactive-el">
+                <input type="text" id="chat-subject" name="subject" required placeholder="What are we making?" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-lightText tracking-wide  interactive-el">
+                <textarea id="chat-body" name="message" required rows="3" placeholder="Tell us what’s on your mind" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-lightText tracking-wide resize-none  interactive-el"></textarea>
+                <button type="submit" id="chat-submit-btn" class="bg-simbionBlue text-lightText font-bold text-xs font-mono uppercase tracking-widest px-6 py-3.5 rounded-xl hover:bg-simbionBlue   mt-2 interactive-el  hover:">
                     SEND MESSAGE
                 </button>
             </form>
@@ -448,59 +448,59 @@
     </div>
 
     <!-- Modals (Toast, Confirm, Password, CMS Editor, Video Player) -->
-    <div id="custom-toast" class="fixed top-8 left-1/2 -translate-x-1/2 z-[350] bg-darkBg/95 backdrop-blur-xl border border-white/20 text-lightText px-6 py-3 rounded-2xl shadow-2xl opacity-0 pointer-events-none transition-all duration-300 transform -translate-y-4">
+    <div id="custom-toast" class="fixed top-8 left-1/2 -translate-x-1/2 z-[350] bg-darkBg  border border-white/20 text-lightText px-6 py-3 rounded-2xl  opacity-0 pointer-events-none  transition-all duration-300 transform -translate-y-4">
         <span id="toast-message" class="text-xs font-mono uppercase tracking-widest">Notification</span>
     </div>
 
-    <div id="custom-confirm-modal" class="fixed inset-0 z-[320] bg-darkBg/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
-        <div class="bg-darkBg border border-white/20 rounded-3xl w-full max-w-sm p-6 text-lightText text-center shadow-2xl transform scale-95 transition-transform duration-300 modal-inner">
+    <div id="custom-confirm-modal" class="fixed inset-0 z-[320] bg-darkBg  flex items-center justify-center opacity-0 pointer-events-none  transition-all duration-300 p-4">
+        <div class="bg-darkBg border border-white/20 rounded-3xl w-full max-w-sm p-6 text-lightText text-center  transform scale-95 transition-transform transition-all duration-300 modal-inner">
             <h3 id="confirm-title" class="font-bold text-base uppercase tracking-wider mb-2">Confirmation</h3>
             <p id="confirm-desc" class="text-xs text-mutedText font-mono mb-6">Are you sure?</p>
             <div class="flex gap-3 justify-center">
-                <button id="confirm-no" class="bg-white/10 px-5 py-2.5 rounded-xl text-xs font-mono uppercase hover:bg-white/25 transition-colors">Cancel</button>
-                <button id="confirm-yes" class="bg-simbionBlue px-6 py-2.5 rounded-xl text-xs font-mono uppercase font-bold hover:opacity-90 transition-opacity">Confirm</button>
+                <button id="confirm-no" class="bg-white/10 px-5 py-2.5 rounded-xl text-xs font-mono uppercase hover:bg-white/25 ">Cancel</button>
+                <button id="confirm-yes" class="bg-simbionBlue px-6 py-2.5 rounded-xl text-xs font-mono uppercase font-bold  ">Confirm</button>
             </div>
         </div>
     </div>
 
-    <div id="password-modal" class="fixed inset-0 z-[300] bg-darkBg/90 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4 overflow-y-auto">
-        <div class="bg-darkBg border border-white/20 rounded-3xl w-full max-w-md p-6 text-lightText relative shadow-2xl text-center my-auto transform scale-95 transition-transform duration-300 modal-inner">
+    <div id="password-modal" class="fixed inset-0 z-[300] bg-darkBg  flex items-center justify-center opacity-0 pointer-events-none  transition-all duration-300 p-4 overflow-y-auto">
+        <div class="bg-darkBg border border-white/20 rounded-3xl w-full max-w-md p-6 text-lightText relative  text-center my-auto transform scale-95 transition-transform transition-all duration-300 modal-inner">
             <h3 class="font-bold text-lg uppercase tracking-wider mb-2">ADMIN ACCESS</h3>
             <p class="text-xs text-mutedText font-mono mb-6">Enter password to unlock CMS editor.</p>
             <form id="password-form" class="space-y-4">
-                <input type="password" id="admin-password" placeholder="Enter Password" class="w-full bg-darkBg border border-white/20 rounded-xl px-4 py-3 text-xs text-center focus:border-simbionBlue outline-none tracking-widest interactive-el transition-colors">
+                <input type="password" id="admin-password" placeholder="Enter Password" class="w-full bg-darkBg border border-white/20 rounded-xl px-4 py-3 text-xs text-center focus:border-simbionBlue outline-none tracking-widest interactive-el ">
                 <div class="flex gap-2 justify-center">
-                    <button type="button" id="close-password" class="bg-white/10 px-4 py-2 rounded-xl text-xs font-mono uppercase hover:bg-white/20 transition-colors interactive-el">Cancel</button>
-                    <button type="submit" class="bg-simbionBlue px-6 py-2 rounded-xl text-xs font-mono uppercase font-bold hover:opacity-90 transition-opacity interactive-el">Unlock</button>
+                    <button type="button" id="close-password" class="bg-white/10 px-4 py-2 rounded-xl text-xs font-mono uppercase hover:bg-white/20  interactive-el">Cancel</button>
+                    <button type="submit" class="bg-simbionBlue px-6 py-2 rounded-xl text-xs font-mono uppercase font-bold   interactive-el">Unlock</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="cms-modal" class="fixed inset-0 z-[250] bg-darkBg/95 backdrop-blur-2xl flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4 md:p-8 overflow-y-auto">
-        <div class="bg-darkBg border border-white/20 rounded-3xl w-full max-w-4xl p-6 md:p-8 text-lightText relative shadow-2xl my-auto transform scale-95 transition-transform duration-300 modal-inner">
+    <div id="cms-modal" class="fixed inset-0 z-[250] bg-darkBg  flex items-center justify-center opacity-0 pointer-events-none  transition-all duration-300 p-4 md:p-8 overflow-y-auto">
+        <div class="bg-darkBg border border-white/20 rounded-3xl w-full max-w-4xl p-6 md:p-8 text-lightText relative  my-auto transform scale-95 transition-transform transition-all duration-300 modal-inner">
             <div class="flex justify-between items-center pb-6 border-b border-white/10 mb-6">
                 <div>
                     <h2 class="font-bold text-lg md:text-xl tracking-wider uppercase">SIMBION CMS EDITOR</h2>
                     <p class="text-xs text-mutedText font-mono mt-1">Changes save instantly to your browser storage.</p>
                 </div>
-                <button id="close-cms" class="text-xs font-mono bg-white/10 px-4 py-2 rounded-xl hover:bg-white/20 transition-colors uppercase interactive-el">CLOSE [ESC]</button>
+                <button id="close-cms" class="text-xs font-mono bg-white/10 px-4 py-2 rounded-xl hover:bg-white/20  uppercase interactive-el">CLOSE [ESC]</button>
             </div>
 
-            <div class="mb-8 p-4 bg-darkBg/40 rounded-2xl border border-white/10">
+            <div class="mb-8 p-4 bg-darkBg rounded-2xl border border-white/10">
                 <h3 class="text-xs font-mono uppercase tracking-widest text-simbionBlue mb-4">New Release Widget</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-[10px] font-mono uppercase text-mutedText mb-1">Artist & Title</label>
-                        <input type="text" id="cms-rr-title" class="w-full bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none interactive-el transition-colors">
+                        <input type="text" id="cms-rr-title" class="w-full bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none interactive-el ">
                     </div>
                     <div>
                         <label class="block text-[10px] font-mono uppercase text-mutedText mb-1">YouTube Video ID</label>
-                        <input type="text" id="cms-rr-id" class="w-full bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none interactive-el transition-colors">
+                        <input type="text" id="cms-rr-id" class="w-full bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none interactive-el ">
                     </div>
                     <div>
                         <label class="block text-[10px] font-mono uppercase text-mutedText mb-1">YouTube Link / URL</label>
-                        <input type="text" id="cms-rr-link" class="w-full bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none interactive-el transition-colors">
+                        <input type="text" id="cms-rr-link" class="w-full bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none interactive-el ">
                     </div>
                 </div>
             </div>
@@ -508,30 +508,30 @@
             <div>
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xs font-mono uppercase tracking-widest text-simbionBlue">Selected Works List (<span id="cms-count">0</span> Items)</h3>
-                    <button id="cms-add-item" class="bg-simbionBlue text-lightText text-[10px] font-mono uppercase px-4 py-2 rounded-xl hover:opacity-90 transition-opacity interactive-el">+ Add New Work</button>
+                    <button id="cms-add-item" class="bg-simbionBlue text-lightText text-[10px] font-mono uppercase px-4 py-2 rounded-xl   interactive-el">+ Add New Work</button>
                 </div>
                 <div id="cms-items-container" class="space-y-4 max-h-[45vh] overflow-y-auto pr-2 custom-scroll"></div>
             </div>
 
             <div class="mt-8 pt-6 border-t border-white/10 flex justify-end gap-4">
                 <button id="cms-reset" class="text-xs font-mono text-red-400 hover:underline px-4 py-2 interactive-el">Reset Defaults</button>
-                <button id="cms-save" class="bg-white text-black font-bold text-xs font-mono uppercase px-6 py-3 rounded-xl hover:bg-neutral-200 transition-colors interactive-el">Save & Apply</button>
+                <button id="cms-save" class="bg-white text-black font-bold text-xs font-mono uppercase px-6 py-3 rounded-xl hover:bg-neutral-200  interactive-el">Save & Apply</button>
             </div>
         </div>
     </div>
 
-    <div id="video-modal" class="fixed inset-0 z-[200] bg-darkBg/95 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
-        <button id="close-modal" class="absolute top-6 right-8 text-lightText text-xs font-mono tracking-[0.3em] uppercase hover:opacity-70 transition-opacity z-10 p-4 interactive-el">
+    <div id="video-modal" class="fixed inset-0 z-[200] bg-darkBg flex items-center justify-center opacity-0 pointer-events-none  transition-all duration-500">
+        <button id="close-modal" class="absolute top-6 right-8 text-lightText text-xs font-mono tracking-[0.3em] uppercase   z-10 p-4 interactive-el">
             CLOSE [X]
         </button>
-        <div class="w-[95vw] md:w-[80vw] aspect-video max-w-6xl bg-darkBg rounded-2xl overflow-hidden relative border border-white/10 transform scale-95 transition-transform duration-500 modal-inner">
+        <div class="w-[95vw] md:w-[80vw] aspect-video max-w-6xl bg-darkBg rounded-2xl overflow-hidden relative border border-white/10 transform scale-95 transition-transform transition-all duration-500 modal-inner">
             <iframe id="modal-iframe" src="" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </div>
 
     <nav class="fixed top-0 w-full z-[100] p-6 mix-blend-difference flex justify-between items-start pointer-events-none text-xs md:text-sm tracking-widest text-lightText">
         <div class="pointer-events-auto flex flex-col gap-1">
-            <a href="#hero" class="hover:opacity-80 transition-opacity">
+            <a href="#hero" class=" ">
                 <img src="LOGOmuter.gif" alt="SIMBION FILM" class="h-[17px] md:h-[23px] w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/120x30/000000/FFFFFF?text=SIMBION';">
             </a>
         </div>
@@ -575,7 +575,7 @@
                 <div class="velocity-line interactive-el hover-text-fx" data-text="WORKS"></div>
             </div>
         </div>
-        <div class="relative w-full flex-1 overflow-hidden bg-gradient-to-r from-darkBg/80 via-transparent to-darkBg/80">
+        <div class="relative w-full flex-1 overflow-hidden ">
             <div class="film-track" id="film-track"></div>
         </div>
     </section>
@@ -601,79 +601,79 @@
                     <!-- Top Row (12 Photos) -->
                     <div class="flex items-center space-x-6 md:space-x-10">
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="1.webp" alt="BTS 1" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
+                            <img src="1.webp" alt="BTS 1" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
                         </div>
                         <div class="bts-float shrink-0 z-10 hover:z-50">
-                            <img src="2.webp" alt="BTS 2" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
+                            <img src="2.webp" alt="BTS 2" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
                         </div>
                         <div class="bts-float shrink-0 z-30 hover:z-50">
-                            <img src="3.webp" alt="BTS 3" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
+                            <img src="3.webp" alt="BTS 3" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
                         </div>
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="4.webp" alt="BTS 4" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
+                            <img src="4.webp" alt="BTS 4" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
                         </div>
                         <div class="bts-float shrink-0 z-40 hover:z-50">
-                            <img src="5.webp" alt="BTS 5" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
+                            <img src="5.webp" alt="BTS 5" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
                         </div>
                         <div class="bts-float shrink-0 z-10 hover:z-50">
-                            <img src="6.webp" alt="BTS 6" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
+                            <img src="6.webp" alt="BTS 6" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
                         </div>
                         <div class="bts-float shrink-0 z-30 hover:z-50">
-                            <img src="7.webp" alt="BTS 7" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
+                            <img src="7.webp" alt="BTS 7" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
                         </div>
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="15.webp" alt="BTS 15" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+15'">
+                            <img src="15.webp" alt="BTS 15" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+15'">
                         </div>
                         <div class="bts-float shrink-0 z-40 hover:z-50">
-                            <img src="16.webp" alt="BTS 16" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+16'">
+                            <img src="16.webp" alt="BTS 16" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+16'">
                         </div>
                         <div class="bts-float shrink-0 z-10 hover:z-50">
-                            <img src="17.webp" alt="BTS 17" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+17'">
+                            <img src="17.webp" alt="BTS 17" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+17'">
                         </div>
                         <div class="bts-float shrink-0 z-30 hover:z-50">
-                            <img src="18.webp" alt="BTS 18" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+18'">
+                            <img src="18.webp" alt="BTS 18" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+18'">
                         </div>
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="19.webp" alt="BTS 19" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+19'">
+                            <img src="19.webp" alt="BTS 19" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+19'">
                         </div>
                     </div>
                     <!-- Bottom Row (12 Photos with staggered offset) -->
                     <div class="flex items-center space-x-6 md:space-x-10 transform translate-x-12">
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="8.webp" alt="BTS 8" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
+                            <img src="8.webp" alt="BTS 8" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
                         </div>
                         <div class="bts-float shrink-0 z-10 hover:z-50">
-                            <img src="9.webp" alt="BTS 9" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
+                            <img src="9.webp" alt="BTS 9" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
                         </div>
                         <div class="bts-float shrink-0 z-30 hover:z-50">
-                            <img src="10.webp" alt="BTS 10" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
+                            <img src="10.webp" alt="BTS 10" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
                         </div>
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="11.webp" alt="BTS 11" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+11'">
+                            <img src="11.webp" alt="BTS 11" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+11'">
                         </div>
                         <div class="bts-float shrink-0 z-40 hover:z-50">
-                            <img src="12.webp" alt="BTS 12" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+12'">
+                            <img src="12.webp" alt="BTS 12" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+12'">
                         </div>
                         <div class="bts-float shrink-0 z-10 hover:z-50">
-                            <img src="13.webp" alt="BTS 13" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+13'">
+                            <img src="13.webp" alt="BTS 13" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+13'">
                         </div>
                         <div class="bts-float shrink-0 z-30 hover:z-50">
-                            <img src="14.webp" alt="BTS 14" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+14'">
+                            <img src="14.webp" alt="BTS 14" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+14'">
                         </div>
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="20.webp" alt="BTS 20" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+20'">
+                            <img src="20.webp" alt="BTS 20" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+20'">
                         </div>
                         <div class="bts-float shrink-0 z-40 hover:z-50">
-                            <img src="21.webp" alt="BTS 21" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+21'">
+                            <img src="21.webp" alt="BTS 21" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+21'">
                         </div>
                         <div class="bts-float shrink-0 z-10 hover:z-50">
-                            <img src="22.webp" alt="BTS 22" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+22'">
+                            <img src="22.webp" alt="BTS 22" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+22'">
                         </div>
                         <div class="bts-float shrink-0 z-30 hover:z-50">
-                            <img src="23.webp" alt="BTS 23" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+23'">
+                            <img src="23.webp" alt="BTS 23" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+23'">
                         </div>
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="24.webp" alt="BTS 24" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+24'">
+                            <img src="24.webp" alt="BTS 24" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+24'">
                         </div>
                     </div>
                 </div>
@@ -683,79 +683,79 @@
                     <!-- Top Row (12 Photos) -->
                     <div class="flex items-center space-x-6 md:space-x-10">
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="1.webp" alt="BTS 1" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
+                            <img src="1.webp" alt="BTS 1" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+1'">
                         </div>
                         <div class="bts-float shrink-0 z-10 hover:z-50">
-                            <img src="2.webp" alt="BTS 2" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
+                            <img src="2.webp" alt="BTS 2" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+2'">
                         </div>
                         <div class="bts-float shrink-0 z-30 hover:z-50">
-                            <img src="3.webp" alt="BTS 3" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
+                            <img src="3.webp" alt="BTS 3" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+3'">
                         </div>
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="4.webp" alt="BTS 4" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
+                            <img src="4.webp" alt="BTS 4" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+4'">
                         </div>
                         <div class="bts-float shrink-0 z-40 hover:z-50">
-                            <img src="5.webp" alt="BTS 5" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
+                            <img src="5.webp" alt="BTS 5" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+5'">
                         </div>
                         <div class="bts-float shrink-0 z-10 hover:z-50">
-                            <img src="6.webp" alt="BTS 6" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
+                            <img src="6.webp" alt="BTS 6" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+6'">
                         </div>
                         <div class="bts-float shrink-0 z-30 hover:z-50">
-                            <img src="7.webp" alt="BTS 7" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
+                            <img src="7.webp" alt="BTS 7" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+7'">
                         </div>
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="15.webp" alt="BTS 15" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+15'">
+                            <img src="15.webp" alt="BTS 15" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+15'">
                         </div>
                         <div class="bts-float shrink-0 z-40 hover:z-50">
-                            <img src="16.webp" alt="BTS 16" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+16'">
+                            <img src="16.webp" alt="BTS 16" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+16'">
                         </div>
                         <div class="bts-float shrink-0 z-10 hover:z-50">
-                            <img src="17.webp" alt="BTS 17" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+17'">
+                            <img src="17.webp" alt="BTS 17" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+17'">
                         </div>
                         <div class="bts-float shrink-0 z-30 hover:z-50">
-                            <img src="18.webp" alt="BTS 18" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+18'">
+                            <img src="18.webp" alt="BTS 18" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+18'">
                         </div>
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="19.webp" alt="BTS 19" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+19'">
+                            <img src="19.webp" alt="BTS 19" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+19'">
                         </div>
                     </div>
                     <!-- Bottom Row (12 Photos with staggered offset) -->
                     <div class="flex items-center space-x-6 md:space-x-10 transform translate-x-12">
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="8.webp" alt="BTS 8" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
+                            <img src="8.webp" alt="BTS 8" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+8'">
                         </div>
                         <div class="bts-float shrink-0 z-10 hover:z-50">
-                            <img src="9.webp" alt="BTS 9" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
+                            <img src="9.webp" alt="BTS 9" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+9'">
                         </div>
                         <div class="bts-float shrink-0 z-30 hover:z-50">
-                            <img src="10.webp" alt="BTS 10" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
+                            <img src="10.webp" alt="BTS 10" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+10'">
                         </div>
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="11.webp" alt="BTS 11" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+11'">
+                            <img src="11.webp" alt="BTS 11" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+11'">
                         </div>
                         <div class="bts-float shrink-0 z-40 hover:z-50">
-                            <img src="12.webp" alt="BTS 12" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+12'">
+                            <img src="12.webp" alt="BTS 12" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+12'">
                         </div>
                         <div class="bts-float shrink-0 z-10 hover:z-50">
-                            <img src="13.webp" alt="BTS 13" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+13'">
+                            <img src="13.webp" alt="BTS 13" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+13'">
                         </div>
                         <div class="bts-float shrink-0 z-30 hover:z-50">
-                            <img src="14.webp" alt="BTS 14" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+14'">
+                            <img src="14.webp" alt="BTS 14" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+14'">
                         </div>
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="20.webp" alt="BTS 20" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+20'">
+                            <img src="20.webp" alt="BTS 20" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+20'">
                         </div>
                         <div class="bts-float shrink-0 z-40 hover:z-50">
-                            <img src="21.webp" alt="BTS 21" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+21'">
+                            <img src="21.webp" alt="BTS 21" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+21'">
                         </div>
                         <div class="bts-float shrink-0 z-10 hover:z-50">
-                            <img src="22.webp" alt="BTS 22" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+22'">
+                            <img src="22.webp" alt="BTS 22" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+22'">
                         </div>
                         <div class="bts-float shrink-0 z-30 hover:z-50">
-                            <img src="23.webp" alt="BTS 23" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+23'">
+                            <img src="23.webp" alt="BTS 23" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+23'">
                         </div>
                         <div class="bts-float shrink-0 z-20 hover:z-50">
-                            <img src="24.webp" alt="BTS 24" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer shadow-lg" decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+24'">
+                            <img src="24.webp" alt="BTS 24" class="h-20 md:h-40 w-auto rounded-none opacity-100 hover:scale-125 bts-card-optimized origin-center cursor-pointer " decoding="async" onerror="this.src='https://placehold.co/300x200/111111/FFFFFF?text=BTS+24'">
                         </div>
                     </div>
                 </div>
@@ -775,16 +775,16 @@
     <section id="contact" class="relative w-full h-[100dvh] bg-darkBg flex flex-col justify-between px-4 md:px-12 py-16 z-[60]">
         <div class="relative z-10 flex flex-col items-center text-center w-full my-auto">
             <div class="flex flex-col w-full font-bold leading-[0.9] tracking-tighter">
-                <div class="clip-mask w-full flex justify-center"><span class="contact-title-line block uppercase text-[12vw] md:text-[9vw] text-lightText interactive-el hover-text-fx transition-colors">READY TO</span></div>
-                <div class="clip-mask w-full flex justify-center"><span class="contact-title-line block uppercase text-[12vw] md:text-[9vw] text-lightText interactive-el hover-text-fx transition-colors">ROLL?</span></div>
+                <div class="clip-mask w-full flex justify-center"><span class="contact-title-line block uppercase text-[12vw] md:text-[9vw] text-lightText interactive-el hover-text-fx ">READY TO</span></div>
+                <div class="clip-mask w-full flex justify-center"><span class="contact-title-line block uppercase text-[12vw] md:text-[9vw] text-lightText interactive-el hover-text-fx ">ROLL?</span></div>
             </div>
             <p class="text-[10px] md:text-sm tracking-[0.2em] md:tracking-[0.3em] text-lightText/70 opacity-0 transform translate-y-4 reveal-quote mt-10 interactive-el hover-text-fx font-mono">( Guess we’ll see you at the first PPM )</p>
         </div>
         <div class="w-full px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-6 z-10 text-[10px] tracking-[0.15em] text-mutedText font-mono uppercase">
-            <div class="flex gap-8"><a href="https://mail.google.com/mail/?view=cm&fs=1&to=play@simbionfilm.com" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx text-lightText hover:text-simbionBlue transition-colors">play@simbionfilm.com</a></div>
+            <div class="flex gap-8"><a href="https://mail.google.com/mail/?view=cm&fs=1&to=play@simbionfilm.com" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx text-lightText hover:text-simbionBlue ">play@simbionfilm.com</a></div>
             <div class="flex gap-6 md:gap-10">
-                <a href="https://www.instagram.com/simbionfilm/" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx text-lightText hover:text-simbionBlue transition-colors">INSTAGRAM</a>
-                <a href="https://id.linkedin.com/company/simbion-production" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx text-lightText hover:text-simbionBlue transition-colors">LINKEDIN</a>
+                <a href="https://www.instagram.com/simbionfilm/" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx text-lightText hover:text-simbionBlue ">INSTAGRAM</a>
+                <a href="https://id.linkedin.com/company/simbion-production" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx text-lightText hover:text-simbionBlue ">LINKEDIN</a>
             </div>
             <div class="hover-text-fx text-lightText/50">&copy; 2026 Simbion Film</div>
         </div>
@@ -1490,16 +1490,16 @@
                 container.innerHTML = `
                     <div id="top-nav-action-wrap" class="fixed top-6 right-6 z-[105] flex items-center justify-end pointer-events-auto select-none h-[17px] md:h-[23px]">
                         <!-- Hero Recent Work Widget (Visible on Hero Scene) -->
-                        <a id="recent-work-widget" href="${rr.link}" target="_blank" class="flex items-center gap-3 group cursor-pointer interactive-el transition-all duration-300 transform" title="${rr.title}">
+                        <a id="recent-work-widget" href="${rr.link}" target="_blank" class="flex items-center gap-3 group cursor-pointer interactive-el  transition-all duration-300 transform" title="${rr.title}">
                             <div class="text-right hidden sm:block pointer-events-none leading-none">
-                                <span class="text-[9px] md:text-[10px] tracking-[0.2em] font-bold text-lightText uppercase drop-shadow-md animate-pulse block mb-0.5">RECENT WORK</span>
-                                <span class="text-[10px] md:text-[11px] font-bold tracking-tight text-lightText block uppercase max-w-[140px] md:max-w-[210px] truncate group-hover:text-simbionBlue transition-colors">${rr.title}</span>
+                                <span class="text-[9px] md:text-[10px] tracking-[0.2em] font-bold text-lightText uppercase  block mb-0.5">RECENT WORK</span>
+                                <span class="text-[10px] md:text-[11px] font-bold tracking-tight text-lightText block uppercase max-w-[140px] md:max-w-[210px] truncate group-hover:text-simbionBlue ">${rr.title}</span>
                             </div>
                             
                             <!-- Vinyl Album Packaging System (Enlarged for Crisp Thumbnails) -->
                             <div class="relative flex items-center shrink-0 pr-5 md:pr-6 py-0.5">
                                 <!-- Spinning Vinyl Record (Piringan Hitam - Setengah Keluar & Berputar) -->
-                                <div class="absolute left-5 md:left-6 w-9 h-9 md:w-11 md:h-11 rounded-full vinyl-disc flex items-center justify-center z-10 transition-transform duration-500 ease-out group-hover:translate-x-2">
+                                <div class="absolute left-5 md:left-6 w-9 h-9 md:w-11 md:h-11 rounded-full vinyl-disc flex items-center justify-center z-10 transition-transform transition-all duration-500 ease-out group-hover:translate-x-2">
                                     <div class="w-full h-full rounded-full flex items-center justify-center animate-vinyl-spin relative">
                                         <!-- Concentric Vinyl Grooves -->
                                         <div class="absolute inset-[2px] rounded-full border border-white/[0.1] pointer-events-none"></div>
@@ -1511,7 +1511,7 @@
                                         <div class="absolute inset-0 rounded-full bg-[conic-gradient(from_0deg,transparent_0_30deg,rgba(255,255,255,0.16)_45deg,transparent_60_210deg,rgba(255,255,255,0.16)_225deg,transparent_240deg)] pointer-events-none"></div>
                                         
                                         <!-- Center Record Label with Thumbnail Art & Center Spindle Hole -->
-                                        <div class="relative w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-simbionBlue overflow-hidden flex items-center justify-center border border-white/40 shadow-inner z-20">
+                                        <div class="relative w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-simbionBlue overflow-hidden flex items-center justify-center border border-white/40  z-20">
                                             <img src="https://img.youtube.com/vi/${rr.videoId}/maxresdefault.jpg" onerror="this.src='https://placehold.co/400x400/0616C6/FFFFFF?text=NEW'" alt="" class="w-full h-full object-cover">
                                             <!-- Spindle Center Hole -->
                                             <div class="absolute w-1 h-1 bg-darkBg rounded-full border border-white/80 z-30"></div>
@@ -1520,13 +1520,13 @@
                                 </div>
 
                                 <!-- Vinyl Packaging Sleeve Cover (Square Jacket with Full Thumbnail) -->
-                                <div class="relative z-20 w-9 h-9 md:w-11 md:h-11 rounded-[3px] bg-darkBg shadow-[0_6px_18px_rgba(0,0,0,0.85),_0_0_12px_rgba(6,22,198,0.3)] overflow-hidden border border-white/20 transition-all duration-300 group-hover:scale-105 group-hover:border-white/40">
+                                <div class="relative z-20 w-9 h-9 md:w-11 md:h-11 rounded-[3px] bg-darkBg  overflow-hidden border border-white/20  transition-all duration-300 group-hover:scale-105 group-hover:border-white/40">
                                     <img src="https://img.youtube.com/vi/${rr.videoId}/maxresdefault.jpg" onerror="this.src='https://placehold.co/400x400/0616C6/FFFFFF?text=NEW'" alt="${rr.title}" class="w-full h-full object-cover block">
                                     
                                     <!-- Cardboard Sleeve Paper Sheen & Texture Overlay -->
-                                    <div class="absolute inset-0 bg-gradient-to-tr from-darkBg/35 via-transparent to-white/20 pointer-events-none"></div>
+                                    <div class="absolute inset-0  pointer-events-none"></div>
                                     <!-- Sleeve Open Slot Right Shadow -->
-                                    <div class="absolute top-0 right-0 bottom-0 w-1.5 bg-gradient-to-l from-darkBg/80 to-transparent pointer-events-none"></div>
+                                    <div class="absolute top-0 right-0 bottom-0 w-1.5  pointer-events-none"></div>
                                     <!-- Sleeve Spine Left Accent Highlight -->
                                     <div class="absolute top-0 left-0 bottom-0 w-[2px] bg-white/25 pointer-events-none"></div>
                                 </div>
@@ -1534,8 +1534,8 @@
                         </a>
 
                         <!-- Back to First Scene Button (Minimalist floating text link, aligned with header) -->
-                        <button id="back-to-scene-btn" class="hidden opacity-0 items-center text-lightText/90 hover:text-lightText text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] transition-colors duration-300 group interactive-el cursor-pointer py-1">
-                            <span class="inline-block animate-scene-float group-hover:text-simbionBlue transition-colors">Back to the first scene</span>
+                        <button id="back-to-scene-btn" class="hidden opacity-0 items-center text-lightText/90 hover:text-lightText text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em]  transition-all duration-300 group interactive-el cursor-pointer py-1">
+                            <span class="inline-block animate-scene-float group-hover:text-simbionBlue ">Back to the first scene</span>
                         </button>
                     </div>
                 `;
@@ -1611,12 +1611,12 @@
                                     <div class="parallax-wrap w-full h-full" data-mx="${(idx % 2 === 0 ? -4 : 5)}" data-my="${(idx % 3 === 0 ? 6 : -5)}">
                                         <div class="velocity-parallax w-full h-full" data-depth="${depthFactor}" data-depth-y="${depthFactorY}">
                                             <div class="idle-float w-full h-full">
-                                                <div class="gallery-item-inner block relative w-full h-full overflow-hidden shadow-2xl rounded-sm group cursor-pointer bg-darkBg video-trigger border border-white/10 hover:border-simbionBlue/60 transition-colors duration-500" data-video-id="${item.videoId}">
-                                                    <img src="https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=${encodeURIComponent(item.title)}'" alt="${item.title}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out">
-                                                    <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0 text-left pointer-events-none z-20">
-                                                        <div class="absolute inset-0 bg-gradient-to-t from-darkBg/95 via-darkBg/60 to-transparent -z-10"></div>
-                                                        <span class="text-[7px] md:text-[9px] text-simbionBlue tracking-[0.2em] font-bold font-mono block uppercase drop-shadow-md">${item.year} — ${item.artist}</span>
-                                                        <h3 class="text-xs md:text-sm font-bold tracking-tight text-lightText mt-1 uppercase drop-shadow-md">${item.title}</h3>
+                                                <div class="gallery-item-inner block relative w-full h-full overflow-hidden  rounded-sm group cursor-pointer bg-darkBg video-trigger border border-white/10 hover:border-simbionBlue/60  transition-all duration-500" data-video-id="${item.videoId}">
+                                                    <img src="https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg" onerror="this.src='https://placehold.co/1280x720/111111/FFFFFF?text=${encodeURIComponent(item.title)}'" alt="${item.title}" class="w-full h-full object-cover opacity-80 group- group-hover:scale-105  transition-all duration-700 ease-out">
+                                                    <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-  transition-all duration-500 transform translate-y-2 group-hover:translate-y-0 text-left pointer-events-none z-20">
+                                                        <div class="absolute inset-0  -z-10"></div>
+                                                        <span class="text-[7px] md:text-[9px] text-simbionBlue tracking-[0.2em] font-bold font-mono block uppercase">${item.year} — ${item.artist}</span>
+                                                        <h3 class="text-xs md:text-sm font-bold tracking-tight text-lightText mt-1 uppercase">${item.title}</h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1958,7 +1958,7 @@
                 let html = '';
                 cmsData.works.forEach((w, index) => {
                     html += `
-                        <div class="bg-darkBg/60 border border-white/10 p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-center justify-between transition-colors hover:border-white/20" data-index="${index}">
+                        <div class="bg-darkBg border border-white/10 p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-center justify-between  hover:border-white/20" data-index="${index}">
                             <div class="grid grid-cols-2 md:grid-cols-5 gap-3 w-full">
                                 <input type="text" class="cms-title bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none" value="${w.title}" placeholder="Title">
                                 <input type="text" class="cms-artist bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none" value="${w.artist}" placeholder="Artist">
@@ -1970,7 +1970,7 @@
                                     <option value="3" ${w.row==3?'selected':''}>Row 3 (Btm)</option>
                                 </select>
                             </div>
-                            <button class="cms-del bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-lightText px-3 py-2 rounded-xl text-xs font-mono transition-colors shrink-0">DELETE</button>
+                            <button class="cms-del bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-lightText px-3 py-2 rounded-xl text-xs font-mono  shrink-0">DELETE</button>
                         </div>
                     `;
                 });
