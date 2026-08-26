@@ -2021,29 +2021,6 @@
                 }
             });
 
-            const wrapper = document.getElementById('selected-work');
-            const parallaxWraps = gsap.utils.toArray(".parallax-wrap");
-            
-            if (wrapper && isDesktop) {
-                wrapper.addEventListener('mousemove', (e) => {
-                    const rect = wrapper.getBoundingClientRect();
-                    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-                    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-                    parallaxWraps.forEach((wrap) => {
-                        const mx = parseFloat(wrap.getAttribute("data-mx")) || 0;
-                        const my = parseFloat(wrap.getAttribute("data-my")) || 0;
-                        gsap.to(wrap, { 
-                            x: x * mx * 22, 
-                            y: y * my * 18, 
-                            rotation: x * mx * 0.75,
-                            duration: 1.5, 
-                            ease: "power2.out", 
-                            overwrite: "auto" 
-                        });
-                    });
-                });
-            }
-
             function initGalleryInteractions() {
                 const galleryItems = document.querySelectorAll('.gallery-item');
                 galleryItems.forEach((item) => {
@@ -2054,8 +2031,8 @@
                         inner.addEventListener('mouseenter', () => {
                             gsap.set(item, { zIndex: 100 });
                             gsap.to(inner, { 
-                                scale: 1.18, 
-                                duration: 0.5, 
+                                scale: 1.15, 
+                                duration: 0.4, 
                                 ease: "power2.out", 
                                 overwrite: "auto" 
                             });
@@ -2063,7 +2040,7 @@
                         inner.addEventListener('mouseleave', () => {
                             gsap.to(inner, { 
                                 scale: 1, 
-                                duration: 0.5, 
+                                duration: 0.4, 
                                 ease: "power2.out", 
                                 overwrite: "auto",
                                 onComplete: () => gsap.set(item, { zIndex: 10 }) 
