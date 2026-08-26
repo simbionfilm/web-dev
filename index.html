@@ -361,8 +361,8 @@
     </svg>
 
     <div id="fake-loader" class="fixed inset-0 z-[9999] bg-simbionBlue flex flex-col items-center justify-center overflow-hidden">
-        <div class="relative z-10 flex flex-col items-center justify-center w-full h-full p-6 text-center">
-            <div id="loader-img-wrap" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto drop-shadow-2xl brightness-0 invert will-change-transform flex items-center justify-center">
+        <div class="relative z-10 flex items-center justify-center w-full h-full text-center">
+            <div id="loader-img-wrap" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto drop-shadow-2xl will-change-transform flex items-center justify-center pointer-events-none">
                 <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Loading Cameraman" class="w-full h-auto object-contain pointer-events-none">
             </div>
             <div id="loader-text-wrap" class="absolute bottom-10 md:bottom-14 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none">
@@ -770,15 +770,17 @@
             // Shooting Callout Preloader Logic: Camera Roll -> And -> Action! with organic spoken cadence
             const loader = document.getElementById('fake-loader');
             const loaderText = document.getElementById('loader-text');
+            const loaderTextWrap = document.getElementById('loader-text-wrap');
+            const loaderImgWrap = document.getElementById('loader-img-wrap');
             const heroMainGif = document.getElementById('hero-main-gif');
 
-            // Initialize hero GIF ready for incoming falling transition
+            // Hero GIF sits perfectly at natural resting center
             if (heroMainGif) {
                 gsap.set(heroMainGif, {
-                    y: -window.innerHeight * 0.7,
-                    rotation: -14,
-                    scale: 1.12,
-                    opacity: 0
+                    y: 0,
+                    rotation: 0,
+                    scale: 1,
+                    opacity: 1
                 });
             }
 
@@ -805,14 +807,11 @@
                     }
                     setTimeout(runPreloadStep, next.duration);
                 } else {
-                    // Transition to main site: Seamless falling GIF continuation into main website
+                    // Transition to main site: GIF remains statically locked in position as the blue curtain lifts
                     setTimeout(() => {
-                        const loaderImgWrap = document.getElementById('loader-img-wrap');
-                        const loaderTextEl = document.getElementById('loader-text');
-
                         // 1. Text fades out smoothly
-                        if (loaderTextEl) {
-                            gsap.to(loaderTextEl, {
+                        if (loaderTextWrap) {
+                            gsap.to(loaderTextWrap, {
                                 opacity: 0,
                                 y: 15,
                                 duration: 0.3,
@@ -820,53 +819,29 @@
                             });
                         }
 
-                        // 2. Preloader Cameraman GIF plunges downwards with gravity
-                        if (loaderImgWrap) {
-                            gsap.to(loaderImgWrap, {
-                                y: window.innerHeight * 1.1,
-                                rotation: 18,
-                                scale: 0.95,
-                                opacity: 0.85,
-                                duration: 0.85,
-                                ease: "power2.in"
-                            });
-                        }
-
-                        // 3. Preloader background slides UP to reveal the main website
+                        // 2. Preloader curtain rises up while the inner GIF counter-moves to stay perfectly still in viewport
                         if (loader) {
-                            gsap.to(loader, {
-                                yPercent: -100,
-                                duration: 0.95,
-                                ease: "power4.inOut",
-                                delay: 0.06,
+                            const tl = gsap.timeline({
                                 onComplete: () => {
                                     if (loader.parentNode) loader.remove();
                                 }
                             });
-                        }
 
-                        // 4. Main Web Hero GIF catches the momentum seamlessly from above and settles in center
-                        if (heroMainGif) {
-                            gsap.to(heroMainGif, {
-                                y: 0,
-                                rotation: 0,
-                                scale: 1,
-                                opacity: 1,
-                                duration: 1.15,
-                                ease: "power3.out",
-                                delay: 0.14,
-                                onComplete: () => {
-                                    // Subtle organic breathing float once settled on hero
-                                    gsap.to(heroMainGif, {
-                                        y: 12,
-                                        rotation: 1.5,
-                                        duration: 4.5,
-                                        ease: "sine.inOut",
-                                        repeat: -1,
-                                        yoyo: true
-                                    });
-                                }
-                            });
+                            // Blue curtain lifts upwards
+                            tl.to(loader, {
+                                yPercent: -100,
+                                duration: 0.95,
+                                ease: "power4.inOut"
+                            }, 0);
+
+                            // Counter-translate the GIF container so its screen position remains completely static
+                            if (loaderImgWrap) {
+                                tl.to(loaderImgWrap, {
+                                    y: () => window.innerHeight,
+                                    duration: 0.95,
+                                    ease: "power4.inOut"
+                                }, 0);
+                            }
                         }
                     }, 280);
                 }
