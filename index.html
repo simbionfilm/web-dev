@@ -361,11 +361,11 @@
     </svg>
 
     <div id="fake-loader" class="fixed inset-0 z-[9999] bg-simbionBlue flex flex-col items-center justify-center overflow-hidden">
-        <div class="relative z-10 flex flex-col items-center gap-3 p-6 text-center">
-            <div id="loader-img-wrap" class="w-72 md:w-96 h-auto drop-shadow-2xl transition-all duration-500 brightness-0 invert scale-150 mb-2">
-                <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Loading Cameraman" class="w-full h-auto object-contain">
+        <div class="relative z-10 flex flex-col items-center justify-center w-full h-full p-6 text-center">
+            <div id="loader-img-wrap" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto drop-shadow-2xl brightness-0 invert will-change-transform flex items-center justify-center">
+                <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Loading Cameraman" class="w-full h-auto object-contain pointer-events-none">
             </div>
-            <div class="flex flex-col items-center gap-1">
+            <div id="loader-text-wrap" class="absolute bottom-10 md:bottom-14 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none">
                 <span id="loader-text" class="text-sm md:text-base font-mono font-bold tracking-[0.3em] uppercase text-white/95">CAMERA ROLL</span>
             </div>
         </div>
@@ -516,7 +516,7 @@
 
     <section id="hero" class="relative w-full h-[100dvh] min-h-[600px] flex flex-col justify-center items-center px-6 md:px-12 bg-black z-10 overflow-hidden">
         <div class="absolute inset-0 flex items-center justify-center parallax-hero z-10 pointer-events-none opacity-100 mix-blend-normal">
-            <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto object-contain" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
+            <img id="hero-main-gif" src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto object-contain will-change-transform" onerror="this.src='https://placehold.co/600x400/000000/FFFFFF?text=Falling+Cameraman+GIF'">
         </div>
     </section>
 
@@ -770,6 +770,17 @@
             // Shooting Callout Preloader Logic: Camera Roll -> And -> Action! with organic spoken cadence
             const loader = document.getElementById('fake-loader');
             const loaderText = document.getElementById('loader-text');
+            const heroMainGif = document.getElementById('hero-main-gif');
+
+            // Initialize hero GIF ready for incoming falling transition
+            if (heroMainGif) {
+                gsap.set(heroMainGif, {
+                    y: -window.innerHeight * 0.7,
+                    rotation: -14,
+                    scale: 1.12,
+                    opacity: 0
+                });
+            }
 
             const steps = [
                 { text: "CAMERA ROLL", duration: 750 },
@@ -794,13 +805,70 @@
                     }
                     setTimeout(runPreloadStep, next.duration);
                 } else {
+                    // Transition to main site: Seamless falling GIF continuation into main website
                     setTimeout(() => {
-                        if (loader) {
-                            loader.style.transition = 'transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
-                            loader.style.transform = 'translateY(-100%)';
-                            setTimeout(() => loader.remove(), 900);
+                        const loaderImgWrap = document.getElementById('loader-img-wrap');
+                        const loaderTextEl = document.getElementById('loader-text');
+
+                        // 1. Text fades out smoothly
+                        if (loaderTextEl) {
+                            gsap.to(loaderTextEl, {
+                                opacity: 0,
+                                y: 15,
+                                duration: 0.3,
+                                ease: "power2.out"
+                            });
                         }
-                    }, 350);
+
+                        // 2. Preloader Cameraman GIF plunges downwards with gravity
+                        if (loaderImgWrap) {
+                            gsap.to(loaderImgWrap, {
+                                y: window.innerHeight * 1.1,
+                                rotation: 18,
+                                scale: 0.95,
+                                opacity: 0.85,
+                                duration: 0.85,
+                                ease: "power2.in"
+                            });
+                        }
+
+                        // 3. Preloader background slides UP to reveal the main website
+                        if (loader) {
+                            gsap.to(loader, {
+                                yPercent: -100,
+                                duration: 0.95,
+                                ease: "power4.inOut",
+                                delay: 0.06,
+                                onComplete: () => {
+                                    if (loader.parentNode) loader.remove();
+                                }
+                            });
+                        }
+
+                        // 4. Main Web Hero GIF catches the momentum seamlessly from above and settles in center
+                        if (heroMainGif) {
+                            gsap.to(heroMainGif, {
+                                y: 0,
+                                rotation: 0,
+                                scale: 1,
+                                opacity: 1,
+                                duration: 1.15,
+                                ease: "power3.out",
+                                delay: 0.14,
+                                onComplete: () => {
+                                    // Subtle organic breathing float once settled on hero
+                                    gsap.to(heroMainGif, {
+                                        y: 12,
+                                        rotation: 1.5,
+                                        duration: 4.5,
+                                        ease: "sine.inOut",
+                                        repeat: -1,
+                                        yoyo: true
+                                    });
+                                }
+                            });
+                        }
+                    }, 280);
                 }
             };
 
@@ -1467,7 +1535,7 @@
 
                         <!-- Back to First Scene Button (Minimalist floating text link, aligned with header) -->
                         <button id="back-to-scene-btn" class="hidden opacity-0 items-center text-white/90 hover:text-white text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] transition-colors duration-300 group interactive-el cursor-pointer py-1">
-                            <span class="inline-block animate-scene-float group-hover:text-simbionBlue transition-colors">BACK TO FIRST SCENE</span>
+                            <span class="inline-block animate-scene-float group-hover:text-simbionBlue transition-colors">Back to the first scene</span>
                         </button>
                     </div>
                 `;
