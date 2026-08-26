@@ -361,12 +361,13 @@
     </svg>
 
     <div id="fake-loader" class="fixed inset-0 z-[9999] bg-simbionBlue flex flex-col items-center justify-center overflow-hidden">
-        <div class="relative z-10 flex items-center justify-center w-full h-full text-center">
-            <div id="loader-img-wrap" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto drop-shadow-2xl will-change-transform flex items-center justify-center pointer-events-none">
+        <div class="relative z-10 flex flex-col items-center justify-center w-full h-full text-center">
+            <div id="loader-img-wrap" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto drop-shadow-2xl will-change-transform flex flex-col items-center justify-center pointer-events-none relative">
                 <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Loading Cameraman" class="w-full h-auto object-contain pointer-events-none">
-            </div>
-            <div id="loader-text-wrap" class="absolute bottom-10 md:bottom-14 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none">
-                <span id="loader-text" class="text-sm md:text-base font-mono font-bold tracking-[0.3em] uppercase text-white/95">CAMERA ROLL</span>
+                <!-- Text placed directly below the GIF image with tight optical proximity -->
+                <div id="loader-text-wrap" class="absolute -bottom-7 sm:-bottom-9 md:-bottom-11 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none whitespace-nowrap">
+                    <span id="loader-text" class="text-xs sm:text-sm md:text-base font-mono font-bold tracking-[0.3em] uppercase text-white/95 drop-shadow-md">CAMERA ROLL</span>
+                </div>
             </div>
         </div>
     </div>
@@ -785,9 +786,9 @@
             }
 
             const steps = [
-                { text: "CAMERA ROLL", duration: 750 },
-                { text: "AND", duration: 400 },
-                { text: "ACTION!", duration: 700 }
+                { text: "CAMERA ROLL", duration: 1100 },
+                { text: "AND", duration: 750 },
+                { text: "ACTION!", duration: 1000 }
             ];
             let currentStep = 0;
 
@@ -796,14 +797,14 @@
                 if (currentStep < steps.length) {
                     const next = steps[currentStep];
                     if (loaderText) {
+                        loaderText.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
                         loaderText.style.opacity = '0';
-                        loaderText.style.transform = 'translateY(10px)';
+                        loaderText.style.transform = 'translateY(8px)';
                         setTimeout(() => {
                             loaderText.textContent = next.text;
-                            loaderText.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
                             loaderText.style.opacity = '1';
                             loaderText.style.transform = 'translateY(0)';
-                        }, 100);
+                        }, 200);
                     }
                     setTimeout(runPreloadStep, next.duration);
                 } else {
@@ -813,8 +814,8 @@
                         if (loaderTextWrap) {
                             gsap.to(loaderTextWrap, {
                                 opacity: 0,
-                                y: 15,
-                                duration: 0.3,
+                                y: 12,
+                                duration: 0.4,
                                 ease: "power2.out"
                             });
                         }
@@ -830,7 +831,7 @@
                             // Blue curtain lifts upwards
                             tl.to(loader, {
                                 yPercent: -100,
-                                duration: 0.95,
+                                duration: 1.05,
                                 ease: "power4.inOut"
                             }, 0);
 
@@ -838,12 +839,12 @@
                             if (loaderImgWrap) {
                                 tl.to(loaderImgWrap, {
                                     y: () => window.innerHeight,
-                                    duration: 0.95,
+                                    duration: 1.05,
                                     ease: "power4.inOut"
                                 }, 0);
                             }
                         }
-                    }, 280);
+                    }, 400);
                 }
             };
 
