@@ -1,6 +1,6 @@
 {
-  "name": "Animated Typography Reveal",
-  "description": "A scroll-triggered, staggered text reveal animation built with Framer Motion and Tailwind CSS.",
+  "name": "SIMBION Film Boutique",
+  "description": "Simbion independent filmmaking boutique website featuring cinematic motion, interactive video showcase, client collaborators infinite marquee, and custom film experiences.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

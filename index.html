@@ -20,7 +20,7 @@
                     colors: {
                         black: '#0a0a0a',
                         white: '#dedede',
-                        simbionBlue: '#132be1',
+                        simbionBlue: '#000AC2',
                         darkBg: '#0a0a0a',
                         lightText: '#dedede',
                         mutedText: '#888888',
@@ -176,6 +176,11 @@
                 transform: translateX(12px) skewX(-6deg) scale(1.02);
                 color: #0616C6 !important;
             }
+            #selected-title .hover-text-fx:hover, #contact .contact-title-line:hover {
+                font-style: normal !important;
+                transform: translateX(12px) scale(1.02);
+                color: #0616C6 !important;
+            }
         }
 
         .hover-anim-nocolor {
@@ -213,7 +218,7 @@
         }
         .we-are-char {
             display: inline-block;
-            will-change: transform, color;
+            will-change: transform, filter, color;
             cursor: pointer;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
@@ -419,7 +424,7 @@
     
     <div class="header-blur-mask"></div>
 
-    <div id="chat-balloon" class="fixed bottom-12 md:bottom-16 right-6 md:right-10 z-[105] group cursor-pointer interactive-el floating-widget  transition-all duration-500 origin-bottom-right">
+    <div id="chat-balloon" class="fixed bottom-12 md:bottom-16 right-6 md:right-10 z-[105] group cursor-pointer interactive-el floating-widget  transition-all duration-[2500ms] ease-in-out origin-bottom-right">
         <div id="chat-balloon-inner" class="relative bg-simbionBlue  text-lightText px-3 py-1.5 rounded-xl  group-hover:scale-105  transition-all duration-300 flex items-center gap-1.5 border border-white/10">
             <div id="chat-balloon-tail" class="absolute -bottom-1.5 right-7 w-2.5 h-2.5 bg-simbionBlue  border-r border-b border-white/10 transform rotate-45 pointer-events-none  transition-all duration-300"></div>
             <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping shrink-0"></span>
@@ -557,6 +562,8 @@
     </section>
 
     <section id="we-are-made" class="relative w-full h-[100dvh] bg-darkBg flex flex-col justify-center items-center px-8 md:px-24 z-30 overflow-hidden">
+        <!-- Interactive Anamorphic Light Leak & Projection Dust Canvas -->
+        
         <div class="we-are-container relative z-10 my-auto flex flex-col items-center justify-center gap-2 md:gap-4 select-none w-full max-w-7xl">
             <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask">
                 <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-lightText italic transform -rotate-1">WE</span></div>
@@ -777,8 +784,8 @@
     <section id="contact" class="relative w-full h-[100dvh] bg-darkBg flex flex-col justify-between px-4 md:px-12 py-16 z-[60]">
         <div class="relative z-10 flex flex-col items-center text-center w-full my-auto">
             <div class="flex flex-col w-full font-bold leading-[0.9] tracking-tighter">
-                <div class="clip-mask w-full flex justify-center"><span class="contact-title-line block uppercase text-[12vw] md:text-[9vw] text-lightText interactive-el hover-text-fx ">READY TO</span></div>
-                <div class="clip-mask w-full flex justify-center"><span class="contact-title-line block uppercase text-[12vw] md:text-[9vw] text-lightText interactive-el hover-text-fx ">ROLL?</span></div>
+                <div class="clip-mask w-full flex justify-center"><div class="velocity-line contact-title-line block uppercase text-[12vw] md:text-[9vw] text-lightText interactive-el hover-text-fx" data-text="READY TO"></div></div>
+                <div class="clip-mask w-full flex justify-center"><div class="velocity-line contact-title-line block uppercase text-[12vw] md:text-[9vw] text-lightText interactive-el hover-text-fx" data-text="ROLL?"></div></div>
             </div>
             <p class="text-[10px] md:text-sm tracking-[0.2em] md:tracking-[0.3em] text-lightText/70 opacity-0 transform translate-y-4 reveal-quote mt-10 interactive-el hover-text-fx font-mono">( Guess we’ll see you at the first PPM )</p>
         </div>
@@ -1164,9 +1171,9 @@
                         wordEl.dataset.originalText = wordEl.textContent.trim();
                     }
                     const text = wordEl.dataset.originalText;
-                    wordEl.innerHTML = text.split('').map(char => 
-                        `<span class="we-are-char">${char === ' ' ? '&nbsp;' : char}</span>`
-                    ).join('');
+                    wordEl.innerHTML = text.split('').map(char => {
+                        return `<span class="we-are-char">${char === ' ' ? '&nbsp;' : char}</span>`;
+                    }).join('');
                 });
 
                 const chars = Array.from(section.querySelectorAll('.we-are-char'));
@@ -1198,6 +1205,7 @@
                         if (isHovered && dist < radius) {
                             // Mouse interaction takes precedence for characters near cursor
                             const power = Math.pow(1 - (dist / radius), 1.6);
+
                             gsap.to(ch, {
                                 x: (cx - mouseX) * 0.2 * power,
                                 y: -45 * power,
@@ -1207,13 +1215,14 @@
                                 rotateZ: (Math.random() - 0.5) * 45 * power,
                                 scale: 1 + 0.6 * power,
                                 filter: `blur(${power * 4}px)`,
-                                color: power > 0.45 ? '#0616C6' : (power > 0.2 ? '#3E4EF0' : '#DEDEDE'),
+                                color: power > 0.3 ? '#3E4EF0' : '#DEDEDE',
                                 duration: 0.12,
                                 ease: "power2.out",
                                 overwrite: "auto"
                             });
                         } else {
-                            // Continuous liquid wave + fluid organic blur (10% reduced intensity)
+                            if (ch.classList.contains('is-chrome')) ch.classList.remove('is-chrome');
+                            // Continuous liquid wave + fluid organic blur + fluid organic blur (10% reduced intensity)
                             const liquidY = Math.sin(t * 1.1 + idx * 0.25) * 12;
                             const liquidX = Math.cos(t * 0.9 + idx * 0.2) * 6;
                             const liquidScale = 1 + Math.sin(t * 1.5 + idx * 0.3) * 0.06;
@@ -1228,7 +1237,6 @@
                                 rotateZ: 0,
                                 scale: liquidScale,
                                 filter: `blur(${liquidBlur}px)`,
-                                color: '#DEDEDE',
                                 overwrite: "auto"
                             });
                         }
@@ -1257,8 +1265,6 @@
                     const now = Date.now();
                     if (now - lastMove < 16) return;
                     lastMove = now;
-
-                    isHovered = true;
                     mouseX = e.clientX;
                     mouseY = e.clientY;
                 });
@@ -1320,12 +1326,183 @@
                     });
                 });
             }
+            // 3D Chrome Blue Scratch-Off Effect with Ellipse Cursor
+            function initWeAreAtmosphere() {
+                const canvas = document.getElementById('we-are-canvas');
+                const section = document.getElementById('we-are-made');
+                if (!canvas || !section) return;
+
+                const ctx = canvas.getContext('2d', { alpha: false });
+                if (!ctx) return;
+
+                // Offscreen canvas to hold the black scratchable mask
+                const scratchCanvas = document.createElement('canvas');
+                const scratchCtx = scratchCanvas.getContext('2d', { alpha: true });
+
+                let width = 0;
+                let height = 0;
+                let dpr = 1;
+                
+                // Ellipse cursor sizes
+                let ERASER_WIDTH = 62;
+                let ERASER_HEIGHT = 30;
+
+                function resize() {
+                    const rect = section.getBoundingClientRect();
+                    width = rect.width;
+                    height = rect.height;
+                    dpr = Math.min(window.devicePixelRatio || 1, 2);
+                    
+                    canvas.width = Math.floor(width * dpr);
+                    canvas.height = Math.floor(height * dpr);
+                    canvas.style.width = width + 'px';
+                    canvas.style.height = height + 'px';
+                    
+                    scratchCanvas.width = Math.floor(width * dpr);
+                    scratchCanvas.height = Math.floor(height * dpr);
+                    
+                    scratchCtx.setTransform(1, 0, 0, 1, 0, 0);
+                    scratchCtx.scale(dpr, dpr);
+                    
+                    // Reset the mask to solid black #0a0a0a
+                    scratchCtx.globalCompositeOperation = 'source-over';
+                    scratchCtx.fillStyle = '#0a0a0a';
+                    scratchCtx.fillRect(0, 0, width, height);
+                    
+                    if (window.innerWidth < 768) {
+                        ERASER_WIDTH = 46;
+                        ERASER_HEIGHT = 22;
+                    } else {
+                        ERASER_WIDTH = 62;
+                        ERASER_HEIGHT = 30;
+                    }
+                }
+
+                resize();
+                window.addEventListener('resize', resize, { passive: true });
+
+                let isVisible = false;
+                let rafId = null;
+
+                let mX = -1000;
+                let mY = -1000;
+                let lastMX = -1000;
+                let lastMY = -1000;
+                let isHov = false;
+
+                function handleAtmosMove(x, y) {
+                    lastMX = mX === -1000 ? x : mX;
+                    lastMY = mY === -1000 ? y : mY;
+                    mX = x;
+                    mY = y;
+                    isHov = true;
+
+                    if (mX !== -1000 && lastMX !== -1000) {
+                        scratchCtx.globalCompositeOperation = 'destination-out';
+                        scratchCtx.shadowBlur = 8;
+                        scratchCtx.shadowColor = 'black';
+                        scratchCtx.fillStyle = 'black';
+                        
+                        const dx = mX - lastMX;
+                        const dy = mY - lastMY;
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        const stepSize = Math.max(1, ERASER_WIDTH * 0.1);
+                        const steps = Math.max(1, Math.floor(dist / stepSize));
+                        
+                        for (let i = 0; i <= steps; i++) {
+                            const curX = lastMX + dx * (i / steps);
+                            const curY = lastMY + dy * (i / steps);
+                            scratchCtx.beginPath();
+                            scratchCtx.ellipse(curX, curY, ERASER_WIDTH / 2, ERASER_HEIGHT / 2, 0, 0, Math.PI * 2);
+                            scratchCtx.fill();
+                        }
+                        scratchCtx.shadowBlur = 0;
+                    }
+                }
+
+                section.addEventListener('mouseenter', () => {
+                    const globalCursor = document.getElementById('custom-cursor');
+                    if (globalCursor) globalCursor.style.visibility = 'hidden';
+                    section.style.cursor = 'none';
+                    canvas.style.cursor = 'none';
+                });
+
+                section.addEventListener('mousemove', (e) => {
+                    const rect = section.getBoundingClientRect();
+                    handleAtmosMove(e.clientX - rect.left, e.clientY - rect.top);
+                });
+
+                section.addEventListener('mouseleave', () => {
+                    const globalCursor = document.getElementById('custom-cursor');
+                    if (globalCursor) globalCursor.style.visibility = '';
+                    isHov = false;
+                    mX = -1000;
+                    mY = -1000;
+                });
+                
+                section.addEventListener('touchmove', (e) => {
+                    if (e.touches[0]) {
+                        const rect = section.getBoundingClientRect();
+                        handleAtmosMove(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
+                    }
+                }, { passive: true });
+                
+                section.addEventListener('touchend', () => {
+                    isHov = false;
+                    mX = -1000;
+                    mY = -1000;
+                });
+
+                function render(timestamp) {
+                    if (!isVisible) {
+                        rafId = null;
+                        return;
+                    }
+
+                    ctx.save();
+                    ctx.scale(dpr, dpr);
+                    
+                    // True Solid Blue plate #0616c6
+                    ctx.fillStyle = '#0616c6';
+                    ctx.fillRect(0, 0, width, height);
+
+                    ctx.drawImage(scratchCanvas, 0, 0, width, height);
+
+                    if (isHov && mX !== -1000) {
+                        ctx.save();
+                        ctx.globalCompositeOperation = 'difference';
+                        ctx.beginPath();
+                        ctx.ellipse(mX, mY, ERASER_WIDTH / 2, ERASER_HEIGHT / 2, 0, 0, Math.PI * 2);
+                        ctx.fillStyle = 'white';
+                        ctx.fill();
+                        ctx.restore();
+                    }
+
+                    ctx.restore();
+                    rafId = requestAnimationFrame(render);
+                }
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        isVisible = entry.isIntersecting;
+                        if (isVisible && !rafId) {
+                            rafId = requestAnimationFrame(render);
+                        } else if (!isVisible && rafId) {
+                            cancelAnimationFrame(rafId);
+                            rafId = null;
+                        }
+                    });
+                }, { rootMargin: '150px' });
+
+                observer.observe(section);
+            }
 
             // Function to initialize all paragraph animations
             function initParagraphAnimations() {
                 animateAboutText();
                 animateStatementScroll();
                 initWeAreCrazy();
+                
             }
 
             // Custom Cursor Logic (Desktop Only with fine pointer & hover)
@@ -1649,39 +1826,48 @@
             renderSelectedWorks();
 
             function createSlotText() {
-                let totalChars = 0;
+                // Group by closest parent to ensure 5 rolling chars per block
+                const groups = new Map();
                 document.querySelectorAll('.velocity-line').forEach(line => {
-                    const text = line.getAttribute('data-text');
-                    if (text) totalChars += text.replace(/ /g, '').length;
+                    const parentId = line.closest('section')?.id || line.closest('div').id;
+                    if (!groups.has(parentId)) groups.set(parentId, []);
+                    groups.get(parentId).push(line);
                 });
-                
-                const impactedIndices = new Set();
-                while(impactedIndices.size < 5 && impactedIndices.size < totalChars) {
-                    impactedIndices.add(Math.floor(Math.random() * totalChars));
-                }
 
-                let currentIndex = 0;
-                document.querySelectorAll('.velocity-line').forEach(line => {
-                    const text = line.getAttribute('data-text');
-                    if (!text) return;
-                    line.innerHTML = '';
-                    text.split('').forEach(char => {
-                        if (char === ' ') {
-                            const space = document.createElement('span');
-                            space.className = 'inline-block w-[0.3em]';
-                            line.appendChild(space);
-                            return;
-                        }
-                        const wrapper = document.createElement('span');
-                        wrapper.className = 'slot-wrapper';
+                groups.forEach((lines, parentId) => {
+                    let totalChars = 0;
+                    lines.forEach(line => {
+                        const text = line.getAttribute('data-text');
+                        if (text) totalChars += text.replace(/ /g, '').length;
+                    });
 
-                        const track = document.createElement('div');
-                        track.className = 'slot-track';
-                        track.dataset.orig = char;
+                    const impactedIndices = new Set();
+                    while(impactedIndices.size < 5 && impactedIndices.size < totalChars) {
+                        impactedIndices.add(Math.floor(Math.random() * totalChars));
+                    }
 
-                        const isImpacted = impactedIndices.has(currentIndex);
-                        track.dataset.impact = isImpacted ? 'true' : 'false';
-                        currentIndex++;
+                    let currentIndex = 0;
+                    lines.forEach(line => {
+                        const text = line.getAttribute('data-text');
+                        if (!text) return;
+                        line.innerHTML = '';
+                        text.split('').forEach(char => {
+                            if (char === ' ') {
+                                const space = document.createElement('span');
+                                space.className = 'inline-block w-[0.3em]';
+                                line.appendChild(space);
+                                return;
+                            }
+                            const wrapper = document.createElement('span');
+                            wrapper.className = 'slot-wrapper';
+
+                            const track = document.createElement('div');
+                            track.className = 'slot-track';
+                            track.dataset.orig = char;
+
+                            const isImpacted = impactedIndices.has(currentIndex);
+                            track.dataset.impact = isImpacted ? 'true' : 'false';
+                            currentIndex++;
 
                         const letters = Array(11).fill(char);
 
@@ -1696,6 +1882,7 @@
                         line.appendChild(wrapper);
                     });
                 });
+                }); // Close groups.forEach
             }
             createSlotText();
 
@@ -2109,15 +2296,13 @@
                 updateHeaderSceneState(window.pageYOffset);
 
                 const cb = document.getElementById('chat-balloon');
-                const fb = document.getElementById('footer-bottom');
-                if (cb && fb) {
-                    const fbRect = fb.getBoundingClientRect();
-                    // If the footer is visible in the viewport (its top is less than the window height + a small buffer)
-                    if (fbRect.top < window.innerHeight) {
-                        // Move chat balloon up by 60px to avoid the footer
-                        cb.style.transform = 'translateY(-60px)';
+                const contactSec = document.getElementById('contact');
+                if (cb && contactSec) {
+                    const contactRect = contactSec.getBoundingClientRect();
+                    if (contactRect.top < window.innerHeight * 0.75) {
+                        cb.style.bottom = '50%';
                     } else {
-                        cb.style.transform = 'translateY(0)';
+                        cb.style.bottom = '';
                     }
                 }
             }, { passive: true });
