@@ -393,7 +393,7 @@
 
 
         
-                    <div id="play-hint" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none opacity-0 transition-all duration-700 font-mono text-[10px] md:text-[12px] tracking-[0.3em] text-lightText/80 bg-[#0a0a0a] border border-white/10 backdrop-blur-md px-6 py-2 rounded-full flex items-center justify-center transform translate-y-4">
+                            <div id="play-hint" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none opacity-0 transition-all duration-700 font-mono text-[10px] md:text-[12px] tracking-[0.3em] text-lightText/80 bg-[#0a0a0a] border border-white/10 backdrop-blur-md px-6 py-2 rounded-full flex items-center justify-center transform translate-y-4">
         <span>[ SPACE ] TO PLAY</span>
     </div>
 
@@ -402,15 +402,15 @@
         
         <!-- Game Area constraints -->
         <div class="relative w-full h-[100dvh] overflow-hidden bg-[#0a0a0a] flex flex-col items-center" id="game-area" style="touch-action: none; cursor: none !important;">
-            <div id="close-game" class="absolute top-6 right-6 text-lightText/50 hover:text-lightText font-mono text-xs md:text-sm tracking-widest uppercase z-[100] pointer-events-auto cursor-pointer" style="cursor: pointer;">[ ESC ] TO CLOSE</div>
+            <div id="close-game" class="absolute bottom-6 right-6 text-lightText/50 hover:text-lightText font-mono text-xs md:text-sm tracking-widest uppercase z-[100] pointer-events-auto cursor-pointer" style="cursor: pointer;">[ ESC ] TO CLOSE</div>
             
             <!-- Flat vertical speed lines -->
             <div id="speed-lines-container" class="absolute inset-0 pointer-events-none z-0">
-                <div class="speed-line" style="left: 15%; animation-duration: 0.8s"></div>
-                <div class="speed-line" style="left: 35%; animation-duration: 0.6s"></div>
-                <div class="speed-line" style="left: 55%; animation-duration: 0.9s"></div>
-                <div class="speed-line" style="left: 75%; animation-duration: 0.7s"></div>
-                <div class="speed-line" style="left: 85%; animation-duration: 1.0s"></div>
+                <div class="speed-line" style="left: 15%; animation-duration: 0.5s"></div>
+                <div class="speed-line" style="left: 35%; animation-duration: 0.4s"></div>
+                <div class="speed-line" style="left: 55%; animation-duration: 0.6s"></div>
+                <div class="speed-line" style="left: 75%; animation-duration: 0.45s"></div>
+                <div class="speed-line" style="left: 85%; animation-duration: 0.7s"></div>
             </div>
             
             <!-- Timer Display -->
@@ -445,15 +445,15 @@
                 <p class="font-mono text-base md:text-xl text-black tracking-[0.3em] uppercase animate-pulse font-bold cursor-pointer" id="play-again-btn">[ PRESS SPACE TO PLAY AGAIN ]</p>
             </div>
 
-            <!-- Player (Falling Cameraman - 600px) -->
-            <div id="game-player" class="absolute top-[22%] left-1/2 -translate-x-1/2 w-[600px] max-w-none h-auto z-20 will-change-transform pointer-events-none">
+            <!-- Player (Falling Cameraman - reduced by 20% from 600px -> 480px) -->
+            <div id="game-player" class="absolute top-[22%] left-1/2 -translate-x-1/2 w-[480px] max-w-none h-auto z-20 will-change-transform pointer-events-none">
                 <img src="orang jatuh.gif" class="w-full h-auto object-contain">
             </div>
 
             <!-- Scoreboard Glass Floating Panel -->
-            <div id="scoreboard-panel" class="absolute top-1/2 right-6 -translate-y-1/2 w-64 md:w-72 bg-black/40 backdrop-blur-xl border border-white/20 rounded-2xl flex-col z-50 p-4 hidden md:flex shadow-2xl pointer-events-auto" style="cursor: auto; max-height: 80vh;">
+            <div id="scoreboard-panel" class="absolute top-6 right-6 w-64 md:w-72 bg-black/40 backdrop-blur-xl border border-white/20 rounded-2xl flex-col z-50 p-4 hidden md:flex shadow-2xl pointer-events-auto" style="cursor: auto; max-height: 80vh;">
                 <div class="pb-4 border-b border-white/20">
-                    <h3 class="font-mono text-[#000AC2] font-black text-xl tracking-widest uppercase text-center drop-shadow-md">FASTEST TIMES</h3>
+                    <h3 class="font-mono text-[#000AC2] font-black text-xl tracking-widest uppercase text-center drop-shadow-md">HIGHSCORES</h3>
                 </div>
                 <div id="score-list" class="flex-1 overflow-y-auto pt-4 flex flex-col gap-3 font-mono text-sm text-white">
                     <!-- Scores injected by JS -->
@@ -473,6 +473,22 @@
         @keyframes moveSpeedLines {
             from { transform: translateY(0); }
             to { transform: translateY(-50%); }
+        }
+        @keyframes floatObstacleAnim {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(5px, -5px) rotate(8deg); }
+            66% { transform: translate(-5px, 5px) rotate(-8deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        .animate-float-obstacle {
+            animation: floatObstacleAnim 3s ease-in-out infinite;
+        }
+        @keyframes floatLetterAnim {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float-letter {
+            animation: floatLetterAnim 2s ease-in-out infinite;
         }
     </style>
 
@@ -2388,10 +2404,10 @@
             
             let playerX = 0; 
             let targetPlayerX = 0;
-            let playerSpeed = 15;
+            let playerSpeed = 18;
             let keys = { ArrowLeft: false, ArrowRight: false };
             
-            let fallSpeed = 4;
+            let fallSpeed = 6;
             let frameCount = 0;
             let obstacleCounter = 0;
             
@@ -2536,11 +2552,11 @@
             function updateSpeedByLevel() {
                 const isMobile = window.innerWidth < 768;
                 if (collectedCount <= 2) {
-                    fallSpeed = isMobile ? 4.5 : 5.5; 
+                    fallSpeed = isMobile ? 6 : 8; 
                 } else if (collectedCount <= 4) {
-                    fallSpeed = isMobile ? 7 : 8.5; 
+                    fallSpeed = isMobile ? 9 : 12; 
                 } else {
-                    fallSpeed = isMobile ? 9.5 : 12; 
+                    fallSpeed = isMobile ? 13 : 18; 
                 }
             }
 
@@ -2610,11 +2626,11 @@
                     size = isMobile ? 64 : 80;
                     isObstacle = false;
                     const letterToCollect = targetWord[collectedCount];
-                    el.innerHTML = `<div class="text-[#000AC2] font-black font-mono w-full h-full flex items-center justify-center" style="font-size: ${isMobile ? 64 : 80}px; line-height: 1; filter: drop-shadow(0px 0px 8px rgba(255,255,255,0.7));">${letterToCollect}</div>`;
+                    el.innerHTML = `<div class="text-[#000AC2] font-black font-mono w-full h-full flex items-center justify-center animate-float-letter" style="font-size: ${isMobile ? 64 : 80}px; line-height: 1;">${letterToCollect}</div>`;
                 } else {
-                    size = isMobile ? 40 : 60;
+                    size = isMobile ? 55 : 85; 
                     isObstacle = true;
-                    el.innerHTML = equipmentSVGs[Math.floor(Math.random() * equipmentSVGs.length)];
+                    el.innerHTML = `<div class="w-full h-full animate-float-obstacle">${equipmentSVGs[Math.floor(Math.random() * equipmentSVGs.length)]}</div>`;
                 }
                 
                 el.style.width = size + 'px';
@@ -2645,30 +2661,30 @@
                 if (keys.ArrowRight) targetPlayerX += playerSpeed;
 
                 const areaWidth = gameArea.clientWidth;
-                const maxTravel = (areaWidth / 2) - 40; 
+                const maxTravel = (areaWidth / 2) - 30; 
                 targetPlayerX = Math.max(-maxTravel, Math.min(maxTravel, targetPlayerX));
                 
-                playerX += (targetPlayerX - playerX) * 0.15;
+                playerX += (targetPlayerX - playerX) * 0.2;
                 playerEl.style.transform = `translateX(calc(-50% + ${playerX}px))`;
 
                 frameCount++;
                 
-                const baseRate = window.innerWidth < 768 ? 50 : 65;
-                const spawnRate = Math.max(20, Math.floor(baseRate - (fallSpeed * 2.5)));
+                const baseRate = window.innerWidth < 768 ? 40 : 45;
+                const spawnRate = Math.max(12, Math.floor(baseRate - (fallSpeed * 1.5)));
                 if (frameCount % spawnRate === 0) {
                     createEntity();
                 }
 
                 const pRect = playerEl.getBoundingClientRect();
-                const hitboxWidth = window.innerWidth < 768 ? 40 : 60;
-                const hitboxHeight = window.innerWidth < 768 ? 80 : 120;
+                const hitboxWidth = window.innerWidth < 768 ? 45 : 70;
+                const hitboxHeight = window.innerWidth < 768 ? 90 : 130;
                 
                 const pCenterX = pRect.left + (pRect.width / 2);
                 const pCenterY = pRect.top + (pRect.height / 2);
                 
                 const pLeft = pCenterX - (hitboxWidth / 2);
                 const pRight = pCenterX + (hitboxWidth / 2);
-                const pTop = pCenterY - (hitboxHeight / 2) + 10;
+                const pTop = pCenterY - (hitboxHeight / 2) + 15;
                 const pBottom = pCenterY + (hitboxHeight / 2);
                 
                 for (let i = 0; i < entities.length; i++) {
@@ -2677,7 +2693,7 @@
                     ent.el.style.top = ent.y + 'px';
                     
                     const oRect = ent.el.getBoundingClientRect();
-                    const oShrink = ent.size * 0.2; 
+                    const oShrink = ent.size * 0.25; 
                     const oLeft = oRect.left + oShrink;
                     const oRight = oRect.right - oShrink;
                     const oTop = oRect.top + oShrink;
