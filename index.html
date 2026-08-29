@@ -393,42 +393,47 @@
 
 
     <!-- Mini Game Hint -->
-    <div id="play-hint" class="fixed z-[9999] pointer-events-none opacity-0 transition-opacity duration-300 font-mono text-[10px] md:text-[12px] tracking-[0.2em] text-lightText bg-simbionBlue/90 backdrop-blur px-3 py-1.5 rounded-full flex items-center gap-2" style="transform: translate(-50%, -150%);">
+    <div id="play-hint" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none opacity-0 transition-all duration-700 font-mono text-[10px] md:text-[12px] tracking-[0.3em] text-lightText/80 bg-darkBg/80 border border-white/10 backdrop-blur-md px-6 py-2 rounded-full flex items-center justify-center transform translate-y-4">
         <span>[ SPACE ] TO PLAY</span>
     </div>
 
     <!-- Mini Game Overlay -->
     <div id="game-overlay" class="fixed inset-0 z-[99999] bg-darkBg hidden flex-col items-center justify-center pointer-events-auto overflow-hidden">
-        <button id="close-game" class="absolute top-6 right-6 md:top-10 md:right-10 text-lightText hover:text-simbionBlue font-mono text-sm tracking-widest uppercase transition-colors z-50">CLOSE [X]</button>
+        <div id="close-game" class="absolute top-6 right-6 md:top-10 md:right-10 text-lightText/50 hover:text-lightText font-mono text-xs md:text-sm tracking-widest uppercase z-50 pointer-events-auto" style="cursor: none;">[ ESC ] TO CLOSE</div>
         
-        <!-- Game Area constraints -->
-        <div class="relative w-full max-w-3xl h-[70vh] md:h-[80vh] border-x border-white/20 overflow-hidden bg-black flex flex-col items-center" id="game-area" style="touch-action: none;">
+        <!-- Game Area constraints (Full Screen) -->
+        <div class="relative w-full h-[100dvh] overflow-hidden bg-darkBg flex flex-col items-center" id="game-area" style="touch-action: none; cursor: none !important;">
             
-            <!-- Speed lines illusion for falling -->
-            <div id="speed-lines" class="absolute inset-0 opacity-20 pointer-events-none" style="background: repeating-linear-gradient(180deg, transparent, transparent 40px, rgba(255,255,255,0.05) 40px, rgba(255,255,255,0.05) 80px); animation: speedDrift 0.3s linear infinite;"></div>
+            <!-- Speed lines illusion for falling (Blue, more visible) -->
+            <div id="speed-lines" class="absolute inset-0 opacity-60 pointer-events-none z-0" style="background: repeating-linear-gradient(180deg, transparent, transparent 40px, rgba(0, 10, 194, 0.5) 40px, rgba(0, 10, 194, 0.5) 80px); animation: speedDrift 0.2s linear infinite;"></div>
             
-            <div class="absolute top-6 right-6 font-mono text-xl md:text-2xl text-lightText font-bold z-10 drop-shadow-md" id="game-score">00000</div>
+            <!-- Seamless fade on left and right edges -->
+            <div class="absolute inset-0 pointer-events-none z-10" style="background: linear-gradient(90deg, #0a0a0a 0%, transparent 15%, transparent 85%, #0a0a0a 100%);"></div>
             
-            <div id="game-start-msg" class="absolute inset-0 flex flex-col items-center justify-center bg-darkBg/80 z-20">
-                <p class="font-mono text-xl md:text-3xl text-lightText mb-4 text-center">FREE FALL DODGE</p>
-                <p class="font-mono text-xs md:text-sm text-lightText/60 tracking-widest text-center px-4">USE ARROW KEYS OR SWIPE TO DODGE</p>
-                <button id="start-btn-click" class="mt-8 font-mono text-xs md:text-sm bg-simbionBlue text-white px-6 py-2 rounded uppercase tracking-widest hover:bg-blue-600 transition-colors">START FALLING</button>
+            <div class="absolute top-6 left-6 font-mono text-2xl md:text-4xl text-lightText font-black z-30 drop-shadow-md" id="game-score">00000</div>
+            
+            <div id="game-start-msg" class="absolute inset-0 flex flex-col items-center justify-center bg-darkBg/60 z-40 pointer-events-none">
+                <p class="font-mono text-sm md:text-base text-lightText/80 tracking-widest text-center px-4 mb-8 drop-shadow-lg">USE ARROW KEYS OR SWIPE TO DODGE</p>
+                <p class="font-mono text-base md:text-xl text-simbionBlue tracking-[0.3em] uppercase animate-pulse font-bold drop-shadow-lg">[ PRESS SPACE TO START ]</p>
             </div>
             
-            <div id="game-over-msg" class="absolute inset-0 flex flex-col items-center justify-center bg-darkBg/90 z-20 hidden">
-                <p class="font-mono text-2xl md:text-4xl text-simbionBlue font-bold mb-2 uppercase">CRASHED!</p>
-                <p class="font-mono text-sm md:text-base text-lightText mb-6 text-center px-4">YOU HIT AN OBSTACLE.</p>
-                <button id="restart-btn-click" class="mt-4 font-mono text-xs md:text-sm bg-simbionBlue text-white px-6 py-2 rounded uppercase tracking-widest hover:bg-blue-600 transition-colors">PLAY AGAIN</button>
+            <div id="game-over-msg" class="absolute inset-0 flex flex-col items-center justify-center bg-darkBg/80 z-40 hidden pointer-events-none">
+                <p class="font-mono text-4xl md:text-6xl text-simbionBlue font-black mb-2 uppercase drop-shadow-[0_0_20px_rgba(0,10,194,0.8)]">CUT!</p>
+                <p class="font-mono text-base md:text-xl text-lightText mb-12 text-center px-4">YOU HIT THE EQUIPMENT.</p>
+                <p class="font-mono text-base md:text-xl text-simbionBlue tracking-[0.3em] uppercase animate-pulse font-bold drop-shadow-lg">[ PRESS SPACE TO RESTART ]</p>
             </div>
 
-            <!-- Player (Falling Cameraman) -->
-            <div id="game-player" class="absolute top-[10%] md:top-[15%] left-1/2 -translate-x-1/2 w-[70px] md:w-[90px] h-auto z-10 will-change-transform pointer-events-none">
-                <img src="orang jatuh.gif" class="w-full h-auto object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+            <!-- Player (Falling Cameraman - HUGE) -->
+            <div id="game-player" class="absolute top-[5%] md:top-[10%] left-1/2 -translate-x-1/2 w-[1000px] max-w-none h-auto z-20 will-change-transform pointer-events-none">
+                <img src="orang jatuh.gif" class="w-full h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]">
             </div>
         </div>
-        <p class="mt-4 font-mono text-[10px] text-lightText/40 tracking-[0.3em] uppercase">Simbion Easter Egg</p>
+        <p class="absolute bottom-4 font-mono text-[10px] text-lightText/20 tracking-[0.3em] uppercase z-50 pointer-events-none">Simbion Easter Egg</p>
     </div>
     <style>
+        #game-overlay, #game-overlay * {
+            cursor: none !important;
+        }
         @keyframes speedDrift {
             from { background-position: 0 0; }
             to { background-position: 0 -80px; }
@@ -2322,8 +2327,7 @@
             ScrollTrigger.config({ ignoreMobileResize: true });
 
 
-            // --- MINI GAME LOGIC ---
-            const heroSection = document.getElementById('hero');
+                        // --- MINI GAME LOGIC ---
             const playHint = document.getElementById('play-hint');
             const gameOverlay = document.getElementById('game-overlay');
             const closeGameBtn = document.getElementById('close-game');
@@ -2332,8 +2336,6 @@
             const scoreEl = document.getElementById('game-score');
             const startMsg = document.getElementById('game-start-msg');
             const overMsg = document.getElementById('game-over-msg');
-            const startBtnClick = document.getElementById('start-btn-click');
-            const restartBtnClick = document.getElementById('restart-btn-click');
             
             let isGameActive = false;
             let gameState = 'ready'; // ready, playing, gameover
@@ -2344,27 +2346,34 @@
             // Player Horizontal Physics
             let playerX = 0; 
             let targetPlayerX = 0;
-            let playerSpeed = 12;
+            let playerSpeed = 18;
             let keys = { ArrowLeft: false, ArrowRight: false };
             
             // Environment falling speed
-            let fallSpeed = 7;
+            let fallSpeed = 9;
             let frameCount = 0;
 
-            if (heroSection && playHint) {
-                heroSection.addEventListener('mousemove', (e) => {
-                    if (isGameActive) return;
-                    playHint.style.left = e.clientX + 'px';
-                    playHint.style.top = e.clientY + 'px';
-                });
+            // Hint logic: Show every 10 seconds across all pages
+            let hintInterval;
+            let hintTimeout;
+            
+            function triggerHint() {
+                if (isGameActive || !playHint) return;
                 
-                heroSection.addEventListener('mouseenter', () => {
-                    if (!isGameActive) playHint.classList.remove('opacity-0');
-                });
-                heroSection.addEventListener('mouseleave', () => {
-                    playHint.classList.add('opacity-0');
-                });
+                // Show hint
+                playHint.classList.remove('opacity-0', 'translate-y-4');
+                
+                // Hide after 3 seconds
+                clearTimeout(hintTimeout);
+                hintTimeout = setTimeout(() => {
+                    playHint.classList.add('opacity-0', 'translate-y-4');
+                }, 3000);
             }
+            
+            // Start the interval (10s)
+            hintInterval = setInterval(triggerHint, 10000);
+            // Trigger once initially after 3s
+            setTimeout(triggerHint, 3000);
             
             // Mobile trigger: 3 taps on logo
             const logoTrigger = document.querySelector('nav img[alt="SIMBION FILM"]');
@@ -2386,19 +2395,9 @@
                 });
             }
 
-            if (playHint) {
-                playHint.style.pointerEvents = 'auto'; 
-                playHint.style.cursor = 'pointer';
-                playHint.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openGame();
-                });
-            }
-
             function openGame() {
                 isGameActive = true;
-                playHint.classList.add('opacity-0');
+                if(playHint) playHint.classList.add('opacity-0', 'translate-y-4');
                 gameOverlay.classList.remove('hidden');
                 gameOverlay.classList.add('flex');
                 document.body.style.overflow = 'hidden';
@@ -2421,7 +2420,7 @@
 
             function resetGame() {
                 score = 0;
-                fallSpeed = window.innerWidth < 768 ? 5 : 7;
+                fallSpeed = window.innerWidth < 768 ? 8 : 12;
                 playerX = 0;
                 targetPlayerX = 0;
                 frameCount = 0;
@@ -2444,52 +2443,74 @@
                 gameLoopId = requestAnimationFrame(updateGame);
             }
 
-            function createObstacle() {
+            const equipmentSVGs = [
+                // Clapperboard
+                '<svg viewBox="0 0 24 24" fill="#000AC2" class="w-full h-full drop-shadow-[0_0_10px_rgba(0,10,194,0.8)]"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>',
+                // Video Camera
+                '<svg viewBox="0 0 24 24" fill="#000AC2" class="w-full h-full drop-shadow-[0_0_10px_rgba(0,10,194,0.8)]"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>',
+                // Film Reel
+                '<svg viewBox="0 0 24 24" fill="#000AC2" class="w-full h-full drop-shadow-[0_0_10px_rgba(0,10,194,0.8)]"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-8.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5zm5 0c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5zm-2.5 4c1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5-2.5 1.12-2.5 2.5 1.12 2.5 2.5 2.5z"/></svg>',
+                // Lightbulb / Lighting
+                '<svg viewBox="0 0 24 24" fill="#000AC2" class="w-full h-full drop-shadow-[0_0_10px_rgba(0,10,194,0.8)]"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"/></svg>'
+            ];
+
+            function createObstacle(forceX = null) {
                 const el = document.createElement('div');
                 const isMobile = window.innerWidth < 768;
-                const obsWidth = isMobile ? 35 : 55;
+                const minSize = isMobile ? 80 : 150;
+                const maxSize = isMobile ? 140 : 250;
+                const obsWidth = Math.floor(Math.random() * (maxSize - minSize) + minSize);
                 
-                // Colors: red, gray, blue
-                const colors = ['bg-red-600 border-red-400', 'bg-white border-gray-300', 'bg-simbionBlue border-blue-400'];
-                const cls = colors[Math.floor(Math.random() * colors.length)];
-                
-                el.className = `absolute border-2 ${cls}`;
+                el.className = 'absolute z-10';
                 el.style.width = obsWidth + 'px';
                 el.style.height = obsWidth + 'px';
+                el.innerHTML = equipmentSVGs[Math.floor(Math.random() * equipmentSVGs.length)];
                 
-                // Spawn at the BOTTOM of the game area, moving UP
                 const areaWidth = gameArea.clientWidth;
-                // Add some padding to avoid spawning out of bounds
-                const x = Math.random() * (areaWidth - obsWidth - 20) + 10;
-                const y = gameArea.clientHeight + 20; 
+                let x;
+                if (forceX !== null) {
+                    x = forceX;
+                } else {
+                    x = Math.random() * (areaWidth - obsWidth);
+                }
+                
+                const y = gameArea.clientHeight + 50; 
                 
                 el.style.left = x + 'px';
                 el.style.top = y + 'px';
-                el.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                const rotation = Math.random() * 360;
+                el.style.transform = `rotate(${rotation}deg)`;
                 
                 gameArea.appendChild(el);
+                
                 obstacles.push({ el, x, y, size: obsWidth, passed: false });
             }
 
             function updateGame() {
                 if (gameState !== 'playing') return;
 
-                // Move Player Target (Keyboard)
                 if (keys.ArrowLeft) targetPlayerX -= playerSpeed;
                 if (keys.ArrowRight) targetPlayerX += playerSpeed;
 
-                const pWidth = playerEl.clientWidth;
                 const areaWidth = gameArea.clientWidth;
-                const maxTravel = (areaWidth / 2) - (pWidth / 2);
+                const maxTravel = (areaWidth / 2) - 50; 
                 targetPlayerX = Math.max(-maxTravel, Math.min(maxTravel, targetPlayerX));
                 
-                playerX += (targetPlayerX - playerX) * 0.2;
+                playerX += (targetPlayerX - playerX) * 0.15;
                 playerEl.style.transform = `translateX(calc(-50% + ${playerX}px))`;
 
                 frameCount++;
-                const spawnRate = Math.max(15, Math.floor(45 - (frameCount / 150)));
+                
+                const spawnRate = Math.max(10, Math.floor(35 - (frameCount / 250)));
                 if (frameCount % spawnRate === 0) {
-                    createObstacle();
+                    if (Math.random() > 0.7 && areaWidth > 600) {
+                        const gapCenter = Math.random() * (areaWidth - 300) + 150;
+                        createObstacle(gapCenter - 300);
+                        createObstacle(gapCenter + 150);
+                    } else {
+                        createObstacle();
+                    }
                 }
 
                 if (frameCount % 300 === 0) {
@@ -2502,7 +2523,16 @@
                 }
 
                 const pRect = playerEl.getBoundingClientRect();
-                const shrink = window.innerWidth < 768 ? 10 : 15;
+                const hitboxWidth = window.innerWidth < 768 ? 60 : 120;
+                const hitboxHeight = window.innerWidth < 768 ? 100 : 200;
+                
+                const pCenterX = pRect.left + (pRect.width / 2);
+                const pCenterY = pRect.top + (pRect.height / 2);
+                
+                const pLeft = pCenterX - (hitboxWidth / 2);
+                const pRight = pCenterX + (hitboxWidth / 2);
+                const pTop = pCenterY - (hitboxHeight / 2) + 20;
+                const pBottom = pCenterY + (hitboxHeight / 2);
                 
                 for (let i = 0; i < obstacles.length; i++) {
                     let obs = obstacles[i];
@@ -2510,17 +2540,22 @@
                     obs.el.style.top = obs.y + 'px';
                     
                     const oRect = obs.el.getBoundingClientRect();
+                    const oShrink = obs.size * 0.2; 
+                    const oLeft = oRect.left + oShrink;
+                    const oRight = oRect.right - oShrink;
+                    const oTop = oRect.top + oShrink;
+                    const oBottom = oRect.bottom - oShrink;
 
-                    if (pRect.left + shrink < oRect.right - shrink &&
-                        pRect.right - shrink > oRect.left + shrink &&
-                        pRect.top + shrink < oRect.bottom - shrink &&
-                        pRect.bottom - shrink > oRect.top + shrink) {
+                    if (pLeft < oRight &&
+                        pRight > oLeft &&
+                        pTop < oBottom &&
+                        pBottom > oTop) {
                         gameOver();
                         return;
                     }
                 }
 
-                if (obstacles.length > 0 && obstacles[0].y < -100) {
+                if (obstacles.length > 0 && obstacles[0].y < -300) {
                     obstacles[0].el.remove();
                     obstacles.shift();
                 }
@@ -2536,21 +2571,19 @@
                 gameState = 'gameover';
                 overMsg.classList.remove('hidden');
                 
-                gsap.fromTo(gameArea, {x: -15, y: -10}, {x: 15, y: 10, duration: 0.1, yoyo: true, repeat: 5, clearProps: "all"});
+                gsap.fromTo(gameArea, {x: -25, y: -20}, {x: 25, y: 20, duration: 0.1, yoyo: true, repeat: 7, clearProps: "all"});
                 
                 const flash = document.createElement('div');
-                flash.className = 'absolute inset-0 bg-red-600/50 z-[100] pointer-events-none mix-blend-screen';
+                flash.className = 'absolute inset-0 bg-simbionBlue/60 z-[100] pointer-events-none mix-blend-screen';
                 gameArea.appendChild(flash);
-                gsap.to(flash, {opacity: 0, duration: 0.6, onComplete: () => flash.remove()});
+                gsap.to(flash, {opacity: 0, duration: 0.8, onComplete: () => flash.remove()});
             }
 
             window.addEventListener('keydown', (e) => {
                 if (e.code === 'Space') {
                     if (!isGameActive) {
-                        if (window.pageYOffset < window.innerHeight * 0.8) {
-                            e.preventDefault();
-                            openGame();
-                        }
+                        e.preventDefault();
+                        openGame();
                     } else {
                         e.preventDefault();
                         if (gameState === 'ready' || gameState === 'gameover') {
@@ -2574,7 +2607,11 @@
             let isDragging = false;
             if (gameArea) {
                 gameArea.addEventListener('pointerdown', (e) => {
-                    if (gameState === 'playing') {
+                    if (e.target.id === 'close-game') return;
+                    
+                    if (gameState === 'ready' || gameState === 'gameover') {
+                        startGameLoop();
+                    } else if (gameState === 'playing') {
                         isDragging = true;
                         updateDragPosition(e);
                     }
@@ -2595,13 +2632,10 @@
                 const rect = gameArea.getBoundingClientRect();
                 const xPos = e.clientX - rect.left;
                 const center = rect.width / 2;
-                targetPlayerX = xPos - center;
+                targetPlayerX = (xPos - center) * 1.5; 
             }
 
-            if (startBtnClick) startBtnClick.addEventListener('click', () => { if(gameState === 'ready') startGameLoop(); });
-            if (restartBtnClick) restartBtnClick.addEventListener('click', () => { if(gameState === 'gameover') startGameLoop(); });
             if (closeGameBtn) closeGameBtn.addEventListener('click', closeGame);
-            // --- END MINI GAME LOGIC ---
 
             // Accurate Realtime Full Page Scroll Progress Calculator
             function getPageScrollProgress() {
