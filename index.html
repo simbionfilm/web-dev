@@ -393,7 +393,7 @@
 
 
         
-                <div id="play-hint" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none opacity-0 transition-all duration-700 font-mono text-[10px] md:text-[12px] tracking-[0.3em] text-lightText/80 bg-[#0a0a0a] border border-white/10 backdrop-blur-md px-6 py-2 rounded-full flex items-center justify-center transform translate-y-4">
+                    <div id="play-hint" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none opacity-0 transition-all duration-700 font-mono text-[10px] md:text-[12px] tracking-[0.3em] text-lightText/80 bg-[#0a0a0a] border border-white/10 backdrop-blur-md px-6 py-2 rounded-full flex items-center justify-center transform translate-y-4">
         <span>[ SPACE ] TO PLAY</span>
     </div>
 
@@ -413,8 +413,8 @@
                 <div class="speed-line" style="left: 85%; animation-duration: 1.0s"></div>
             </div>
             
-            <!-- Plain Score -->
-            <div class="absolute top-14 md:top-6 left-6 font-mono text-base md:text-lg text-lightText font-bold z-30 tracking-wider" id="game-score">SCORE: 0</div>
+            <!-- Timer Display -->
+            <div class="absolute top-14 md:top-6 left-6 font-mono text-base md:text-xl text-white font-black z-30 tracking-wider" id="game-score">TIME: 0.00s</div>
             
             <!-- Collected Word -->
             <div class="absolute top-6 md:top-6 left-1/2 -translate-x-1/2 font-mono text-xl md:text-4xl text-[#000AC2] font-black z-30 tracking-[0.3em] drop-shadow-md" id="game-word">_ _ _ _ _ _ _</div>
@@ -434,7 +434,8 @@
             </div>
             
             <div id="game-win-msg" class="absolute inset-0 flex flex-col items-center justify-center bg-white z-40 hidden pointer-events-auto text-black" style="cursor: auto;">
-                <p class="font-mono text-4xl md:text-6xl text-[#000AC2] font-black mb-8 uppercase drop-shadow-md">IT'S A WRAP!</p>
+                <p class="font-mono text-4xl md:text-6xl text-[#000AC2] font-black mb-4 uppercase drop-shadow-md">IT'S A WRAP!</p>
+                <p class="font-mono text-lg md:text-2xl font-bold mb-8 text-center px-4" id="final-time-msg">TIME: 0.00s</p>
                 
                 <div class="flex flex-col items-center" id="game-win-input-area">
                     <input type="text" id="player-name-input-win" placeholder="NAME" class="bg-transparent border-b-2 border-[#000AC2] text-black font-mono text-center text-xl md:text-2xl outline-none mb-4 uppercase py-2 w-64 md:w-80 focus:border-black transition-colors placeholder:text-black/50" autocomplete="off" maxlength="12">
@@ -445,14 +446,14 @@
             </div>
 
             <!-- Player (Falling Cameraman - 600px) -->
-            <div id="game-player" class="absolute top-[10%] left-1/2 -translate-x-1/2 w-[600px] max-w-none h-auto z-20 will-change-transform pointer-events-none">
+            <div id="game-player" class="absolute top-[22%] left-1/2 -translate-x-1/2 w-[600px] max-w-none h-auto z-20 will-change-transform pointer-events-none">
                 <img src="orang jatuh.gif" class="w-full h-auto object-contain">
             </div>
 
             <!-- Scoreboard Glass Floating Panel -->
             <div id="scoreboard-panel" class="absolute top-1/2 right-6 -translate-y-1/2 w-64 md:w-72 bg-black/40 backdrop-blur-xl border border-white/20 rounded-2xl flex-col z-50 p-4 hidden md:flex shadow-2xl pointer-events-auto" style="cursor: auto; max-height: 80vh;">
                 <div class="pb-4 border-b border-white/20">
-                    <h3 class="font-mono text-[#000AC2] font-black text-xl tracking-widest uppercase text-center drop-shadow-md">HIGH SCORES</h3>
+                    <h3 class="font-mono text-[#000AC2] font-black text-xl tracking-widest uppercase text-center drop-shadow-md">FASTEST TIMES</h3>
                 </div>
                 <div id="score-list" class="flex-1 overflow-y-auto pt-4 flex flex-col gap-3 font-mono text-sm text-white">
                     <!-- Scores injected by JS -->
@@ -2381,7 +2382,8 @@
             let isGameActive = false;
             let gameState = 'ready'; // ready, playing, gameover, win
             let gameLoopId;
-            let score = 0;
+            let startTime = 0;
+            let elapsedTime = 0;
             let entities = [];
             
             let playerX = 0; 
@@ -2391,6 +2393,7 @@
             
             let fallSpeed = 4;
             let frameCount = 0;
+            let obstacleCounter = 0;
             
             const targetWord = "SIMBION";
             let collectedCount = 0;
@@ -2399,7 +2402,7 @@
 
             let highScores = [];
             try {
-                const stored = localStorage.getItem('simbion_highscores');
+                const stored = localStorage.getItem('simbion_speedrun');
                 if (stored) highScores = JSON.parse(stored);
             } catch(e) {}
 
@@ -2410,12 +2413,12 @@
                     scoreList.innerHTML = '<div class="text-white/40 text-center text-xs mt-6 tracking-widest">NO SCORES YET</div>';
                     return;
                 }
-                const sorted = [...highScores].sort((a, b) => b.score - a.score).slice(0, 10);
+                const sorted = [...highScores].sort((a, b) => a.time - b.time).slice(0, 10);
                 sorted.forEach((entry, idx) => {
                     const row = document.createElement('div');
                     row.className = 'flex justify-between items-center border-b border-white/10 pb-2';
                     const colorClass = idx === 0 ? 'text-[#000AC2] font-black' : (idx === 1 ? 'text-white font-bold' : 'text-white/80');
-                    row.innerHTML = `<span class="${colorClass}">${idx + 1}. ${entry.name}</span><span class="${colorClass}">${entry.score}</span>`;
+                    row.innerHTML = `<span class="${colorClass}">${idx + 1}. ${entry.name}</span><span class="${colorClass}">${entry.time.toFixed(2)}s</span>`;
                     scoreList.appendChild(row);
                 });
             }
@@ -2431,12 +2434,12 @@
                 }
                 currentPlayerName = val.substring(0, 12).toUpperCase();
                 
-                if (score > 0) {
-                    highScores.push({ name: currentPlayerName, score: score });
-                    highScores.sort((a, b) => b.score - a.score);
+                if (elapsedTime > 0 && gameState === 'win') {
+                    highScores.push({ name: currentPlayerName, time: elapsedTime });
+                    highScores.sort((a, b) => a.time - b.time);
                     highScores = highScores.slice(0, 10);
                     try {
-                        localStorage.setItem('simbion_highscores', JSON.stringify(highScores));
+                        localStorage.setItem('simbion_speedrun', JSON.stringify(highScores));
                     } catch(e) {}
                     hasSavedScore = true;
                     renderLeaderboard();
@@ -2515,11 +2518,12 @@
             }
 
             function resetGameStats() {
-                score = 0;
+                elapsedTime = 0;
                 collectedCount = 0;
                 playerX = 0;
                 targetPlayerX = 0;
                 frameCount = 0;
+                obstacleCounter = 0;
                 hasSavedScore = false;
                 keys = { ArrowLeft: false, ArrowRight: false };
                 updateSpeedByLevel();
@@ -2532,11 +2536,11 @@
             function updateSpeedByLevel() {
                 const isMobile = window.innerWidth < 768;
                 if (collectedCount <= 2) {
-                    fallSpeed = isMobile ? 4 : 5;
+                    fallSpeed = isMobile ? 4.5 : 5.5; 
                 } else if (collectedCount <= 4) {
-                    fallSpeed = isMobile ? 6 : 7.5;
+                    fallSpeed = isMobile ? 7 : 8.5; 
                 } else {
-                    fallSpeed = isMobile ? 8.5 : 10;
+                    fallSpeed = isMobile ? 9.5 : 12; 
                 }
             }
 
@@ -2566,6 +2570,7 @@
                 overMsg.classList.add('hidden');
                 winMsg.classList.add('hidden');
                 resetGameStats();
+                startTime = Date.now();
                 gameLoopId = requestAnimationFrame(updateGame);
             }
 
@@ -2582,7 +2587,23 @@
                 const el = document.createElement('div');
                 el.className = 'absolute z-10 flex items-center justify-center';
                 
-                const spawnLetter = (Math.random() > 0.85) && (collectedCount < targetWord.length);
+                const hasLetterOnScreen = entities.some(e => !e.isObstacle);
+                let spawnLetter = false;
+
+                if (collectedCount < targetWord.length && !hasLetterOnScreen) {
+                    if (obstacleCounter >= 2) {
+                        spawnLetter = true;
+                        obstacleCounter = 0;
+                    } else if (Math.random() > 0.6) {
+                        spawnLetter = true;
+                        obstacleCounter = 0;
+                    } else {
+                        obstacleCounter++;
+                    }
+                } else {
+                    obstacleCounter++;
+                }
+
                 let size, isObstacle;
 
                 if (spawnLetter) {
@@ -2616,6 +2637,9 @@
 
             function updateGame() {
                 if (gameState !== 'playing') return;
+                
+                elapsedTime = (Date.now() - startTime) / 1000;
+                updateScore();
 
                 if (keys.ArrowLeft) targetPlayerX -= playerSpeed;
                 if (keys.ArrowRight) targetPlayerX += playerSpeed;
@@ -2629,14 +2653,10 @@
 
                 frameCount++;
                 
-                const spawnRate = Math.max(25, Math.floor(60 - (fallSpeed * 3)));
+                const baseRate = window.innerWidth < 768 ? 50 : 65;
+                const spawnRate = Math.max(20, Math.floor(baseRate - (fallSpeed * 2.5)));
                 if (frameCount % spawnRate === 0) {
                     createEntity();
-                }
-                
-                if (frameCount % 10 === 0) {
-                    score += Math.floor(fallSpeed);
-                    updateScore();
                 }
 
                 const pRect = playerEl.getBoundingClientRect();
@@ -2675,9 +2695,6 @@
                             updateWordDisplay();
                             updateSpeedByLevel();
                             
-                            score += 1000;
-                            updateScore();
-                            
                             const flash = document.createElement('div');
                             flash.className = 'absolute inset-0 bg-white z-[100] pointer-events-none opacity-20';
                             gameArea.appendChild(flash);
@@ -2704,7 +2721,7 @@
             }
 
             function updateScore() {
-                scoreEl.innerText = 'SCORE: ' + score;
+                scoreEl.innerText = 'TIME: ' + elapsedTime.toFixed(2) + 's';
             }
 
             function gameOver() {
@@ -2747,8 +2764,8 @@
 
             function gameWin() {
                 gameState = 'win';
-                score += 5000;
                 updateScore();
+                document.getElementById('final-time-msg').innerText = 'TIME: ' + elapsedTime.toFixed(2) + 's';
                 
                 winMsg.classList.remove('hidden');
                 winInputArea.classList.remove('hidden');
