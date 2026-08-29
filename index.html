@@ -512,7 +512,7 @@
         <div id="scroll-track-container" class="relative w-full h-full flex justify-center pointer-events-none">
             
             
-            <div id="falling-cameraman-runner" class="absolute left-1/2 -translate-x-1/2 top-0 pointer-events-none flex flex-col items-center z-30 will-change-transform">
+            <div id="falling-cameraman-runner" class="absolute left-1/2 -translate-x-1/2 top-0 pointer-events-auto cursor-none flex flex-col items-center z-30 will-change-transform hover:scale-105 transition-transform duration-300">
                 
                 <div class="relative flex items-center justify-center pointer-events-none">
                     <img src="orang jatuh.gif" 
@@ -3284,5 +3284,8 @@
             });
         });
     </script>
+
+    <!-- Custom Cursor Hint for Scroll Indicator -->
+    <div id="scroll-click-hint" class="fixed top-0 left-0 z-[999999] pointer-events-none opacity-0 font-mono text-[10px] md:text-[12px] text-white bg-[#000AC2] px-2 py-1 rounded-full font-bold tracking-widest transition-opacity duration-200 transform -translate-x-1/2 -translate-y-[150%] shadow-lg">CLICK</div>
 </body>
 </html>
