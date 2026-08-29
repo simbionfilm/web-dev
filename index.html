@@ -234,13 +234,16 @@
         ::-webkit-scrollbar { display: none; }
         .clip-mask { overflow: visible; display: block; padding: 0.3em 0.2em; } 
 
+        @media (max-width: 767px) {
+            .gallery-item { width: 68vw; }
+        }
         .gallery-item {
             position: absolute;
             transition: z-index 0.3s;
             z-index: 10;
             will-change: transform;
             cursor: none !important;
-            width: 38vw;
+            width: 42vw;
             aspect-ratio: 16 / 9;
         }
         .gallery-item-inner {
@@ -393,8 +396,17 @@
 
 
         
-                            <div id="play-hint" class="fixed top-5 md:top-6 left-1/2 -translate-x-1/2 z-[105] pointer-events-none opacity-0 transition-all duration-500 font-mono text-[8px] md:text-[9px] tracking-[0.25em] text-lightText/80 bg-[#0a0a0a]/90 border border-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full flex items-center justify-center transform -translate-y-2 select-none shadow-sm">
-        <span>[ SPACE ] TO PLAY</span>
+                            <div id="play-hint" class="fixed top-5 md:top-6 left-1/2 -translate-x-1/2 z-[105] opacity-0 transition-all duration-500 font-mono text-[8px] md:text-[9px] text-lightText/90 bg-[#0a0a0a]/90 border border-white/15 backdrop-blur-md px-3 md:px-3.5 py-1.5 rounded-full flex items-center justify-center transform -translate-y-2 select-none shadow-sm pointer-events-auto md:pointer-events-none cursor-pointer md:cursor-default">
+        <!-- Desktop / Tablet: SPACE TO PLAY -->
+        <span class="hidden md:inline-block tracking-[0.25em] text-lightText/80">[ SPACE ] TO PLAY</span>
+        <!-- Mobile: CLICK TO PLAY with arrow to Simbion logo -->
+        <span class="inline-flex md:hidden items-center gap-1.5 tracking-[0.18em] text-lightText font-semibold">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 h-2.5 text-simbionBlue animate-pulse shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>CLICK LOGO TO PLAY</span>
+        </span>
     </div>
 
     <!-- Mini Game Overlay -->
@@ -512,7 +524,7 @@
         <div id="scroll-track-container" class="relative w-full h-full flex justify-center pointer-events-none">
             
             
-            <div id="falling-cameraman-runner" class="absolute left-1/2 -translate-x-1/2 top-0 pointer-events-auto cursor-pointer flex flex-col items-center justify-center z-30 will-change-transform hover:scale-105 transition-transform duration-300 p-2 sm:p-4">
+            <div id="falling-cameraman-runner" class="absolute left-1/2 -translate-x-1/2 top-0 pointer-events-none flex flex-col items-center z-30 will-change-transform">
                 
                 <div class="relative flex items-center justify-center pointer-events-none">
                     <img src="orang jatuh.gif" 
@@ -525,7 +537,7 @@
     
     <div class="header-blur-mask"></div>
 
-    <div id="chat-balloon" class="fixed bottom-12 md:bottom-16 right-6 md:right-10 z-[105] group cursor-pointer interactive-el floating-widget opacity-0 pointer-events-none transition-all duration-700 ease-in-out origin-bottom-right transform translate-y-4 scale-90">
+    <div id="chat-balloon" class="fixed bottom-12 md:bottom-16 right-6 md:right-10 z-[105] group cursor-pointer interactive-el floating-widget transition-all duration-700 ease-in-out origin-bottom-right opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto transform translate-y-4 md:translate-y-0 scale-90 md:scale-100">
         <div id="chat-balloon-inner" class="relative bg-simbionBlue  text-lightText px-3 py-1.5 rounded-xl  group-hover:scale-105  transition-all duration-300 flex items-center gap-1.5 border border-white/10">
             <div id="chat-balloon-tail" class="absolute -bottom-1.5 right-7 w-2.5 h-2.5 bg-simbionBlue  border-r border-b border-white/10 transform rotate-45 pointer-events-none  transition-all duration-300"></div>
             <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping shrink-0"></span>
@@ -654,26 +666,26 @@
     </section>
 
     <section id="about" class="relative w-full h-[100dvh] bg-darkBg text-lightText flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-20 overflow-hidden">
-        <div class="relative w-full max-w-full md:max-w-[55vw] md:max-w-[45vw] lg:max-w-[40vw] my-auto flex flex-col z-20">
-            
-            <p id="about-desc-text" class="interactive-el text-base sm:text-lg md:text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-lightText leading-snug cursor-default text-justify relative">
+        <div class="relative w-full max-w-[55vw] md:max-w-[45vw] lg:max-w-[40vw] my-auto flex flex-col z-20">
+            <!-- Teks dijadikan satu paragraf agar wrapping natural dan animasi GSAP bekerja, interaktif tanpa blur/shadow -->
+            <p id="about-desc-text" class="interactive-el text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-lightText leading-snug cursor-default text-justify relative">
                 SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA. WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US. WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.
             </p>
         </div>
     </section>
 
-    <section id="we-are-made" class="relative w-full h-[100dvh] bg-darkBg flex flex-col justify-center items-center px-8 md:px-24 z-30 overflow-hidden">
+    <section id="we-are-made" class="relative w-full h-[100dvh] bg-darkBg flex flex-col justify-center items-center px-3 sm:px-6 md:px-24 z-30 overflow-hidden">
         
         
         <div class="we-are-container relative z-10 my-auto flex flex-col items-center justify-center gap-2 md:gap-4 select-none w-full max-w-7xl">
-            <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask">
-                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[14vw] md:text-[9vw] leading-[0.95] tracking-tighter text-lightText italic transform -rotate-1">WE</span></div>
-                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-lightText italic transform -rotate-1">ARE</span></div>
+            <div class="flex justify-center gap-x-2 sm:gap-x-4 md:gap-x-6 clip-mask">
+                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[11vw] sm:text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-lightText italic transform -rotate-1">WE</span></div>
+                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[11vw] sm:text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-lightText italic transform -rotate-1">ARE</span></div>
             </div>
-            <div class="flex justify-center gap-x-3 md:gap-x-6 clip-mask mt-1 md:mt-3">
-                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-lightText italic transform -rotate-1">WHAT</span></div>
-                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-lightText italic transform -rotate-1">WE'VE</span></div>
-                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[12vw] md:text-[9vw] leading-[0.95] tracking-tighter text-lightText italic transform -rotate-1">MADE</span></div>
+            <div class="flex justify-center gap-x-1.5 sm:gap-x-3 md:gap-x-6 clip-mask mt-1 md:mt-3">
+                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[9vw] sm:text-[10vw] md:text-[9vw] leading-[0.95] tracking-tighter text-lightText italic transform -rotate-1">WHAT</span></div>
+                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[9vw] sm:text-[10vw] md:text-[9vw] leading-[0.95] tracking-tighter text-lightText italic transform -rotate-1">WE'VE</span></div>
+                <div class="we-are-word-wrap"><span class="we-are-word font-black uppercase text-[9vw] sm:text-[10vw] md:text-[9vw] leading-[0.95] tracking-tighter text-lightText italic transform -rotate-1">MADE</span></div>
             </div>
         </div>
     </section>
@@ -875,8 +887,8 @@
 
     <section id="statement" data-id="project-fit" class="relative w-full min-h-[100dvh] py-12 md:py-20 bg-darkBg text-lightText flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-48 overflow-hidden">
         <div class="relative w-full max-w-[92vw] sm:max-w-[85vw] md:max-w-[54vw] lg:max-w-[48vw] my-auto flex flex-col z-20">
-            
-            <p id="statement-desc-text" data-alias="fit-desc-text" class="interactive-el text-base sm:text-lg md:text-[3.8vw] sm:text-[3vw] md:text-[22px] lg:text-[28px] xl:text-[34px] font-bold uppercase tracking-tight text-lightText leading-snug text-justify cursor-default relative">
+            <!-- Teks tebal, putih bersih, ukuran proporsional, perataan justify, reveal baris-demi-baris interaktif -->
+            <p id="statement-desc-text" data-alias="fit-desc-text" class="interactive-el text-[3.8vw] sm:text-[3vw] md:text-[22px] lg:text-[28px] xl:text-[34px] font-bold uppercase tracking-tight text-lightText leading-snug text-justify cursor-default relative">
                 EVERY PROJECT DESERVES ITS OWN FIT. WE TAILOR EACH ONE FROM SCRATCH, CAREFULLY STITCHING EVERY FRAME TOGETHER WITH PASSION, PURPOSE, AND DEDICATION. WE BELIEVE GREAT WORK COMES FROM BRINGING TOGETHER THE RIGHT PEOPLE, IDEAS, AND PERSPECTIVES THAT ALIGN WITH THE VISION. EVERY DETAIL MATTERS, EVERY FRAME HAS A PURPOSE, AND EVERY PROJECT DESERVES THE CARE TO MAKE IT FEEL TRULY ITS OWN.
             </p>
         </div>
@@ -1882,8 +1894,8 @@
                     .sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
 
                 const isMobile = window.innerWidth < 768;
-                const itemSpacing = isMobile ? 48 : 18;
-                const startLeft = isMobile ? 105 : 110;
+                const itemSpacing = isMobile ? 74 : 18;
+                const startLeft = isMobile ? 100 : 110;
 
                 function renderRows(items, topPercent, rowNum) {
                     let subHtml = '';
@@ -2074,15 +2086,31 @@
                     return;
                 }
 
-                const contactRect = contactSec.getBoundingClientRect();
-                const inContact = contactRect.top < window.innerHeight * 0.8 && contactRect.bottom > 50;
+                const isMobile = window.innerWidth < 768;
 
-                if (inContact) {
+                if (isMobile) {
+                    // On mobile: only visible in contact section
+                    const contactRect = contactSec.getBoundingClientRect();
+                    const inContact = contactRect.top < window.innerHeight * 0.8 && contactRect.bottom > 50;
+
+                    if (inContact) {
+                        cb.classList.remove('opacity-0', 'pointer-events-none', 'scale-90', 'translate-y-4');
+                        cb.classList.add('opacity-100', 'pointer-events-auto', 'scale-100', 'translate-y-0');
+                    } else {
+                        cb.classList.add('opacity-0', 'pointer-events-none', 'scale-90', 'translate-y-4');
+                        cb.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100', 'translate-y-0');
+                    }
+                } else {
+                    // On desktop & tablet (iPad): always visible, adjust bottom when near contact bottom footer
                     cb.classList.remove('opacity-0', 'pointer-events-none', 'scale-90', 'translate-y-4');
                     cb.classList.add('opacity-100', 'pointer-events-auto', 'scale-100', 'translate-y-0');
-                } else {
-                    cb.classList.add('opacity-0', 'pointer-events-none', 'scale-90', 'translate-y-4');
-                    cb.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100', 'translate-y-0');
+
+                    const contactRect = contactSec.getBoundingClientRect();
+                    if (contactRect.top < window.innerHeight * 0.75) {
+                        cb.style.bottom = '50%';
+                    } else {
+                        cb.style.bottom = '';
+                    }
                 }
             }
 
@@ -2522,20 +2550,19 @@
             setTimeout(triggerHint, 3000);
             
             const logoTrigger = document.querySelector('nav img[alt="SIMBION FILM"]');
-            let logoTaps = 0;
-            let logoTapTimeout;
             if (logoTrigger) {
                 logoTrigger.parentElement.addEventListener('click', (e) => {
-                    if (window.innerWidth < 1024) {
-                        logoTaps++;
-                        clearTimeout(logoTapTimeout);
-                        if (logoTaps >= 3) {
-                            e.preventDefault();
-                            logoTaps = 0;
-                            openGame();
-                        } else {
-                            logoTapTimeout = setTimeout(() => { logoTaps = 0; }, 400);
-                        }
+                    if (window.innerWidth < 768) {
+                        e.preventDefault();
+                        openGame();
+                    }
+                });
+            }
+
+            if (playHint) {
+                playHint.addEventListener('click', () => {
+                    if (window.innerWidth < 768) {
+                        openGame();
                     }
                 });
             }
@@ -3327,57 +3354,9 @@
         });
     </script>
 
-    <!-- Custom Cursor Hint for Scroll Indicator -->
-    <div id="scroll-click-hint" class="fixed top-0 left-0 z-[999999] pointer-events-none opacity-0 font-mono text-[10px] md:text-[12px] text-white bg-[#000AC2] px-2 py-1 rounded-full font-bold tracking-widest transition-opacity duration-200 transform -translate-x-1/2 -translate-y-[150%] shadow-lg">CLICK</div>
+    
 
-        <script>
-            // --- Falling Cameraman Click-to-Game Logic ---
-            document.addEventListener("DOMContentLoaded", () => {
-                const scrollRunner = document.getElementById('falling-cameraman-runner');
-                const clickHint = document.getElementById('scroll-click-hint');
-
-                if (scrollRunner && clickHint) {
-                    scrollRunner.addEventListener('mouseenter', () => {
-                        clickHint.classList.remove('opacity-0');
-                        const cc = document.getElementById('custom-cursor'); 
-                        if (cc) cc.style.opacity = '0';
-                    });
-
-                    scrollRunner.addEventListener('mousemove', (e) => {
-                        clickHint.style.left = e.clientX + 'px';
-                        clickHint.style.top = e.clientY + 'px';
-                    });
-
-                    scrollRunner.addEventListener('mouseleave', () => {
-                        clickHint.classList.add('opacity-0');
-                        const cc = document.getElementById('custom-cursor'); 
-                        if (cc) cc.style.opacity = '1';
-                    });
-
-                    // Add touch events for mobile hover effect fallback
-                    scrollRunner.addEventListener('touchstart', (e) => {
-                        clickHint.style.left = e.touches[0].clientX + 'px';
-                        clickHint.style.top = e.touches[0].clientY + 'px';
-                        clickHint.classList.remove('opacity-0');
-                    });
-                    
-                    scrollRunner.addEventListener('touchend', () => {
-                        clickHint.classList.add('opacity-0');
-                    });
-
-                    const openMiniGame = (e) => {
-                        e.preventDefault();
-                        if (typeof openGame === 'function') {
-                            openGame();
-                            clickHint.classList.add('opacity-0');
-                        }
-                    };
-                    
-                    scrollRunner.addEventListener('click', openMiniGame);
-                    scrollRunner.addEventListener('pointerdown', openMiniGame);
-                }
-            });
-        </script>
+        
 
 </body>
 </html>
