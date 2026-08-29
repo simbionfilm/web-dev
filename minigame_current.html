@@ -393,16 +393,16 @@
 
 
         
-            <div id="play-hint" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none opacity-0 transition-all duration-700 font-mono text-[10px] md:text-[12px] tracking-[0.3em] text-lightText/80 bg-[#0a0a0a] border border-white/10 backdrop-blur-md px-6 py-2 rounded-full flex items-center justify-center transform translate-y-4">
+        <div id="play-hint" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none opacity-0 transition-all duration-700 font-mono text-[10px] md:text-[12px] tracking-[0.3em] text-lightText/80 bg-[#0a0a0a] border border-white/10 backdrop-blur-md px-6 py-2 rounded-full flex items-center justify-center transform translate-y-4">
         <span>[ SPACE ] TO PLAY</span>
     </div>
 
     <!-- Mini Game Overlay -->
-    <div id="game-overlay" class="fixed inset-0 z-[99999] bg-[#0a0a0a] hidden items-stretch justify-center pointer-events-auto overflow-hidden">
+    <div id="game-overlay" class="fixed inset-0 z-[99999] bg-[#0a0a0a] hidden flex-col md:flex-row items-stretch justify-center pointer-events-auto overflow-hidden">
         
         <!-- Game Area constraints -->
-        <div class="relative w-full h-[100dvh] overflow-hidden bg-[#0a0a0a] flex flex-col items-center" id="game-area" style="touch-action: none; cursor: none !important;">
-            <div id="close-game" class="absolute top-6 right-6 text-lightText/50 hover:text-lightText font-mono text-xs md:text-sm tracking-widest uppercase z-[100] pointer-events-auto cursor-pointer" style="cursor: pointer;">[ ESC ] TO CLOSE</div>
+        <div class="relative flex-1 h-[100dvh] overflow-hidden bg-[#0a0a0a] flex flex-col items-center" id="game-area" style="touch-action: none; cursor: none !important;">
+            <div id="close-game" class="absolute top-6 right-6 md:left-6 md:right-auto text-lightText/50 hover:text-lightText font-mono text-xs md:text-sm tracking-widest uppercase z-50 pointer-events-auto cursor-pointer" style="cursor: pointer;">[ ESC ] TO CLOSE</div>
             
             <!-- Flat vertical speed lines -->
             <div id="speed-lines-container" class="absolute inset-0 pointer-events-none z-0">
@@ -414,56 +414,42 @@
             </div>
             
             <!-- Plain Score -->
-            <div class="absolute top-14 md:top-6 left-6 font-mono text-base md:text-lg text-lightText font-bold z-30 tracking-wider" id="game-score">SCORE: 0</div>
+            <div class="absolute top-14 md:top-6 right-6 md:right-auto md:left-6 md:top-14 font-mono text-base md:text-lg text-lightText font-bold z-30 tracking-wider" id="game-score">SCORE: 0</div>
             
             <!-- Collected Word -->
             <div class="absolute top-6 md:top-6 left-1/2 -translate-x-1/2 font-mono text-xl md:text-4xl text-[#000AC2] font-black z-30 tracking-[0.3em] drop-shadow-md" id="game-word">_ _ _ _ _ _ _</div>
             
             <div id="game-start-msg" class="absolute inset-0 flex flex-col items-center justify-center bg-[#0a0a0a]/95 z-40 pointer-events-auto" style="cursor: auto;">
-                <div class="flex items-center gap-6 mb-8 text-lightText/80">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-pulse"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-pulse"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                </div>
+                <input type="text" id="player-name-input" placeholder="ENTER YOUR NAME" class="bg-transparent border-b-2 border-[#000AC2] text-white font-mono text-center text-xl md:text-2xl outline-none mb-8 uppercase py-2 w-64 md:w-80 focus:border-white transition-colors" autocomplete="off" maxlength="12">
+                <p class="font-mono text-sm md:text-base text-lightText/80 tracking-widest text-center px-4 mb-8">USE ARROW KEYS OR SWIPE TO DODGE</p>
                 <p class="font-mono text-base md:text-xl text-white tracking-[0.3em] uppercase animate-pulse font-bold cursor-pointer" id="start-btn">[ PRESS SPACE OR CLICK TO START ]</p>
             </div>
             
             <div id="game-over-msg" class="absolute inset-0 flex flex-col items-center justify-center bg-[#0a0a0a]/95 z-40 hidden pointer-events-auto" style="cursor: auto;">
                 <p class="font-mono text-4xl md:text-6xl text-[#000AC2] font-black mb-2 uppercase drop-shadow-md">CUT!</p>
-                <p class="font-mono text-sm md:text-base text-lightText/80 mb-8 text-center px-4">YOU HIT THE EQUIPMENT.</p>
-                
-                <div class="flex flex-col items-center" id="game-over-input-area">
-                    <input type="text" id="player-name-input-over" placeholder="ENTER YOUR NAME" class="bg-transparent border-b-2 border-[#000AC2] text-white font-mono text-center text-xl md:text-2xl outline-none mb-4 uppercase py-2 w-64 md:w-80 focus:border-white transition-colors" autocomplete="off" maxlength="12">
-                    <p class="font-mono text-sm text-lightText/60 tracking-widest text-center px-4 mb-8">[ PRESS ENTER TO SAVE ]</p>
-                </div>
-                
+                <p class="font-mono text-sm md:text-base text-lightText/80 mb-12 text-center px-4">YOU HIT THE EQUIPMENT.</p>
                 <p class="font-mono text-base md:text-xl text-white tracking-[0.3em] uppercase animate-pulse font-bold cursor-pointer" id="restart-btn">[ PRESS SPACE TO TRY AGAIN ]</p>
             </div>
             
             <div id="game-win-msg" class="absolute inset-0 flex flex-col items-center justify-center bg-white z-40 hidden pointer-events-auto text-black" style="cursor: auto;">
                 <p class="font-mono text-4xl md:text-6xl text-[#000AC2] font-black mb-2 uppercase drop-shadow-md">IT'S A WRAP!</p>
-                <p class="font-mono text-sm md:text-base opacity-80 mb-8 text-center px-4">YOU COLLECTED ALL LETTERS.</p>
-                
-                <div class="flex flex-col items-center" id="game-win-input-area">
-                    <input type="text" id="player-name-input-win" placeholder="ENTER YOUR NAME" class="bg-transparent border-b-2 border-[#000AC2] text-black font-mono text-center text-xl md:text-2xl outline-none mb-4 uppercase py-2 w-64 md:w-80 focus:border-black transition-colors placeholder:text-black/50" autocomplete="off" maxlength="12">
-                    <p class="font-mono text-sm opacity-60 tracking-widest text-center px-4 mb-8">[ PRESS ENTER TO SAVE ]</p>
-                </div>
-
+                <p class="font-mono text-sm md:text-base opacity-80 mb-12 text-center px-4">YOU COLLECTED ALL LETTERS.</p>
                 <p class="font-mono text-base md:text-xl text-black tracking-[0.3em] uppercase animate-pulse font-bold cursor-pointer" id="play-again-btn">[ PRESS SPACE TO PLAY AGAIN ]</p>
             </div>
 
-            <!-- Player (Falling Cameraman - 600px) -->
-            <div id="game-player" class="absolute top-[10%] left-1/2 -translate-x-1/2 w-[600px] max-w-none h-auto z-20 will-change-transform pointer-events-none">
+            <!-- Player (Falling Cameraman - 700px) -->
+            <div id="game-player" class="absolute top-[10%] left-1/2 -translate-x-1/2 w-[700px] max-w-none h-auto z-20 will-change-transform pointer-events-none">
                 <img src="orang jatuh.gif" class="w-full h-auto object-contain">
             </div>
+        </div>
 
-            <!-- Scoreboard Glass Floating Panel -->
-            <div id="scoreboard-panel" class="absolute top-1/2 right-6 -translate-y-1/2 w-64 md:w-72 bg-black/40 backdrop-blur-xl border border-white/20 rounded-2xl flex-col z-50 p-4 hidden md:flex shadow-2xl pointer-events-auto" style="cursor: auto; max-height: 80vh;">
-                <div class="pb-4 border-b border-white/20">
-                    <h3 class="font-mono text-[#000AC2] font-black text-xl tracking-widest uppercase text-center drop-shadow-md">HIGH SCORES</h3>
-                </div>
-                <div id="score-list" class="flex-1 overflow-y-auto pt-4 flex flex-col gap-3 font-mono text-sm text-white">
-                    <!-- Scores injected by JS -->
-                </div>
+        <!-- Scoreboard Sidebar -->
+        <div id="scoreboard-panel" class="hidden md:flex w-64 h-full bg-[#111] border-l border-white/10 flex-col shrink-0 z-50 pointer-events-auto" style="cursor: auto;">
+            <div class="p-6 border-b border-white/10">
+                <h3 class="font-mono text-[#000AC2] font-black text-xl tracking-widest uppercase text-center">HIGH SCORES</h3>
+            </div>
+            <div id="score-list" class="flex-1 overflow-y-auto p-6 flex flex-col gap-4 font-mono text-sm text-lightText">
+                <!-- Scores injected by JS -->
             </div>
         </div>
     </div>
@@ -2381,10 +2367,7 @@
             const overMsg = document.getElementById('game-over-msg');
             const winMsg = document.getElementById('game-win-msg');
             
-            const nameInputOver = document.getElementById('player-name-input-over');
-            const nameInputWin = document.getElementById('player-name-input-win');
-            const overInputArea = document.getElementById('game-over-input-area');
-            const winInputArea = document.getElementById('game-win-input-area');
+            const nameInput = document.getElementById('player-name-input');
             const scoreList = document.getElementById('score-list');
             
             let isGameActive = false;
@@ -2416,31 +2399,21 @@
                 if (!scoreList) return;
                 scoreList.innerHTML = '';
                 if (highScores.length === 0) {
-                    scoreList.innerHTML = '<div class="text-white/40 text-center text-xs mt-6 tracking-widest">NO SCORES YET</div>';
+                    scoreList.innerHTML = '<div class="text-white/30 text-center text-xs mt-10 tracking-widest">NO SCORES YET</div>';
                     return;
                 }
                 const sorted = [...highScores].sort((a, b) => b.score - a.score).slice(0, 10);
                 sorted.forEach((entry, idx) => {
                     const row = document.createElement('div');
-                    row.className = 'flex justify-between items-center border-b border-white/10 pb-2';
-                    const colorClass = idx === 0 ? 'text-[#000AC2] font-black' : (idx === 1 ? 'text-white font-bold' : 'text-white/80');
+                    row.className = 'flex justify-between items-center border-b border-white/5 pb-2';
+                    const colorClass = idx === 0 ? 'text-[#000AC2] font-black' : (idx === 1 ? 'text-white font-bold' : 'text-lightText/70');
                     row.innerHTML = `<span class="${colorClass}">${idx + 1}. ${entry.name}</span><span class="${colorClass}">${entry.score}</span>`;
                     scoreList.appendChild(row);
                 });
             }
 
-            function saveScore(inputEl, areaEl) {
-                if (hasSavedScore || gameState === 'playing' || gameState === 'ready') return;
-                const val = inputEl.value.trim();
-                if (val.length === 0) {
-                    inputEl.focus();
-                    inputEl.style.borderColor = 'red';
-                    setTimeout(() => inputEl.style.borderColor = '#000AC2', 300);
-                    return;
-                }
-                currentPlayerName = val.substring(0, 12).toUpperCase();
-                
-                if (score > 0) {
+            function saveScore() {
+                if (score > 0 && currentPlayerName && !hasSavedScore) {
                     highScores.push({ name: currentPlayerName, score: score });
                     highScores.sort((a, b) => b.score - a.score);
                     highScores = highScores.slice(0, 10);
@@ -2449,12 +2422,6 @@
                     } catch(e) {}
                     hasSavedScore = true;
                     renderLeaderboard();
-                    
-                    // Hide input area after saving
-                    if (areaEl) {
-                        areaEl.classList.add('hidden');
-                        areaEl.classList.remove('flex');
-                    }
                 }
             }
 
@@ -2518,42 +2485,26 @@
                 startMsg.classList.remove('hidden');
                 overMsg.classList.add('hidden');
                 winMsg.classList.add('hidden');
-                
-                overInputArea.classList.add('hidden');
-                winInputArea.classList.add('hidden');
-
+                nameInput.value = currentPlayerName; // Keep last name if exists
+                if (window.innerWidth > 768) {
+                    setTimeout(() => nameInput.focus(), 100);
+                }
                 resetGameStats();
             }
 
             function resetGameStats() {
                 score = 0;
                 collectedCount = 0;
+                fallSpeed = window.innerWidth < 768 ? 3.5 : 4.5; // Medium speed, gentler start
                 playerX = 0;
                 targetPlayerX = 0;
                 frameCount = 0;
                 hasSavedScore = false;
                 keys = { ArrowLeft: false, ArrowRight: false };
-                updateSpeedByLevel();
                 updateScore();
                 updateWordDisplay();
                 playerEl.style.transform = `translateX(-50%)`;
                 clearEntities();
-            }
-
-            function updateSpeedByLevel() {
-                const isMobile = window.innerWidth < 768;
-                // S, I, M (0,1,2)
-                if (collectedCount <= 2) {
-                    fallSpeed = isMobile ? 4 : 5;
-                } 
-                // B, I (3,4)
-                else if (collectedCount <= 4) {
-                    fallSpeed = isMobile ? 6 : 7.5;
-                } 
-                // O, N (5,6)
-                else {
-                    fallSpeed = isMobile ? 8.5 : 10;
-                }
             }
 
             function clearEntities() {
@@ -2574,7 +2525,19 @@
             }
 
             function tryStartGame() {
-                if (gameState !== 'ready') return;
+                if (gameState !== 'ready') {
+                    showStartScreen();
+                    return;
+                }
+                const val = nameInput.value.trim();
+                if (val.length === 0) {
+                    nameInput.focus();
+                    nameInput.style.borderColor = 'red';
+                    setTimeout(() => nameInput.style.borderColor = '#000AC2', 300);
+                    return;
+                }
+                currentPlayerName = val.substring(0, 12).toUpperCase();
+                nameInput.blur();
                 
                 gameState = 'playing';
                 startMsg.classList.add('hidden');
@@ -2650,10 +2613,15 @@
 
                 frameCount++;
                 
-                // Spawn rate gets slightly faster as speed increases
-                const spawnRate = Math.max(25, Math.floor(60 - (fallSpeed * 3)));
+                // Gentler spawn rate
+                const spawnRate = Math.max(30, Math.floor(60 - (frameCount / 150)));
                 if (frameCount % spawnRate === 0) {
                     createEntity();
+                }
+
+                // Gentler acceleration, max speed 12
+                if (frameCount % 400 === 0 && fallSpeed < 12) {
+                    fallSpeed += 0.5;
                 }
                 
                 if (frameCount % 10 === 0) {
@@ -2696,8 +2664,6 @@
                             i--;
                             collectedCount++;
                             updateWordDisplay();
-                            updateSpeedByLevel();
-                            
                             score += 1000;
                             updateScore();
                             
@@ -2732,15 +2698,8 @@
 
             function gameOver() {
                 gameState = 'gameover';
-                
+                saveScore();
                 overMsg.classList.remove('hidden');
-                overInputArea.classList.remove('hidden');
-                overInputArea.classList.add('flex');
-                nameInputOver.value = currentPlayerName;
-                
-                if (window.innerWidth > 768) {
-                    setTimeout(() => nameInputOver.focus(), 100);
-                }
                 
                 gsap.fromTo(gameArea, {x: -10, y: -5}, {x: 10, y: 5, duration: 0.1, yoyo: true, repeat: 5, clearProps: "all"});
                 
@@ -2758,15 +2717,8 @@
                 gameState = 'win';
                 score += 5000; // bonus for winning
                 updateScore();
-                
+                saveScore();
                 winMsg.classList.remove('hidden');
-                winInputArea.classList.remove('hidden');
-                winInputArea.classList.add('flex');
-                nameInputWin.value = currentPlayerName;
-
-                if (window.innerWidth > 768) {
-                    setTimeout(() => nameInputWin.focus(), 100);
-                }
                 
                 const flash = document.createElement('div');
                 flash.className = 'absolute inset-0 bg-white z-[100] pointer-events-none';
@@ -2774,38 +2726,16 @@
                 gsap.to(flash, {opacity: 0, duration: 1, onComplete: () => flash.remove()});
             }
             
-            // Name input handling for Game Over
-            nameInputOver.addEventListener('keydown', (e) => {
+            nameInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
-                    saveScore(nameInputOver, overInputArea);
-                }
-                e.stopPropagation(); 
-            });
-            // Name input handling for Win
-            nameInputWin.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    saveScore(nameInputWin, winInputArea);
+                    tryStartGame();
                 }
                 e.stopPropagation(); 
             });
             
             if (document.getElementById('start-btn')) document.getElementById('start-btn').addEventListener('click', tryStartGame);
-            
-            if (document.getElementById('restart-btn')) document.getElementById('restart-btn').addEventListener('click', () => {
-                if (!hasSavedScore && nameInputOver.value.trim() !== '') {
-                    saveScore(nameInputOver, overInputArea);
-                }
-                showStartScreen();
-                tryStartGame();
-            });
-            
-            if (document.getElementById('play-again-btn')) document.getElementById('play-again-btn').addEventListener('click', () => {
-                if (!hasSavedScore && nameInputWin.value.trim() !== '') {
-                    saveScore(nameInputWin, winInputArea);
-                }
-                showStartScreen();
-                tryStartGame();
-            });
+            if (document.getElementById('restart-btn')) document.getElementById('restart-btn').addEventListener('click', showStartScreen);
+            if (document.getElementById('play-again-btn')) document.getElementById('play-again-btn').addEventListener('click', showStartScreen);
 
             window.addEventListener('keydown', (e) => {
                 if (e.code === 'Space') {
@@ -2813,18 +2743,12 @@
                         e.preventDefault();
                         openGame();
                     } else {
-                        if (document.activeElement === nameInputOver || document.activeElement === nameInputWin) return; // let them type space
+                        if (document.activeElement === nameInput) return; // let them type space
                         e.preventDefault();
                         if (gameState === 'ready') {
                             tryStartGame();
-                        } else if (gameState === 'gameover') {
-                            if (!hasSavedScore && nameInputOver.value.trim() !== '') saveScore(nameInputOver, overInputArea);
+                        } else if (gameState === 'gameover' || gameState === 'win') {
                             showStartScreen();
-                            tryStartGame();
-                        } else if (gameState === 'win') {
-                            if (!hasSavedScore && nameInputWin.value.trim() !== '') saveScore(nameInputWin, winInputArea);
-                            showStartScreen();
-                            tryStartGame();
                         }
                     }
                 }
@@ -2871,400 +2795,3 @@
             }
 
             if (closeGameBtn) closeGameBtn.addEventListener('click', closeGame);
-// Accurate Realtime Full Page Scroll Progress Calculator
-            function getPageScrollProgress() {
-                if (typeof lenis !== 'undefined' && lenis && typeof lenis.progress === 'number' && !isNaN(lenis.progress)) {
-                    return Math.max(0, Math.min(1, lenis.progress));
-                }
-                const total = document.documentElement.scrollHeight - window.innerHeight;
-                if (total <= 0) return 0;
-                const current = window.pageYOffset || document.documentElement.scrollTop || 0;
-                return Math.max(0, Math.min(1, current / total));
-            }
-
-            const trackContainer = document.getElementById('scroll-track-container');
-            const runner = document.getElementById('falling-cameraman-runner');
-            let cachedTrackHeight = 0;
-            let cachedRunnerHeight = 72;
-
-            function measureScrollTrack() {
-                if (trackContainer && runner) {
-                    cachedTrackHeight = trackContainer.clientHeight;
-                    cachedRunnerHeight = runner.offsetHeight || 72;
-                }
-            }
-            measureScrollTrack();
-
-            function updateScrollIndicator(progress) {
-                if (!runner) return;
-                const p = Math.max(0, Math.min(1, progress));
-                const maxTravel = Math.max(0, cachedTrackHeight - cachedRunnerHeight);
-                const currentY = p * maxTravel;
-                runner.style.transform = `translate3d(-50%, ${currentY}px, 0)`;
-            }
-
-            // Real-time synchronization with smooth scroll
-            lenis.on('scroll', (e) => {
-                ScrollTrigger.update();
-                const p = typeof e.progress === 'number' ? e.progress : getPageScrollProgress();
-                updateScrollIndicator(p);
-                updateHeaderSceneState(typeof e.scroll === 'number' ? e.scroll : window.pageYOffset);
-            });
-
-            // Native scroll & resize event listeners with cached measurement
-            window.addEventListener('scroll', () => {
-                updateScrollIndicator(getPageScrollProgress());
-                updateHeaderSceneState(window.pageYOffset);
-
-                const cb = document.getElementById('chat-balloon');
-                const contactSec = document.getElementById('contact');
-                if (cb && contactSec) {
-                    const contactRect = contactSec.getBoundingClientRect();
-                    if (contactRect.top < window.innerHeight * 0.75) {
-                        cb.style.bottom = '50%';
-                    } else {
-                        cb.style.bottom = '';
-                    }
-                }
-            }, { passive: true });
-
-            window.addEventListener('resize', () => {
-                measureScrollTrack();
-                updateScrollIndicator(getPageScrollProgress());
-                updateHeaderSceneState(window.pageYOffset);
-            }, { passive: true });
-
-            gsap.ticker.add((time) => {
-                lenis.raf(time * 1000);
-            });
-            gsap.ticker.lagSmoothing(0);
-
-            // Full-Height Vertical Track & Falling Cameraman Scroll Indicator Logic
-            function initScrollIndicator() {
-                const indicator = document.getElementById('left-scroll-indicator');
-                if (!indicator) return;
-
-                measureScrollTrack();
-
-                // Animate entrance of the indicator across all screen types
-                gsap.to(indicator, {
-                    opacity: 1,
-                    duration: 1,
-                    ease: "power2.out",
-                    delay: 0.4
-                });
-
-                // Initial position
-                updateScrollIndicator(getPageScrollProgress());
-            }
-
-            initScrollIndicator();
-
-            const soulTl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: "#the-soul",
-                    start: "top 75%",
-                    toggleActions: "play none none reverse"
-                }
-            });
-
-            soulTl.to("#soul-title", { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" })
-                  .to("#soul-desc", { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }, "-=0.9")
-                  .to(".bts-enter", { opacity: 1, duration: 1.5, ease: "power3.out" }, "-=0.8");
-
-            const marqueeTrack = document.getElementById('marquee-track');
-            if (marqueeTrack) {
-                // Hardware accelerated seamless horizontal marquee
-                const marqueeAnim = gsap.to(marqueeTrack, {
-                    xPercent: -50,
-                    duration: 48,
-                    ease: "none",
-                    repeat: -1,
-                    force3D: true, // Forces GPU acceleration
-                    paused: true // Start paused, IntersectionObserver will play it
-                });
-
-                // Apply lightweight CSS GPU animation classes to each float element
-                const floatElements = marqueeTrack.querySelectorAll('.bts-float');
-                floatElements.forEach((el, index) => {
-                    const animVariant = (index % 3) + 1;
-                    el.classList.add(`bts-float-anim-${animVariant}`);
-                });
-
-                // Removed mouse hover pausing logic so marquee keeps running smoothly
-
-                // IntersectionObserver: Pause entirely when offscreen to save 100% CPU/GPU frames
-                if ('IntersectionObserver' in window) {
-                    const btsObserver = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                marqueeAnim.play();
-                            } else {
-                                marqueeAnim.pause();
-                            }
-                        });
-                    }, { rootMargin: '300px 0px' });
-                    
-                    const btsSection = document.getElementById('the-soul');
-                    if (btsSection) {
-                        btsObserver.observe(btsSection);
-                    }
-                }
-            }
-
-            function initIdleFloat() {
-                gsap.killTweensOf('.idle-float');
-
-                gsap.utils.toArray('.idle-float').forEach((el, i) => {
-                    const yDist = (i % 2 === 0 ? 20 : -20) + gsap.utils.random(-7, 7);
-                    const xDist = (i % 3 === 0 ? 12 : -12) + gsap.utils.random(-5, 5);
-                    const rotDist = (i % 2 === 0 ? 3.8 : -3.8) + gsap.utils.random(-1.5, 1.5);
-                    const dur = gsap.utils.random(3.6, 5.8);
-
-                    gsap.to(el, {
-                        y: yDist,
-                        x: xDist,
-                        rotation: rotDist,
-                        duration: dur,
-                        ease: "sine.inOut",
-                        repeat: -1,
-                        yoyo: true,
-                        delay: (i * 0.2) % 3.0
-                    });
-                });
-            }
-            initIdleFloat();
-            
-            gsap.to('.parallax-hero', {
-                yPercent: 35, rotation: 3, ease: "none",
-                scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 1.5 }
-            });
-
-            // Hero scroll fade transition
-            gsap.to('#hero', {
-                yPercent: 100,
-                opacity: 0,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#hero",
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-
-            // About (Page 2) scroll fall transition
-            gsap.to('#about', {
-                yPercent: 30,
-                opacity: 0.3,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#we-are-made",
-                    start: "top bottom",
-                    end: "top top",
-                    scrub: true
-                }
-            });
-
-            // Statement (Page 6) maintains full clarity without premature fading or clipping
-            const statementSection = document.querySelector('#statement') || document.querySelector('#project-fit');
-            if (statementSection) {
-                gsap.set(statementSection, { opacity: 1, yPercent: 0 });
-            }
-
-            const filmTrack = document.getElementById("film-track");
-
-            if (filmTrack) {
-                // Velocity-based motion blur, skew & dynamic parallax intensity during horizontal scrolling
-                let blurTimeout;
-                let velParallaxTimeout;
-                const galleryItemsList = () => gsap.utils.toArray('.gallery-item-inner');
-                const velParallaxItems = () => gsap.utils.toArray('.velocity-parallax');
-
-                const trackTl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: "#selected-work",
-                        start: "top top",
-                        end: () => "+=" + Math.max(isTouchDevice ? 600 : 800, (filmTrack.scrollWidth - window.innerWidth) * (isTouchDevice ? 1.0 : 1.2)),
-                        scrub: isTouchDevice ? 1.0 : 1.8,
-                        pin: true,
-                        anticipatePin: 1,
-                        invalidateOnRefresh: true,
-                        onUpdate: (self) => {
-                            if (!self.isActive) return;
-                            const vel = self.getVelocity();
-                            const absVel = Math.abs(vel);
-
-                            // 1. Velocity-based cinematographic motion blur & skew
-                            const blurAmount = Math.min(3.5, absVel / 650);
-                            const skewAmount = Math.max(-2.5, Math.min(2.5, -vel / 1200));
-
-                            if (absVel > 30) {
-                                gsap.to(galleryItemsList(), {
-                                    filter: `blur(${blurAmount.toFixed(2)}px)`,
-                                    skewX: `${skewAmount.toFixed(2)}deg`,
-                                    duration: 0.15,
-                                    ease: "power1.out",
-                                    overwrite: "auto"
-                                });
-
-                                clearTimeout(blurTimeout);
-                                blurTimeout = setTimeout(() => {
-                                    gsap.to(galleryItemsList(), {
-                                        filter: "blur(0px)",
-                                        skewX: "0deg",
-                                        duration: 0.35,
-                                        ease: "power2.out",
-                                        overwrite: "auto"
-                                    });
-                                }, 80);
-                            }
-
-                            // 2. Dynamic Parallax Intensity scaling with scroll velocity
-                            if (absVel > 15) {
-                                const pItems = velParallaxItems();
-                                pItems.forEach((el) => {
-                                    const depth = parseFloat(el.getAttribute('data-depth')) || 1.0;
-                                    const depthY = parseFloat(el.getAttribute('data-depth-y')) || 1.0;
-                                    const speedDelta = (depth - 1.0); // positive for foreground, negative for background
-
-                                    // Dynamic horizontal separation and vertical inertia proportional to velocity
-                                    const shiftX = Math.max(-60, Math.min(60, -(vel * speedDelta * 0.052)));
-                                    const shiftY = Math.max(-20, Math.min(20, (vel / 900) * depthY * 6));
-                                    const scaleShift = 1 + Math.max(-0.03, Math.min(0.04, (absVel / 2500) * speedDelta));
-
-                                    gsap.to(el, {
-                                        x: shiftX,
-                                        y: shiftY,
-                                        scale: scaleShift,
-                                        duration: 0.18,
-                                        ease: "power1.out",
-                                        overwrite: "auto"
-                                    });
-                                });
-
-                                clearTimeout(velParallaxTimeout);
-                                velParallaxTimeout = setTimeout(() => {
-                                    gsap.to(velParallaxItems(), {
-                                        x: 0,
-                                        y: 0,
-                                        scale: 1,
-                                        duration: 0.65,
-                                        ease: "power2.out",
-                                        overwrite: "auto"
-                                    });
-                                }, 90);
-                            }
-                        },
-                        onLeave: () => {
-                            gsap.to(galleryItemsList(), { filter: "blur(0px)", skewX: "0deg", duration: 0.2, overwrite: "auto" });
-                            gsap.to(velParallaxItems(), { x: 0, y: 0, scale: 1, duration: 0.35, overwrite: "auto" });
-                        },
-                        onLeaveBack: () => {
-                            gsap.to(galleryItemsList(), { filter: "blur(0px)", skewX: "0deg", duration: 0.2, overwrite: "auto" });
-                            gsap.to(velParallaxItems(), { x: 0, y: 0, scale: 1, duration: 0.35, overwrite: "auto" });
-                        }
-                    }
-                });
-
-                trackTl.to(filmTrack, {
-                    x: () => {
-                        const maxMove = filmTrack.scrollWidth - window.innerWidth;
-                        return maxMove > 0 ? -maxMove : 0;
-                    }, 
-                    ease: "none"
-                });
-            }
-
-            // Judul selected work fade out ketika sudah sampai mentok atas
-            gsap.to("#selected-title", {
-                opacity: 0,
-                y: -30,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: "#selected-work",
-                    start: "top top",
-                    end: "top+=150",
-                    scrub: true
-                }
-            });
-
-            function initGalleryInteractions() {
-                const galleryItems = document.querySelectorAll('.gallery-item');
-                galleryItems.forEach((item) => {
-                    const inner = item.querySelector('.gallery-item-inner');
-                    if (!inner) return;
-                    
-                    if (isDesktop) {
-                        inner.addEventListener('mouseenter', () => {
-                            gsap.set(item, { zIndex: 100 });
-                            gsap.to(inner, { 
-                                scale: 1.15, 
-                                duration: 0.4, 
-                                ease: "power2.out", 
-                                overwrite: "auto" 
-                            });
-                        });
-                        inner.addEventListener('mouseleave', () => {
-                            gsap.to(inner, { 
-                                scale: 1, 
-                                duration: 0.4, 
-                                ease: "power2.out", 
-                                overwrite: "auto",
-                                onComplete: () => gsap.set(item, { zIndex: 10 }) 
-                            });
-                        });
-                    }
-                });
-            }
-            
-            initGalleryInteractions();
-
-            gsap.utils.toArray('.contact-title-line').forEach(line => {
-                gsap.fromTo(line,
-                    { y: "110%", filter: "blur(10px)", scale: 1.2 },
-                    {
-                        scrollTrigger: { trigger: "#contact", start: "top 75%" },
-                        y: "0%", filter: "blur(0px)", scale: 1, duration: 1.5, ease: "power4.out", stagger: 0.1
-                    }
-                );
-            });
-            
-            gsap.to('.reveal-quote', {
-                scrollTrigger: { trigger: '.reveal-quote', start: "top 90%" },
-                y: 0, opacity: 1, duration: 1.5, ease: "expo.out", delay: 0.5
-            });
-
-            // Initialize all line animations AFTER all pins & triggers are created
-            initParagraphAnimations();
-            ScrollTrigger.refresh();
-
-            // Refresh on font load & window load
-            if (document.fonts && document.fonts.ready) {
-                document.fonts.ready.then(() => {
-                    setTimeout(() => {
-                        initParagraphAnimations();
-                        ScrollTrigger.refresh();
-                    }, 60);
-                });
-            }
-            window.addEventListener('load', () => {
-                setTimeout(() => {
-                    initParagraphAnimations();
-                    ScrollTrigger.refresh();
-                }, 100);
-            });
-
-            // Refresh on screen resize
-            let resizeDebounce;
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeDebounce);
-                resizeDebounce = setTimeout(() => {
-                    initParagraphAnimations();
-                    ScrollTrigger.refresh();
-                }, 200);
-            });
-        });
-    </script>
-</body>
-</html>

@@ -1,114 +1,213 @@
 const fs = require('fs');
+let html = fs.readFileSync('index.html', 'utf8');
 
-const lines = fs.readFileSync('index.html', 'utf8').split('\n');
+const htmlStart = html.indexOf('<div id="play-hint"');
+const htmlEnd = html.indexOf('<div id="fake-loader"');
 
-const htmlStart = lines.findIndex(l => l.includes('<!-- Mini Game Hint -->'));
-const jsEnd = lines.findIndex(l => l.includes('// --- END MINI GAME LOGIC ---'));
+const jsStartStr = '// --- MINI GAME LOGIC ---';
+const jsEndStr = '// Accurate Realtime Full Page Scroll Progress Calculator';
+const jsStart = html.indexOf(jsStartStr);
+const jsEnd = html.indexOf(jsEndStr);
 
-if (htmlStart === -1 || jsEnd === -1) {
-    console.log('Bounds not found');
+if (htmlStart === -1 || htmlEnd === -1 || jsStart === -1 || jsEnd === -1) {
+    console.error("Bounds not found");
     process.exit(1);
 }
 
-const newGameHTML = `    <!-- Mini Game Hint -->
-    <div id="play-hint" class="fixed z-[9999] pointer-events-none opacity-0 transition-opacity duration-300 font-mono text-[10px] md:text-[12px] tracking-[0.2em] text-lightText bg-simbionBlue/90 backdrop-blur px-3 py-1.5 rounded-full flex items-center gap-2" style="transform: translate(-50%, -150%);">
+const newGameHTML = `    <div id="play-hint" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none opacity-0 transition-all duration-700 font-mono text-[10px] md:text-[12px] tracking-[0.3em] text-lightText/80 bg-[#0a0a0a] border border-white/10 backdrop-blur-md px-6 py-2 rounded-full flex items-center justify-center transform translate-y-4">
         <span>[ SPACE ] TO PLAY</span>
     </div>
 
     <!-- Mini Game Overlay -->
-    <div id="game-overlay" class="fixed inset-0 z-[99999] bg-darkBg hidden flex-col items-center justify-center pointer-events-auto overflow-hidden">
-        <button id="close-game" class="absolute top-6 right-6 md:top-10 md:right-10 text-lightText hover:text-simbionBlue font-mono text-sm tracking-widest uppercase transition-colors z-50">CLOSE [X]</button>
+    <div id="game-overlay" class="fixed inset-0 z-[99999] bg-[#0a0a0a] hidden items-stretch justify-center pointer-events-auto overflow-hidden">
         
-        <!-- Game Area constraints (Full Screen) -->
-        <div class="relative w-full h-[100dvh] overflow-hidden bg-black flex flex-col items-center" id="game-area" style="touch-action: none;">
+        <!-- Game Area constraints -->
+        <div class="relative w-full h-[100dvh] overflow-hidden bg-[#0a0a0a] flex flex-col items-center" id="game-area" style="touch-action: none; cursor: none !important;">
+            <div id="close-game" class="absolute top-6 right-6 text-lightText/50 hover:text-lightText font-mono text-xs md:text-sm tracking-widest uppercase z-[100] pointer-events-auto cursor-pointer" style="cursor: pointer;">[ ESC ] TO CLOSE</div>
             
-            <!-- Speed lines illusion for falling (Blue, more visible) -->
-            <div id="speed-lines" class="absolute inset-0 opacity-60 pointer-events-none z-0" style="background: repeating-linear-gradient(180deg, transparent, transparent 40px, rgba(0, 10, 194, 0.6) 40px, rgba(0, 10, 194, 0.6) 80px); animation: speedDrift 0.2s linear infinite;"></div>
-            
-            <div class="absolute top-6 right-6 font-mono text-3xl md:text-5xl text-lightText font-black z-30 drop-shadow-md" id="game-score">00000</div>
-            
-            <div id="game-start-msg" class="absolute inset-0 flex flex-col items-center justify-center bg-darkBg/80 z-40">
-                <p class="font-mono text-2xl md:text-5xl text-lightText mb-4 text-center font-black">FREE FALL DODGE</p>
-                <p class="font-mono text-sm md:text-base text-lightText/80 tracking-widest text-center px-4">USE ARROW KEYS OR DRAG TO DODGE</p>
-                <button id="start-btn-click" class="mt-8 font-mono text-sm md:text-base bg-simbionBlue text-white px-8 py-4 rounded-full uppercase tracking-widest hover:bg-blue-600 transition-colors font-bold shadow-[0_0_20px_rgba(0,10,194,0.6)] hover:scale-105">START FALLING</button>
+            <!-- Flat vertical speed lines -->
+            <div id="speed-lines-container" class="absolute inset-0 pointer-events-none z-0">
+                <div class="speed-line" style="left: 15%; animation-duration: 0.8s"></div>
+                <div class="speed-line" style="left: 35%; animation-duration: 0.6s"></div>
+                <div class="speed-line" style="left: 55%; animation-duration: 0.9s"></div>
+                <div class="speed-line" style="left: 75%; animation-duration: 0.7s"></div>
+                <div class="speed-line" style="left: 85%; animation-duration: 1.0s"></div>
             </div>
             
-            <div id="game-over-msg" class="absolute inset-0 flex flex-col items-center justify-center bg-darkBg/90 z-40 hidden">
-                <p class="font-mono text-4xl md:text-6xl text-simbionBlue font-black mb-2 uppercase drop-shadow-[0_0_20px_rgba(0,10,194,0.8)]">CRASHED!</p>
-                <p class="font-mono text-base md:text-xl text-lightText mb-8 text-center px-4">YOU HIT THE EQUIPMENT.</p>
-                <button id="restart-btn-click" class="mt-4 font-mono text-sm md:text-base bg-simbionBlue text-white px-8 py-4 rounded-full uppercase tracking-widest hover:bg-blue-600 transition-colors font-bold shadow-[0_0_20px_rgba(0,10,194,0.6)] hover:scale-105">PLAY AGAIN</button>
+            <!-- Plain Score -->
+            <div class="absolute top-14 md:top-6 left-6 font-mono text-base md:text-lg text-lightText font-bold z-30 tracking-wider" id="game-score">SCORE: 0</div>
+            
+            <!-- Collected Word -->
+            <div class="absolute top-6 md:top-6 left-1/2 -translate-x-1/2 font-mono text-xl md:text-4xl text-[#000AC2] font-black z-30 tracking-[0.3em] drop-shadow-md" id="game-word">_ _ _ _ _ _ _</div>
+            
+            <div id="game-start-msg" class="absolute inset-0 flex flex-col items-center justify-center bg-[#0a0a0a]/95 z-40 pointer-events-auto" style="cursor: auto;">
+                <div class="flex items-center gap-6 mb-8 text-lightText/80">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-pulse"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-pulse"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </div>
+                <p class="font-mono text-base md:text-xl text-white tracking-[0.3em] uppercase animate-pulse font-bold cursor-pointer" id="start-btn">[ PRESS SPACE OR CLICK TO START ]</p>
+            </div>
+            
+            <div id="game-over-msg" class="absolute inset-0 flex flex-col items-center justify-center bg-[#0a0a0a]/95 z-40 hidden pointer-events-auto" style="cursor: auto;">
+                <p class="font-mono text-4xl md:text-6xl text-[#000AC2] font-black mb-2 uppercase drop-shadow-md">CUT!</p>
+                <p class="font-mono text-sm md:text-base text-lightText/80 mb-8 text-center px-4">YOU HIT THE EQUIPMENT.</p>
+                
+                <div class="flex flex-col items-center" id="game-over-input-area">
+                    <input type="text" id="player-name-input-over" placeholder="ENTER YOUR NAME" class="bg-transparent border-b-2 border-[#000AC2] text-white font-mono text-center text-xl md:text-2xl outline-none mb-4 uppercase py-2 w-64 md:w-80 focus:border-white transition-colors" autocomplete="off" maxlength="12">
+                    <p class="font-mono text-sm text-lightText/60 tracking-widest text-center px-4 mb-8">[ PRESS ENTER TO SAVE ]</p>
+                </div>
+                
+                <p class="font-mono text-base md:text-xl text-white tracking-[0.3em] uppercase animate-pulse font-bold cursor-pointer" id="restart-btn">[ PRESS SPACE TO TRY AGAIN ]</p>
+            </div>
+            
+            <div id="game-win-msg" class="absolute inset-0 flex flex-col items-center justify-center bg-white z-40 hidden pointer-events-auto text-black" style="cursor: auto;">
+                <p class="font-mono text-4xl md:text-6xl text-[#000AC2] font-black mb-2 uppercase drop-shadow-md">IT'S A WRAP!</p>
+                <p class="font-mono text-sm md:text-base opacity-80 mb-8 text-center px-4">YOU COLLECTED ALL LETTERS.</p>
+                
+                <div class="flex flex-col items-center" id="game-win-input-area">
+                    <input type="text" id="player-name-input-win" placeholder="ENTER YOUR NAME" class="bg-transparent border-b-2 border-[#000AC2] text-black font-mono text-center text-xl md:text-2xl outline-none mb-4 uppercase py-2 w-64 md:w-80 focus:border-black transition-colors placeholder:text-black/50" autocomplete="off" maxlength="12">
+                    <p class="font-mono text-sm opacity-60 tracking-widest text-center px-4 mb-8">[ PRESS ENTER TO SAVE ]</p>
+                </div>
+
+                <p class="font-mono text-base md:text-xl text-black tracking-[0.3em] uppercase animate-pulse font-bold cursor-pointer" id="play-again-btn">[ PRESS SPACE TO PLAY AGAIN ]</p>
             </div>
 
-            <!-- Player (Falling Cameraman - HUGE) -->
-            <div id="game-player" class="absolute top-[5%] md:top-[10%] left-1/2 -translate-x-1/2 w-[1000px] max-w-none h-auto z-20 will-change-transform pointer-events-none">
-                <img src="orang jatuh.gif" class="w-full h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]">
+            <!-- Player (Falling Cameraman - 600px) -->
+            <div id="game-player" class="absolute top-[10%] left-1/2 -translate-x-1/2 w-[600px] max-w-none h-auto z-20 will-change-transform pointer-events-none">
+                <img src="orang jatuh.gif" class="w-full h-auto object-contain">
+            </div>
+
+            <!-- Scoreboard Glass Floating Panel -->
+            <div id="scoreboard-panel" class="absolute top-1/2 right-6 -translate-y-1/2 w-64 md:w-72 bg-black/40 backdrop-blur-xl border border-white/20 rounded-2xl flex-col z-50 p-4 hidden md:flex shadow-2xl pointer-events-auto" style="cursor: auto; max-height: 80vh;">
+                <div class="pb-4 border-b border-white/20">
+                    <h3 class="font-mono text-[#000AC2] font-black text-xl tracking-widest uppercase text-center drop-shadow-md">HIGH SCORES</h3>
+                </div>
+                <div id="score-list" class="flex-1 overflow-y-auto pt-4 flex flex-col gap-3 font-mono text-sm text-white">
+                    <!-- Scores injected by JS -->
+                </div>
             </div>
         </div>
-        <p class="absolute bottom-4 font-mono text-[10px] text-lightText/40 tracking-[0.3em] uppercase z-50">Simbion Easter Egg</p>
     </div>
     <style>
-        /* Force cursor to be visible inside the game */
-        #game-overlay, #game-overlay * {
-            cursor: auto !important;
+        .speed-line {
+            position: absolute;
+            top: 0;
+            width: 1px;
+            height: 200%;
+            background: repeating-linear-gradient(180deg, transparent, transparent 15vh, rgba(255,255,255,0.2) 15vh, rgba(255,255,255,0.2) 30vh);
+            animation: moveSpeedLines linear infinite;
         }
-        #play-hint {
-            cursor: pointer !important;
-        }
-        #start-btn-click, #restart-btn-click, #close-game {
-            cursor: pointer !important;
-        }
-        @keyframes speedDrift {
-            from { background-position: 0 0; }
-            to { background-position: 0 -80px; }
+        @keyframes moveSpeedLines {
+            from { transform: translateY(0); }
+            to { transform: translateY(-50%); }
         }
     </style>
 `;
 
-const newGameJS = `            // --- MINI GAME LOGIC ---
-            const heroSection = document.getElementById('hero');
+const newGameJS = `// --- MINI GAME LOGIC ---
             const playHint = document.getElementById('play-hint');
             const gameOverlay = document.getElementById('game-overlay');
             const closeGameBtn = document.getElementById('close-game');
             const gameArea = document.getElementById('game-area');
             const playerEl = document.getElementById('game-player');
             const scoreEl = document.getElementById('game-score');
+            const wordEl = document.getElementById('game-word');
             const startMsg = document.getElementById('game-start-msg');
             const overMsg = document.getElementById('game-over-msg');
-            const startBtnClick = document.getElementById('start-btn-click');
-            const restartBtnClick = document.getElementById('restart-btn-click');
+            const winMsg = document.getElementById('game-win-msg');
+            
+            const nameInputOver = document.getElementById('player-name-input-over');
+            const nameInputWin = document.getElementById('player-name-input-win');
+            const overInputArea = document.getElementById('game-over-input-area');
+            const winInputArea = document.getElementById('game-win-input-area');
+            const scoreList = document.getElementById('score-list');
             
             let isGameActive = false;
-            let gameState = 'ready'; // ready, playing, gameover
+            let gameState = 'ready'; // ready, playing, gameover, win
             let gameLoopId;
             let score = 0;
-            let obstacles = [];
+            let entities = [];
             
-            // Player Horizontal Physics
             let playerX = 0; 
             let targetPlayerX = 0;
-            let playerSpeed = 18;
+            let playerSpeed = 15;
             let keys = { ArrowLeft: false, ArrowRight: false };
             
-            // Environment falling speed
-            let fallSpeed = 9;
+            let fallSpeed = 4;
             let frameCount = 0;
+            
+            const targetWord = "SIMBION";
+            let collectedCount = 0;
+            let currentPlayerName = "";
+            let hasSavedScore = false;
 
-            if (heroSection && playHint) {
-                heroSection.addEventListener('mousemove', (e) => {
-                    if (isGameActive) return;
-                    playHint.style.left = e.clientX + 'px';
-                    playHint.style.top = e.clientY + 'px';
-                });
-                
-                heroSection.addEventListener('mouseenter', () => {
-                    if (!isGameActive) playHint.classList.remove('opacity-0');
-                });
-                heroSection.addEventListener('mouseleave', () => {
-                    playHint.classList.add('opacity-0');
+            let highScores = [];
+            try {
+                const stored = localStorage.getItem('simbion_highscores');
+                if (stored) highScores = JSON.parse(stored);
+            } catch(e) {}
+
+            function renderLeaderboard() {
+                if (!scoreList) return;
+                scoreList.innerHTML = '';
+                if (highScores.length === 0) {
+                    scoreList.innerHTML = '<div class="text-white/40 text-center text-xs mt-6 tracking-widest">NO SCORES YET</div>';
+                    return;
+                }
+                const sorted = [...highScores].sort((a, b) => b.score - a.score).slice(0, 10);
+                sorted.forEach((entry, idx) => {
+                    const row = document.createElement('div');
+                    row.className = 'flex justify-between items-center border-b border-white/10 pb-2';
+                    const colorClass = idx === 0 ? 'text-[#000AC2] font-black' : (idx === 1 ? 'text-white font-bold' : 'text-white/80');
+                    row.innerHTML = \`<span class="\${colorClass}">\${idx + 1}. \${entry.name}</span><span class="\${colorClass}">\${entry.score}</span>\`;
+                    scoreList.appendChild(row);
                 });
             }
+
+            function saveScore(inputEl, areaEl) {
+                if (hasSavedScore || gameState === 'playing' || gameState === 'ready') return;
+                const val = inputEl.value.trim();
+                if (val.length === 0) {
+                    inputEl.focus();
+                    inputEl.style.borderColor = 'red';
+                    setTimeout(() => inputEl.style.borderColor = '#000AC2', 300);
+                    return;
+                }
+                currentPlayerName = val.substring(0, 12).toUpperCase();
+                
+                if (score > 0) {
+                    highScores.push({ name: currentPlayerName, score: score });
+                    highScores.sort((a, b) => b.score - a.score);
+                    highScores = highScores.slice(0, 10);
+                    try {
+                        localStorage.setItem('simbion_highscores', JSON.stringify(highScores));
+                    } catch(e) {}
+                    hasSavedScore = true;
+                    renderLeaderboard();
+                    
+                    // Hide input area after saving
+                    if (areaEl) {
+                        areaEl.classList.add('hidden');
+                        areaEl.classList.remove('flex');
+                    }
+                }
+            }
+
+            let hintInterval;
+            let hintTimeout;
             
-            // Mobile trigger: 3 taps on logo
+            function triggerHint() {
+                if (isGameActive || !playHint) return;
+                playHint.classList.remove('opacity-0', 'translate-y-4');
+                clearTimeout(hintTimeout);
+                hintTimeout = setTimeout(() => {
+                    playHint.classList.add('opacity-0', 'translate-y-4');
+                }, 3000);
+            }
+            
+            hintInterval = setInterval(triggerHint, 10000);
+            setTimeout(triggerHint, 3000);
+            
             const logoTrigger = document.querySelector('nav img[alt="SIMBION FILM"]');
             let logoTaps = 0;
             let logoTapTimeout;
@@ -128,26 +227,15 @@ const newGameJS = `            // --- MINI GAME LOGIC ---
                 });
             }
 
-            if (playHint) {
-                playHint.style.pointerEvents = 'auto'; 
-                playHint.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openGame();
-                });
-            }
-
             function openGame() {
                 isGameActive = true;
-                playHint.classList.add('opacity-0');
+                if(playHint) playHint.classList.add('opacity-0', 'translate-y-4');
                 gameOverlay.classList.remove('hidden');
                 gameOverlay.classList.add('flex');
                 document.body.style.overflow = 'hidden';
                 if (window.lenis) window.lenis.stop();
-                resetGame();
-                gameState = 'ready';
-                startMsg.classList.remove('hidden');
-                overMsg.classList.add('hidden');
+                renderLeaderboard();
+                showStartScreen();
             }
 
             function closeGame() {
@@ -157,92 +245,139 @@ const newGameJS = `            // --- MINI GAME LOGIC ---
                 document.body.style.overflow = '';
                 if (window.lenis) window.lenis.start();
                 cancelAnimationFrame(gameLoopId);
-                clearObstacles();
+                clearEntities();
             }
 
-            function resetGame() {
+            function showStartScreen() {
+                gameState = 'ready';
+                startMsg.classList.remove('hidden');
+                overMsg.classList.add('hidden');
+                winMsg.classList.add('hidden');
+                
+                overInputArea.classList.add('hidden');
+                winInputArea.classList.add('hidden');
+
+                resetGameStats();
+            }
+
+            function resetGameStats() {
                 score = 0;
-                fallSpeed = window.innerWidth < 768 ? 8 : 12;
+                collectedCount = 0;
                 playerX = 0;
                 targetPlayerX = 0;
                 frameCount = 0;
+                hasSavedScore = false;
                 keys = { ArrowLeft: false, ArrowRight: false };
+                updateSpeedByLevel();
                 updateScore();
+                updateWordDisplay();
                 playerEl.style.transform = \`translateX(-50%)\`;
-                clearObstacles();
+                clearEntities();
             }
 
-            function clearObstacles() {
-                obstacles.forEach(obs => obs.el.remove());
-                obstacles = [];
+            function updateSpeedByLevel() {
+                const isMobile = window.innerWidth < 768;
+                // S, I, M (0,1,2)
+                if (collectedCount <= 2) {
+                    fallSpeed = isMobile ? 4 : 5;
+                } 
+                // B, I (3,4)
+                else if (collectedCount <= 4) {
+                    fallSpeed = isMobile ? 6 : 7.5;
+                } 
+                // O, N (5,6)
+                else {
+                    fallSpeed = isMobile ? 8.5 : 10;
+                }
             }
 
-            function startGameLoop() {
+            function clearEntities() {
+                entities.forEach(ent => ent.el.remove());
+                entities = [];
+            }
+
+            function updateWordDisplay() {
+                let display = "";
+                for (let i = 0; i < targetWord.length; i++) {
+                    if (i < collectedCount) {
+                        display += targetWord[i] + " ";
+                    } else {
+                        display += "_ ";
+                    }
+                }
+                wordEl.innerText = display.trim();
+            }
+
+            function tryStartGame() {
+                if (gameState !== 'ready') return;
+                
                 gameState = 'playing';
                 startMsg.classList.add('hidden');
                 overMsg.classList.add('hidden');
-                resetGame();
+                winMsg.classList.add('hidden');
+                resetGameStats();
                 gameLoopId = requestAnimationFrame(updateGame);
             }
 
             const equipmentSVGs = [
-                // Clapperboard
-                '<svg viewBox="0 0 24 24" fill="#000AC2" class="w-full h-full drop-shadow-[0_0_10px_rgba(0,10,194,0.8)]"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>',
-                // Video Camera
-                '<svg viewBox="0 0 24 24" fill="#000AC2" class="w-full h-full drop-shadow-[0_0_10px_rgba(0,10,194,0.8)]"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>',
-                // Film Reel
-                '<svg viewBox="0 0 24 24" fill="#000AC2" class="w-full h-full drop-shadow-[0_0_10px_rgba(0,10,194,0.8)]"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-8.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5zm5 0c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5zm-2.5 4c1.38 0 2.5-1.12 2.5-2.5s-1.12-2.5-2.5-2.5-2.5 1.12-2.5 2.5 1.12 2.5 2.5 2.5z"/></svg>',
-                // Lightbulb / Lighting
-                '<svg viewBox="0 0 24 24" fill="#000AC2" class="w-full h-full drop-shadow-[0_0_10px_rgba(0,10,194,0.8)]"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"/></svg>'
+                // Camera
+                '<svg viewBox="0 0 24 24" fill="white" class="w-full h-full"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>',
+                // Clapper
+                '<svg viewBox="0 0 24 24" fill="white" class="w-full h-full"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>',
+                // C-stand
+                '<svg viewBox="0 0 24 24" fill="white" class="w-full h-full"><path d="M13 2h-2v15H6v2h12v-2h-5V2z"/><path d="M5 21h14v2H5z"/></svg>',
+                // Dolly
+                '<svg viewBox="0 0 24 24" fill="white" class="w-full h-full"><path d="M19 15H5c-1.1 0-2 .9-2 2v2h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-2c0-1.1-.9-2-2-2zm-11 4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm8 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-4-6h4v-2h-4v2zm-2-4V4H7v5h3zm6-5v5h3V4h-3z"/></svg>',
+                // Lighting
+                '<svg viewBox="0 0 24 24" fill="white" class="w-full h-full"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>'
             ];
 
-            function createObstacle(forceX = null) {
-                const el = document.createElement('div');
+            function createEntity() {
                 const isMobile = window.innerWidth < 768;
-                // Make obstacles significantly larger to be challenging
-                const minSize = isMobile ? 80 : 150;
-                const maxSize = isMobile ? 140 : 250;
-                const obsWidth = Math.floor(Math.random() * (maxSize - minSize) + minSize);
+                const el = document.createElement('div');
+                el.className = 'absolute z-10 flex items-center justify-center';
                 
-                el.className = 'absolute z-10';
-                el.style.width = obsWidth + 'px';
-                el.style.height = obsWidth + 'px';
-                el.innerHTML = equipmentSVGs[Math.floor(Math.random() * equipmentSVGs.length)];
-                
-                const areaWidth = gameArea.clientWidth;
-                // Determine X position: either forced (for walls) or random
-                let x;
-                if (forceX !== null) {
-                    x = forceX;
+                const spawnLetter = (Math.random() > 0.85) && (collectedCount < targetWord.length);
+                let size, isObstacle;
+
+                if (spawnLetter) {
+                    size = isMobile ? 48 : 64;
+                    isObstacle = false;
+                    const letterToCollect = targetWord[collectedCount];
+                    // Blue font, white bg
+                    el.innerHTML = \`<div class="bg-white text-[#000AC2] font-black font-mono w-full h-full flex items-center justify-center border-4 border-[#000AC2] rounded-md drop-shadow-[0_0_10px_rgba(0,10,194,0.5)]" style="font-size: \${isMobile ? 32 : 44}px">\${letterToCollect}</div>\`;
                 } else {
-                    x = Math.random() * (areaWidth - obsWidth);
+                    size = isMobile ? 40 : 60;
+                    isObstacle = true;
+                    el.innerHTML = equipmentSVGs[Math.floor(Math.random() * equipmentSVGs.length)];
                 }
                 
+                el.style.width = size + 'px';
+                el.style.height = size + 'px';
+                
+                const areaWidth = gameArea.clientWidth;
+                const x = Math.random() * (areaWidth - size);
                 const y = gameArea.clientHeight + 50; 
                 
                 el.style.left = x + 'px';
                 el.style.top = y + 'px';
                 
-                // Add random rotation for chaos
-                const rotation = Math.random() * 360;
-                el.style.transform = \`rotate(\${rotation}deg)\`;
+                if (isObstacle) {
+                    el.style.transform = \`rotate(\${Math.random() * 360}deg)\`;
+                }
                 
                 gameArea.appendChild(el);
-                
-                // For collision hitbox, reduce the bounds slightly compared to visual SVG size
-                obstacles.push({ el, x, y, size: obsWidth, passed: false });
+                entities.push({ el, x, y, size: size, isObstacle: isObstacle });
             }
 
             function updateGame() {
                 if (gameState !== 'playing') return;
 
-                // Keyboard movement
                 if (keys.ArrowLeft) targetPlayerX -= playerSpeed;
                 if (keys.ArrowRight) targetPlayerX += playerSpeed;
 
                 const areaWidth = gameArea.clientWidth;
-                // Player visual width is 1000px, but movement bounds should allow the "center" of the player to reach the edges
-                const maxTravel = (areaWidth / 2) - 50; 
+                const maxTravel = (areaWidth / 2) - 40; 
                 targetPlayerX = Math.max(-maxTravel, Math.min(maxTravel, targetPlayerX));
                 
                 playerX += (targetPlayerX - playerX) * 0.15;
@@ -250,21 +385,10 @@ const newGameJS = `            // --- MINI GAME LOGIC ---
 
                 frameCount++;
                 
-                // Dynamic Spawning: create challenging walls/gaps
-                const spawnRate = Math.max(10, Math.floor(35 - (frameCount / 250)));
+                // Spawn rate gets slightly faster as speed increases
+                const spawnRate = Math.max(25, Math.floor(60 - (fallSpeed * 3)));
                 if (frameCount % spawnRate === 0) {
-                    // 30% chance to spawn a "wall" of 2-3 obstacles with a gap
-                    if (Math.random() > 0.7 && areaWidth > 600) {
-                        const gapCenter = Math.random() * (areaWidth - 300) + 150;
-                        createObstacle(gapCenter - 300); // Left side
-                        createObstacle(gapCenter + 150); // Right side
-                    } else {
-                        createObstacle();
-                    }
-                }
-
-                if (frameCount % 300 === 0) {
-                    fallSpeed += 0.5;
+                    createEntity();
                 }
                 
                 if (frameCount % 10 === 0) {
@@ -272,80 +396,170 @@ const newGameJS = `            // --- MINI GAME LOGIC ---
                     updateScore();
                 }
 
-                // Hitbox calculations
                 const pRect = playerEl.getBoundingClientRect();
-                
-                // Custom Hitbox for the 1000px GIF. 
-                // The actual "body" in the center is much smaller than 1000px.
-                // Assuming the body is roughly in the center 15-20% of the image.
-                const hitboxWidth = window.innerWidth < 768 ? 60 : 120;
-                const hitboxHeight = window.innerWidth < 768 ? 100 : 200;
+                const hitboxWidth = window.innerWidth < 768 ? 40 : 60;
+                const hitboxHeight = window.innerWidth < 768 ? 80 : 120;
                 
                 const pCenterX = pRect.left + (pRect.width / 2);
                 const pCenterY = pRect.top + (pRect.height / 2);
                 
                 const pLeft = pCenterX - (hitboxWidth / 2);
                 const pRight = pCenterX + (hitboxWidth / 2);
-                const pTop = pCenterY - (hitboxHeight / 2) + 20; // Offset slightly down
+                const pTop = pCenterY - (hitboxHeight / 2) + 10;
                 const pBottom = pCenterY + (hitboxHeight / 2);
                 
-                for (let i = 0; i < obstacles.length; i++) {
-                    let obs = obstacles[i];
-                    obs.y -= fallSpeed; 
-                    obs.el.style.top = obs.y + 'px';
+                for (let i = 0; i < entities.length; i++) {
+                    let ent = entities[i];
+                    ent.y -= fallSpeed; 
+                    ent.el.style.top = ent.y + 'px';
                     
-                    const oRect = obs.el.getBoundingClientRect();
-                    // Shrink obstacle hitbox slightly to be forgiving
-                    const oShrink = obs.size * 0.2; 
+                    const oRect = ent.el.getBoundingClientRect();
+                    const oShrink = ent.size * 0.2; 
                     const oLeft = oRect.left + oShrink;
                     const oRight = oRect.right - oShrink;
                     const oTop = oRect.top + oShrink;
                     const oBottom = oRect.bottom - oShrink;
 
-                    if (pLeft < oRight &&
-                        pRight > oLeft &&
-                        pTop < oBottom &&
-                        pBottom > oTop) {
-                        gameOver();
-                        return;
+                    if (pLeft < oRight && pRight > oLeft && pTop < oBottom && pBottom > oTop) {
+                        if (ent.isObstacle) {
+                            gameOver();
+                            return;
+                        } else {
+                            // Collect letter
+                            ent.el.remove();
+                            entities.splice(i, 1);
+                            i--;
+                            collectedCount++;
+                            updateWordDisplay();
+                            updateSpeedByLevel();
+                            
+                            score += 1000;
+                            updateScore();
+                            
+                            const flash = document.createElement('div');
+                            flash.className = 'absolute inset-0 bg-white z-[100] pointer-events-none opacity-20';
+                            gameArea.appendChild(flash);
+                            setTimeout(() => {
+                                flash.style.transition = 'opacity 0.2s';
+                                flash.style.opacity = '0';
+                                setTimeout(() => flash.remove(), 200);
+                            }, 50);
+
+                            if (collectedCount === targetWord.length) {
+                                gameWin();
+                                return;
+                            }
+                        }
                     }
                 }
 
-                if (obstacles.length > 0 && obstacles[0].y < -300) {
-                    obstacles[0].el.remove();
-                    obstacles.shift();
+                if (entities.length > 0 && entities[0].y < -200) {
+                    entities[0].el.remove();
+                    entities.shift();
                 }
 
                 gameLoopId = requestAnimationFrame(updateGame);
             }
 
             function updateScore() {
-                scoreEl.innerText = score.toString().padStart(5, '0');
+                scoreEl.innerText = 'SCORE: ' + score;
             }
 
             function gameOver() {
                 gameState = 'gameover';
-                overMsg.classList.remove('hidden');
                 
-                gsap.fromTo(gameArea, {x: -25, y: -20}, {x: 25, y: 20, duration: 0.1, yoyo: true, repeat: 7, clearProps: "all"});
+                overMsg.classList.remove('hidden');
+                overInputArea.classList.remove('hidden');
+                overInputArea.classList.add('flex');
+                nameInputOver.value = currentPlayerName;
+                
+                if (window.innerWidth > 768) {
+                    setTimeout(() => nameInputOver.focus(), 100);
+                }
+                
+                gsap.fromTo(gameArea, {x: -10, y: -5}, {x: 10, y: 5, duration: 0.1, yoyo: true, repeat: 5, clearProps: "all"});
                 
                 const flash = document.createElement('div');
-                flash.className = 'absolute inset-0 bg-simbionBlue/60 z-[100] pointer-events-none mix-blend-screen';
+                flash.className = 'absolute inset-0 bg-[#000AC2] z-[100] pointer-events-none opacity-30';
                 gameArea.appendChild(flash);
-                gsap.to(flash, {opacity: 0, duration: 0.8, onComplete: () => flash.remove()});
+                setTimeout(() => {
+                    flash.style.transition = 'opacity 0.5s';
+                    flash.style.opacity = '0';
+                    setTimeout(() => flash.remove(), 500);
+                }, 100);
             }
+
+            function gameWin() {
+                gameState = 'win';
+                score += 5000; // bonus for winning
+                updateScore();
+                
+                winMsg.classList.remove('hidden');
+                winInputArea.classList.remove('hidden');
+                winInputArea.classList.add('flex');
+                nameInputWin.value = currentPlayerName;
+
+                if (window.innerWidth > 768) {
+                    setTimeout(() => nameInputWin.focus(), 100);
+                }
+                
+                const flash = document.createElement('div');
+                flash.className = 'absolute inset-0 bg-white z-[100] pointer-events-none';
+                gameArea.appendChild(flash);
+                gsap.to(flash, {opacity: 0, duration: 1, onComplete: () => flash.remove()});
+            }
+            
+            // Name input handling for Game Over
+            nameInputOver.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    saveScore(nameInputOver, overInputArea);
+                }
+                e.stopPropagation(); 
+            });
+            // Name input handling for Win
+            nameInputWin.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    saveScore(nameInputWin, winInputArea);
+                }
+                e.stopPropagation(); 
+            });
+            
+            if (document.getElementById('start-btn')) document.getElementById('start-btn').addEventListener('click', tryStartGame);
+            
+            if (document.getElementById('restart-btn')) document.getElementById('restart-btn').addEventListener('click', () => {
+                if (!hasSavedScore && nameInputOver.value.trim() !== '') {
+                    saveScore(nameInputOver, overInputArea);
+                }
+                showStartScreen();
+                tryStartGame();
+            });
+            
+            if (document.getElementById('play-again-btn')) document.getElementById('play-again-btn').addEventListener('click', () => {
+                if (!hasSavedScore && nameInputWin.value.trim() !== '') {
+                    saveScore(nameInputWin, winInputArea);
+                }
+                showStartScreen();
+                tryStartGame();
+            });
 
             window.addEventListener('keydown', (e) => {
                 if (e.code === 'Space') {
                     if (!isGameActive) {
-                        if (window.pageYOffset < window.innerHeight * 0.8) {
-                            e.preventDefault();
-                            openGame();
-                        }
-                    } else {
                         e.preventDefault();
-                        if (gameState === 'ready' || gameState === 'gameover') {
-                            startGameLoop();
+                        openGame();
+                    } else {
+                        if (document.activeElement === nameInputOver || document.activeElement === nameInputWin) return; // let them type space
+                        e.preventDefault();
+                        if (gameState === 'ready') {
+                            tryStartGame();
+                        } else if (gameState === 'gameover') {
+                            if (!hasSavedScore && nameInputOver.value.trim() !== '') saveScore(nameInputOver, overInputArea);
+                            showStartScreen();
+                            tryStartGame();
+                        } else if (gameState === 'win') {
+                            if (!hasSavedScore && nameInputWin.value.trim() !== '') saveScore(nameInputWin, winInputArea);
+                            showStartScreen();
+                            tryStartGame();
                         }
                     }
                 }
@@ -353,8 +567,8 @@ const newGameJS = `            // --- MINI GAME LOGIC ---
                     closeGame();
                 }
                 
-                if (isGameActive && (e.code === 'ArrowLeft' || e.code === 'KeyA')) { e.preventDefault(); keys.ArrowLeft = true; }
-                if (isGameActive && (e.code === 'ArrowRight' || e.code === 'KeyD')) { e.preventDefault(); keys.ArrowRight = true; }
+                if (isGameActive && (e.code === 'ArrowLeft' || e.code === 'KeyA')) { if(gameState === 'playing') e.preventDefault(); keys.ArrowLeft = true; }
+                if (isGameActive && (e.code === 'ArrowRight' || e.code === 'KeyD')) { if(gameState === 'playing') e.preventDefault(); keys.ArrowRight = true; }
             });
             
             window.addEventListener('keyup', (e) => {
@@ -365,6 +579,8 @@ const newGameJS = `            // --- MINI GAME LOGIC ---
             let isDragging = false;
             if (gameArea) {
                 gameArea.addEventListener('pointerdown', (e) => {
+                    if (e.target.closest('#close-game') || e.target.closest('#game-start-msg') || e.target.closest('#game-over-msg') || e.target.closest('#game-win-msg')) return;
+                    
                     if (gameState === 'playing') {
                         isDragging = true;
                         updateDragPosition(e);
@@ -386,18 +602,16 @@ const newGameJS = `            // --- MINI GAME LOGIC ---
                 const rect = gameArea.getBoundingClientRect();
                 const xPos = e.clientX - rect.left;
                 const center = rect.width / 2;
-                targetPlayerX = (xPos - center) * 1.5; // Multiply for higher sensitivity on drag
+                targetPlayerX = (xPos - center) * 1.5; 
             }
 
-            if (startBtnClick) startBtnClick.addEventListener('click', () => { if(gameState === 'ready') startGameLoop(); });
-            if (restartBtnClick) restartBtnClick.addEventListener('click', () => { if(gameState === 'gameover') startGameLoop(); });
             if (closeGameBtn) closeGameBtn.addEventListener('click', closeGame);
-            // --- END MINI GAME LOGIC ---`;
+`;
 
-const part1 = lines.slice(0, htmlStart).join('\n');
-const part3 = lines.slice(jsEnd + 1).join('\n');
-const part2 = lines.slice(lines.findIndex(l => l.includes('<div id="fake-loader"')), lines.findIndex(l => l.includes('// --- MINI GAME LOGIC ---'))).join('\n');
+const part1 = html.substring(0, htmlStart);
+const part2 = html.substring(htmlEnd, jsStart);
+const part3 = html.substring(jsEnd);
 
-const finalHtml = [part1, newGameHTML, part2, newGameJS, part3].join('\n');
+const finalHtml = part1 + newGameHTML + '\n' + part2 + newGameJS + part3;
 fs.writeFileSync('index.html', finalHtml, 'utf8');
-console.log("Game fully updated with all requirements");
+console.log("Fixes applied successfully.");
