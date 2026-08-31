@@ -1,6 +1,6 @@
 import './equipmentData.js';
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from "firebase/firestore";
 
 // Firebase initialization
 const firebaseConfig = {
@@ -103,6 +103,17 @@ function startSimbionApp() {
                     if (loaderImgWrap) {
                         tl.to(loaderImgWrap, { y: () => window.innerHeight, duration: 1.05, ease: "power4.inOut" }, 0);
                     }
+                    // Fallback to guarantee loader is removed
+                    setTimeout(() => {
+                        if (loader && loader.parentNode) loader.remove();
+                    }, 1400);
+                } else if (loader) {
+                    loader.style.transition = 'transform 0.8s ease-in-out, opacity 0.8s ease-in-out';
+                    loader.style.transform = 'translateY(-100%)';
+                    loader.style.opacity = '0';
+                    setTimeout(() => {
+                        if (loader.parentNode) loader.remove();
+                    }, 900);
                 }
             }, 400);
         }
