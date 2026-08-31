@@ -54,7 +54,7 @@ window.submitScoreToFirebase = async function(name, time) {
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+function startSimbionApp() {
     // Shooting Preloader Logic
     const loader = document.getElementById('fake-loader');
     const loaderText = document.getElementById('loader-text');
@@ -1662,11 +1662,16 @@ document.addEventListener('DOMContentLoaded', () => {
             el.innerHTML = `<div class="text-[#000AC2] font-black font-mono w-full h-full flex items-center justify-center animate-float-letter" style="font-size: ${isMobile ? 64 : 80}px; line-height: 1;">${letterToCollect}</div>`;
         } else if (spawnType === 'award') {
             size = isMobile ? 60 : 75;
-            el.innerHTML = `<div class="w-full h-full animate-film-award-glow flex items-center justify-center"><img src="${filmAwardPNG}" alt="Film Award" class="w-full h-full obstacle-png-img pointer-events-none" /></div>`;
+            const awardSrc = (typeof filmAwardPNG === 'object' && filmAwardPNG.src) ? filmAwardPNG.src : filmAwardPNG;
+            const awardFallback = (typeof filmAwardPNG === 'object' && filmAwardPNG.fallback) ? filmAwardPNG.fallback : (window.filmAwardSVG || '');
+            el.innerHTML = `<div class="w-full h-full animate-film-award-glow flex items-center justify-center"><img src="${awardSrc}" onerror="if(this.src!=='${awardFallback}'){this.src='${awardFallback}';}" alt="Film Award" class="w-full h-full obstacle-png-img pointer-events-none" /></div>`;
         } else {
             size = isMobile ? 55 : 85; 
-            const chosenPNG = equipmentPNGs[Math.floor(Math.random() * equipmentPNGs.length)];
-            el.innerHTML = `<div class="w-full h-full animate-float-obstacle flex items-center justify-center"><img src="${chosenPNG}" alt="Equipment Obstacle" class="w-full h-full obstacle-png-img pointer-events-none" /></div>`;
+            const chosenItem = equipmentPNGs[Math.floor(Math.random() * equipmentPNGs.length)] || '1.png';
+            const imgSrc = (typeof chosenItem === 'object' && chosenItem.src) ? chosenItem.src : chosenItem;
+            const fallbackSrc = (typeof chosenItem === 'object' && chosenItem.fallback) ? chosenItem.fallback : '';
+            const fallbackAttr = fallbackSrc ? `onerror="if(this.src!=='${fallbackSrc}'){this.src='${fallbackSrc}';}"` : '';
+            el.innerHTML = `<div class="w-full h-full animate-float-obstacle flex items-center justify-center"><img src="${imgSrc}" ${fallbackAttr} alt="Equipment Obstacle" class="w-full h-full obstacle-png-img pointer-events-none" /></div>`;
         }
         
         el.style.width = size + 'px';
@@ -2303,4 +2308,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (window.ScrollTrigger) ScrollTrigger.refresh();
         }, 200);
     });
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startSimbionApp);
+} else {
+    startSimbionApp();
+}

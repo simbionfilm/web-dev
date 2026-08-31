@@ -1,4 +1,4 @@
-// Equipment Icons for Mini Game (Vector SVG / Base64 optimized for fast rendering)
+// Equipment Icons & PNG Assets for Mini Game Obstacles
 export const equipmentSVGs = [
     // 1. Film Slate / Clapperboard
     `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="white"><path d="M15,30 L85,30 L85,85 L15,85 Z" fill="%23222" stroke="white" stroke-width="4"/><path d="M15,15 L85,15 L85,30 L15,30 Z" fill="white"/><polygon points="20,15 30,15 25,30 15,30" fill="black"/><polygon points="40,15 50,15 45,30 35,30" fill="black"/><polygon points="60,15 70,15 65,30 55,30" fill="black"/><polygon points="80,15 85,15 85,30 75,30" fill="black"/><line x1="25" y1="45" x2="75" y2="45" stroke="white" stroke-width="3"/><line x1="25" y1="60" x2="75" y2="60" stroke="white" stroke-width="3"/><line x1="25" y1="75" x2="55" y2="75" stroke="white" stroke-width="3"/></svg>`,
@@ -22,10 +22,32 @@ export const equipmentSVGs = [
     `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="white"><rect x="20" y="25" width="60" height="50" rx="4" fill="%23111" stroke="white" stroke-width="4"/><circle cx="50" cy="50" r="16" fill="%23222" stroke="white" stroke-width="4"/><rect x="12" y="18" width="76" height="10" fill="white"/><polygon points="12,28 20,35 20,65 12,72" fill="white"/></svg>`
 ];
 
+// PNG Obstacle items mapping (1.png through 10.png) with fallback SVG
+export const equipmentPNGs = [
+    { src: '1.png', fallback: equipmentSVGs[0] },
+    { src: '2.png', fallback: equipmentSVGs[1] },
+    { src: '3.png', fallback: equipmentSVGs[2] },
+    { src: '4.png', fallback: equipmentSVGs[3] },
+    { src: '5.png', fallback: equipmentSVGs[4] },
+    { src: '6.png', fallback: equipmentSVGs[5] },
+    { src: '7.png', fallback: equipmentSVGs[6] },
+    { src: '8.png', fallback: equipmentSVGs[7] },
+    { src: '9.png', fallback: equipmentSVGs[8] },
+    { src: '10.png', fallback: equipmentSVGs[9] }
+];
+
 // Film Award Trophy with Laurels (Power-Up / Invincible Shield)
 export const filmAwardSVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="white"><path d="M50,15 C45,30 30,35 30,55 C30,70 42,78 50,82 C58,78 70,70 70,55 C70,35 55,30 50,15 Z" fill="%230616C6" stroke="white" stroke-width="3"/><polygon points="50,28 54,38 65,38 56,45 59,56 50,49 41,56 44,45 35,38 46,38" fill="white"/><path d="M22,30 Q12,50 25,75 M78,30 Q88,50 75,75" fill="none" stroke="white" stroke-width="4" stroke-linecap="round"/><ellipse cx="18" cy="40" rx="4" ry="7" transform="rotate(-30 18 40)" fill="white"/><ellipse cx="20" cy="55" rx="4" ry="7" transform="rotate(-15 20 55)" fill="white"/><ellipse cx="25" cy="68" rx="4" ry="7" transform="rotate(10 25 68)" fill="white"/><ellipse cx="82" cy="40" rx="4" ry="7" transform="rotate(30 82 40)" fill="white"/><ellipse cx="80" cy="55" rx="4" ry="7" transform="rotate(15 80 55)" fill="white"/><ellipse cx="75" cy="68" rx="4" ry="7" transform="rotate(-10 75 68)" fill="white"/><rect x="35" y="85" width="30" height="8" rx="2" fill="white"/></svg>`;
 
+export const filmAwardPNG = {
+    src: 'award.png',
+    fallback: filmAwardSVG
+};
+
 if (typeof window !== 'undefined') {
-    window.equipmentPNGs = equipmentSVGs;
-    window.filmAwardPNG = filmAwardSVG;
+    window.equipmentSVGs = equipmentSVGs;
+    window.equipmentPNGs = equipmentPNGs;
+    window.filmAwardSVG = filmAwardSVG;
+    window.filmAwardPNG = filmAwardPNG;
 }
+
