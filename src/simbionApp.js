@@ -1,6 +1,6 @@
 import './equipmentData.js';
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from "firebase/firestore";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // Firebase initialization
 const firebaseConfig = {
@@ -12,35 +12,49 @@ const firebaseConfig = {
     appId: "1:140728011693:web:73bf28fe95a86c49976f24"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app, "ai-studio-animatedtypograp-bb4e58ac-f74f-4c09-8dd7-ba4232addc13");
+let app = null;
+let db = null;
+
+try {
+    app = initializeApp(firebaseConfig);
+    try {
+        db = getFirestore(app, "ai-studio-animatedtypograp-bb4e58ac-f74f-4c09-8dd7-ba4232addc13");
+    } catch {
+        db = getFirestore(app);
+    }
+} catch (err) {
+    console.warn("Firebase initialization notice:", err);
+}
 
 window.globalHighScores = [];
 window.isFirebaseReady = false;
 
-try {
-    const q = query(collection(db, "highscores"), orderBy("time", "asc"), limit(10));
-    onSnapshot(q, (snapshot) => {
-        const list = [];
-        snapshot.forEach((doc) => {
-            const data = doc.data();
-            if (data && typeof data.name === 'string' && typeof data.time === 'number') {
-                list.push({ name: data.name, time: data.time });
+if (db) {
+    try {
+        const q = query(collection(db, "highscores"), orderBy("time", "asc"), limit(10));
+        onSnapshot(q, (snapshot) => {
+            const list = [];
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                if (data && typeof data.name === 'string' && typeof data.time === 'number') {
+                    list.push({ name: data.name, time: data.time });
+                }
+            });
+            window.globalHighScores = list;
+            window.isFirebaseReady = true;
+            if (typeof window.renderLeaderboard === 'function') {
+                window.renderLeaderboard();
             }
+        }, (error) => {
+            console.warn("Global leaderboard listener notice:", error);
         });
-        window.globalHighScores = list;
-        window.isFirebaseReady = true;
-        if (typeof window.renderLeaderboard === 'function') {
-            window.renderLeaderboard();
-        }
-    }, (error) => {
-        console.warn("Global leaderboard listener error:", error);
-    });
-} catch (e) {
-    console.warn("Firestore query error:", e);
+    } catch (e) {
+        console.warn("Firestore query notice:", e);
+    }
 }
 
 window.submitScoreToFirebase = async function(name, time) {
+    if (!db) return false;
     try {
         await addDoc(collection(db, "highscores"), {
             name: name,
@@ -55,6 +69,9 @@ window.submitScoreToFirebase = async function(name, time) {
 };
 
 function startSimbionApp() {
+    if (window.__simbionInitialized) return;
+    window.__simbionInitialized = true;
+
     // Shooting Preloader Logic
     const loader = document.getElementById('fake-loader');
     const loaderText = document.getElementById('loader-text');
