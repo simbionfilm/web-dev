@@ -1690,16 +1690,60 @@ function startSimbionApp() {
             el.innerHTML = `<div class="text-[#000AC2] font-black font-mono w-full h-full flex items-center justify-center animate-float-letter" style="font-size: ${isMobile ? 64 : 80}px; line-height: 1;">${letterToCollect}</div>`;
         } else if (spawnType === 'award') {
             size = isMobile ? 60 : 75;
-            const awardSrc = (typeof filmAwardPNG === 'object' && filmAwardPNG.src) ? filmAwardPNG.src : filmAwardPNG;
-            const awardFallback = (typeof filmAwardPNG === 'object' && filmAwardPNG.fallback) ? filmAwardPNG.fallback : (window.filmAwardSVG || '');
-            el.innerHTML = `<div class="w-full h-full animate-film-award-glow flex items-center justify-center"><img src="${awardSrc}" onerror="if(this.src!=='${awardFallback}'){this.src='${awardFallback}';}" alt="Film Award" class="w-full h-full obstacle-png-img pointer-events-none" /></div>`;
+            const awardPaths = (filmAwardPNG && filmAwardPNG.paths) ? filmAwardPNG.paths : [(filmAwardPNG.src || 'award.png'), './award.png', 'assets/award.png', './assets/award.png', 'award.PNG'];
+            const awardFallback = (filmAwardPNG && filmAwardPNG.fallback) ? filmAwardPNG.fallback : (window.filmAwardSVG || '');
+            
+            const wrap = document.createElement('div');
+            wrap.className = 'w-full h-full animate-film-award-glow flex items-center justify-center';
+            const img = document.createElement('img');
+            img.className = 'w-full h-full obstacle-png-img pointer-events-none';
+            img.alt = 'Film Award';
+            
+            let pathIdx = 0;
+            img.onerror = function() {
+                pathIdx++;
+                if (pathIdx < awardPaths.length) {
+                    this.src = awardPaths[pathIdx];
+                } else if (awardFallback && this.src !== awardFallback) {
+                    this.onerror = null;
+                    this.src = awardFallback;
+                }
+            };
+            img.src = awardPaths[0];
+            wrap.appendChild(img);
+            el.appendChild(wrap);
         } else {
             size = isMobile ? 55 : 85; 
-            const chosenItem = equipmentPNGs[Math.floor(Math.random() * equipmentPNGs.length)] || '1.png';
-            const imgSrc = (typeof chosenItem === 'object' && chosenItem.src) ? chosenItem.src : chosenItem;
-            const fallbackSrc = (typeof chosenItem === 'object' && chosenItem.fallback) ? chosenItem.fallback : '';
-            const fallbackAttr = fallbackSrc ? `onerror="if(this.src!=='${fallbackSrc}'){this.src='${fallbackSrc}';}"` : '';
-            el.innerHTML = `<div class="w-full h-full animate-float-obstacle flex items-center justify-center"><img src="${imgSrc}" ${fallbackAttr} alt="Equipment Obstacle" class="w-full h-full obstacle-png-img pointer-events-none" /></div>`;
+            const chosenItem = equipmentPNGs[Math.floor(Math.random() * equipmentPNGs.length)] || { src: '1.png', fallback: '' };
+            const candidatePaths = (chosenItem && chosenItem.paths) ? chosenItem.paths : [
+                chosenItem.src || '1.png',
+                `./${chosenItem.src || '1.png'}`,
+                `assets/${chosenItem.src || '1.png'}`,
+                `./assets/${chosenItem.src || '1.png'}`,
+                `img/${chosenItem.src || '1.png'}`,
+                `./img/${chosenItem.src || '1.png'}`
+            ];
+            const fallbackSrc = (chosenItem && chosenItem.fallback) ? chosenItem.fallback : '';
+            
+            const wrap = document.createElement('div');
+            wrap.className = 'w-full h-full animate-float-obstacle flex items-center justify-center';
+            const img = document.createElement('img');
+            img.className = 'w-full h-full obstacle-png-img pointer-events-none';
+            img.alt = chosenItem.name || 'Equipment Obstacle';
+            
+            let pathIdx = 0;
+            img.onerror = function() {
+                pathIdx++;
+                if (pathIdx < candidatePaths.length) {
+                    this.src = candidatePaths[pathIdx];
+                } else if (fallbackSrc && this.src !== fallbackSrc) {
+                    this.onerror = null;
+                    this.src = fallbackSrc;
+                }
+            };
+            img.src = candidatePaths[0];
+            wrap.appendChild(img);
+            el.appendChild(wrap);
         }
         
         el.style.width = size + 'px';

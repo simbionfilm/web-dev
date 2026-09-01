@@ -22,25 +22,132 @@ export const equipmentSVGs = [
     `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="white"><rect x="20" y="25" width="60" height="50" rx="4" fill="%23111" stroke="white" stroke-width="4"/><circle cx="50" cy="50" r="16" fill="%23222" stroke="white" stroke-width="4"/><rect x="12" y="18" width="76" height="10" fill="white"/><polygon points="12,28 20,35 20,65 12,72" fill="white"/></svg>`
 ];
 
-// PNG Obstacle items mapping (1.png through 10.png) with fallback SVG
+// PNG Obstacle items mapping with exact user filenames, numbers, and aliases
 export const equipmentPNGs = [
-    { src: '1.png', fallback: equipmentSVGs[0] },
-    { src: '2.png', fallback: equipmentSVGs[1] },
-    { src: '3.png', fallback: equipmentSVGs[2] },
-    { src: '4.png', fallback: equipmentSVGs[3] },
-    { src: '5.png', fallback: equipmentSVGs[4] },
-    { src: '6.png', fallback: equipmentSVGs[5] },
-    { src: '7.png', fallback: equipmentSVGs[6] },
-    { src: '8.png', fallback: equipmentSVGs[7] },
-    { src: '9.png', fallback: equipmentSVGs[8] },
-    { src: '10.png', fallback: equipmentSVGs[9] }
+    { 
+        name: 'Clapperboard', 
+        id: 1, 
+        src: 'clapperboard.png', 
+        paths: [
+            'clapperboard.png', './clapperboard.png', 'assets/clapperboard.png', './assets/clapperboard.png',
+            '1.png', './1.png', 'assets/1.png', './assets/1.png',
+            'clapperboard.PNG', '1.PNG', 'img/clapperboard.png', 'images/clapperboard.png'
+        ], 
+        fallback: equipmentSVGs[0] 
+    },
+    { 
+        name: 'Cinema Spotlight', 
+        id: 2, 
+        src: 'cinema.png', 
+        paths: [
+            'cinema.png', './cinema.png', 'assets/cinema.png', './assets/cinema.png',
+            '2.png', './2.png', 'assets/2.png', './assets/2.png',
+            'cinema.PNG', '2.PNG', 'img/cinema.png', 'images/cinema.png'
+        ], 
+        fallback: equipmentSVGs[1] 
+    },
+    { 
+        name: 'Studio Light', 
+        id: 3, 
+        src: 'light.png', 
+        paths: [
+            'light.png', './light.png', 'assets/light.png', './assets/light.png',
+            '3.png', './3.png', 'assets/3.png', './assets/3.png',
+            'light.PNG', '3.PNG', 'img/light.png', 'images/light.png'
+        ], 
+        fallback: equipmentSVGs[2] 
+    },
+    { 
+        name: 'Boom Microphone', 
+        id: 4, 
+        src: 'microphone.png', 
+        paths: [
+            'microphone.png', './microphone.png', 'assets/microphone.png', './assets/microphone.png',
+            '4.png', './4.png', 'assets/4.png', './assets/4.png',
+            'microphone.PNG', '4.PNG', 'img/microphone.png', 'images/microphone.png'
+        ], 
+        fallback: equipmentSVGs[3] 
+    },
+    { 
+        name: 'Film Roll', 
+        id: 5, 
+        src: 'film-roll.png', 
+        paths: [
+            'film-roll.png', './film-roll.png', 'assets/film-roll.png', './assets/film-roll.png',
+            'film_roll.png', '5.png', './5.png', 'assets/5.png',
+            'film-roll.PNG', '5.PNG', 'img/film-roll.png', 'images/film-roll.png'
+        ], 
+        fallback: equipmentSVGs[4] 
+    },
+    { 
+        name: 'Video Camera', 
+        id: 6, 
+        src: 'video-camera.png', 
+        paths: [
+            'video-camera.png', './video-camera.png', 'assets/video-camera.png', './assets/video-camera.png',
+            'video_camera.png', '6.png', './6.png', 'assets/6.png',
+            'video-camera.PNG', '6.PNG', 'img/video-camera.png', 'images/video-camera.png'
+        ], 
+        fallback: equipmentSVGs[5] 
+    },
+    { 
+        name: 'Director Chair', 
+        id: 7, 
+        src: 'director-chair.png', 
+        paths: [
+            'director-chair.png', './director-chair.png', 'assets/director-chair.png', './assets/director-chair.png',
+            'director_chair.png', '7.png', './7.png', 'assets/7.png',
+            'director-chair.PNG', '7.PNG', 'img/director-chair.png', 'images/director-chair.png'
+        ], 
+        fallback: equipmentSVGs[6] 
+    },
+    { 
+        name: 'Photography Softbox', 
+        id: 8, 
+        src: 'photography.png', 
+        paths: [
+            'photography.png', './photography.png', 'assets/photography.png', './assets/photography.png',
+            '8.png', './8.png', 'assets/8.png', './assets/8.png',
+            'photography.PNG', '8.PNG', 'img/photography.png', 'images/photography.png'
+        ], 
+        fallback: equipmentSVGs[7] 
+    },
+    { 
+        name: 'Camera Crane', 
+        id: 9, 
+        src: 'camera-crane.png', 
+        paths: [
+            'camera-crane.png', './camera-crane.png', 'assets/camera-crane.png', './assets/camera-crane.png',
+            'camera_crane.png', '9.png', './9.png', 'assets/9.png',
+            'camera-crane.PNG', '9.PNG', 'img/camera-crane.png', 'images/camera-crane.png'
+        ], 
+        fallback: equipmentSVGs[8] 
+    },
+    { 
+        name: 'Film Making Dolly', 
+        id: 10, 
+        src: 'film-making.png', 
+        paths: [
+            'film-making.png', './film-making.png', 'assets/film-making.png', './assets/film-making.png',
+            'film_making.png', '10.png', './10.png', 'assets/10.png',
+            'film-making.PNG', '10.PNG', 'img/film-making.png', 'images/film-making.png'
+        ], 
+        fallback: equipmentSVGs[9] 
+    }
 ];
 
 // Film Award Trophy with Laurels (Power-Up / Invincible Shield)
 export const filmAwardSVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="white"><path d="M50,15 C45,30 30,35 30,55 C30,70 42,78 50,82 C58,78 70,70 70,55 C70,35 55,30 50,15 Z" fill="%230616C6" stroke="white" stroke-width="3"/><polygon points="50,28 54,38 65,38 56,45 59,56 50,49 41,56 44,45 35,38 46,38" fill="white"/><path d="M22,30 Q12,50 25,75 M78,30 Q88,50 75,75" fill="none" stroke="white" stroke-width="4" stroke-linecap="round"/><ellipse cx="18" cy="40" rx="4" ry="7" transform="rotate(-30 18 40)" fill="white"/><ellipse cx="20" cy="55" rx="4" ry="7" transform="rotate(-15 20 55)" fill="white"/><ellipse cx="25" cy="68" rx="4" ry="7" transform="rotate(10 25 68)" fill="white"/><ellipse cx="82" cy="40" rx="4" ry="7" transform="rotate(30 82 40)" fill="white"/><ellipse cx="80" cy="55" rx="4" ry="7" transform="rotate(15 80 55)" fill="white"/><ellipse cx="75" cy="68" rx="4" ry="7" transform="rotate(-10 75 68)" fill="white"/><rect x="35" y="85" width="30" height="8" rx="2" fill="white"/></svg>`;
 
 export const filmAwardPNG = {
-    src: 'award.png',
+    name: 'Film Award',
+    src: 'film award.png',
+    paths: [
+        'film award.png', './film award.png', 'film%20award.png', './film%20award.png',
+        'film-award.png', './film-award.png', 'assets/film award.png', './assets/film award.png',
+        'assets/film-award.png', 'award.png', './award.png', 'assets/award.png',
+        'film award.PNG', 'film-award.PNG', 'award.PNG'
+    ],
     fallback: filmAwardSVG
 };
 
