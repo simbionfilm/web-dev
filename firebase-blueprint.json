@@ -1,0 +1,33 @@
+{
+  "entities": {
+    "highscores": {
+      "title": "Highscore",
+      "description": "Global speedrun highscores for the falling cameraman minigame",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Player nickname (uppercase, max 12 chars)"
+        },
+        "time": {
+          "type": "number",
+          "description": "Time in seconds to complete the minigame"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the score was recorded"
+        }
+      },
+      "required": ["name", "time", "createdAt"]
+    }
+  },
+  "firestore": {
+    "collections": {
+      "highscores": {
+        "entity": "highscores",
+        "description": "Collection of global speedrun records"
+      }
+    }
+  }
+}

@@ -1700,28 +1700,42 @@ function startSimbionApp() {
             img.alt = 'Film Award';
             
             let pathIdx = 0;
+            const applyImgStyle = (el) => {
+                if (el.src && el.src.startsWith('data:')) {
+                    el.style.filter = 'drop-shadow(0 0 16px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 30px rgba(0, 10, 194, 0.9))';
+                } else {
+                    el.style.filter = 'brightness(0) invert(1) drop-shadow(0 0 16px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 30px rgba(0, 10, 194, 0.9))';
+                }
+            };
+
             img.onerror = function() {
                 pathIdx++;
                 if (pathIdx < awardPaths.length) {
                     this.src = awardPaths[pathIdx];
+                    applyImgStyle(this);
                 } else if (awardFallback && this.src !== awardFallback) {
                     this.onerror = null;
                     this.src = awardFallback;
+                    applyImgStyle(this);
                 }
             };
+            img.onload = function() {
+                applyImgStyle(this);
+            };
             img.src = awardPaths[0];
+            applyImgStyle(img);
             wrap.appendChild(img);
             el.appendChild(wrap);
         } else {
             size = isMobile ? 55 : 85; 
             const chosenItem = equipmentPNGs[Math.floor(Math.random() * equipmentPNGs.length)] || { src: '1.png', fallback: '' };
             const candidatePaths = (chosenItem && chosenItem.paths) ? chosenItem.paths : [
-                chosenItem.src || '1.png',
-                `./${chosenItem.src || '1.png'}`,
-                `assets/${chosenItem.src || '1.png'}`,
-                `./assets/${chosenItem.src || '1.png'}`,
-                `img/${chosenItem.src || '1.png'}`,
-                `./img/${chosenItem.src || '1.png'}`
+                chosenItem.src || 'clapperboard.png',
+                `./${chosenItem.src || 'clapperboard.png'}`,
+                `assets/${chosenItem.src || 'clapperboard.png'}`,
+                `./assets/${chosenItem.src || 'clapperboard.png'}`,
+                `img/${chosenItem.src || 'clapperboard.png'}`,
+                `./img/${chosenItem.src || 'clapperboard.png'}`
             ];
             const fallbackSrc = (chosenItem && chosenItem.fallback) ? chosenItem.fallback : '';
             
@@ -1732,16 +1746,30 @@ function startSimbionApp() {
             img.alt = chosenItem.name || 'Equipment Obstacle';
             
             let pathIdx = 0;
+            const applyObstacleStyle = (el) => {
+                if (el.src && el.src.startsWith('data:')) {
+                    el.style.filter = 'drop-shadow(0 2px 10px rgba(0, 10, 194, 0.8))';
+                } else {
+                    el.style.filter = 'brightness(0) invert(1) drop-shadow(0 2px 10px rgba(0, 10, 194, 0.8))';
+                }
+            };
+
             img.onerror = function() {
                 pathIdx++;
                 if (pathIdx < candidatePaths.length) {
                     this.src = candidatePaths[pathIdx];
+                    applyObstacleStyle(this);
                 } else if (fallbackSrc && this.src !== fallbackSrc) {
                     this.onerror = null;
                     this.src = fallbackSrc;
+                    applyObstacleStyle(this);
                 }
             };
+            img.onload = function() {
+                applyObstacleStyle(this);
+            };
             img.src = candidatePaths[0];
+            applyObstacleStyle(img);
             wrap.appendChild(img);
             el.appendChild(wrap);
         }
