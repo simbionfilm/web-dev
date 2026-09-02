@@ -657,12 +657,24 @@ function startSimbionApp() {
 
         function resizeAbout() {
             if (!ctxAbout) return;
-            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            // 1. SUPERSAMPLING (SSAA): Force a significantly higher internal rendering resolution
+            const baseDpr = window.devicePixelRatio || 1;
+            const dpr = Math.min(baseDpr * 2.0, 4.0); // Render at up to 4x resolution internally
+            
             aboutWidth = aboutSection.clientWidth || window.innerWidth;
             aboutHeight = aboutSection.clientHeight || window.innerHeight;
 
             aboutCanvas.width = Math.floor(aboutWidth * dpr);
             aboutCanvas.height = Math.floor(aboutHeight * dpr);
+            
+            // Ensure CSS layout size remains stable while internal resolution scales up
+            aboutCanvas.style.width = `${aboutWidth}px`;
+            aboutCanvas.style.height = `${aboutHeight}px`;
+            
+            // 2. CRISP FILTER: Apply subtle contrast and saturation boost to mimic sharpening
+            aboutCanvas.style.filter = "contrast(1.15) saturate(1.1)";
+            aboutCanvas.style.imageRendering = "high-quality";
+
             ctxAbout.setTransform(1, 0, 0, 1, 0, 0);
             ctxAbout.scale(dpr, dpr);
         }
@@ -676,10 +688,12 @@ function startSimbionApp() {
 
             const isMobile = window.innerWidth < 768;
             ctxAbout.clearRect(0, 0, aboutWidth, aboutHeight);
+            ctxAbout.imageSmoothingEnabled = true;
+            ctxAbout.imageSmoothingQuality = "high";
 
             const baseScale = isMobile ? 0.70 : 0.85;
             // Scale: starts at 170% (1.7x) and scales down as it descends
-            const scaleMultiplier = 1.7 - (0.3 * p);
+            const scaleMultiplier = 1.35 - (0.2 * p); // Reduced initial zoom to prevent pixelation
             const currentScale = baseScale * scaleMultiplier;
 
             // Position X: Sits on the right side of the about text (shifted slightly to the left)
@@ -2520,37 +2534,87 @@ function startSimbionApp() {
               .to("#soul-desc", { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }, "-=0.9")
               .to(".bts-enter", { opacity: 1, duration: 1.5, ease: "power3.out" }, "-=0.8");
 
-        const marqueeTrack = document.getElementById('marquee-track');
-        if (marqueeTrack) {
-            const marqueeAnim = gsap.to(marqueeTrack, {
-                xPercent: -50,
-                duration: 48,
-                ease: "none",
-                repeat: -1,
-                force3D: true,
-                paused: true
-            });
+        const btsRing = document.getElementById('bts-carousel-ring');
+        if (btsRing) {
+            btsRing.innerHTML = ''; // Clear contents
+            const numImagesPerRow = 14; 
+            const isMobile = window.innerWidth < 768;
+            const radius = isMobile ? 180 : 450; // Smaller radius
+            const imgWidth = isMobile ? 90 : 180; // Smaller images
+            const rowHeight = isMobile ? 85 : 190; // Tighter vertical spacing // Vertical distance between rows
+            
+            btsRing.style.width = imgWidth + 'px';
+            btsRing.style.height = (imgWidth * 0.6) + 'px';
+            btsRing.style.transformStyle = 'preserve-3d';
 
-            const floatElements = marqueeTrack.querySelectorAll('.bts-float');
-            floatElements.forEach((el, index) => {
-                const animVariant = (index % 3) + 1;
-                el.classList.add(`bts-float-anim-${animVariant}`);
-            });
-
-            if ('IntersectionObserver' in window) {
-                const btsObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            marqueeAnim.play();
-                        } else {
-                            marqueeAnim.pause();
-                        }
-                    });
-                }, { rootMargin: '300px 0px' });
+            const rows = [];
+            
+            // Create 3 rings (rows), r = -1, 0, 1
+            for (let r = -1; r <= 1; r++) {
+                const rowEl = document.createElement('div');
+                rowEl.className = 'absolute top-0 left-0 w-full h-full flex justify-center items-center';
+                rowEl.style.transformStyle = 'preserve-3d';
                 
-                const btsSection = document.getElementById('the-soul');
-                if (btsSection) btsObserver.observe(btsSection);
+                // Offset rows vertically
+                rowEl.style.transform = `translateY(${r * rowHeight}px)`;
+
+                for (let i = 1; i <= numImagesPerRow; i++) {
+                    // Offset the image index for each row for variety
+                    const imgIndex = ((i - 1 + (r + 1) * 4) % 14) + 1; 
+                    const angle = (i - 1) * (360 / numImagesPerRow);
+                    
+                    const el = document.createElement('div');
+                    el.className = 'absolute top-0 left-0 w-full h-full flex justify-center items-center bts-float';
+                    
+                    // Add half step offset for middle row to create a brick pattern
+                    const angleOffset = r === 0 ? (360 / numImagesPerRow) / 2 : 0;
+                    
+                    el.style.transform = `rotateY(${angle + angleOffset}deg) translateZ(${radius}px)`;
+                    el.style.backfaceVisibility = 'visible';
+                    
+                    const img = document.createElement('img');
+                    img.src = `${imgIndex}.webp`;
+                    img.onerror = () => { img.src = `https://placehold.co/300x200/111111/FFFFFF?text=BTS+${imgIndex}`; };
+                    img.alt = `BTS ${imgIndex}`;
+                    img.className = "w-full h-auto rounded-none opacity-80 hover:opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer bts-card-optimized shadow-2xl";
+                    
+                    el.appendChild(img);
+                    rowEl.appendChild(el);
+                }
+                
+                btsRing.appendChild(rowEl);
+                // Top and bottom row go one way, middle row goes the opposite way
+                rows.push({ el: rowEl, dir: r === 0 ? -1 : 1 }); 
             }
+            
+            let baseRotation = 0;
+            let scrollRotation = 0;
+            
+            ScrollTrigger.create({
+                trigger: "#the-soul",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 0.5,
+                onUpdate: (self) => {
+                    scrollRotation = self.progress * 360; 
+                }
+            });
+            
+            let reqId;
+            function renderCarousel() {
+                baseRotation -= 0.10; // Slowed down slightly for 3 rows
+                rows.forEach(row => {
+                    const totalRotation = (baseRotation + scrollRotation) * row.dir;
+                    gsap.set(row.el, { rotationY: totalRotation });
+                });
+                reqId = requestAnimationFrame(renderCarousel);
+            }
+            
+            renderCarousel();
+            
+            ScrollTrigger.addEventListener("refreshInit", () => {
+                // Not strictly necessary but good practice
+            });
         }
 
         gsap.to('.parallax-hero', {
