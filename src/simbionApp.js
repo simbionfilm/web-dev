@@ -619,7 +619,7 @@ function startSimbionApp() {
 
         if (!aboutCanvas || !aboutSection || !weAreCanvas || !weAreSection || !window.gsap) return;
 
-        const supabaseBaseUrl = "https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/3d/";
+        const supabaseBaseUrl = "https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/3d%20glass/";
         const totalFrames = 244;
         const images = new Array(totalFrames);
         window.sequenceTotalFrames = totalFrames;
@@ -670,8 +670,9 @@ function startSimbionApp() {
                 img.decoding = "async";
                 img.crossOrigin = "anonymous";
                 const p3 = String(frameIndex).padStart(3, '0');
-                const primaryUrl = `${supabaseBaseUrl}ezgif-frame-${p3}.png`;
-                const fallbackUrl = `${supabaseBaseUrl}${p3}.png`;
+                const primaryUrl = `${supabaseBaseUrl}ezgif-frame-${p3}.webp`;
+                const fallbackUrl = `${supabaseBaseUrl}${p3}.webp`;
+                const pngFallbackUrl = `https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/3d/ezgif-frame-${p3}.png`;
 
                 const onFinished = () => {
                     activeLoads--;
@@ -693,8 +694,10 @@ function startSimbionApp() {
 
                 img.onload = onFinished;
                 img.onerror = function() {
-                    if (this.src !== fallbackUrl) {
+                    if (this.src === primaryUrl) {
                         this.src = fallbackUrl;
+                    } else if (this.src === fallbackUrl) {
+                        this.src = pngFallbackUrl;
                     } else if (rawVectors.length > 0) {
                         this.onerror = null;
                         this.src = rawVectors[(frameIndex - 1) % rawVectors.length];
@@ -865,7 +868,7 @@ function startSimbionApp() {
             trigger: "#about",
             start: "top bottom",
             end: "bottom top",
-            scrub: 0.5,
+            scrub: 0.6,
             onUpdate: (self) => {
                 isAboutVisible = true;
                 aboutFrameIdx = (window.sequenceTotalFrames - 1) * self.progress;
@@ -941,7 +944,7 @@ function startSimbionApp() {
             trigger: "#we-are-made",
             start: "top bottom",
             end: "bottom top",
-            scrub: 0.5,
+            scrub: 0.6,
             onUpdate: (self) => {
                 isWeAreVisible = true;
                 const p = self.progress;
@@ -1022,7 +1025,7 @@ function startSimbionApp() {
                 trigger: "#statement",
                 start: "top bottom",
                 end: "bottom top",
-                scrub: 0.5,
+                scrub: 0.6,
                 onUpdate: (self) => {
                     const p = self.progress;
                     statementFrameIdx = (p <= 0.5)
@@ -1810,14 +1813,14 @@ function startSimbionApp() {
     const isTouchDevice = window.matchMedia("(pointer: coarse), (hover: none), (max-width: 1024px)").matches;
 
     const lenis = new Lenis({
-        duration: isTouchDevice ? 1.4 : 2.0, 
+        duration: isTouchDevice ? 1.2 : 1.6, 
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
         direction: 'vertical',
         gestureDirection: 'vertical',
         smooth: true,
         smoothTouch: true,
-        touchMultiplier: 1.6,
-        wheelMultiplier: 0.75, 
+        touchMultiplier: 1.5,
+        wheelMultiplier: 0.85, 
         infinite: false,
     });
     window.lenis = lenis;
@@ -2907,10 +2910,11 @@ function startSimbionApp() {
 
             const trackTl = gsap.timeline({
                 scrollTrigger: {
+                    id: "filmTrackTrigger",
                     trigger: "#selected-work",
                     start: "top top",
                     end: () => "+=" + Math.max(isTouchDevice ? 600 : 800, (filmTrack.scrollWidth - window.innerWidth) * (isTouchDevice ? 1.0 : 1.2)),
-                    scrub: isTouchDevice ? 1.0 : 1.8,
+                    scrub: isTouchDevice ? 0.9 : 1.3,
                     pin: true,
                     anticipatePin: 1,
                     invalidateOnRefresh: true,
@@ -3056,14 +3060,89 @@ function startSimbionApp() {
         });
     }
     
+    // Smooth section snapping between About, We Are, Selected Works, Statement and key sections
+    let sectionSnapTrigger = null;
+    function initSectionSnapping() {
+        if (!window.gsap || !window.ScrollTrigger) return;
+        if (sectionSnapTrigger) {
+            sectionSnapTrigger.kill();
+            sectionSnapTrigger = null;
+        }
+
+        const sectionSelectors = [
+            '#hero',
+            '#about',
+            '#we-are-made',
+            '#selected-work',
+            '#the-soul',
+            '#statement',
+            '#contact'
+        ];
+
+        function getSnapProgressArray() {
+            const totalScroll = ScrollTrigger.maxScroll(window);
+            if (totalScroll <= 0) return [];
+
+            const positions = [0];
+
+            sectionSelectors.forEach(sel => {
+                const el = document.querySelector(sel);
+                if (!el) return;
+                const rect = el.getBoundingClientRect();
+                const topOffset = window.pageYOffset + rect.top;
+                if (topOffset >= 0 && topOffset <= totalScroll) {
+                    positions.push(topOffset);
+                }
+
+                if (sel === '#selected-work') {
+                    const trackTrig = ScrollTrigger.getById('filmTrackTrigger');
+                    if (trackTrig && trackTrig.end && trackTrig.end <= totalScroll) {
+                        positions.push(trackTrig.end);
+                    }
+                }
+            });
+
+            positions.push(totalScroll);
+            const unique = Array.from(new Set(positions.map(p => Math.round(p)))).sort((a, b) => a - b);
+            return unique.map(p => p / totalScroll);
+        }
+
+        sectionSnapTrigger = ScrollTrigger.create({
+            snap: {
+                snapTo: (progress) => {
+                    if (window.isGameActive || (typeof isGameActive !== 'undefined' && isGameActive)) return progress;
+                    const snapPoints = getSnapProgressArray();
+                    if (!snapPoints.length) return progress;
+
+                    let closest = snapPoints[0];
+                    let minDiff = Math.abs(progress - closest);
+                    for (let i = 1; i < snapPoints.length; i++) {
+                        const diff = Math.abs(progress - snapPoints[i]);
+                        if (diff < minDiff) {
+                            minDiff = diff;
+                            closest = snapPoints[i];
+                        }
+                    }
+                    return closest;
+                },
+                duration: { min: 0.25, max: 0.65 },
+                delay: 0.08,
+                ease: "power2.out",
+                inertia: false
+            }
+        });
+    }
+
     initGalleryInteractions();
     initParagraphAnimations();
+    initSectionSnapping();
     if (window.ScrollTrigger) ScrollTrigger.refresh();
 
     if (document.fonts && document.fonts.ready) {
         document.fonts.ready.then(() => {
             setTimeout(() => {
                 initParagraphAnimations();
+                initSectionSnapping();
                 if (window.ScrollTrigger) ScrollTrigger.refresh();
             }, 60);
         });
@@ -3071,6 +3150,7 @@ function startSimbionApp() {
     window.addEventListener('load', () => {
         setTimeout(() => {
             initParagraphAnimations();
+            initSectionSnapping();
             if (window.ScrollTrigger) ScrollTrigger.refresh();
         }, 100);
     });
@@ -3080,6 +3160,7 @@ function startSimbionApp() {
         clearTimeout(resizeDebounce);
         resizeDebounce = setTimeout(() => {
             initParagraphAnimations();
+            initSectionSnapping();
             if (window.ScrollTrigger) ScrollTrigger.refresh();
         }, 200);
     });
