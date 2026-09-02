@@ -2670,9 +2670,9 @@ function startSimbionApp() {
             const numImagesPerRow = 14; 
             const isMobile = window.innerWidth < 768;
             
-            const radius = isMobile ? 220 : 450;
+            const radius = isMobile ? 280 : 600;
             const imgWidth = isMobile ? 70 : 130;
-            const rowHeight = isMobile ? 75 : 115;
+            const rowHeight = isMobile ? 120 : 185;
             
             btsRing.style.width = imgWidth + 'px';
             btsRing.style.height = (imgWidth * 0.6) + 'px';
@@ -2688,7 +2688,7 @@ function startSimbionApp() {
             center3DContainer.style.transformStyle = 'preserve-3d';
             
             const centerCanvas = document.createElement('canvas');
-            const cSize = isMobile ? 360 : 580; // CSS display size
+            const cSize = isMobile ? 360 : 600; // CSS display size
             const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
             centerCanvas.width = Math.floor(cSize * dpr);
             centerCanvas.height = Math.floor(cSize * dpr);
@@ -2731,8 +2731,29 @@ function startSimbionApp() {
                     img.onerror = () => { img.src = `https://placehold.co/300x200/111111/FFFFFF?text=BTS+${imgIndex}`; };
                     img.alt = `BTS ${imgIndex}`;
                     
+                    const applyImgSize = () => {
+                        if (img.naturalHeight && img.naturalWidth) {
+                            if (img.naturalHeight > img.naturalWidth) {
+                                // Portrait photo: smaller width and height to keep balanced proportions
+                                img.style.maxWidth = `${isMobile ? 48 : 82}px`;
+                                img.style.maxHeight = `${isMobile ? 68 : 110}px`;
+                            } else {
+                                img.style.maxWidth = `${imgWidth}px`;
+                                img.style.maxHeight = `${isMobile ? 64 : 100}px`;
+                            }
+                        }
+                    };
+
+                    if (img.complete) {
+                        applyImgSize();
+                    } else {
+                        img.onload = applyImgSize;
+                    }
+
                     // KINETIC HOVER EFFECT: scale-150 and bouncy transition
-                    img.className = "w-full h-auto rounded-none opacity-100 hover:scale-150 cursor-pointer bts-card-optimized shadow-2xl";
+                    img.className = "rounded-none opacity-100 hover:scale-150 cursor-pointer bts-card-optimized shadow-2xl object-contain";
+                    img.style.maxWidth = `${imgWidth}px`;
+                    img.style.maxHeight = `${isMobile ? 68 : 110}px`;
                     img.style.transition = "transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease"; 
                     img.style.transform = "translateZ(0)"; 
                     img.style.willChange = "transform, opacity";
