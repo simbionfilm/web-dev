@@ -1,6 +1,18 @@
 import './equipmentData.js';
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { 
+    initializeFirestore, 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    query, 
+    orderBy, 
+    limit, 
+    onSnapshot, 
+    serverTimestamp,
+    doc,
+    getDocFromServer 
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // Firebase initialization
 const firebaseConfig = {
@@ -14,13 +26,21 @@ const firebaseConfig = {
 
 let app = null;
 let db = null;
+const dbId = "ai-studio-animatedtypograp-bb4e58ac-f74f-4c09-8dd7-ba4232addc13";
 
 try {
     app = initializeApp(firebaseConfig);
     try {
-        db = getFirestore(app, "ai-studio-animatedtypograp-bb4e58ac-f74f-4c09-8dd7-ba4232addc13");
+        db = initializeFirestore(app, {
+            experimentalAutoDetectLongPolling: true,
+            useFetchStreams: false
+        }, dbId);
     } catch {
-        db = getFirestore(app);
+        try {
+            db = getFirestore(app, dbId);
+        } catch {
+            db = getFirestore(app);
+        }
     }
 } catch (err) {
     console.warn("Firebase initialization notice:", err);
@@ -28,6 +48,17 @@ try {
 
 window.globalHighScores = [];
 window.isFirebaseReady = false;
+
+// Structured error handler according to Firebase guidelines
+function handleFirestoreError(error, operationType, path) {
+    const errInfo = {
+        error: error instanceof Error ? error.message : String(error),
+        operationType: operationType,
+        path: path,
+        timestamp: new Date().toISOString()
+    };
+    console.warn("Firestore Notification:", JSON.stringify(errInfo));
+}
 
 if (db) {
     try {
@@ -46,10 +77,10 @@ if (db) {
                 window.renderLeaderboard();
             }
         }, (error) => {
-            console.warn("Global leaderboard listener notice:", error);
+            handleFirestoreError(error, 'list', 'highscores');
         });
     } catch (e) {
-        console.warn("Firestore query notice:", e);
+        handleFirestoreError(e, 'list', 'highscores');
     }
 }
 
@@ -63,7 +94,7 @@ window.submitScoreToFirebase = async function(name, time) {
         });
         return true;
     } catch (err) {
-        console.error("Firestore save error:", err);
+        handleFirestoreError(err, 'create', 'highscores');
         return false;
     }
 };
@@ -544,10 +575,305 @@ function startSimbionApp() {
         });
     }
 
+    // 3 Independent 3D Sequences (1 in #about, 1 in #we-are-made, 1 in #statement)
+    function init3DCanvasSequence() {
+        const aboutCanvas = document.getElementById('about-3d-canvas');
+        const aboutSection = document.getElementById('about');
+        const weAreCanvas = document.getElementById('we-are-3d-canvas');
+        const weAreSection = document.getElementById('we-are-made');
+        const statementCanvas = document.getElementById('statement-3d-canvas');
+        const statementSection = document.getElementById('statement');
+
+        if (!aboutCanvas || !aboutSection || !weAreCanvas || !weAreSection || !window.gsap) return;
+
+        const supabaseBaseUrl = "https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/3d/";
+        const totalFrames = 244;
+        const images = [];
+        let imagesLoaded = 0;
+
+        const rawVectors = (window.sequence3DFrames && window.sequence3DFrames.length >= 60)
+            ? window.sequence3DFrames
+            : [];
+
+        // Preload all 244 frames from Supabase Storage
+        for (let i = 1; i <= totalFrames; i++) {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            const p3 = String(i).padStart(3, '0');
+            const primaryUrl = `${supabaseBaseUrl}ezgif-frame-${p3}.png`;
+            const fallbackUrl = `${supabaseBaseUrl}${p3}.png`;
+
+            img.onload = () => {
+                imagesLoaded++;
+                if (imagesLoaded === 1 || i === 1) {
+                    if (weAreCanvas) weAreCanvas.style.opacity = '1';
+                    if (statementCanvas) statementCanvas.style.opacity = '1';
+                    drawAbout(0, 0);
+                    drawWeAre(0, 0);
+                    if (statementCanvas) drawStatement(0, 0);
+                }
+            };
+            img.onerror = function() {
+                if (this.src !== fallbackUrl) {
+                    this.src = fallbackUrl;
+                } else if (rawVectors.length > 0) {
+                    this.onerror = null;
+                    this.src = rawVectors[(i - 1) % rawVectors.length];
+                }
+            };
+
+            img.src = primaryUrl;
+            images.push(img);
+        }
+
+        // ==========================================
+        // 1. CANVAS 1: ABOUT SECTION
+        // - Starts at scale 300% on the right side
+        // - Moves downwards (gets cut off at bottom) as user scrolls
+        // ==========================================
+        const ctxAbout = aboutCanvas.getContext('2d', { alpha: true });
+        let aboutWidth = window.innerWidth;
+        let aboutHeight = window.innerHeight;
+
+        function resizeAbout() {
+            if (!ctxAbout) return;
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            aboutWidth = aboutSection.clientWidth || window.innerWidth;
+            aboutHeight = aboutSection.clientHeight || window.innerHeight;
+
+            aboutCanvas.width = Math.floor(aboutWidth * dpr);
+            aboutCanvas.height = Math.floor(aboutHeight * dpr);
+            ctxAbout.setTransform(1, 0, 0, 1, 0, 0);
+            ctxAbout.scale(dpr, dpr);
+        }
+
+        function drawAbout(frameIdx, progress = 0) {
+            if (!ctxAbout) return;
+            const validIdx = Math.max(0, Math.min(totalFrames - 1, Math.floor(frameIdx || 0)));
+            const p = Math.max(0, Math.min(1, progress || 0));
+            const img = images[validIdx];
+            if (!img || !img.complete || img.naturalWidth === 0) return;
+
+            const isMobile = window.innerWidth < 768;
+            ctxAbout.clearRect(0, 0, aboutWidth, aboutHeight);
+
+            const baseScale = isMobile ? 0.70 : 0.85;
+            // Scale: starts at 170% (1.7x) and scales down as it descends
+            const scaleMultiplier = 1.7 - (0.3 * p);
+            const currentScale = baseScale * scaleMultiplier;
+
+            // Position X: Sits on the right side of the about text (shifted slightly to the left)
+            const currentX = aboutWidth * ((isMobile ? 0.60 : 0.64) - (0.12 * p));
+
+            // Position Y: Descends continuously down past the bottom edge of the section (terpotong ke bawah)
+            const startY = aboutHeight * 0.45;
+            const endY = aboutHeight * 1.35; // Drops deeply down so it gets cut off by overflow-hidden
+            const currentY = startY * (1 - p) + endY * p;
+
+            // Rotation tilt: +14deg -> +6deg
+            const rotationDeg = 14 * (1 - p) + 6 * p;
+            const rotationRad = (rotationDeg * Math.PI) / 180;
+
+            const aspect = (img.naturalWidth || 512) / (img.naturalHeight || 600);
+            let renderH = aboutHeight * currentScale;
+            let renderW = renderH * aspect;
+
+            ctxAbout.save();
+            ctxAbout.translate(currentX, currentY);
+            ctxAbout.rotate(rotationRad);
+            ctxAbout.shadowColor = 'rgba(0, 10, 194, 0.45)';
+            ctxAbout.shadowBlur = (isMobile ? 16 : 30) * Math.min(2, scaleMultiplier / 1.5);
+            ctxAbout.drawImage(img, -renderW / 2, -renderH / 2, renderW, renderH);
+            ctxAbout.restore();
+        }
+
+        resizeAbout();
+
+        // ScrollTrigger for About Canvas
+        ScrollTrigger.create({
+            trigger: "#about",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.6,
+            onUpdate: (self) => {
+                const frameIdx = (totalFrames - 1) * self.progress;
+                drawAbout(frameIdx, self.progress);
+            }
+        });
+
+        // ==========================================
+        // 2. CANVAS 2: WE ARE WHAT WE'VE MADE SECTION
+        // - Starts from top/scale down to 100% at exact center
+        // - Rotates forward then backward as user scrolls
+        // ==========================================
+        const ctxWeAre = weAreCanvas.getContext('2d', { alpha: true });
+        let weAreWidth = window.innerWidth;
+        let weAreHeight = window.innerHeight;
+
+        function resizeWeAre() {
+            if (!ctxWeAre) return;
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            weAreWidth = weAreSection.clientWidth || window.innerWidth;
+            weAreHeight = weAreSection.clientHeight || window.innerHeight;
+
+            weAreCanvas.width = Math.floor(weAreWidth * dpr);
+            weAreCanvas.height = Math.floor(weAreHeight * dpr);
+            ctxWeAre.setTransform(1, 0, 0, 1, 0, 0);
+            ctxWeAre.scale(dpr, dpr);
+        }
+
+        function drawWeAre(frameIdx, progress = 0) {
+            if (!ctxWeAre) return;
+            const validIdx = Math.max(0, Math.min(totalFrames - 1, Math.floor(frameIdx || 0)));
+            const p = Math.max(0, Math.min(1, progress || 0));
+            const img = images[validIdx];
+            if (!img || !img.complete || img.naturalWidth === 0) return;
+
+            const isMobile = window.innerWidth < 768;
+            ctxWeAre.clearRect(0, 0, weAreWidth, weAreHeight);
+
+            const baseScale = isMobile ? 0.72 : 0.88;
+            // Scale enters at 140% and settles down to 100% normal scale at center (p=0.5)
+            const scaleFactor = Math.min(1, p * 2.0);
+            const scaleMultiplier = 1.40 - (0.40 * scaleFactor);
+            const currentScale = baseScale * scaleMultiplier;
+
+            // Centers to 50% width
+            const currentX = weAreWidth * (0.58 - 0.08 * scaleFactor);
+            
+            // Starts slightly above center (-0.05 height) and reaches center (0.50 height)
+            const currentY = weAreHeight * (p <= 0.5 ? (-0.05 + 0.55 * (p / 0.5)) : 0.50) + (isMobile ? 20 : 10);
+
+            // Settles from +6deg tilt to 0deg upright
+            const rotationRad = (6 * (1 - scaleFactor) * Math.PI) / 180;
+
+            const aspect = (img.naturalWidth || 512) / (img.naturalHeight || 600);
+            let renderH = weAreHeight * currentScale;
+            let renderW = renderH * aspect;
+
+            ctxWeAre.save();
+            ctxWeAre.translate(currentX, currentY);
+            ctxWeAre.rotate(rotationRad);
+            ctxWeAre.shadowColor = 'rgba(0, 10, 194, 0.45)';
+            ctxWeAre.shadowBlur = isMobile ? 16 : 28;
+            ctxWeAre.drawImage(img, -renderW / 2, -renderH / 2, renderW, renderH);
+            ctxWeAre.restore();
+        }
+
+        resizeWeAre();
+
+        // ScrollTrigger for We Are Canvas: Rotates forward (0->244) then backward (244->0)
+        ScrollTrigger.create({
+            trigger: "#we-are-made",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.6,
+            onUpdate: (self) => {
+                const p = self.progress;
+                let frameIdx;
+                if (p <= 0.5) {
+                    frameIdx = (totalFrames - 1) * (p / 0.5);
+                } else {
+                    frameIdx = (totalFrames - 1) * (1 - ((p - 0.5) / 0.5));
+                }
+                drawWeAre(frameIdx, p);
+            }
+        });
+
+        // ==========================================
+        // 3. CANVAS 3: STATEMENT SECTION
+        // - Rotates continuously across scroll
+        // ==========================================
+        const ctxStatement = statementCanvas ? statementCanvas.getContext('2d', { alpha: true }) : null;
+        let statementWidth = window.innerWidth;
+        let statementHeight = window.innerHeight;
+
+        function resizeStatement() {
+            if (!ctxStatement || !statementCanvas || !statementSection) return;
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            statementWidth = statementSection.clientWidth || window.innerWidth;
+            statementHeight = statementSection.clientHeight || window.innerHeight;
+
+            statementCanvas.width = Math.floor(statementWidth * dpr);
+            statementCanvas.height = Math.floor(statementHeight * dpr);
+            ctxStatement.setTransform(1, 0, 0, 1, 0, 0);
+            ctxStatement.scale(dpr, dpr);
+        }
+
+        function drawStatement(frameIdx, progress = 0) {
+            if (!ctxStatement) return;
+            const validIdx = Math.max(0, Math.min(totalFrames - 1, Math.floor(frameIdx || 0)));
+            const p = Math.max(0, Math.min(1, progress || 0));
+            const img = images[validIdx];
+            if (!img || !img.complete || img.naturalWidth === 0) return;
+
+            const isMobile = window.innerWidth < 768;
+            ctxStatement.clearRect(0, 0, statementWidth, statementHeight);
+
+            // Scale is normal (100%)
+            const baseScale = isMobile ? 0.75 : 0.90;
+            const currentScale = baseScale; // Fixed normal size
+
+            // Sits on the right side
+            const currentX = statementWidth * (isMobile ? 0.75 : 0.75);
+            
+            // Starts slightly from bottom and moves slightly to top
+            const currentY = statementHeight * (0.6 - (0.2 * p)) + (isMobile ? 20 : 10);
+
+            // Stays upright
+            const rotationRad = 0;
+
+            const aspect = (img.naturalWidth || 512) / (img.naturalHeight || 600);
+            let renderH = statementHeight * currentScale;
+            let renderW = renderH * aspect;
+
+            ctxStatement.save();
+            ctxStatement.translate(currentX, currentY);
+            ctxStatement.rotate(rotationRad);
+            // Behind statement text? or above? 
+            ctxStatement.globalCompositeOperation = "destination-over"; 
+            ctxStatement.shadowColor = 'rgba(0, 10, 194, 0.45)';
+            ctxStatement.shadowBlur = isMobile ? 16 : 28;
+            ctxStatement.drawImage(img, -renderW / 2, -renderH / 2, renderW, renderH);
+            ctxStatement.restore();
+        }
+
+        if (statementCanvas) {
+            resizeStatement();
+            ScrollTrigger.create({
+                trigger: "#statement",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 0.6,
+                onUpdate: (self) => {
+                    const frameIdx = (totalFrames - 1) * (1 - self.progress);
+                    drawStatement(frameIdx, self.progress);
+                }
+            });
+        }
+
+        window.addEventListener('resize', () => {
+            resizeAbout();
+            resizeWeAre();
+            if (statementCanvas) resizeStatement();
+            drawAbout(0, 0);
+            drawWeAre(0, 0);
+            if (statementCanvas) drawStatement(0, 0);
+        }, { passive: true });
+
+        // Initial render
+        setTimeout(() => {
+            drawAbout(0, 0);
+            drawWeAre(0, 0);
+            if (statementCanvas) drawStatement(0, 0);
+        }, 150);
+    }
+
     function initParagraphAnimations() {
         animateAboutText();
         animateStatementScroll();
         initWeAreCrazy();
+        init3DCanvasSequence();
     }
 
     // Custom Cursor Logic
