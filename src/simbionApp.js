@@ -839,10 +839,6 @@ function startSimbionApp() {
             ctxAbout.imageSmoothingEnabled = true;
             ctxAbout.imageSmoothingQuality = "high";
 
-            const baseScale = isMobile ? 0.70 : 0.85;
-            const scaleMultiplier = 1.35 - (0.2 * p);
-            const currentScale = baseScale * scaleMultiplier;
-
             const currentX = aboutWidth * ((isMobile ? 0.60 : 0.64) - (0.12 * p));
             const startY = aboutHeight * 0.45;
             const endY = aboutHeight * 1.35;
@@ -851,9 +847,13 @@ function startSimbionApp() {
             const rotationDeg = 14 * (1 - p) + 6 * p;
             const rotationRad = (rotationDeg * Math.PI) / 180;
 
-            const aspect = (img.naturalWidth || 512) / (img.naturalHeight || 600);
-            let renderH = aboutHeight * currentScale;
-            let renderW = renderH * aspect;
+            // Render at 1:1 native size (or proportionally bounded if screen is very small)
+            const nativeW = img.naturalWidth || 512;
+            const nativeH = img.naturalHeight || 512;
+            const maxAllowedH = isMobile ? aboutHeight * 0.55 : aboutHeight * 0.85;
+            const fitFactor = Math.min(1, maxAllowedH / nativeH);
+            const renderW = nativeW * fitFactor;
+            const renderH = nativeH * fitFactor;
 
             ctxAbout.save();
             ctxAbout.translate(currentX, currentY);
@@ -918,18 +918,18 @@ function startSimbionApp() {
             ctxWeAre.imageSmoothingEnabled = true;
             ctxWeAre.imageSmoothingQuality = "high";
 
-            const baseScale = isMobile ? 0.72 : 0.88;
             const scaleFactor = Math.min(1, p * 2.0);
-            const scaleMultiplier = 1.40 - (0.40 * scaleFactor);
-            const currentScale = baseScale * scaleMultiplier;
-
             const currentX = weAreWidth * (0.58 - 0.08 * scaleFactor);
             const currentY = weAreHeight * (p <= 0.5 ? (-0.05 + 0.55 * (p / 0.5)) : 0.50) + (isMobile ? 20 : 10);
             const rotationRad = (6 * (1 - scaleFactor) * Math.PI) / 180;
 
-            const aspect = (img.naturalWidth || 512) / (img.naturalHeight || 600);
-            let renderH = weAreHeight * currentScale;
-            let renderW = renderH * aspect;
+            // Render at 1:1 native size (or proportionally bounded if screen is small)
+            const nativeW = img.naturalWidth || 512;
+            const nativeH = img.naturalHeight || 512;
+            const maxAllowedH = isMobile ? weAreHeight * 0.55 : weAreHeight * 0.85;
+            const fitFactor = Math.min(1, maxAllowedH / nativeH);
+            const renderW = nativeW * fitFactor;
+            const renderH = nativeH * fitFactor;
 
             ctxWeAre.save();
             ctxWeAre.translate(currentX, currentY);
@@ -1813,14 +1813,14 @@ function startSimbionApp() {
     const isTouchDevice = window.matchMedia("(pointer: coarse), (hover: none), (max-width: 1024px)").matches;
 
     const lenis = new Lenis({
-        duration: isTouchDevice ? 1.2 : 1.6, 
+        duration: isTouchDevice ? 1.0 : 1.35, 
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
         direction: 'vertical',
         gestureDirection: 'vertical',
         smooth: true,
-        smoothTouch: true,
-        touchMultiplier: 1.5,
-        wheelMultiplier: 0.85, 
+        smoothTouch: false,
+        touchMultiplier: 0.9,
+        wheelMultiplier: 0.72, 
         infinite: false,
     });
     window.lenis = lenis;
@@ -2913,8 +2913,8 @@ function startSimbionApp() {
                     id: "filmTrackTrigger",
                     trigger: "#selected-work",
                     start: "top top",
-                    end: () => "+=" + Math.max(isTouchDevice ? 600 : 800, (filmTrack.scrollWidth - window.innerWidth) * (isTouchDevice ? 1.0 : 1.2)),
-                    scrub: isTouchDevice ? 0.9 : 1.3,
+                    end: () => "+=" + Math.max(isTouchDevice ? 800 : 1200, (filmTrack.scrollWidth - window.innerWidth) * (isTouchDevice ? 1.1 : 1.35)),
+                    scrub: isTouchDevice ? 1.0 : 1.4,
                     pin: true,
                     anticipatePin: 1,
                     invalidateOnRefresh: true,
@@ -3060,89 +3060,14 @@ function startSimbionApp() {
         });
     }
     
-    // Smooth section snapping between About, We Are, Selected Works, Statement and key sections
-    let sectionSnapTrigger = null;
-    function initSectionSnapping() {
-        if (!window.gsap || !window.ScrollTrigger) return;
-        if (sectionSnapTrigger) {
-            sectionSnapTrigger.kill();
-            sectionSnapTrigger = null;
-        }
-
-        const sectionSelectors = [
-            '#hero',
-            '#about',
-            '#we-are-made',
-            '#selected-work',
-            '#the-soul',
-            '#statement',
-            '#contact'
-        ];
-
-        function getSnapProgressArray() {
-            const totalScroll = ScrollTrigger.maxScroll(window);
-            if (totalScroll <= 0) return [];
-
-            const positions = [0];
-
-            sectionSelectors.forEach(sel => {
-                const el = document.querySelector(sel);
-                if (!el) return;
-                const rect = el.getBoundingClientRect();
-                const topOffset = window.pageYOffset + rect.top;
-                if (topOffset >= 0 && topOffset <= totalScroll) {
-                    positions.push(topOffset);
-                }
-
-                if (sel === '#selected-work') {
-                    const trackTrig = ScrollTrigger.getById('filmTrackTrigger');
-                    if (trackTrig && trackTrig.end && trackTrig.end <= totalScroll) {
-                        positions.push(trackTrig.end);
-                    }
-                }
-            });
-
-            positions.push(totalScroll);
-            const unique = Array.from(new Set(positions.map(p => Math.round(p)))).sort((a, b) => a - b);
-            return unique.map(p => p / totalScroll);
-        }
-
-        sectionSnapTrigger = ScrollTrigger.create({
-            snap: {
-                snapTo: (progress) => {
-                    if (window.isGameActive || (typeof isGameActive !== 'undefined' && isGameActive)) return progress;
-                    const snapPoints = getSnapProgressArray();
-                    if (!snapPoints.length) return progress;
-
-                    let closest = snapPoints[0];
-                    let minDiff = Math.abs(progress - closest);
-                    for (let i = 1; i < snapPoints.length; i++) {
-                        const diff = Math.abs(progress - snapPoints[i]);
-                        if (diff < minDiff) {
-                            minDiff = diff;
-                            closest = snapPoints[i];
-                        }
-                    }
-                    return closest;
-                },
-                duration: { min: 0.25, max: 0.65 },
-                delay: 0.08,
-                ease: "power2.out",
-                inertia: false
-            }
-        });
-    }
-
     initGalleryInteractions();
     initParagraphAnimations();
-    initSectionSnapping();
     if (window.ScrollTrigger) ScrollTrigger.refresh();
 
     if (document.fonts && document.fonts.ready) {
         document.fonts.ready.then(() => {
             setTimeout(() => {
                 initParagraphAnimations();
-                initSectionSnapping();
                 if (window.ScrollTrigger) ScrollTrigger.refresh();
             }, 60);
         });
@@ -3150,7 +3075,6 @@ function startSimbionApp() {
     window.addEventListener('load', () => {
         setTimeout(() => {
             initParagraphAnimations();
-            initSectionSnapping();
             if (window.ScrollTrigger) ScrollTrigger.refresh();
         }, 100);
     });
@@ -3160,7 +3084,6 @@ function startSimbionApp() {
         clearTimeout(resizeDebounce);
         resizeDebounce = setTimeout(() => {
             initParagraphAnimations();
-            initSectionSnapping();
             if (window.ScrollTrigger) ScrollTrigger.refresh();
         }, 200);
     });
