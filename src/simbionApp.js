@@ -181,42 +181,58 @@ function startSimbionApp() {
         const isTouch = window.matchMedia("(pointer: coarse)").matches;
         const getWords = () => Array.from(para.querySelectorAll(wordSelector));
 
+        let cachedWords = [];
+        function refreshWordRects() {
+            const words = getWords();
+            cachedWords = words.map(word => {
+                const rect = word.getBoundingClientRect();
+                return {
+                    el: word,
+                    cx: rect.left + rect.width / 2,
+                    cy: rect.top + rect.height / 2,
+                    isAffected: false
+                };
+            });
+        }
+
         let lastMove = 0;
+        para.addEventListener('mouseenter', refreshWordRects, { passive: true });
+        
         para.addEventListener('mousemove', (e) => {
             if (isTouch) return;
             const now = Date.now();
-            if (now - lastMove < 16) return;
+            if (now - lastMove < 20) return;
             lastMove = now;
 
-            const words = getWords();
+            if (cachedWords.length === 0) refreshWordRects();
+
             const mouseX = e.clientX;
             const mouseY = e.clientY;
             const maxRadius = 120;
 
-            words.forEach(word => {
-                const rect = word.getBoundingClientRect();
-                const wordCenterX = rect.left + rect.width / 2;
-                const wordCenterY = rect.top + rect.height / 2;
-                const dist = Math.hypot(mouseX - wordCenterX, mouseY - wordCenterY);
+            cachedWords.forEach(item => {
+                const dist = Math.hypot(mouseX - item.cx, mouseY - item.cy);
 
                 if (dist < maxRadius) {
+                    item.isAffected = true;
                     const intensity = Math.pow(1 - (dist / maxRadius), 1.5);
-                    gsap.to(word, {
+                    gsap.to(item.el, {
                         y: -10 * intensity,
                         scale: 1 + 0.14 * intensity,
                         skewX: -6 * intensity,
                         color: intensity > 0.45 ? '#0616C6' : (intensity > 0.2 ? '#3E4EF0' : '#DEDEDE'),
-                        duration: 0.2,
+                        duration: 0.18,
                         ease: "power2.out",
                         overwrite: "auto"
                     });
-                } else {
-                    gsap.to(word, {
+                } else if (item.isAffected) {
+                    item.isAffected = false;
+                    gsap.to(item.el, {
                         y: 0,
                         scale: 1,
                         skewX: 0,
                         color: '#DEDEDE',
-                        duration: 0.35,
+                        duration: 0.3,
                         ease: "power2.out",
                         overwrite: "auto"
                     });
@@ -227,6 +243,7 @@ function startSimbionApp() {
         para.addEventListener('mouseleave', () => {
             if (isTouch) return;
             const words = getWords();
+            cachedWords.forEach(w => { w.isAffected = false; });
             gsap.to(words, {
                 y: 0,
                 scale: 1,
@@ -434,6 +451,20 @@ function startSimbionApp() {
         const chars = Array.from(section.querySelectorAll('.we-are-char'));
         const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
+        let charData = [];
+        function measureChars() {
+            charData = chars.map((ch, idx) => {
+                const rect = ch.getBoundingClientRect();
+                return {
+                    el: ch,
+                    idx,
+                    cx: rect.left + rect.width / 2,
+                    cy: rect.top + rect.height / 2,
+                    isHoveredState: false
+                };
+            });
+        }
+
         let mouseX = -9999;
         let mouseY = -9999;
         let isHovered = false;
@@ -447,23 +478,25 @@ function startSimbionApp() {
                 return;
             }
 
+            if (charData.length === 0) measureChars();
+
             const t = (Date.now() - startTime) * 0.0018;
             const radius = 180;
 
-            chars.forEach((ch, idx) => {
-                const rect = ch.getBoundingClientRect();
-                const cx = rect.left + rect.width / 2;
-                const cy = rect.top + rect.height / 2;
-                const dist = Math.hypot(mouseX - cx, mouseY - cy);
+            charData.forEach(item => {
+                const ch = item.el;
+                const idx = item.idx;
+                const dist = isHovered ? Math.hypot(mouseX - item.cx, mouseY - item.cy) : 9999;
 
                 if (isHovered && dist < radius) {
+                    item.isHoveredState = true;
                     const power = Math.pow(1 - (dist / radius), 1.6);
                     gsap.to(ch, {
-                        x: (cx - mouseX) * 0.2 * power,
+                        x: (item.cx - mouseX) * 0.2 * power,
                         y: -45 * power,
                         z: 80 * power,
                         rotateX: 60 * power,
-                        rotateY: (cx > mouseX ? 60 : -60) * power,
+                        rotateY: (item.cx > mouseX ? 60 : -60) * power,
                         rotateZ: (Math.random() - 0.5) * 45 * power,
                         scale: 1 + 0.6 * power,
                         filter: `blur(${power * 4}px)`,
@@ -473,22 +506,18 @@ function startSimbionApp() {
                         overwrite: "auto"
                     });
                 } else {
+                    if (item.isHoveredState) {
+                        item.isHoveredState = false;
+                        gsap.killTweensOf(ch);
+                    }
                     const liquidY = Math.sin(t * 1.1 + idx * 0.25) * 12;
                     const liquidX = Math.cos(t * 0.9 + idx * 0.2) * 6;
                     const liquidScale = 1 + Math.sin(t * 1.5 + idx * 0.3) * 0.06;
                     const liquidBlur = 0.8 + Math.max(0, Math.sin(t * 0.8 + idx * 0.3)) * 4.2;
 
-                    gsap.set(ch, {
-                        x: liquidX,
-                        y: liquidY,
-                        z: 0,
-                        rotateX: 0,
-                        rotateY: 0,
-                        rotateZ: 0,
-                        scale: liquidScale,
-                        filter: `blur(${liquidBlur}px)`,
-                        overwrite: "auto"
-                    });
+                    ch.style.transform = `translate3d(${liquidX.toFixed(2)}px, ${liquidY.toFixed(2)}px, 0) scale(${liquidScale.toFixed(3)})`;
+                    ch.style.filter = `blur(${liquidBlur.toFixed(1)}px)`;
+                    ch.style.color = '#DEDEDE';
                 }
             });
             waveRafId = requestAnimationFrame(updateWave);
@@ -497,9 +526,10 @@ function startSimbionApp() {
         const weAreObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 isWeAreVisible = entry.isIntersecting;
-                if (isWeAreVisible && !waveRafId) {
-                    waveRafId = requestAnimationFrame(updateWave);
-                } else if (!isWeAreVisible && waveRafId) {
+                if (isWeAreVisible) {
+                    measureChars();
+                    if (!waveRafId) waveRafId = requestAnimationFrame(updateWave);
+                } else if (waveRafId) {
                     cancelAnimationFrame(waveRafId);
                     waveRafId = null;
                 }
@@ -592,98 +622,213 @@ function startSimbionApp() {
         const supabaseBaseUrl = "https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/3d/";
         const totalFrames = 244;
         const images = new Array(totalFrames);
-        let imagesLoaded = 0;
+        window.sequenceTotalFrames = totalFrames;
+        window.sequenceImages = images;
 
         const rawVectors = (window.sequence3DFrames && window.sequence3DFrames.length >= 60)
             ? window.sequence3DFrames
             : [];
 
-                // Load asynchronously in chunks
-        function loadFrameBatch(startIndex, batchSize) {
-            for (let i = startIndex; i < startIndex + batchSize && i <= totalFrames; i++) {
+        // Nearest-neighbor loaded frame resolver (eliminates flickering & blank states)
+        window.getNearestSequenceFrame = function(targetIdx) {
+            const seq = window.sequenceImages;
+            if (!seq || seq.length === 0) return null;
+            const max = window.sequenceTotalFrames || 244;
+            const clamped = Math.max(0, Math.min(max - 1, Math.floor(targetIdx || 0)));
+            
+            const direct = seq[clamped];
+            if (direct && direct.complete && direct.naturalWidth > 0) {
+                return direct;
+            }
+            
+            // Search nearby loaded keyframes
+            for (let offset = 1; offset <= 32; offset++) {
+                const left = clamped - offset;
+                if (left >= 0 && seq[left] && seq[left].complete && seq[left].naturalWidth > 0) {
+                    return seq[left];
+                }
+                const right = clamped + offset;
+                if (right < max && seq[right] && seq[right].complete && seq[right].naturalWidth > 0) {
+                    return seq[right];
+                }
+            }
+            return null;
+        };
+
+        // Priority stratified frame loader with controlled concurrency
+        const loadQueue = [];
+        let activeLoads = 0;
+        const MAX_CONCURRENT_LOADS = 4;
+
+        function processLoadQueue() {
+            while (activeLoads < MAX_CONCURRENT_LOADS && loadQueue.length > 0) {
+                const frameIndex = loadQueue.shift();
+                if (images[frameIndex - 1]) continue; // Already loaded or in progress
+                
+                activeLoads++;
                 const img = new Image();
                 img.decoding = "async";
                 img.crossOrigin = "anonymous";
-                const p3 = String(i).padStart(3, '0');
+                const p3 = String(frameIndex).padStart(3, '0');
                 const primaryUrl = `${supabaseBaseUrl}ezgif-frame-${p3}.png`;
                 const fallbackUrl = `${supabaseBaseUrl}${p3}.png`;
 
-                img.onload = () => {
-                    imagesLoaded++;
-                    images[i - 1] = img;
-                    
-                    if (imagesLoaded === 1 || i === 1) {
-                        if (weAreCanvas) weAreCanvas.style.opacity = '1';
-                        if (statementCanvas) statementCanvas.style.opacity = '1';
-                        drawAbout(0, 0);
-                        drawWeAre(0, 0);
-                        if (statementCanvas) drawStatement(0, 0);
+                const onFinished = () => {
+                    activeLoads--;
+                    // Async decode if supported to avoid main thread raster jank
+                    if (img.decode) {
+                        img.decode().then(() => {
+                            images[frameIndex - 1] = img;
+                            requestRender();
+                        }).catch(() => {
+                            images[frameIndex - 1] = img;
+                            requestRender();
+                        });
+                    } else {
+                        images[frameIndex - 1] = img;
+                        requestRender();
                     }
-                    
-                    if (i === startIndex + batchSize - 1 && i < totalFrames) {
-                        setTimeout(() => loadFrameBatch(i + 1, batchSize), 10);
-                    }
+                    processLoadQueue();
                 };
-                
+
+                img.onload = onFinished;
                 img.onerror = function() {
-                    images[i - 1] = img;
                     if (this.src !== fallbackUrl) {
                         this.src = fallbackUrl;
                     } else if (rawVectors.length > 0) {
                         this.onerror = null;
-                        this.src = rawVectors[(i - 1) % rawVectors.length];
-                    }
-                    
-                    if (i === startIndex + batchSize - 1 && i < totalFrames) {
-                        setTimeout(() => loadFrameBatch(i + 1, batchSize), 10);
+                        this.src = rawVectors[(frameIndex - 1) % rawVectors.length];
+                    } else {
+                        onFinished();
                     }
                 };
 
                 img.src = primaryUrl;
             }
         }
-        
-        loadFrameBatch(1, 1);
-        setTimeout(() => loadFrameBatch(2, 5), 100);
+
+        function enqueueFrames(indices) {
+            indices.forEach(idx => {
+                if (idx >= 1 && idx <= totalFrames && !loadQueue.includes(idx)) {
+                    loadQueue.push(idx);
+                }
+            });
+            processLoadQueue();
+        }
+
+        // Tier 1: Immediate Keyframes (every 8th frame for instant scrub response)
+        const tier1Keyframes = [1];
+        for (let i = 8; i <= totalFrames; i += 8) tier1Keyframes.push(i);
+        enqueueFrames(tier1Keyframes);
+
+        // Tier 2: Secondary Keyframes (every 4th frame)
+        setTimeout(() => {
+            const tier2 = [];
+            for (let i = 4; i <= totalFrames; i += 4) {
+                if (!tier1Keyframes.includes(i)) tier2.push(i);
+            }
+            enqueueFrames(tier2);
+        }, 120);
+
+        // Tier 3: All remaining frames in background idle chunks
+        setTimeout(() => {
+            const tier3 = [];
+            for (let i = 1; i <= totalFrames; i++) {
+                if (!tier1Keyframes.includes(i) && (i % 4 !== 0)) tier3.push(i);
+            }
+            enqueueFrames(tier3);
+        }, 400);
+
+        // ==========================================
+        // DIRTY-FLAG COALESCED RENDER PIPELINE
+        // ==========================================
+        let isAboutVisible = false;
+        let isWeAreVisible = false;
+        let isStatementVisible = false;
+
+        let aboutFrameIdx = 0, aboutProgress = 0, aboutDirty = true;
+        let weAreFrameIdx = 0, weAreProgress = 0, weAreDirty = true;
+        let statementFrameIdx = 0, statementProgress = 0, statementDirty = true;
+
+        let renderRafId = null;
+
+        function renderLoop() {
+            renderRafId = null;
+
+            if (isAboutVisible && aboutDirty) {
+                drawAboutDirect(aboutFrameIdx, aboutProgress);
+                aboutDirty = false;
+            }
+            if (isWeAreVisible && weAreDirty) {
+                drawWeAreDirect(weAreFrameIdx, weAreProgress);
+                weAreDirty = false;
+            }
+            if (isStatementVisible && statementDirty && statementCanvas) {
+                drawStatementDirect(statementFrameIdx, statementProgress);
+                statementDirty = false;
+            }
+        }
+
+        function requestRender() {
+            if (!renderRafId) {
+                renderRafId = requestAnimationFrame(renderLoop);
+            }
+        }
+
+        // Viewport Visibility Observers
+        const visibilityObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.target === aboutSection) {
+                    isAboutVisible = entry.isIntersecting;
+                    if (isAboutVisible) { aboutDirty = true; requestRender(); }
+                } else if (entry.target === weAreSection) {
+                    isWeAreVisible = entry.isIntersecting;
+                    if (isWeAreVisible) { weAreDirty = true; requestRender(); }
+                } else if (entry.target === statementSection) {
+                    isStatementVisible = entry.isIntersecting;
+                    if (isStatementVisible) { statementDirty = true; requestRender(); }
+                }
+            });
+        }, { rootMargin: "250px" });
+
+        visibilityObserver.observe(aboutSection);
+        visibilityObserver.observe(weAreSection);
+        if (statementSection) visibilityObserver.observe(statementSection);
 
         // ==========================================
         // 1. CANVAS 1: ABOUT SECTION
-        // - Starts at scale 300% on the right side
-        // - Moves downwards (gets cut off at bottom) as user scrolls
         // ==========================================
-        const ctxAbout = aboutCanvas.getContext('2d', { alpha: true });
+        const ctxAbout = aboutCanvas.getContext('2d', { alpha: true, desynchronized: true });
         let aboutWidth = window.innerWidth;
         let aboutHeight = window.innerHeight;
 
         function resizeAbout() {
             if (!ctxAbout) return;
-            // 1. SUPERSAMPLING (SSAA): Force a significantly higher internal rendering resolution
-            const baseDpr = window.devicePixelRatio || 1;
-            const dpr = Math.min(baseDpr * 2.0, 4.0); // Render at up to 4x resolution internally
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
             
             aboutWidth = aboutSection.clientWidth || window.innerWidth;
             aboutHeight = aboutSection.clientHeight || window.innerHeight;
 
             aboutCanvas.width = Math.floor(aboutWidth * dpr);
             aboutCanvas.height = Math.floor(aboutHeight * dpr);
-            
-            // Ensure CSS layout size remains stable while internal resolution scales up
             aboutCanvas.style.width = `${aboutWidth}px`;
             aboutCanvas.style.height = `${aboutHeight}px`;
             
-            // 2. CRISP FILTER: Apply subtle contrast and saturation boost to mimic sharpening
-            aboutCanvas.style.filter = "contrast(1.15) saturate(1.1)";
-            aboutCanvas.style.imageRendering = "high-quality";
+            // Clean render with zero glow/shadow
+            aboutCanvas.style.filter = "none";
+            aboutCanvas.style.opacity = "1";
+            aboutCanvas.style.willChange = "transform";
 
             ctxAbout.setTransform(1, 0, 0, 1, 0, 0);
             ctxAbout.scale(dpr, dpr);
+            aboutDirty = true;
+            requestRender();
         }
 
-        function drawAbout(frameIdx, progress = 0) {
+        function drawAboutDirect(frameIdx, progress) {
             if (!ctxAbout) return;
-            const validIdx = Math.max(0, Math.min(totalFrames - 1, Math.floor(frameIdx || 0)));
             const p = Math.max(0, Math.min(1, progress || 0));
-            const img = images[validIdx];
+            const img = window.getNearestSequenceFrame(frameIdx);
             if (!img || !img.complete || img.naturalWidth === 0) return;
 
             const isMobile = window.innerWidth < 768;
@@ -692,19 +837,14 @@ function startSimbionApp() {
             ctxAbout.imageSmoothingQuality = "high";
 
             const baseScale = isMobile ? 0.70 : 0.85;
-            // Scale: starts at 170% (1.7x) and scales down as it descends
-            const scaleMultiplier = 1.35 - (0.2 * p); // Reduced initial zoom to prevent pixelation
+            const scaleMultiplier = 1.35 - (0.2 * p);
             const currentScale = baseScale * scaleMultiplier;
 
-            // Position X: Sits on the right side of the about text (shifted slightly to the left)
             const currentX = aboutWidth * ((isMobile ? 0.60 : 0.64) - (0.12 * p));
-
-            // Position Y: Descends continuously down past the bottom edge of the section (terpotong ke bawah)
             const startY = aboutHeight * 0.45;
-            const endY = aboutHeight * 1.35; // Drops deeply down so it gets cut off by overflow-hidden
+            const endY = aboutHeight * 1.35;
             const currentY = startY * (1 - p) + endY * p;
 
-            // Rotation tilt: +14deg -> +6deg
             const rotationDeg = 14 * (1 - p) + 6 * p;
             const rotationRad = (rotationDeg * Math.PI) / 180;
 
@@ -715,70 +855,73 @@ function startSimbionApp() {
             ctxAbout.save();
             ctxAbout.translate(currentX, currentY);
             ctxAbout.rotate(rotationRad);
-            ctxAbout.shadowColor = 'rgba(0, 10, 194, 0.45)';
-            ctxAbout.shadowBlur = (isMobile ? 16 : 30) * Math.min(2, scaleMultiplier / 1.5);
             ctxAbout.drawImage(img, -renderW / 2, -renderH / 2, renderW, renderH);
             ctxAbout.restore();
         }
 
         resizeAbout();
 
-        // ScrollTrigger for About Canvas
         ScrollTrigger.create({
             trigger: "#about",
             start: "top bottom",
             end: "bottom top",
-            scrub: 0.6,
+            scrub: 0.5,
             onUpdate: (self) => {
-                const frameIdx = (totalFrames - 1) * self.progress;
-                drawAbout(frameIdx, self.progress);
+                isAboutVisible = true;
+                aboutFrameIdx = (window.sequenceTotalFrames - 1) * self.progress;
+                aboutProgress = self.progress;
+                aboutDirty = true;
+                requestRender();
             }
         });
 
         // ==========================================
         // 2. CANVAS 2: WE ARE WHAT WE'VE MADE SECTION
-        // - Starts from top/scale down to 100% at exact center
-        // - Rotates forward then backward as user scrolls
         // ==========================================
-        const ctxWeAre = weAreCanvas.getContext('2d', { alpha: true });
+        const ctxWeAre = weAreCanvas.getContext('2d', { alpha: true, desynchronized: true });
         let weAreWidth = window.innerWidth;
         let weAreHeight = window.innerHeight;
 
         function resizeWeAre() {
             if (!ctxWeAre) return;
-            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
             weAreWidth = weAreSection.clientWidth || window.innerWidth;
             weAreHeight = weAreSection.clientHeight || window.innerHeight;
 
             weAreCanvas.width = Math.floor(weAreWidth * dpr);
             weAreCanvas.height = Math.floor(weAreHeight * dpr);
+            weAreCanvas.style.width = `${weAreWidth}px`;
+            weAreCanvas.style.height = `${weAreHeight}px`;
+            
+            // Clean render with zero glow/shadow and full opacity
+            weAreCanvas.style.filter = "none";
+            weAreCanvas.style.opacity = "1";
+            weAreCanvas.style.willChange = "transform";
+
             ctxWeAre.setTransform(1, 0, 0, 1, 0, 0);
             ctxWeAre.scale(dpr, dpr);
+            weAreDirty = true;
+            requestRender();
         }
 
-        function drawWeAre(frameIdx, progress = 0) {
+        function drawWeAreDirect(frameIdx, progress) {
             if (!ctxWeAre) return;
-            const validIdx = Math.max(0, Math.min(totalFrames - 1, Math.floor(frameIdx || 0)));
             const p = Math.max(0, Math.min(1, progress || 0));
-            const img = images[validIdx];
+            const img = window.getNearestSequenceFrame(frameIdx);
             if (!img || !img.complete || img.naturalWidth === 0) return;
 
             const isMobile = window.innerWidth < 768;
             ctxWeAre.clearRect(0, 0, weAreWidth, weAreHeight);
+            ctxWeAre.imageSmoothingEnabled = true;
+            ctxWeAre.imageSmoothingQuality = "high";
 
             const baseScale = isMobile ? 0.72 : 0.88;
-            // Scale enters at 140% and settles down to 100% normal scale at center (p=0.5)
             const scaleFactor = Math.min(1, p * 2.0);
             const scaleMultiplier = 1.40 - (0.40 * scaleFactor);
             const currentScale = baseScale * scaleMultiplier;
 
-            // Centers to 50% width
             const currentX = weAreWidth * (0.58 - 0.08 * scaleFactor);
-            
-            // Starts slightly above center (-0.05 height) and reaches center (0.50 height)
             const currentY = weAreHeight * (p <= 0.5 ? (-0.05 + 0.55 * (p / 0.5)) : 0.50) + (isMobile ? 20 : 10);
-
-            // Settles from +6deg tilt to 0deg upright
             const rotationRad = (6 * (1 - scaleFactor) * Math.PI) / 180;
 
             const aspect = (img.naturalWidth || 512) / (img.naturalHeight || 600);
@@ -788,76 +931,77 @@ function startSimbionApp() {
             ctxWeAre.save();
             ctxWeAre.translate(currentX, currentY);
             ctxWeAre.rotate(rotationRad);
-            ctxWeAre.shadowColor = 'rgba(0, 10, 194, 0.45)';
-            ctxWeAre.shadowBlur = isMobile ? 16 : 28;
             ctxWeAre.drawImage(img, -renderW / 2, -renderH / 2, renderW, renderH);
             ctxWeAre.restore();
         }
 
         resizeWeAre();
 
-        // ScrollTrigger for We Are Canvas: Rotates forward (0->244) then backward (244->0)
         ScrollTrigger.create({
             trigger: "#we-are-made",
             start: "top bottom",
             end: "bottom top",
-            scrub: 0.6,
+            scrub: 0.5,
             onUpdate: (self) => {
+                isWeAreVisible = true;
                 const p = self.progress;
-                let frameIdx;
-                if (p <= 0.5) {
-                    frameIdx = (totalFrames - 1) * (p / 0.5);
-                } else {
-                    frameIdx = (totalFrames - 1) * (1 - ((p - 0.5) / 0.5));
-                }
-                drawWeAre(frameIdx, p);
+                weAreFrameIdx = (p <= 0.5)
+                    ? (window.sequenceTotalFrames - 1) * (p / 0.5)
+                    : (window.sequenceTotalFrames - 1) * (1 - ((p - 0.5) / 0.5));
+                weAreProgress = p;
+                weAreDirty = true;
+                requestRender();
             }
         });
 
         // ==========================================
         // 3. CANVAS 3: STATEMENT SECTION
-        // - Rotates continuously across scroll
         // ==========================================
-        const ctxStatement = statementCanvas ? statementCanvas.getContext('2d', { alpha: true }) : null;
+        const ctxStatement = statementCanvas ? statementCanvas.getContext('2d', { alpha: true, desynchronized: true }) : null;
         let statementWidth = window.innerWidth;
         let statementHeight = window.innerHeight;
 
         function resizeStatement() {
             if (!ctxStatement || !statementCanvas || !statementSection) return;
-            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
             statementWidth = statementSection.clientWidth || window.innerWidth;
             statementHeight = statementSection.clientHeight || window.innerHeight;
 
             statementCanvas.width = Math.floor(statementWidth * dpr);
             statementCanvas.height = Math.floor(statementHeight * dpr);
+            statementCanvas.style.width = `${statementWidth}px`;
+            statementCanvas.style.height = `${statementHeight}px`;
+            
+            // Clean render with zero glow/shadow
+            statementCanvas.style.filter = "none";
+            statementCanvas.style.opacity = "1";
+            statementCanvas.style.willChange = "transform";
+
             ctxStatement.setTransform(1, 0, 0, 1, 0, 0);
             ctxStatement.scale(dpr, dpr);
+            statementDirty = true;
+            requestRender();
         }
 
-        function drawStatement(frameIdx, progress = 0) {
+        function drawStatementDirect(frameIdx, progress) {
             if (!ctxStatement) return;
-            const validIdx = Math.max(0, Math.min(totalFrames - 1, Math.floor(frameIdx || 0)));
             const p = Math.max(0, Math.min(1, progress || 0));
-            const img = images[validIdx];
+            const img = window.getNearestSequenceFrame(frameIdx);
             if (!img || !img.complete || img.naturalWidth === 0) return;
 
             const isMobile = window.innerWidth < 768;
             ctxStatement.clearRect(0, 0, statementWidth, statementHeight);
+            ctxStatement.imageSmoothingEnabled = true;
+            ctxStatement.imageSmoothingQuality = "high";
 
             const baseScale = isMobile ? 0.35 : 0.40;
-            // Scale enters at 140% and settles down to 100% normal scale at center (p=0.5)
             const scaleFactor = Math.min(1, p * 2.0);
             const scaleMultiplier = 1.40 - (0.40 * scaleFactor);
             const currentScale = baseScale * scaleMultiplier;
 
-            // Shifts to the right side to center negative space
             const baseOffsetX = isMobile ? 0.95 : 0.88;
             const currentX = statementWidth * (baseOffsetX - 0.08 * scaleFactor);
-            
-            // Starts slightly above center (-0.05 height) and reaches center (0.50 height)
             const currentY = statementHeight * (p <= 0.5 ? (-0.05 + 0.55 * (p / 0.5)) : 0.50) + (isMobile ? 20 : 10);
-
-            // Settles from +6deg tilt to 0deg upright
             const rotationRad = (6 * (1 - scaleFactor) * Math.PI) / 180;
 
             const aspect = (img.naturalWidth || 512) / (img.naturalHeight || 600);
@@ -868,8 +1012,6 @@ function startSimbionApp() {
             ctxStatement.translate(currentX, currentY);
             ctxStatement.rotate(rotationRad);
             ctxStatement.globalCompositeOperation = "destination-over";
-            ctxStatement.shadowColor = 'rgba(0, 10, 194, 0.45)';
-            ctxStatement.shadowBlur = isMobile ? 16 : 28;
             ctxStatement.drawImage(img, -renderW / 2, -renderH / 2, renderW, renderH);
             ctxStatement.restore();
         }
@@ -880,16 +1022,15 @@ function startSimbionApp() {
                 trigger: "#statement",
                 start: "top bottom",
                 end: "bottom top",
-                scrub: 0.6,
+                scrub: 0.5,
                 onUpdate: (self) => {
                     const p = self.progress;
-                    let frameIdx;
-                    if (p <= 0.5) {
-                        frameIdx = (totalFrames - 1) * (p / 0.5);
-                    } else {
-                        frameIdx = (totalFrames - 1) * (1 - ((p - 0.5) / 0.5));
-                    }
-                    drawStatement(frameIdx, p);
+                    statementFrameIdx = (p <= 0.5)
+                        ? (window.sequenceTotalFrames - 1) * (p / 0.5)
+                        : (window.sequenceTotalFrames - 1) * (1 - ((p - 0.5) / 0.5));
+                    statementProgress = p;
+                    statementDirty = true;
+                    requestRender();
                 }
             });
         }
@@ -898,17 +1039,10 @@ function startSimbionApp() {
             resizeAbout();
             resizeWeAre();
             if (statementCanvas) resizeStatement();
-            drawAbout(0, 0);
-            drawWeAre(0, 0);
-            if (statementCanvas) drawStatement(0, 0);
         }, { passive: true });
 
         // Initial render
-        setTimeout(() => {
-            drawAbout(0, 0);
-            drawWeAre(0, 0);
-            if (statementCanvas) drawStatement(0, 0);
-        }, 150);
+        requestRender();
     }
 
     function initParagraphAnimations() {
@@ -1285,24 +1419,21 @@ function startSimbionApp() {
 
     let lastScrollY = window.pageYOffset;
     let slotScrollTimeout;
+    const impactTracks = Array.from(document.querySelectorAll('.slot-track[data-impact="true"]'));
+    const recentWidget = document.getElementById('recent-work-widget');
 
     window.addEventListener('scroll', () => {
         const currentScrollY = window.pageYOffset;
         const delta = currentScrollY - lastScrollY;
         lastScrollY = currentScrollY;
 
-        const tracks = document.querySelectorAll('.slot-track');
-        const recentWidget = document.getElementById('recent-work-widget');
-
-        if (Math.abs(delta) > 0.2) {
+        if (Math.abs(delta) > 0.2 && impactTracks.length > 0) {
             const dir = delta > 0 ? 1 : -1;
-            tracks.forEach((track, i) => {
-                if (track.dataset.impact === 'true') {
-                    const multiplier = (i % 2 === 0) ? 1.5 : 0.9;
-                    const dynamicOffset = dir * multiplier * Math.min(Math.abs(delta) * 0.15, 2.75);
-                    const offset = Math.max(-8.5, Math.min(-3.0, -5.75 + dynamicOffset));
-                    track.style.transform = `translateY(${offset}em)`;
-                }
+            impactTracks.forEach((track, i) => {
+                const multiplier = (i % 2 === 0) ? 1.5 : 0.9;
+                const dynamicOffset = dir * multiplier * Math.min(Math.abs(delta) * 0.15, 2.75);
+                const offset = Math.max(-8.5, Math.min(-3.0, -5.75 + dynamicOffset));
+                track.style.transform = `translateY(${offset}em)`;
             });
 
             if (recentWidget && window.gsap) {
@@ -1322,10 +1453,8 @@ function startSimbionApp() {
 
         clearTimeout(slotScrollTimeout);
         slotScrollTimeout = setTimeout(() => {
-            tracks.forEach(track => {
-                if (track.dataset.impact === 'true') {
-                    track.style.transform = `translateY(-5.75em)`;
-                }
+            impactTracks.forEach(track => {
+                track.style.transform = `translateY(-5.75em)`;
             });
 
             if (recentWidget && window.gsap) {
@@ -1340,11 +1469,22 @@ function startSimbionApp() {
         }, 150);
     }, { passive: true });
 
+    let isContactVisibleForBalloon = false;
+    const contactSec = document.getElementById('contact');
+    if (contactSec) {
+        const contactObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                isContactVisibleForBalloon = entry.isIntersecting;
+                updateChatBalloonState();
+            });
+        }, { threshold: [0, 0.25, 0.5] });
+        contactObserver.observe(contactSec);
+    }
+
     function updateChatBalloonState() {
         const cb = document.getElementById('chat-balloon');
         const cm = document.getElementById('chat-modal');
-        const contactSec = document.getElementById('contact');
-        if (!cb || !contactSec) return;
+        if (!cb) return;
         
         if (cm && !cm.classList.contains('opacity-0') && !cm.classList.contains('pointer-events-none')) {
             cb.classList.add('opacity-0', 'pointer-events-none', 'scale-90', 'translate-y-4');
@@ -1355,10 +1495,7 @@ function startSimbionApp() {
         const isMobile = window.innerWidth < 768;
 
         if (isMobile) {
-            const contactRect = contactSec.getBoundingClientRect();
-            const inContact = contactRect.top < window.innerHeight * 0.8 && contactRect.bottom > 50;
-
-            if (inContact) {
+            if (isContactVisibleForBalloon) {
                 cb.classList.remove('opacity-0', 'pointer-events-none', 'scale-90', 'translate-y-4');
                 cb.classList.add('opacity-100', 'pointer-events-auto', 'scale-100', 'translate-y-0');
             } else {
@@ -1369,8 +1506,7 @@ function startSimbionApp() {
             cb.classList.remove('opacity-0', 'pointer-events-none', 'scale-90', 'translate-y-4');
             cb.classList.add('opacity-100', 'pointer-events-auto', 'scale-100', 'translate-y-0');
 
-            const contactRect = contactSec.getBoundingClientRect();
-            if (contactRect.top < window.innerHeight * 0.75) {
+            if (isContactVisibleForBalloon) {
                 cb.style.bottom = '50%';
             } else {
                 cb.style.bottom = '';
@@ -2491,12 +2627,6 @@ function startSimbionApp() {
         updateChatBalloonState();
     });
 
-    window.addEventListener('scroll', () => {
-        updateScrollIndicator(getPageScrollProgress());
-        updateHeaderSceneState(window.pageYOffset);
-        updateChatBalloonState();
-    }, { passive: true });
-
     window.addEventListener('resize', () => {
         measureScrollTrack();
         updateScrollIndicator(getPageScrollProgress());
@@ -2539,56 +2669,89 @@ function startSimbionApp() {
             btsRing.innerHTML = ''; // Clear contents
             const numImagesPerRow = 14; 
             const isMobile = window.innerWidth < 768;
-            const radius = isMobile ? 180 : 450; // Smaller radius
-            const imgWidth = isMobile ? 90 : 180; // Smaller images
-            const rowHeight = isMobile ? 85 : 190; // Tighter vertical spacing // Vertical distance between rows
+            
+            const radius = isMobile ? 220 : 450;
+            const imgWidth = isMobile ? 70 : 130;
+            const rowHeight = isMobile ? 75 : 115;
             
             btsRing.style.width = imgWidth + 'px';
             btsRing.style.height = (imgWidth * 0.6) + 'px';
             btsRing.style.transformStyle = 'preserve-3d';
 
             const rows = [];
+            const allItems = []; 
             
-            // Create 3 rings (rows), r = -1, 0, 1
+            // 1. ADD CENTER 3D CANVAS inside the ring
+            // It sits at Z=0, meaning images will orbit around it!
+            const center3DContainer = document.createElement('div');
+            center3DContainer.className = 'absolute top-0 left-0 w-full h-full flex justify-center items-center pointer-events-none';
+            center3DContainer.style.transformStyle = 'preserve-3d';
+            
+            const centerCanvas = document.createElement('canvas');
+            const cSize = isMobile ? 360 : 580; // CSS display size
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+            centerCanvas.width = Math.floor(cSize * dpr);
+            centerCanvas.height = Math.floor(cSize * dpr);
+            centerCanvas.style.width = `${cSize}px`;
+            centerCanvas.style.height = `${cSize}px`;
+            
+            // Perfectly centered vertically
+            centerCanvas.style.transform = "translateY(0%)"; 
+            
+            const ctxCenter = centerCanvas.getContext('2d');
+            ctxCenter.scale(dpr, dpr);
+            ctxCenter.imageSmoothingEnabled = true;
+            ctxCenter.imageSmoothingQuality = "high";
+            
+            center3DContainer.appendChild(centerCanvas);
+            btsRing.appendChild(center3DContainer);
+
             for (let r = -1; r <= 1; r++) {
                 const rowEl = document.createElement('div');
                 rowEl.className = 'absolute top-0 left-0 w-full h-full flex justify-center items-center';
                 rowEl.style.transformStyle = 'preserve-3d';
-                
-                // Offset rows vertically
                 rowEl.style.transform = `translateY(${r * rowHeight}px)`;
+                
+                const dir = r === 0 ? -1 : 1;
 
                 for (let i = 1; i <= numImagesPerRow; i++) {
-                    // Offset the image index for each row for variety
                     const imgIndex = ((i - 1 + (r + 1) * 4) % 14) + 1; 
-                    const angle = (i - 1) * (360 / numImagesPerRow);
+                    const baseAngle = (i - 1) * (360 / numImagesPerRow);
+                    const angleOffset = r === 0 ? (360 / numImagesPerRow) / 2 : 0;
+                    const finalAngle = baseAngle + angleOffset;
                     
                     const el = document.createElement('div');
                     el.className = 'absolute top-0 left-0 w-full h-full flex justify-center items-center bts-float';
                     
-                    // Add half step offset for middle row to create a brick pattern
-                    const angleOffset = r === 0 ? (360 / numImagesPerRow) / 2 : 0;
-                    
-                    el.style.transform = `rotateY(${angle + angleOffset}deg) translateZ(${radius}px)`;
+                    el.style.transform = `rotateY(${finalAngle}deg) translateZ(${radius}px)`;
                     el.style.backfaceVisibility = 'visible';
                     
                     const img = document.createElement('img');
                     img.src = `${imgIndex}.webp`;
                     img.onerror = () => { img.src = `https://placehold.co/300x200/111111/FFFFFF?text=BTS+${imgIndex}`; };
                     img.alt = `BTS ${imgIndex}`;
-                    img.className = "w-full h-auto rounded-none opacity-80 hover:opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer bts-card-optimized shadow-2xl";
+                    
+                    // KINETIC HOVER EFFECT: scale-150 and bouncy transition
+                    img.className = "w-full h-auto rounded-none opacity-100 hover:scale-150 cursor-pointer bts-card-optimized shadow-2xl";
+                    img.style.transition = "transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease"; 
+                    img.style.transform = "translateZ(0)"; 
+                    img.style.willChange = "transform, opacity";
                     
                     el.appendChild(img);
                     rowEl.appendChild(el);
+                    
+                    allItems.push({ el, img, angle: finalAngle, dir });
                 }
                 
                 btsRing.appendChild(rowEl);
-                // Top and bottom row go one way, middle row goes the opposite way
-                rows.push({ el: rowEl, dir: r === 0 ? -1 : 1 }); 
+                rows.push({ el: rowEl, dir, y: r * rowHeight }); 
             }
             
             let baseRotation = 0;
             let scrollRotation = 0;
+            let autoPingPongFrame = 0;
+            let autoPingPongDirection = 1;
+            const autoSpeed = 0.5; // Smooth automatic ping-pong speed (~60fps)
             
             ScrollTrigger.create({
                 trigger: "#the-soul",
@@ -2600,17 +2763,89 @@ function startSimbionApp() {
                 }
             });
             
-            let reqId;
+            let reqId = null;
+            let isCarouselVisible = false;
+
             function renderCarousel() {
-                baseRotation -= 0.10; // Slowed down slightly for 3 rows
+                if (!isCarouselVisible) {
+                    reqId = null;
+                    return;
+                }
+
+                baseRotation -= 0.10; 
+                
                 rows.forEach(row => {
                     const totalRotation = (baseRotation + scrollRotation) * row.dir;
-                    gsap.set(row.el, { rotationY: totalRotation });
+                    row.el.style.transform = `translateY(${row.y}px) rotateY(${totalRotation.toFixed(2)}deg)`;
                 });
+                
+                // AUTOMATIC PING-PONG 3D SEQUENCE LOOP
+                const totalSeqFrames = window.sequenceTotalFrames || 244;
+                autoPingPongFrame += autoSpeed * autoPingPongDirection;
+                if (autoPingPongFrame >= totalSeqFrames - 1) {
+                    autoPingPongFrame = totalSeqFrames - 1;
+                    autoPingPongDirection = -1;
+                } else if (autoPingPongFrame <= 0) {
+                    autoPingPongFrame = 0;
+                    autoPingPongDirection = 1;
+                }
+                const currentFrameIdx = Math.floor(autoPingPongFrame);
+                
+                // DRAW FRAME to center canvas using nearest-neighbor resolver
+                const frameImg = (typeof window.getNearestSequenceFrame === 'function')
+                    ? window.getNearestSequenceFrame(currentFrameIdx)
+                    : (window.sequenceImages ? window.sequenceImages[currentFrameIdx] : null);
+
+                if (frameImg && frameImg.complete && frameImg.naturalWidth > 0) {
+                    ctxCenter.clearRect(0, 0, cSize, cSize);
+                    
+                    const imgRatio = frameImg.naturalWidth / frameImg.naturalHeight;
+                    let drawW = cSize;
+                    let drawH = cSize / imgRatio;
+                    if (drawH > cSize) {
+                        drawH = cSize;
+                        drawW = cSize * imgRatio;
+                    }
+                    const dx = (cSize - drawW) / 2;
+                    const dy = (cSize - drawH) / 2;
+                    
+                    ctxCenter.drawImage(frameImg, dx, dy, drawW, drawH);
+                }
+                
+                // Hardware-composited Depth with opacity write-throttling
+                allItems.forEach(item => {
+                    const currentRingRot = (baseRotation + scrollRotation) * item.dir;
+                    const globalAngle = (item.angle + currentRingRot) % 360;
+                    const rad = globalAngle * Math.PI / 180;
+                    const z = Math.cos(rad); 
+                    
+                    const targetOpacity = z < -0.1 ? Math.max(0.25, 1 - Math.abs(z + 0.1) * 0.75) : 1;
+
+                    if (item.lastOpacity === undefined || Math.abs(targetOpacity - item.lastOpacity) >= 0.05) {
+                        item.lastOpacity = targetOpacity;
+                        item.img.style.opacity = targetOpacity.toFixed(2);
+                    }
+                });
+
                 reqId = requestAnimationFrame(renderCarousel);
             }
-            
-            renderCarousel();
+
+            // Intersection Observer to stop carousel loop when scrolled away (Huge CPU/GPU saving)
+            const soulSection = document.getElementById('the-soul');
+            if (soulSection) {
+                const soulObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        isCarouselVisible = entry.isIntersecting;
+                        if (isCarouselVisible && !reqId) {
+                            reqId = requestAnimationFrame(renderCarousel);
+                        }
+                    });
+                }, { rootMargin: "150px" });
+                soulObserver.observe(soulSection);
+            } else {
+                isCarouselVisible = true;
+                reqId = requestAnimationFrame(renderCarousel);
+            }
             
             ScrollTrigger.addEventListener("refreshInit", () => {
                 // Not strictly necessary but good practice
