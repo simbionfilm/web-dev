@@ -617,7 +617,7 @@ function startSimbionApp() {
                         if (statementCanvas) statementCanvas.style.opacity = '1';
                         drawAbout(0, 0);
                         drawWeAre(0, 0);
-                        if (statementCanvas) drawStatement(totalFrames - 1, 0);
+                        if (statementCanvas) drawStatement(0, 0);
                     }
                     
                     if (i === startIndex + batchSize - 1 && i < totalFrames) {
@@ -830,18 +830,21 @@ function startSimbionApp() {
             const isMobile = window.innerWidth < 768;
             ctxStatement.clearRect(0, 0, statementWidth, statementHeight);
 
-            // Scale is normal (100%)
-            const baseScale = isMobile ? 0.75 : 0.90;
-            const currentScale = baseScale; // Fixed normal size
+            const baseScale = isMobile ? 0.35 : 0.40;
+            // Scale enters at 140% and settles down to 100% normal scale at center (p=0.5)
+            const scaleFactor = Math.min(1, p * 2.0);
+            const scaleMultiplier = 1.40 - (0.40 * scaleFactor);
+            const currentScale = baseScale * scaleMultiplier;
 
-            // Sits on the right side
-            const currentX = statementWidth * (isMobile ? 0.75 : 0.75);
+            // Shifts to the right side to center negative space
+            const baseOffsetX = isMobile ? 0.95 : 0.88;
+            const currentX = statementWidth * (baseOffsetX - 0.08 * scaleFactor);
             
-            // Starts slightly from bottom and moves slightly to top
-            const currentY = statementHeight * (0.6 - (0.2 * p)) + (isMobile ? 20 : 10);
+            // Starts slightly above center (-0.05 height) and reaches center (0.50 height)
+            const currentY = statementHeight * (p <= 0.5 ? (-0.05 + 0.55 * (p / 0.5)) : 0.50) + (isMobile ? 20 : 10);
 
-            // Stays upright
-            const rotationRad = 0;
+            // Settles from +6deg tilt to 0deg upright
+            const rotationRad = (6 * (1 - scaleFactor) * Math.PI) / 180;
 
             const aspect = (img.naturalWidth || 512) / (img.naturalHeight || 600);
             let renderH = statementHeight * currentScale;
@@ -850,8 +853,7 @@ function startSimbionApp() {
             ctxStatement.save();
             ctxStatement.translate(currentX, currentY);
             ctxStatement.rotate(rotationRad);
-            // Behind statement text? or above? 
-            ctxStatement.globalCompositeOperation = "destination-over"; 
+            ctxStatement.globalCompositeOperation = "destination-over";
             ctxStatement.shadowColor = 'rgba(0, 10, 194, 0.45)';
             ctxStatement.shadowBlur = isMobile ? 16 : 28;
             ctxStatement.drawImage(img, -renderW / 2, -renderH / 2, renderW, renderH);
@@ -866,8 +868,14 @@ function startSimbionApp() {
                 end: "bottom top",
                 scrub: 0.6,
                 onUpdate: (self) => {
-                    const frameIdx = (totalFrames - 1) * (1 - self.progress);
-                    drawStatement(frameIdx, self.progress);
+                    const p = self.progress;
+                    let frameIdx;
+                    if (p <= 0.5) {
+                        frameIdx = (totalFrames - 1) * (p / 0.5);
+                    } else {
+                        frameIdx = (totalFrames - 1) * (1 - ((p - 0.5) / 0.5));
+                    }
+                    drawStatement(frameIdx, p);
                 }
             });
         }
@@ -878,14 +886,14 @@ function startSimbionApp() {
             if (statementCanvas) resizeStatement();
             drawAbout(0, 0);
             drawWeAre(0, 0);
-            if (statementCanvas) drawStatement(totalFrames - 1, 0);
+            if (statementCanvas) drawStatement(0, 0);
         }, { passive: true });
 
         // Initial render
         setTimeout(() => {
             drawAbout(0, 0);
             drawWeAre(0, 0);
-            if (statementCanvas) drawStatement(totalFrames - 1, 0);
+            if (statementCanvas) drawStatement(0, 0);
         }, 150);
     }
 
