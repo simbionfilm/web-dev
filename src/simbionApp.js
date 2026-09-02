@@ -103,6 +103,8 @@ function startSimbionApp() {
     if (window.__simbionInitialized) return;
     window.__simbionInitialized = true;
 
+    const isTouchDevice = window.matchMedia("(pointer: coarse), (hover: none), (max-width: 1024px)").matches;
+
     // Shooting Preloader Logic
     const loader = document.getElementById('fake-loader');
     const loaderText = document.getElementById('loader-text');
@@ -342,7 +344,7 @@ function startSimbionApp() {
                 trigger: "#about",
                 start: "top 75%",
                 end: "top 20%",
-                scrub: 1.2,
+                scrub: isTouchDevice ? 0.3 : 1.0,
                 invalidateOnRefresh: true
             }
         });
@@ -412,7 +414,7 @@ function startSimbionApp() {
                 trigger: "#statement",
                 start: "top 75%",
                 end: "top 18%",
-                scrub: 1.2,
+                scrub: isTouchDevice ? 0.3 : 1.0,
                 invalidateOnRefresh: true
             }
         });
@@ -624,6 +626,7 @@ function startSimbionApp() {
         const images = new Array(totalFrames);
         window.sequenceTotalFrames = totalFrames;
         window.sequenceImages = images;
+        window.sequenceFrameCache = new Map();
 
         const rawVectors = (window.sequence3DFrames && window.sequence3DFrames.length >= 60)
             ? window.sequence3DFrames
@@ -641,8 +644,8 @@ function startSimbionApp() {
                 return direct;
             }
             
-            // Search nearby loaded keyframes
-            for (let offset = 1; offset <= 32; offset++) {
+            // Search nearby loaded keyframes (expanding radius up to 48 frames)
+            for (let offset = 1; offset <= 48; offset++) {
                 const left = clamped - offset;
                 if (left >= 0 && seq[left] && seq[left].complete && seq[left].naturalWidth > 0) {
                     return seq[left];
@@ -655,74 +658,176 @@ function startSimbionApp() {
             return null;
         };
 
-        // Priority stratified frame loader with controlled concurrency
-        const loadQueue = [];
+        // =========================================================================
+        // SMART PRELOADING UTILITY WITH DYNAMIC PREDICTIVE CACHING (10+ FRAMES)
+        // =========================================================================
+        const priorityQueue = [];
+        const idleQueue = [];
+        const loadingSet = new Set();
         let activeLoads = 0;
-        const MAX_CONCURRENT_LOADS = 4;
+        const MAX_CONCURRENT_LOADS = 6;
+        let isProcessingQueue = false;
 
-        function processLoadQueue() {
-            while (activeLoads < MAX_CONCURRENT_LOADS && loadQueue.length > 0) {
-                const frameIndex = loadQueue.shift();
-                if (images[frameIndex - 1]) continue; // Already loaded or in progress
-                
-                activeLoads++;
-                const img = new Image();
-                img.decoding = "async";
-                img.crossOrigin = "anonymous";
-                const p3 = String(frameIndex).padStart(3, '0');
-                const primaryUrl = `${supabaseBaseUrl}ezgif-frame-${p3}.webp`;
-                const fallbackUrl = `${supabaseBaseUrl}${p3}.webp`;
-                const pngFallbackUrl = `https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/3d/ezgif-frame-${p3}.png`;
+        function loadFrameResource(frameIndex) {
+            if (images[frameIndex - 1] && images[frameIndex - 1].complete && images[frameIndex - 1].naturalWidth > 0) {
+                return;
+            }
+            if (loadingSet.has(frameIndex)) return;
 
-                const onFinished = () => {
-                    activeLoads--;
-                    // Async decode if supported to avoid main thread raster jank
-                    if (img.decode) {
-                        img.decode().then(() => {
-                            images[frameIndex - 1] = img;
-                            requestRender();
-                        }).catch(() => {
-                            images[frameIndex - 1] = img;
-                            requestRender();
-                        });
-                    } else {
+            loadingSet.add(frameIndex);
+            activeLoads++;
+
+            const img = new Image();
+            img.decoding = "async";
+            img.crossOrigin = "anonymous";
+            const p3 = String(frameIndex).padStart(3, '0');
+            const primaryUrl = `${supabaseBaseUrl}ezgif-frame-${p3}.webp`;
+            const fallbackUrl = `${supabaseBaseUrl}${p3}.webp`;
+            const pngFallbackUrl = `https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/3d/ezgif-frame-${p3}.png`;
+
+            const onFinish = () => {
+                activeLoads = Math.max(0, activeLoads - 1);
+                loadingSet.delete(frameIndex);
+
+                // Off-main-thread async GPU raster decode before registering to memory cache
+                if (img.decode) {
+                    img.decode().then(() => {
                         images[frameIndex - 1] = img;
+                        window.sequenceFrameCache.set(frameIndex, img);
                         requestRender();
-                    }
-                    processLoadQueue();
-                };
+                    }).catch(() => {
+                        images[frameIndex - 1] = img;
+                        window.sequenceFrameCache.set(frameIndex, img);
+                        requestRender();
+                    }).finally(() => {
+                        processQueue();
+                    });
+                } else {
+                    images[frameIndex - 1] = img;
+                    window.sequenceFrameCache.set(frameIndex, img);
+                    requestRender();
+                    processQueue();
+                }
+            };
 
-                img.onload = onFinished;
-                img.onerror = function() {
-                    if (this.src === primaryUrl) {
-                        this.src = fallbackUrl;
-                    } else if (this.src === fallbackUrl) {
-                        this.src = pngFallbackUrl;
-                    } else if (rawVectors.length > 0) {
-                        this.onerror = null;
-                        this.src = rawVectors[(frameIndex - 1) % rawVectors.length];
-                    } else {
-                        onFinished();
-                    }
-                };
+            img.onload = onFinish;
+            img.onerror = function() {
+                if (this.src === primaryUrl) {
+                    this.src = fallbackUrl;
+                } else if (this.src === fallbackUrl) {
+                    this.src = pngFallbackUrl;
+                } else if (rawVectors.length > 0) {
+                    this.onerror = null;
+                    this.src = rawVectors[(frameIndex - 1) % rawVectors.length];
+                } else {
+                    onFinish();
+                }
+            };
 
-                img.src = primaryUrl;
+            img.src = primaryUrl;
+        }
+
+        function processQueue() {
+            if (isProcessingQueue) return;
+            isProcessingQueue = true;
+
+            try {
+                while (activeLoads < MAX_CONCURRENT_LOADS && (priorityQueue.length > 0 || idleQueue.length > 0)) {
+                    const nextFrame = priorityQueue.length > 0 ? priorityQueue.shift() : idleQueue.shift();
+                    if (!nextFrame) break;
+
+                    if (images[nextFrame - 1] && images[nextFrame - 1].complete && images[nextFrame - 1].naturalWidth > 0) {
+                        continue;
+                    }
+                    if (loadingSet.has(nextFrame)) {
+                        continue;
+                    }
+
+                    loadFrameResource(nextFrame);
+                }
+            } finally {
+                isProcessingQueue = false;
             }
         }
 
-        function enqueueFrames(indices) {
-            indices.forEach(idx => {
-                if (idx >= 1 && idx <= totalFrames && !loadQueue.includes(idx)) {
-                    loadQueue.push(idx);
+        /**
+         * Smart Preload Utility:
+         * Predicts and caches the upcoming 10 (or velocity-scaled) frames in memory based on scroll trajectory.
+         * Also maintains an immediate ±2 frame buffer to eliminate jitter during rapid back-and-forth scrubbing.
+         *
+         * @param {number} targetFrame - 1-based or 0-based frame index
+         * @param {number} direction - 1 for forward/down, -1 for backward/up
+         * @param {number} count - number of upcoming frames to cache (default: 10)
+         * @param {number} velocity - current scroll velocity (optional)
+         */
+        function preloadUpcomingFrames(targetFrame, direction = 1, count = 10, velocity = 0) {
+            const rawIdx = Math.floor(typeof targetFrame === 'number' ? targetFrame : 0);
+            const baseIdx = Math.max(1, Math.min(totalFrames, (rawIdx === 0 ? 1 : rawIdx)));
+            const dir = (direction < 0) ? -1 : 1;
+
+            // Dynamically scale ahead window if user is scrubbing at higher velocity
+            const velScale = Math.min(10, Math.floor(Math.abs(velocity || 0) / 250));
+            const upcomingCount = Math.max(count, count + velScale);
+
+            const urgentFrames = [];
+
+            // 1. Immediate neighborhood buffer (current ± 2 frames) for bidirectional instant readiness
+            for (let b = -2; b <= 2; b++) {
+                const bf = baseIdx + b;
+                if (bf >= 1 && bf <= totalFrames && !urgentFrames.includes(bf)) {
+                    urgentFrames.push(bf);
                 }
-            });
-            processLoadQueue();
+            }
+
+            // 2. Upcoming sequential frames in scroll direction
+            for (let step = 1; step <= upcomingCount; step++) {
+                const targetF = baseIdx + (step * dir);
+                if (targetF >= 1 && targetF <= totalFrames && !urgentFrames.includes(targetF)) {
+                    urgentFrames.push(targetF);
+                }
+            }
+
+            // Push into high-priority queue head (LIFO unshift so newest scroll trajectory is prioritized first)
+            for (let i = urgentFrames.length - 1; i >= 0; i--) {
+                const f = urgentFrames[i];
+                if ((!images[f - 1] || !images[f - 1].complete) && !loadingSet.has(f)) {
+                    const existingIdx = priorityQueue.indexOf(f);
+                    if (existingIdx !== -1) {
+                        priorityQueue.splice(existingIdx, 1);
+                    }
+                    priorityQueue.unshift(f);
+                }
+            }
+
+            processQueue();
         }
 
-        // Tier 1: Immediate Keyframes (every 8th frame for instant scrub response)
+        // Export utility to global scope for seamless usage across components
+        window.preloadUpcomingFrames = preloadUpcomingFrames;
+        window.smartSequencePreloader = {
+            preloadUpcomingFrames,
+            getNearestSequenceFrame: window.getNearestSequenceFrame,
+            isFrameCached: (idx) => Boolean(images[idx - 1] && images[idx - 1].complete && images[idx - 1].naturalWidth > 0),
+            getCachedCount: () => images.filter(img => img && img.complete && img.naturalWidth > 0).length,
+            getTotalFrames: () => totalFrames
+        };
+
+        function enqueueIdleFrames(indices) {
+            indices.forEach(idx => {
+                if (idx >= 1 && idx <= totalFrames && !idleQueue.includes(idx) && !priorityQueue.includes(idx)) {
+                    idleQueue.push(idx);
+                }
+            });
+            processQueue();
+        }
+
+        // Tier 1: Immediate Keyframes (every 8th frame for instant coarse scrub response)
         const tier1Keyframes = [1];
         for (let i = 8; i <= totalFrames; i += 8) tier1Keyframes.push(i);
-        enqueueFrames(tier1Keyframes);
+        enqueueIdleFrames(tier1Keyframes);
+
+        // Preload the initial 15 frames immediately for instant zero-lag intro on page load
+        preloadUpcomingFrames(1, 1, 15);
 
         // Tier 2: Secondary Keyframes (every 4th frame)
         setTimeout(() => {
@@ -730,7 +835,7 @@ function startSimbionApp() {
             for (let i = 4; i <= totalFrames; i += 4) {
                 if (!tier1Keyframes.includes(i)) tier2.push(i);
             }
-            enqueueFrames(tier2);
+            enqueueIdleFrames(tier2);
         }, 120);
 
         // Tier 3: All remaining frames in background idle chunks
@@ -739,7 +844,7 @@ function startSimbionApp() {
             for (let i = 1; i <= totalFrames; i++) {
                 if (!tier1Keyframes.includes(i) && (i % 4 !== 0)) tier3.push(i);
             }
-            enqueueFrames(tier3);
+            enqueueIdleFrames(tier3);
         }, 400);
 
         // ==========================================
@@ -868,13 +973,17 @@ function startSimbionApp() {
             trigger: "#about",
             start: "top bottom",
             end: "bottom top",
-            scrub: 0.6,
+            scrub: isTouchDevice ? 0.18 : 0.6,
             onUpdate: (self) => {
                 isAboutVisible = true;
                 aboutFrameIdx = (window.sequenceTotalFrames - 1) * self.progress;
                 aboutProgress = self.progress;
                 aboutDirty = true;
                 requestRender();
+
+                // Predictive 10+ frames caching in scroll direction
+                const currentFrameNumber = Math.round(aboutFrameIdx) + 1;
+                preloadUpcomingFrames(currentFrameNumber, self.direction || 1, 10, self.getVelocity ? self.getVelocity() : 0);
             }
         });
 
@@ -944,7 +1053,7 @@ function startSimbionApp() {
             trigger: "#we-are-made",
             start: "top bottom",
             end: "bottom top",
-            scrub: 0.6,
+            scrub: isTouchDevice ? 0.18 : 0.6,
             onUpdate: (self) => {
                 isWeAreVisible = true;
                 const p = self.progress;
@@ -954,6 +1063,11 @@ function startSimbionApp() {
                 weAreProgress = p;
                 weAreDirty = true;
                 requestRender();
+
+                // Predictive 10+ frames caching taking into account ping-pong direction
+                const currentFrameNumber = Math.round(weAreFrameIdx) + 1;
+                const effectiveDirection = (p <= 0.5) ? (self.direction || 1) : -(self.direction || 1);
+                preloadUpcomingFrames(currentFrameNumber, effectiveDirection, 10, self.getVelocity ? self.getVelocity() : 0);
             }
         });
 
@@ -1025,7 +1139,7 @@ function startSimbionApp() {
                 trigger: "#statement",
                 start: "top bottom",
                 end: "bottom top",
-                scrub: 0.6,
+                scrub: isTouchDevice ? 0.18 : 0.6,
                 onUpdate: (self) => {
                     const p = self.progress;
                     statementFrameIdx = (p <= 0.5)
@@ -1034,6 +1148,11 @@ function startSimbionApp() {
                     statementProgress = p;
                     statementDirty = true;
                     requestRender();
+
+                    // Predictive 10+ frames caching taking into account ping-pong direction
+                    const currentFrameNumber = Math.round(statementFrameIdx) + 1;
+                    const effectiveDirection = (p <= 0.5) ? (self.direction || 1) : -(self.direction || 1);
+                    preloadUpcomingFrames(currentFrameNumber, effectiveDirection, 10, self.getVelocity ? self.getVelocity() : 0);
                 }
             });
         }
@@ -1810,16 +1929,14 @@ function startSimbionApp() {
     }
 
     // Lenis Smooth Scroll
-    const isTouchDevice = window.matchMedia("(pointer: coarse), (hover: none), (max-width: 1024px)").matches;
-
     const lenis = new Lenis({
-        duration: isTouchDevice ? 1.0 : 1.35, 
+        duration: isTouchDevice ? 0.95 : 1.35, 
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
         direction: 'vertical',
         gestureDirection: 'vertical',
         smooth: true,
-        smoothTouch: false,
-        touchMultiplier: 0.9,
+        smoothTouch: true,
+        touchMultiplier: 1.5,
         wheelMultiplier: 0.72, 
         infinite: false,
     });
@@ -2783,7 +2900,7 @@ function startSimbionApp() {
                 trigger: "#the-soul",
                 start: "top bottom",
                 end: "bottom top",
-                scrub: 0.5,
+                scrub: isTouchDevice ? 0.25 : 0.5,
                 onUpdate: (self) => {
                     scrollRotation = self.progress * 360; 
                 }
@@ -2879,7 +2996,7 @@ function startSimbionApp() {
 
         gsap.to('.parallax-hero', {
             yPercent: 35, rotation: 3, ease: "none",
-            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 1.5 }
+            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: isTouchDevice ? 0.3 : 1.2 }
         });
 
         gsap.to('#hero', {
@@ -2914,7 +3031,7 @@ function startSimbionApp() {
                     trigger: "#selected-work",
                     start: "top top",
                     end: () => "+=" + Math.max(isTouchDevice ? 800 : 1200, (filmTrack.scrollWidth - window.innerWidth) * (isTouchDevice ? 1.1 : 1.35)),
-                    scrub: isTouchDevice ? 1.0 : 1.4,
+                    scrub: isTouchDevice ? 0.4 : 1.3,
                     pin: true,
                     anticipatePin: 1,
                     invalidateOnRefresh: true,
@@ -2923,10 +3040,9 @@ function startSimbionApp() {
                         const vel = self.getVelocity();
                         const absVel = Math.abs(vel);
 
-                        const blurAmount = Math.min(3.5, absVel / 650);
-                        const skewAmount = Math.max(-2.5, Math.min(2.5, -vel / 1200));
-
-                        if (absVel > 30) {
+                        if (!isTouchDevice && absVel > 30) {
+                            const blurAmount = Math.min(3.5, absVel / 650);
+                            const skewAmount = Math.max(-2.5, Math.min(2.5, -vel / 1200));
                             gsap.to(galleryItemsList(), {
                                 filter: `blur(${blurAmount.toFixed(2)}px)`,
                                 skewX: `${skewAmount.toFixed(2)}deg`,
@@ -2954,8 +3070,8 @@ function startSimbionApp() {
                                 const depthY = parseFloat(el.getAttribute('data-depth-y')) || 1.0;
                                 const speedDelta = (depth - 1.0);
 
-                                const shiftX = Math.max(-60, Math.min(60, -(vel * speedDelta * 0.052)));
-                                const shiftY = Math.max(-20, Math.min(20, (vel / 900) * depthY * 6));
+                                const shiftX = Math.max(-60, Math.min(60, -(vel * speedDelta * (isTouchDevice ? 0.025 : 0.052))));
+                                const shiftY = Math.max(-20, Math.min(20, (vel / 900) * depthY * (isTouchDevice ? 3 : 6)));
                                 const scaleShift = 1 + Math.max(-0.03, Math.min(0.04, (absVel / 2500) * speedDelta));
 
                                 gsap.to(el, {
