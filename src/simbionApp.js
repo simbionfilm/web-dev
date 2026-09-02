@@ -2770,8 +2770,10 @@ function startSimbionApp() {
             
             let baseRotation = 0;
             let scrollRotation = 0;
-            let autoPingPongFrame = 0;
-            let autoPingPongDirection = 1;
+            const minBtsFrame = 76; // ezgif-frame-077.png (0-indexed: 76)
+            const maxBtsFrame = 243; // ezgif-frame-244.png (0-indexed: 243)
+            let autoPingPongFrame = maxBtsFrame;
+            let autoPingPongDirection = -1; // Start by playing from 244 down to 077
             const autoSpeed = 0.5; // Smooth automatic ping-pong speed (~60fps)
             
             ScrollTrigger.create({
@@ -2800,14 +2802,13 @@ function startSimbionApp() {
                     row.el.style.transform = `translateY(${row.y}px) rotateY(${totalRotation.toFixed(2)}deg)`;
                 });
                 
-                // AUTOMATIC PING-PONG 3D SEQUENCE LOOP
-                const totalSeqFrames = window.sequenceTotalFrames || 244;
+                // AUTOMATIC PING-PONG 3D SEQUENCE LOOP (244.png <-> 077.png)
                 autoPingPongFrame += autoSpeed * autoPingPongDirection;
-                if (autoPingPongFrame >= totalSeqFrames - 1) {
-                    autoPingPongFrame = totalSeqFrames - 1;
+                if (autoPingPongFrame >= maxBtsFrame) {
+                    autoPingPongFrame = maxBtsFrame;
                     autoPingPongDirection = -1;
-                } else if (autoPingPongFrame <= 0) {
-                    autoPingPongFrame = 0;
+                } else if (autoPingPongFrame <= minBtsFrame) {
+                    autoPingPongFrame = minBtsFrame;
                     autoPingPongDirection = 1;
                 }
                 const currentFrameIdx = Math.floor(autoPingPongFrame);
