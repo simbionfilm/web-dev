@@ -576,7 +576,10 @@ function startSimbionApp() {
     }
 
     // 3 Independent 3D Sequences (1 in #about, 1 in #we-are-made, 1 in #statement)
+    let is3DSequenceInitialized = false;
     function init3DCanvasSequence() {
+        if (is3DSequenceInitialized) return;
+        is3DSequenceInitialized = true;
         const aboutCanvas = document.getElementById('about-3d-canvas');
         const aboutSection = document.getElementById('about');
         const weAreCanvas = document.getElementById('we-are-3d-canvas');
@@ -588,43 +591,60 @@ function startSimbionApp() {
 
         const supabaseBaseUrl = "https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/3d/";
         const totalFrames = 244;
-        const images = [];
+        const images = new Array(totalFrames);
         let imagesLoaded = 0;
 
         const rawVectors = (window.sequence3DFrames && window.sequence3DFrames.length >= 60)
             ? window.sequence3DFrames
             : [];
 
-        // Preload all 244 frames from Supabase Storage
-        for (let i = 1; i <= totalFrames; i++) {
-            const img = new Image();
-            img.crossOrigin = "anonymous";
-            const p3 = String(i).padStart(3, '0');
-            const primaryUrl = `${supabaseBaseUrl}ezgif-frame-${p3}.png`;
-            const fallbackUrl = `${supabaseBaseUrl}${p3}.png`;
+                // Load asynchronously in chunks
+        function loadFrameBatch(startIndex, batchSize) {
+            for (let i = startIndex; i < startIndex + batchSize && i <= totalFrames; i++) {
+                const img = new Image();
+                img.decoding = "async";
+                img.crossOrigin = "anonymous";
+                const p3 = String(i).padStart(3, '0');
+                const primaryUrl = `${supabaseBaseUrl}ezgif-frame-${p3}.png`;
+                const fallbackUrl = `${supabaseBaseUrl}${p3}.png`;
 
-            img.onload = () => {
-                imagesLoaded++;
-                if (imagesLoaded === 1 || i === 1) {
-                    if (weAreCanvas) weAreCanvas.style.opacity = '1';
-                    if (statementCanvas) statementCanvas.style.opacity = '1';
-                    drawAbout(0, 0);
-                    drawWeAre(0, 0);
-                    if (statementCanvas) drawStatement(0, 0);
-                }
-            };
-            img.onerror = function() {
-                if (this.src !== fallbackUrl) {
-                    this.src = fallbackUrl;
-                } else if (rawVectors.length > 0) {
-                    this.onerror = null;
-                    this.src = rawVectors[(i - 1) % rawVectors.length];
-                }
-            };
+                img.onload = () => {
+                    imagesLoaded++;
+                    images[i - 1] = img;
+                    
+                    if (imagesLoaded === 1 || i === 1) {
+                        if (weAreCanvas) weAreCanvas.style.opacity = '1';
+                        if (statementCanvas) statementCanvas.style.opacity = '1';
+                        drawAbout(0, 0);
+                        drawWeAre(0, 0);
+                        if (statementCanvas) drawStatement(totalFrames - 1, 0);
+                    }
+                    
+                    if (i === startIndex + batchSize - 1 && i < totalFrames) {
+                        setTimeout(() => loadFrameBatch(i + 1, batchSize), 10);
+                    }
+                };
+                
+                img.onerror = function() {
+                    images[i - 1] = img;
+                    if (this.src !== fallbackUrl) {
+                        this.src = fallbackUrl;
+                    } else if (rawVectors.length > 0) {
+                        this.onerror = null;
+                        this.src = rawVectors[(i - 1) % rawVectors.length];
+                    }
+                    
+                    if (i === startIndex + batchSize - 1 && i < totalFrames) {
+                        setTimeout(() => loadFrameBatch(i + 1, batchSize), 10);
+                    }
+                };
 
-            img.src = primaryUrl;
-            images.push(img);
+                img.src = primaryUrl;
+            }
         }
+        
+        loadFrameBatch(1, 1);
+        setTimeout(() => loadFrameBatch(2, 5), 100);
 
         // ==========================================
         // 1. CANVAS 1: ABOUT SECTION
@@ -858,14 +878,14 @@ function startSimbionApp() {
             if (statementCanvas) resizeStatement();
             drawAbout(0, 0);
             drawWeAre(0, 0);
-            if (statementCanvas) drawStatement(0, 0);
+            if (statementCanvas) drawStatement(totalFrames - 1, 0);
         }, { passive: true });
 
         // Initial render
         setTimeout(() => {
             drawAbout(0, 0);
             drawWeAre(0, 0);
-            if (statementCanvas) drawStatement(0, 0);
+            if (statementCanvas) drawStatement(totalFrames - 1, 0);
         }, 150);
     }
 
