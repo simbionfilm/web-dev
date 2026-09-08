@@ -1218,10 +1218,21 @@ function startSimbionApp() {
     const isDesktop = window.matchMedia("(pointer: fine) and (hover: hover) and (min-width: 1025px)").matches;
 
     if (isDesktop && cursor) {
+        let mouseX = -100, mouseY = -100;
+        let cursorRaf = null;
+
+        const renderCursor = () => {
+            cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+            cursorRaf = null;
+        };
+
         window.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (!cursorRaf) {
+                cursorRaf = requestAnimationFrame(renderCursor);
+            }
+        }, { passive: true });
     }
 
     // Modals & Notifications
@@ -2911,12 +2922,12 @@ function startSimbionApp() {
                     }
 
                     // KINETIC HOVER EFFECT: scale-150 and bouncy transition
-                    img.className = "rounded-none opacity-100 hover:scale-150 cursor-pointer bts-card-optimized shadow-2xl object-contain";
+                    img.className = "rounded-none opacity-100 hover:scale-150 cursor-pointer bts-card-optimized shadow-md hover:shadow-xl object-contain";
                     img.style.maxWidth = `${imgWidth}px`;
                     img.style.maxHeight = `${isMobile ? 68 : 110}px`;
-                    img.style.transition = "transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease"; 
+                    img.style.transition = "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)"; 
                     img.style.transform = "translateZ(0)"; 
-                    img.style.willChange = "transform, opacity";
+                    img.style.willChange = "transform";
                     
                     el.appendChild(img);
                     rowEl.appendChild(el);
@@ -2948,6 +2959,7 @@ function startSimbionApp() {
             
             let reqId = null;
             let isCarouselVisible = false;
+            let depthFrameCounter = 0;
 
             function renderCarousel() {
                 if (!isCarouselVisible) {
@@ -2994,20 +3006,23 @@ function startSimbionApp() {
                     ctxCenter.drawImage(frameImg, dx, dy, drawW, drawH);
                 }
                 
-                // Hardware-composited Depth with opacity write-throttling
-                allItems.forEach(item => {
-                    const currentRingRot = (baseRotation + scrollRotation) * item.dir;
-                    const globalAngle = (item.angle + currentRingRot) % 360;
-                    const rad = globalAngle * Math.PI / 180;
-                    const z = Math.cos(rad); 
-                    
-                    const targetOpacity = z < -0.1 ? Math.max(0.25, 1 - Math.abs(z + 0.1) * 0.75) : 1;
+                // Hardware-composited Depth with throttled opacity updates (60fps smooth)
+                depthFrameCounter = (depthFrameCounter + 1) % 3;
+                if (depthFrameCounter === 0) {
+                    allItems.forEach(item => {
+                        const currentRingRot = (baseRotation + scrollRotation) * item.dir;
+                        const globalAngle = (item.angle + currentRingRot) % 360;
+                        const rad = globalAngle * Math.PI / 180;
+                        const z = Math.cos(rad); 
+                        
+                        const targetOpacity = z < -0.1 ? Math.max(0.25, 1 - Math.abs(z + 0.1) * 0.75) : 1;
 
-                    if (item.lastOpacity === undefined || Math.abs(targetOpacity - item.lastOpacity) >= 0.05) {
-                        item.lastOpacity = targetOpacity;
-                        item.img.style.opacity = targetOpacity.toFixed(2);
-                    }
-                });
+                        if (item.lastOpacity === undefined || Math.abs(targetOpacity - item.lastOpacity) >= 0.06) {
+                            item.lastOpacity = targetOpacity;
+                            item.img.style.opacity = targetOpacity.toFixed(2);
+                        }
+                    });
+                }
 
                 reqId = requestAnimationFrame(renderCarousel);
             }

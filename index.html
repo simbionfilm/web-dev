@@ -142,9 +142,9 @@
             pointer-events: none;
             z-index: 9999;
             mix-blend-mode: difference;
-            transform: translate(-50%, -50%);
+            transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
             transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1), height 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: left, top, width, height;
+            will-change: transform, width, height;
         }
 
         .header-blur-mask {
