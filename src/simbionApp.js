@@ -1,5 +1,5 @@
 import './equipmentData.js';
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { initializeApp } from "firebase/app";
 import { 
     initializeFirestore, 
     getFirestore, 
@@ -12,7 +12,7 @@ import {
     serverTimestamp,
     doc,
     getDocFromServer 
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+} from "firebase/firestore";
 
 // Firebase initialization
 const firebaseConfig = {
@@ -166,9 +166,9 @@ function startSimbionApp() {
     }
 
     const steps = [
-        { text: "CAMERA ROLL", duration: 1100 },
-        { text: "AND", duration: 750 },
-        { text: "ACTION!", duration: 1000 }
+        { text: "CAMERA ROLL", duration: 1600 },
+        { text: "AND", duration: 1100 },
+        { text: "ACTION!", duration: 1300 }
     ];
     let currentStep = 0;
 
@@ -189,6 +189,10 @@ function startSimbionApp() {
             setTimeout(runPreloadStep, next.duration);
         } else {
             setTimeout(() => {
+                if (typeof window.dismissPreloader === 'function') {
+                    window.dismissPreloader();
+                    return;
+                }
                 if (loaderTextWrap && window.gsap) {
                     gsap.to(loaderTextWrap, { opacity: 0, y: 12, duration: 0.4, ease: "power2.out" });
                 }
@@ -203,7 +207,6 @@ function startSimbionApp() {
                     if (loaderImgWrap) {
                         tl.to(loaderImgWrap, { y: () => window.innerHeight, duration: 1.05, ease: "power4.inOut" }, 0);
                     }
-                    // Fallback to guarantee loader is removed
                     setTimeout(() => {
                         if (loader && loader.parentNode) loader.remove();
                         if (window.ScrollTrigger) ScrollTrigger.refresh();
@@ -217,7 +220,7 @@ function startSimbionApp() {
                         if (window.ScrollTrigger) ScrollTrigger.refresh();
                     }, 900);
                 }
-            }, 400);
+            }, 350);
         }
     };
 
@@ -227,14 +230,18 @@ function startSimbionApp() {
     }
     setTimeout(runPreloadStep, steps[0].duration);
 
-    // Hard safety timeout: loader must never block the app even if scripts stall
+    // Hard safety timeout: loader must never get stuck under any condition
     setTimeout(() => {
-        const stuckLoader = document.getElementById('fake-loader');
-        if (stuckLoader && stuckLoader.parentNode) {
-            stuckLoader.remove();
-            if (window.ScrollTrigger) ScrollTrigger.refresh();
+        if (typeof window.dismissPreloader === 'function') {
+            window.dismissPreloader();
+        } else {
+            const stuckLoader = document.getElementById('fake-loader');
+            if (stuckLoader && stuckLoader.parentNode) {
+                stuckLoader.remove();
+                if (window.ScrollTrigger) ScrollTrigger.refresh();
+            }
         }
-    }, 4200);
+    }, 5800);
 
     // Fluid Kinetic Proximity & Click Ripple Interaction for Paragraphs
     function setupInteractiveParagraph(paraId, wordSelector) {
@@ -3099,8 +3106,14 @@ function startSimbionApp() {
                     const img = document.createElement('img');
                     const candidateSources = [
                         `${imgIndex}.webp`,
+                        `${imgIndex}.jpg`,
+                        `${imgIndex}.png`,
                         `bts/${imgIndex}.webp`,
-                        `https://raw.githubusercontent.com/simbionfilm/WEB-FINAL/main/${imgIndex}.webp`
+                        `bts/${imgIndex}.jpg`,
+                        `https://raw.githubusercontent.com/simbionfilm/WEB-FINAL/main/${imgIndex}.webp`,
+                        `https://raw.githubusercontent.com/simbionfilm/WEB-FINAL/main/${imgIndex}.jpg`,
+                        `https://raw.githubusercontent.com/simbionfilm/WEB-FINAL/main/${imgIndex}.png`,
+                        `https://raw.githubusercontent.com/simbionfilm/WEB-FINAL/main/public/${imgIndex}.webp`
                     ];
                     let srcAttempt = 0;
                     img.src = candidateSources[0];
