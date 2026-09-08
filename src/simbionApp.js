@@ -1974,7 +1974,7 @@ function startSimbionApp() {
         direction: 'vertical',
         gestureDirection: 'vertical',
         smooth: true,
-        smoothTouch: true,
+        smoothTouch: false,
         touchMultiplier: 1.5,
         wheelMultiplier: 0.72, 
         infinite: false,
@@ -2796,7 +2796,7 @@ function startSimbionApp() {
         gsap.ticker.add((time) => {
             lenis.raf(time * 1000);
         });
-        gsap.ticker.lagSmoothing(0);
+        gsap.ticker.lagSmoothing(500, 33);
     }
 
     function initScrollIndicator() {
@@ -2887,8 +2887,8 @@ function startSimbionApp() {
                     el.style.backfaceVisibility = 'visible';
                     
                     const img = document.createElement('img');
-                    img.src = `${imgIndex}.webp`;
-                    img.onerror = () => { img.src = `https://raw.githubusercontent.com/simbionfilm/WEB-FINAL/main/${imgIndex}.webp`; };
+                    img.src = `https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/bts/${imgIndex}.webp`;
+                    img.onerror = () => { img.src = `${imgIndex}.webp`; };
                     img.alt = `BTS ${imgIndex}`;
                     
                     const applyImgSize = () => {
