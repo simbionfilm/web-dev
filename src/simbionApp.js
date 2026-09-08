@@ -1,5 +1,5 @@
 import './equipmentData.js';
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { 
     initializeFirestore, 
     getFirestore, 
@@ -12,7 +12,7 @@ import {
     serverTimestamp,
     doc,
     getDocFromServer 
-} from "firebase/firestore";
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // Firebase initialization
 const firebaseConfig = {
@@ -49,42 +49,15 @@ try {
 window.globalHighScores = [];
 window.isFirebaseReady = false;
 
-// Safe JSON stringifier to prevent circular structure errors
-function safeStringify(obj) {
-    const seen = new WeakSet();
-    try {
-        return JSON.stringify(obj, (key, value) => {
-            if (typeof value === "object" && value !== null) {
-                if (seen.has(value)) {
-                    return "[Circular]";
-                }
-                seen.add(value);
-            }
-            if (value instanceof HTMLElement || value instanceof Node || (value && typeof value === 'object' && 'tagName' in value)) {
-                return `[DOM Element: ${value.tagName || 'Element'}]`;
-            }
-            return value;
-        });
-    } catch {
-        return String(obj);
-    }
-}
-
 // Structured error handler according to Firebase guidelines
 function handleFirestoreError(error, operationType, path) {
-    let errMsg = "Unknown error";
-    if (error && typeof error === 'object') {
-        errMsg = error.message || error.code || error.toString();
-    } else if (error) {
-        errMsg = String(error);
-    }
     const errInfo = {
-        error: String(errMsg),
-        operationType: String(operationType || 'unknown'),
-        path: String(path || 'unknown'),
+        error: error instanceof Error ? error.message : String(error),
+        operationType: operationType,
+        path: path,
         timestamp: new Date().toISOString()
     };
-    console.warn("Firestore Notification:", safeStringify(errInfo));
+    console.warn("Firestore Notification:", JSON.stringify(errInfo));
 }
 
 if (db) {
@@ -130,15 +103,6 @@ function startSimbionApp() {
     if (window.__simbionInitialized) return;
     window.__simbionInitialized = true;
 
-    // Ensure GSAP ScrollTrigger plugin is registered
-    if (window.gsap && window.ScrollTrigger && typeof gsap.registerPlugin === 'function') {
-        try {
-            gsap.registerPlugin(ScrollTrigger);
-        } catch (e) {
-            console.warn('[GSAP] Plugin registration notice:', e);
-        }
-    }
-
     // Register Service Worker for free instant local caching of 3D frames & assets
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
@@ -151,8 +115,6 @@ function startSimbionApp() {
     }
 
     const isTouchDevice = window.matchMedia("(pointer: coarse), (hover: none), (max-width: 1024px)").matches;
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
     // Shooting Preloader Logic
     const loader = document.getElementById('fake-loader');
@@ -166,9 +128,9 @@ function startSimbionApp() {
     }
 
     const steps = [
-        { text: "CAMERA ROLL", duration: 1600 },
-        { text: "AND", duration: 1100 },
-        { text: "ACTION!", duration: 1300 }
+        { text: "CAMERA ROLL", duration: 1100 },
+        { text: "AND", duration: 750 },
+        { text: "ACTION!", duration: 1000 }
     ];
     let currentStep = 0;
 
@@ -189,10 +151,6 @@ function startSimbionApp() {
             setTimeout(runPreloadStep, next.duration);
         } else {
             setTimeout(() => {
-                if (typeof window.dismissPreloader === 'function') {
-                    window.dismissPreloader();
-                    return;
-                }
                 if (loaderTextWrap && window.gsap) {
                     gsap.to(loaderTextWrap, { opacity: 0, y: 12, duration: 0.4, ease: "power2.out" });
                 }
@@ -200,16 +158,15 @@ function startSimbionApp() {
                     const tl = gsap.timeline({
                         onComplete: () => {
                             if (loader.parentNode) loader.remove();
-                            if (window.ScrollTrigger) ScrollTrigger.refresh();
                         }
                     });
                     tl.to(loader, { yPercent: -100, duration: 1.05, ease: "power4.inOut" }, 0);
                     if (loaderImgWrap) {
                         tl.to(loaderImgWrap, { y: () => window.innerHeight, duration: 1.05, ease: "power4.inOut" }, 0);
                     }
+                    // Fallback to guarantee loader is removed
                     setTimeout(() => {
                         if (loader && loader.parentNode) loader.remove();
-                        if (window.ScrollTrigger) ScrollTrigger.refresh();
                     }, 1400);
                 } else if (loader) {
                     loader.style.transition = 'transform 0.8s ease-in-out, opacity 0.8s ease-in-out';
@@ -217,10 +174,9 @@ function startSimbionApp() {
                     loader.style.opacity = '0';
                     setTimeout(() => {
                         if (loader.parentNode) loader.remove();
-                        if (window.ScrollTrigger) ScrollTrigger.refresh();
                     }, 900);
                 }
-            }, 350);
+            }, 400);
         }
     };
 
@@ -230,36 +186,18 @@ function startSimbionApp() {
     }
     setTimeout(runPreloadStep, steps[0].duration);
 
-    // Hard safety timeout: loader must never get stuck under any condition
-    setTimeout(() => {
-        if (typeof window.dismissPreloader === 'function') {
-            window.dismissPreloader();
-        } else {
-            const stuckLoader = document.getElementById('fake-loader');
-            if (stuckLoader && stuckLoader.parentNode) {
-                stuckLoader.remove();
-                if (window.ScrollTrigger) ScrollTrigger.refresh();
-            }
-        }
-    }, 5800);
-
     // Fluid Kinetic Proximity & Click Ripple Interaction for Paragraphs
     function setupInteractiveParagraph(paraId, wordSelector) {
         const para = document.getElementById(paraId);
         if (!para || !window.gsap) return;
 
         const isTouch = window.matchMedia("(pointer: coarse)").matches;
-        const getWords = () => (para ? Array.from(para.querySelectorAll(wordSelector)) : []);
+        const getWords = () => Array.from(para.querySelectorAll(wordSelector));
 
         let cachedWords = [];
         function refreshWordRects() {
             const words = getWords();
-            if (!Array.isArray(words)) {
-                cachedWords = [];
-                return;
-            }
             cachedWords = words.map(word => {
-                if (!word) return null;
                 const rect = word.getBoundingClientRect();
                 return {
                     el: word,
@@ -267,7 +205,7 @@ function startSimbionApp() {
                     cy: rect.top + rect.height / 2,
                     isAffected: false
                 };
-            }).filter(Boolean);
+            });
         }
 
         let lastMove = 0;
@@ -279,14 +217,13 @@ function startSimbionApp() {
             if (now - lastMove < 20) return;
             lastMove = now;
 
-            if (!cachedWords || !Array.isArray(cachedWords) || cachedWords.length === 0) refreshWordRects();
+            if (cachedWords.length === 0) refreshWordRects();
 
             const mouseX = e.clientX;
             const mouseY = e.clientY;
             const maxRadius = 120;
 
-            if (Array.isArray(cachedWords)) {
-                cachedWords.forEach(item => {
+            cachedWords.forEach(item => {
                 const dist = Math.hypot(mouseX - item.cx, mouseY - item.cy);
 
                 if (dist < maxRadius) {
@@ -314,16 +251,12 @@ function startSimbionApp() {
                     });
                 }
             });
-            }
-        }, { passive: true });
+        });
 
         para.addEventListener('mouseleave', () => {
             if (isTouch) return;
             const words = getWords();
-            if (!Array.isArray(words) || words.length === 0) return;
-            if (Array.isArray(cachedWords)) {
-                cachedWords.forEach(w => { if (w) w.isAffected = false; });
-            }
+            cachedWords.forEach(w => { w.isAffected = false; });
             gsap.to(words, {
                 y: 0,
                 scale: 1,
@@ -334,21 +267,20 @@ function startSimbionApp() {
                 stagger: { each: 0.005, from: "center" },
                 overwrite: "auto"
             });
-        }, { passive: true });
+        });
 
         para.addEventListener('click', (e) => {
             const words = getWords();
-            if (!Array.isArray(words) || words.length === 0) return;
+            if (words.length === 0) return;
 
             const clickX = e.clientX;
             const clickY = e.clientY;
 
             const sortedWords = words.map(w => {
-                if (!w) return null;
                 const r = w.getBoundingClientRect();
                 const d = Math.hypot(clickX - (r.left + r.width / 2), clickY - (r.top + r.height / 2));
                 return { el: w, dist: d };
-            }).filter(Boolean).sort((a, b) => a.dist - b.dist);
+            }).sort((a, b) => a.dist - b.dist);
 
             const tl = gsap.timeline();
             sortedWords.forEach((item, idx) => {
@@ -428,20 +360,16 @@ function startSimbionApp() {
             }
         });
 
-        if (Array.isArray(lines)) {
-            lines.forEach((lineWords, lineIndex) => {
-                if (Array.isArray(lineWords) && lineWords.length > 0) {
-                    tl.to(lineWords, {
-                        yPercent: 0,
-                        opacity: 1,
-                        rotateX: 0,
-                        stagger: 0.02,
-                        duration: 1,
-                        ease: "power3.out"
-                    }, lineIndex * 0.3);
-                }
-            });
-        }
+        lines.forEach((lineWords, lineIndex) => {
+            tl.to(lineWords, {
+                yPercent: 0,
+                opacity: 1,
+                rotateX: 0,
+                stagger: 0.02,
+                duration: 1,
+                ease: "power3.out"
+            }, lineIndex * 0.3);
+        });
 
         para._textTl = tl;
         setupInteractiveParagraph('about-desc-text', '.about-word');
@@ -502,20 +430,16 @@ function startSimbionApp() {
             }
         });
 
-        if (Array.isArray(lines)) {
-            lines.forEach((lineWords, lineIndex) => {
-                if (Array.isArray(lineWords) && lineWords.length > 0) {
-                    tl.to(lineWords, {
-                        yPercent: 0,
-                        opacity: 1,
-                        rotateX: 0,
-                        stagger: 0.02,
-                        duration: 1,
-                        ease: "power3.out"
-                    }, lineIndex * 0.3);
-                }
-            });
-        }
+        lines.forEach((lineWords, lineIndex) => {
+            tl.to(lineWords, {
+                yPercent: 0,
+                opacity: 1,
+                rotateX: 0,
+                stagger: 0.02,
+                duration: 1,
+                ease: "power3.out"
+            }, lineIndex * 0.3);
+        });
 
         para._textTl = tl;
         setupInteractiveParagraph('statement-desc-text', '.statement-word');
@@ -538,7 +462,6 @@ function startSimbionApp() {
         });
 
         const chars = Array.from(section.querySelectorAll('.we-are-char'));
-        if (!chars || chars.length === 0) return;
         const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
         let charData = [];
@@ -636,19 +559,19 @@ function startSimbionApp() {
             lastMove = now;
             mouseX = e.clientX;
             mouseY = e.clientY;
-        }, { passive: true });
+        });
 
         section.addEventListener('mouseleave', () => {
             if (isTouch) return;
             isHovered = false;
             mouseX = -9999;
             mouseY = -9999;
-        }, { passive: true });
+        });
 
         section.addEventListener('mouseenter', () => {
             if (isTouch) return;
             isHovered = true;
-        }, { passive: true });
+        });
 
         section.addEventListener('click', (e) => {
             const clickX = e.clientX;
@@ -715,6 +638,10 @@ function startSimbionApp() {
         window.sequenceTotalFrames = totalFrames;
         window.sequenceImages = images;
         window.sequenceFrameCache = new Map();
+
+        const rawVectors = (window.sequence3DFrames && window.sequence3DFrames.length >= 60)
+            ? window.sequence3DFrames
+            : [];
 
         // Nearest-neighbor loaded frame resolver (eliminates flickering & blank states)
         window.getNearestSequenceFrame = function(targetIdx) {
@@ -800,6 +727,9 @@ function startSimbionApp() {
                     this.src = fallbackUrl;
                 } else if (this.src === fallbackUrl) {
                     this.src = pngFallbackUrl;
+                } else if (rawVectors.length > 0) {
+                    this.onerror = null;
+                    this.src = rawVectors[(frameIndex - 1) % rawVectors.length];
                 } else {
                     onFinish();
                 }
@@ -869,16 +799,14 @@ function startSimbionApp() {
             }
 
             // Push into high-priority queue head (LIFO unshift so newest scroll trajectory is prioritized first)
-            if (Array.isArray(urgentFrames)) {
-                for (let i = urgentFrames.length - 1; i >= 0; i--) {
-                    const f = urgentFrames[i];
-                    if ((!images[f - 1] || !images[f - 1].complete) && !loadingSet.has(f)) {
-                        const existingIdx = priorityQueue.indexOf(f);
-                        if (existingIdx !== -1) {
-                            priorityQueue.splice(existingIdx, 1);
-                        }
-                        priorityQueue.unshift(f);
+            for (let i = urgentFrames.length - 1; i >= 0; i--) {
+                const f = urgentFrames[i];
+                if ((!images[f - 1] || !images[f - 1].complete) && !loadingSet.has(f)) {
+                    const existingIdx = priorityQueue.indexOf(f);
+                    if (existingIdx !== -1) {
+                        priorityQueue.splice(existingIdx, 1);
                     }
+                    priorityQueue.unshift(f);
                 }
             }
 
@@ -891,12 +819,11 @@ function startSimbionApp() {
             preloadUpcomingFrames,
             getNearestSequenceFrame: window.getNearestSequenceFrame,
             isFrameCached: (idx) => Boolean(images[idx - 1] && images[idx - 1].complete && images[idx - 1].naturalWidth > 0),
-            getCachedCount: () => (Array.isArray(images) ? images.filter(img => img && img.complete && img.naturalWidth > 0).length : 0),
+            getCachedCount: () => images.filter(img => img && img.complete && img.naturalWidth > 0).length,
             getTotalFrames: () => totalFrames
         };
 
         function enqueueIdleFrames(indices) {
-            if (!Array.isArray(indices)) return;
             indices.forEach(idx => {
                 if (idx >= 1 && idx <= totalFrames && !idleQueue.includes(idx) && !priorityQueue.includes(idx)) {
                     idleQueue.push(idx);
@@ -1294,7 +1221,7 @@ function startSimbionApp() {
         window.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
-        }, { passive: true });
+        });
     }
 
     // Modals & Notifications
@@ -1372,22 +1299,15 @@ function startSimbionApp() {
         ]
     };
 
-    let cmsData = defaultCMS;
+    let cmsData;
     try {
         const storedVersion = localStorage.getItem('simbion_cms_version');
         const storedData = localStorage.getItem('simbion_cms');
         if (storedVersion === CMS_DATA_VERSION && storedData) {
-            const parsed = JSON.parse(storedData);
-            if (parsed && Array.isArray(parsed.works) && parsed.recentRelease) {
-                cmsData = parsed;
-            } else {
-                cmsData = defaultCMS;
-                localStorage.setItem('simbion_cms', safeStringify(defaultCMS));
-                localStorage.setItem('simbion_cms_version', CMS_DATA_VERSION);
-            }
+            cmsData = JSON.parse(storedData);
         } else {
             cmsData = defaultCMS;
-            localStorage.setItem('simbion_cms', safeStringify(defaultCMS));
+            localStorage.setItem('simbion_cms', JSON.stringify(defaultCMS));
             localStorage.setItem('simbion_cms_version', CMS_DATA_VERSION);
         }
     } catch(e) {
@@ -1506,44 +1426,29 @@ function startSimbionApp() {
 
     function initIdleFloat() {
         if (!window.gsap) return;
-        try {
-            idleFloatTweens.forEach(t => { if (t && typeof t.kill === 'function') t.kill(); });
-            idleFloatTweens = [];
-            if (typeof gsap.killTweensOf === 'function') {
-                gsap.killTweensOf('.idle-float');
-            }
+        idleFloatTweens.forEach(t => t.kill());
+        idleFloatTweens = [];
+        gsap.killTweensOf('.idle-float');
 
-            const floatElements = (gsap.utils && typeof gsap.utils.toArray === 'function') 
-                ? gsap.utils.toArray('.idle-float') 
-                : Array.from(document.querySelectorAll('.idle-float'));
-                
-            if (!Array.isArray(floatElements) || floatElements.length === 0) return;
+        const floatElements = gsap.utils.toArray('.idle-float');
+        floatElements.forEach((el, i) => {
+            const yDist = (i % 2 === 0 ? 14 : -14) + gsap.utils.random(-6, 6);
+            const xDist = (i % 3 === 0 ? 10 : -10) + gsap.utils.random(-5, 5);
+            const rotDist = (i % 2 === 0 ? 2.5 : -2.5) + gsap.utils.random(-1, 1);
+            const dur = gsap.utils.random(8.0, 14.0);
 
-            floatElements.forEach((el, i) => {
-                if (!el) return;
-                const rnd = (gsap.utils && typeof gsap.utils.random === 'function') 
-                    ? gsap.utils.random 
-                    : (min, max) => min + Math.random() * (max - min);
-                const yDist = (i % 2 === 0 ? 14 : -14) + rnd(-6, 6);
-                const xDist = (i % 3 === 0 ? 10 : -10) + rnd(-5, 5);
-                const rotDist = (i % 2 === 0 ? 2.5 : -2.5) + rnd(-1, 1);
-                const dur = rnd(8.0, 14.0);
-
-                const tw = gsap.to(el, {
-                    y: yDist,
-                    x: xDist,
-                    rotation: rotDist,
-                    duration: dur,
-                    ease: "sine.inOut",
-                    repeat: -1,
-                    yoyo: true,
-                    delay: (i * 0.3) % 2.5
-                });
-                idleFloatTweens.push(tw);
+            const tw = gsap.to(el, {
+                y: yDist,
+                x: xDist,
+                rotation: rotDist,
+                duration: dur,
+                ease: "sine.inOut",
+                repeat: -1,
+                yoyo: true,
+                delay: (i * 0.3) % 2.5
             });
-        } catch (e) {
-            console.warn("[Idle Float] Animation notice:", e);
-        }
+            idleFloatTweens.push(tw);
+        });
     }
 
     function renderSelectedWorks() {
@@ -1551,10 +1456,9 @@ function startSimbionApp() {
         if (!track) return;
         let html = '';
         
-        const worksList = (cmsData && Array.isArray(cmsData.works)) ? cmsData.works : (defaultCMS && Array.isArray(defaultCMS.works) ? defaultCMS.works : []);
-        const row1 = Array.isArray(worksList) ? worksList.filter(w => w && w.row === 1).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0)) : [];
-        const row2 = Array.isArray(worksList) ? worksList.filter(w => w && w.row === 2).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0)) : [];
-        const row3 = Array.isArray(worksList) ? worksList.filter(w => w && w.row === 3).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0)) : [];
+        const row1 = cmsData.works.filter(w => w.row === 1).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
+        const row2 = cmsData.works.filter(w => w.row === 2).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
+        const row3 = cmsData.works.filter(w => w.row === 3).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
 
         const isMobile = window.innerWidth < 768;
         const itemSpacing = isMobile ? 74 : 18;
@@ -1562,10 +1466,8 @@ function startSimbionApp() {
 
         function renderRows(items, topPercent, rowNum) {
             let subHtml = '';
-            if (!Array.isArray(items)) return subHtml;
             const baseDepth = rowNum === 1 ? 0.72 : (rowNum === 2 ? 1.0 : 1.38);
             items.forEach((item, idx) => {
-                if (!item) return;
                 const leftPos = startLeft + (idx * itemSpacing);
                 const baseRotation = (Math.random() - 0.5) * 6; 
                 const depthFactor = (baseDepth + (idx % 2 === 0 ? 0.06 : -0.06)).toFixed(2);
@@ -1577,12 +1479,12 @@ function startSimbionApp() {
                             <div class="parallax-wrap w-full h-full" data-mx="${(idx % 2 === 0 ? -4 : 5)}" data-my="${(idx % 3 === 0 ? 6 : -5)}">
                                 <div class="velocity-parallax w-full h-full" data-depth="${depthFactor}" data-depth-y="${depthFactorY}">
                                     <div class="idle-float w-full h-full">
-                                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden rounded-sm group cursor-pointer bg-darkBg video-trigger border border-white/10 hover:border-simbionBlue/60 active:scale-95 transition-all duration-500" data-video-id="${item.videoId || ''}">
-                                            <img src="https://img.youtube.com/vi/${item.videoId || ''}/maxresdefault.jpg" alt="${item.title || 'Work'}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700 ease-out">
+                                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden rounded-sm group cursor-pointer bg-darkBg video-trigger border border-white/10 hover:border-simbionBlue/60 active:scale-95 transition-all duration-500" data-video-id="${item.videoId}">
+                                            <img src="https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg" alt="${item.title}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700 ease-out">
                                             <div class="absolute inset-x-0 bottom-0 p-3 md:p-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0 text-left pointer-events-none z-20">
                                                 <div class="absolute inset-0 -z-10 bg-gradient-to-t from-darkBg/95 via-darkBg/60 to-transparent"></div>
-                                                <span class="text-[7px] md:text-[9px] text-simbionBlue tracking-[0.2em] font-bold font-mono block uppercase">${item.year || ''} — ${item.artist || ''}</span>
-                                                <h3 class="text-[10px] md:text-sm font-bold tracking-tight text-lightText mt-0.5 md:mt-1 uppercase">${item.title || ''}</h3>
+                                                <span class="text-[7px] md:text-[9px] text-simbionBlue tracking-[0.2em] font-bold font-mono block uppercase">${item.year} — ${item.artist}</span>
+                                                <h3 class="text-[10px] md:text-sm font-bold tracking-tight text-lightText mt-0.5 md:mt-1 uppercase">${item.title}</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -1603,10 +1505,7 @@ function startSimbionApp() {
         html += renderRows(row2, r2Top, 2);
         html += renderRows(row3, r3Top, 3);
 
-        const r1Len = (row1 && typeof row1.length === 'number') ? row1.length : 0;
-        const r2Len = (row2 && typeof row2.length === 'number') ? row2.length : 0;
-        const r3Len = (row3 && typeof row3.length === 'number') ? row3.length : 0;
-        const maxItems = Math.max(r1Len, r2Len, r3Len, 1);
+        const maxItems = Math.max(row1.length, row2.length, row3.length);
         const dynamicWidth = startLeft + ((maxItems - 1) * itemSpacing) + (isMobile ? 70 : 60) + 90; 
         track.style.width = `${dynamicWidth}vw`;
         track.innerHTML = html;
@@ -1622,21 +1521,17 @@ function startSimbionApp() {
     function createSlotText() {
         const groups = new Map();
         document.querySelectorAll('.velocity-line').forEach(line => {
-            const parentSection = line.closest('section');
-            const parentDiv = line.closest('div');
-            const parentId = (parentSection && parentSection.id) || (parentDiv && parentDiv.id) || 'default-slot-group';
+            const parentId = line.closest('section')?.id || line.closest('div').id;
             if (!groups.has(parentId)) groups.set(parentId, []);
             groups.get(parentId).push(line);
         });
 
         groups.forEach((lines) => {
             let totalChars = 0;
-            if (Array.isArray(lines)) {
-                lines.forEach(line => {
-                    const text = line.getAttribute('data-text');
-                    if (text && typeof text === 'string') totalChars += text.replace(/ /g, '').length;
-                });
-            }
+            lines.forEach(line => {
+                const text = line.getAttribute('data-text');
+                if (text) totalChars += text.replace(/ /g, '').length;
+            });
 
             const impactedIndices = new Set();
             while(impactedIndices.size < 5 && impactedIndices.size < totalChars) {
@@ -1644,43 +1539,41 @@ function startSimbionApp() {
             }
 
             let currentIndex = 0;
-            if (Array.isArray(lines)) {
-                lines.forEach(line => {
-                    const text = line.getAttribute('data-text');
-                    if (!text || typeof text !== 'string') return;
-                    line.innerHTML = '';
-                    text.split('').forEach(char => {
-                        if (char === ' ') {
-                            const space = document.createElement('span');
-                            space.className = 'inline-block w-[0.3em]';
-                            line.appendChild(space);
-                            return;
-                        }
-                        const wrapper = document.createElement('span');
-                        wrapper.className = 'slot-wrapper';
+            lines.forEach(line => {
+                const text = line.getAttribute('data-text');
+                if (!text) return;
+                line.innerHTML = '';
+                text.split('').forEach(char => {
+                    if (char === ' ') {
+                        const space = document.createElement('span');
+                        space.className = 'inline-block w-[0.3em]';
+                        line.appendChild(space);
+                        return;
+                    }
+                    const wrapper = document.createElement('span');
+                    wrapper.className = 'slot-wrapper';
 
-                        const track = document.createElement('div');
-                        track.className = 'slot-track';
-                        track.dataset.orig = char;
+                    const track = document.createElement('div');
+                    track.className = 'slot-track';
+                    track.dataset.orig = char;
 
-                        const isImpacted = impactedIndices.has(currentIndex);
-                        track.dataset.impact = isImpacted ? 'true' : 'false';
-                        currentIndex++;
+                    const isImpacted = impactedIndices.has(currentIndex);
+                    track.dataset.impact = isImpacted ? 'true' : 'false';
+                    currentIndex++;
 
-                        const letters = Array(11).fill(char);
+                    const letters = Array(11).fill(char);
 
-                        letters.forEach(l => {
-                            const span = document.createElement('span');
-                            span.className = 'slot-char';
-                            span.textContent = l;
-                            track.appendChild(span);
-                        });
-
-                        wrapper.appendChild(track);
-                        line.appendChild(wrapper);
+                    letters.forEach(l => {
+                        const span = document.createElement('span');
+                        span.className = 'slot-char';
+                        span.textContent = l;
+                        track.appendChild(span);
                     });
+
+                    wrapper.appendChild(track);
+                    line.appendChild(wrapper);
                 });
-            }
+            });
         });
     }
     createSlotText();
@@ -1739,7 +1632,7 @@ function startSimbionApp() {
 
     let isContactVisibleForBalloon = false;
     const contactSec = document.getElementById('contact');
-    if (contactSec && typeof IntersectionObserver !== 'undefined') {
+    if (contactSec) {
         const contactObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 isContactVisibleForBalloon = entry.isIntersecting;
@@ -1816,7 +1709,7 @@ function startSimbionApp() {
 
             const formData = new FormData(chatForm);
             const object = Object.fromEntries(formData);
-            const json = safeStringify(object);
+            const json = JSON.stringify(object);
 
             try {
                 const response = await fetch("https://api.web3forms.com/submit", {
@@ -1952,10 +1845,9 @@ function startSimbionApp() {
         const rrTitle = document.getElementById('cms-rr-title');
         const rrId = document.getElementById('cms-rr-id');
         const rrLink = document.getElementById('cms-rr-link');
-        const rr = (cmsData && cmsData.recentRelease) ? cmsData.recentRelease : defaultCMS.recentRelease;
-        if (rrTitle) rrTitle.value = rr.title || '';
-        if (rrId) rrId.value = rr.videoId || '';
-        if (rrLink) rrLink.value = rr.link || '';
+        if (rrTitle) rrTitle.value = cmsData.recentRelease.title;
+        if (rrId) rrId.value = cmsData.recentRelease.videoId;
+        if (rrLink) rrLink.value = cmsData.recentRelease.link;
         renderCmsWorksList();
         
         cmsModal.classList.remove('opacity-0', 'pointer-events-none');
@@ -1981,40 +1873,32 @@ function startSimbionApp() {
         const container = document.getElementById('cms-items-container');
         const countEl = document.getElementById('cms-count');
         if (!container || !countEl) return;
-        const works = (cmsData && Array.isArray(cmsData.works)) ? cmsData.works : ((defaultCMS && Array.isArray(defaultCMS.works)) ? defaultCMS.works : []);
-        countEl.textContent = (works && typeof works.length === 'number') ? works.length : 0;
+        countEl.textContent = cmsData.works.length;
         let html = '';
-        if (Array.isArray(works)) {
-            works.forEach((w, index) => {
-            if (!w) return;
+        cmsData.works.forEach((w, index) => {
             html += `
                 <div class="bg-darkBg border border-white/10 p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-center justify-between hover:border-white/20" data-index="${index}">
                     <div class="grid grid-cols-2 md:grid-cols-5 gap-3 w-full">
-                        <input type="text" class="cms-title bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none" value="${w.title || ''}" placeholder="Title">
-                        <input type="text" class="cms-artist bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none" value="${w.artist || ''}" placeholder="Artist">
-                        <input type="text" class="cms-year bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none" value="${w.year || ''}" placeholder="Year">
-                        <input type="text" class="cms-id bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none" value="${w.videoId || ''}" placeholder="YouTube ID">
+                        <input type="text" class="cms-title bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none" value="${w.title}" placeholder="Title">
+                        <input type="text" class="cms-artist bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none" value="${w.artist}" placeholder="Artist">
+                        <input type="text" class="cms-year bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none" value="${w.year}" placeholder="Year">
+                        <input type="text" class="cms-id bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs focus:border-simbionBlue outline-none" value="${w.videoId}" placeholder="YouTube ID">
                         <select class="cms-row bg-darkBg border border-white/20 rounded-xl px-3 py-2 text-xs text-lightText focus:border-simbionBlue outline-none">
-                            <option value="1" ${(w.row||1)==1?'selected':''}>Row 1 (Top)</option>
-                            <option value="2" ${(w.row||1)==2?'selected':''}>Row 2 (Mid)</option>
-                            <option value="3" ${(w.row||1)==3?'selected':''}>Row 3 (Btm)</option>
+                            <option value="1" ${w.row==1?'selected':''}>Row 1 (Top)</option>
+                            <option value="2" ${w.row==2?'selected':''}>Row 2 (Mid)</option>
+                            <option value="3" ${w.row==3?'selected':''}>Row 3 (Btm)</option>
                         </select>
                     </div>
                     <button class="cms-del bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-lightText px-3 py-2 rounded-xl text-xs font-mono shrink-0">DELETE</button>
                 </div>
             `;
-            });
-        }
+        });
         container.innerHTML = html;
 
         container.querySelectorAll('.cms-del').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const node = e.target.closest('[data-index]');
-                if (!node) return;
-                const idx = parseInt(node.getAttribute('data-index'));
-                if (cmsData && Array.isArray(cmsData.works)) {
-                    cmsData.works.splice(idx, 1);
-                }
+                const idx = parseInt(e.target.closest('[data-index]').getAttribute('data-index'));
+                cmsData.works.splice(idx, 1);
                 renderCmsWorksList();
             });
         });
@@ -2022,10 +1906,7 @@ function startSimbionApp() {
 
     if (addItemBtn) {
         addItemBtn.addEventListener('click', () => {
-            if (cmsData && !Array.isArray(cmsData.works)) cmsData.works = [];
-            if (cmsData) {
-                cmsData.works.push({ title: "NEW WORK", artist: "ARTIST", year: "2026", videoId: "7KA1LaIy804", row: 1 });
-            }
+            cmsData.works.push({ title: "NEW WORK", artist: "ARTIST", year: "2026", videoId: "7KA1LaIy804", row: 1 });
             renderCmsWorksList();
             const container = document.getElementById('cms-items-container');
             if (container) setTimeout(() => container.scrollTop = container.scrollHeight, 50);
@@ -2053,7 +1934,7 @@ function startSimbionApp() {
                 });
             });
 
-            localStorage.setItem('simbion_cms', safeStringify(cmsData));
+            localStorage.setItem('simbion_cms', JSON.stringify(cmsData));
             renderRecentRelease();
             renderSelectedWorks();
             closeCmsModal();
@@ -2065,7 +1946,7 @@ function startSimbionApp() {
         resetCmsBtn.addEventListener('click', () => {
             showConfirm("Reset Defaults", "Reset all items to default?", () => {
                 localStorage.removeItem('simbion_cms');
-                cmsData = JSON.parse(safeStringify(defaultCMS));
+                cmsData = JSON.parse(JSON.stringify(defaultCMS));
                 renderRecentRelease();
                 renderSelectedWorks();
                 closeCmsModal();
@@ -2086,37 +1967,21 @@ function startSimbionApp() {
         });
     }
 
-    // Lenis Smooth Scroll with normalized touch handling across iOS Safari and Chrome
-    let lenis = null;
-    try {
-        if (typeof Lenis !== 'undefined') {
-            lenis = new Lenis({
-                duration: isTouchDevice ? (isIOS ? 0.90 : 1.05) : 1.2, 
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
-                direction: 'vertical',
-                gestureDirection: 'vertical',
-                smooth: true,
-                smoothTouch: false,
-                touchMultiplier: isIOS ? 1.0 : 1.18, // Normalizes iOS Safari's native touch velocity vs Chrome fling physics
-                wheelMultiplier: 1.0, 
-                infinite: false,
-                syncTouch: false,
-                syncTouchLerp: isIOS ? 0.10 : 0.08
-            });
-            window.lenis = lenis;
-        }
-    } catch (e) {
-        console.warn("Lenis init notice:", e);
-    }
+    // Lenis Smooth Scroll
+    const lenis = new Lenis({
+        duration: isTouchDevice ? 0.95 : 1.35, 
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+        direction: 'vertical',
+        gestureDirection: 'vertical',
+        smooth: true,
+        smoothTouch: true,
+        touchMultiplier: 1.5,
+        wheelMultiplier: 0.72, 
+        infinite: false,
+    });
+    window.lenis = lenis;
 
-    // ScrollTrigger Touch & Event Configuration
-    if (window.ScrollTrigger && typeof ScrollTrigger.config === 'function') {
-        ScrollTrigger.config({ 
-            ignoreMobileResize: true,
-            autoRefreshEvents: "visibilitychange,DOMContentLoaded,load,resize",
-            limitCallbacks: true
-        });
-    }
+    ScrollTrigger.config({ ignoreMobileResize: true });
 
     // Mini Game Logic
     const playHint = document.getElementById('play-hint');
@@ -2159,20 +2024,15 @@ function startSimbionApp() {
     let highScores = [];
     try {
         const stored = localStorage.getItem('simbion_speedrun');
-        if (stored) {
-            const parsed = JSON.parse(stored);
-            if (Array.isArray(parsed)) highScores = parsed;
-        }
-    } catch(e) {
-        highScores = [];
-    }
+        if (stored) highScores = JSON.parse(stored);
+    } catch(e) {}
 
     function renderLeaderboard() {
-        const sourceList = (window.globalHighScores && Array.isArray(window.globalHighScores) && window.globalHighScores.length > 0)
+        const sourceList = (window.globalHighScores && window.globalHighScores.length > 0)
             ? window.globalHighScores
-            : (Array.isArray(highScores) ? highScores : []);
+            : highScores;
 
-        const sorted = [...sourceList].sort((a, b) => a.time - b.time).slice(0, 10);
+        const sorted = [...(sourceList || [])].sort((a, b) => a.time - b.time).slice(0, 10);
 
         if (scoreList) {
             scoreList.innerHTML = '';
@@ -2224,12 +2084,12 @@ function startSimbionApp() {
     window.renderLeaderboard = renderLeaderboard;
 
     function isQualifyingScore(time) {
-        const sourceList = (window.globalHighScores && Array.isArray(window.globalHighScores) && window.globalHighScores.length > 0)
+        const sourceList = (window.globalHighScores && window.globalHighScores.length > 0)
             ? window.globalHighScores
-            : (Array.isArray(highScores) ? highScores : []);
-        const sorted = [...sourceList].sort((a, b) => a.time - b.time);
+            : highScores;
+        const sorted = [...(sourceList || [])].sort((a, b) => a.time - b.time);
         if (sorted.length < 10) return true;
-        return time < (sorted[9] ? sorted[9].time : Infinity);
+        return time < sorted[9].time;
     }
 
     function saveScore(inputEl, areaEl) {
@@ -2255,7 +2115,7 @@ function startSimbionApp() {
             highScores.sort((a, b) => a.time - b.time);
             highScores = highScores.slice(0, 10);
             try {
-                localStorage.setItem('simbion_speedrun', safeStringify(highScores));
+                localStorage.setItem('simbion_speedrun', JSON.stringify(highScores));
             } catch(e) {}
 
             if (typeof window.submitScoreToFirebase === 'function') {
@@ -2288,7 +2148,7 @@ function startSimbionApp() {
     setTimeout(triggerHint, 3000);
     
     const logoTrigger = document.querySelector('nav img[alt="SIMBION FILM"]');
-    if (logoTrigger && logoTrigger.parentElement) {
+    if (logoTrigger) {
         logoTrigger.parentElement.addEventListener('click', (e) => {
             if (window.innerWidth < 768) {
                 e.preventDefault();
@@ -2484,8 +2344,8 @@ function startSimbionApp() {
         }
 
         let size;
-        const equipmentPNGs = (window.equipmentPNGs && Array.isArray(window.equipmentPNGs)) ? window.equipmentPNGs : [];
-        const filmAwardPNG = window.filmAwardPNG || null;
+        const equipmentPNGs = window.equipmentPNGs || [];
+        const filmAwardPNG = window.filmAwardPNG || '';
 
         if (spawnType === 'letter') {
             size = isMobile ? 64 : 80;
@@ -2493,9 +2353,7 @@ function startSimbionApp() {
             el.innerHTML = `<div class="text-[#000AC2] font-black font-mono w-full h-full flex items-center justify-center animate-float-letter" style="font-size: ${isMobile ? 64 : 80}px; line-height: 1;">${letterToCollect}</div>`;
         } else if (spawnType === 'award') {
             size = isMobile ? 60 : 75;
-            const awardPaths = (filmAwardPNG && Array.isArray(filmAwardPNG.paths) && filmAwardPNG.paths.length > 0)
-                ? filmAwardPNG.paths
-                : [(filmAwardPNG && filmAwardPNG.src) || 'award.png', './award.png', 'assets/award.png', './assets/award.png', 'award.PNG'];
+            const awardPaths = (filmAwardPNG && filmAwardPNG.paths) ? filmAwardPNG.paths : [(filmAwardPNG.src || 'award.png'), './award.png', 'assets/award.png', './assets/award.png', 'award.PNG'];
             const awardFallback = (filmAwardPNG && filmAwardPNG.fallback) ? filmAwardPNG.fallback : (window.filmAwardSVG || '');
             
             const wrap = document.createElement('div');
@@ -2515,7 +2373,7 @@ function startSimbionApp() {
 
             img.onerror = function() {
                 pathIdx++;
-                if (Array.isArray(awardPaths) && pathIdx < awardPaths.length) {
+                if (pathIdx < awardPaths.length) {
                     this.src = awardPaths[pathIdx];
                     applyImgStyle(this);
                 } else if (awardFallback && this.src !== awardFallback) {
@@ -2527,25 +2385,21 @@ function startSimbionApp() {
             img.onload = function() {
                 applyImgStyle(this);
             };
-            img.src = (Array.isArray(awardPaths) && awardPaths[0]) ? awardPaths[0] : (awardFallback || 'award.png');
+            img.src = awardPaths[0];
             applyImgStyle(img);
             wrap.appendChild(img);
             el.appendChild(wrap);
         } else {
             size = isMobile ? 55 : 85; 
-            const chosenItem = (Array.isArray(equipmentPNGs) && equipmentPNGs.length > 0)
-                ? (equipmentPNGs[Math.floor(Math.random() * equipmentPNGs.length)] || { src: '1.png', fallback: '' })
-                : { src: '1.png', fallback: '' };
-            const candidatePaths = (chosenItem && Array.isArray(chosenItem.paths) && chosenItem.paths.length > 0)
-                ? chosenItem.paths
-                : [
-                    chosenItem.src || 'clapperboard.png',
-                    `./${chosenItem.src || 'clapperboard.png'}`,
-                    `assets/${chosenItem.src || 'clapperboard.png'}`,
-                    `./assets/${chosenItem.src || 'clapperboard.png'}`,
-                    `img/${chosenItem.src || 'clapperboard.png'}`,
-                    `./img/${chosenItem.src || 'clapperboard.png'}`
-                ];
+            const chosenItem = equipmentPNGs[Math.floor(Math.random() * equipmentPNGs.length)] || { src: '1.png', fallback: '' };
+            const candidatePaths = (chosenItem && chosenItem.paths) ? chosenItem.paths : [
+                chosenItem.src || 'clapperboard.png',
+                `./${chosenItem.src || 'clapperboard.png'}`,
+                `assets/${chosenItem.src || 'clapperboard.png'}`,
+                `./assets/${chosenItem.src || 'clapperboard.png'}`,
+                `img/${chosenItem.src || 'clapperboard.png'}`,
+                `./img/${chosenItem.src || 'clapperboard.png'}`
+            ];
             const fallbackSrc = (chosenItem && chosenItem.fallback) ? chosenItem.fallback : '';
             
             const wrap = document.createElement('div');
@@ -2565,7 +2419,7 @@ function startSimbionApp() {
 
             img.onerror = function() {
                 pathIdx++;
-                if (Array.isArray(candidatePaths) && pathIdx < candidatePaths.length) {
+                if (pathIdx < candidatePaths.length) {
                     this.src = candidatePaths[pathIdx];
                     applyObstacleStyle(this);
                 } else if (fallbackSrc && this.src !== fallbackSrc) {
@@ -2655,67 +2509,64 @@ function startSimbionApp() {
         const pTop = pCenterY - (hitboxHeight / 2) + 15;
         const pBottom = pCenterY + (hitboxHeight / 2);
         
-        if (Array.isArray(entities)) {
-            for (let i = 0; i < entities.length; i++) {
-                let ent = entities[i];
-                if (!ent || !ent.el) continue;
-                ent.y -= currentFallSpeed; 
-                ent.el.style.top = ent.y + 'px';
-                
-                const oRect = ent.el.getBoundingClientRect();
-                const oShrink = ent.size * 0.25; 
-                const oLeft = oRect.left + oShrink;
-                const oRight = oRect.right - oShrink;
-                const oTop = oRect.top + oShrink;
-                const oBottom = oRect.bottom - oShrink;
+        for (let i = 0; i < entities.length; i++) {
+            let ent = entities[i];
+            ent.y -= currentFallSpeed; 
+            ent.el.style.top = ent.y + 'px';
+            
+            const oRect = ent.el.getBoundingClientRect();
+            const oShrink = ent.size * 0.25; 
+            const oLeft = oRect.left + oShrink;
+            const oRight = oRect.right - oShrink;
+            const oTop = oRect.top + oShrink;
+            const oBottom = oRect.bottom - oShrink;
 
-                if (pLeft < oRight && pRight > oLeft && pTop < oBottom && pBottom > oTop) {
-                    if (ent.type === 'obstacle') {
-                        if (isInvincibleActive) {
-                            ent.el.style.transition = 'transform 0.3s, opacity 0.3s';
-                            ent.el.style.transform += ' scale(1.4)';
-                            ent.el.style.opacity = '0';
-                            setTimeout(() => ent.el.remove(), 300);
-                            entities.splice(i, 1);
-                            i--;
-                        } else {
-                            gameOver();
-                            return;
-                        }
-                    } else if (ent.type === 'award') {
-                        ent.el.remove();
+            if (pLeft < oRight && pRight > oLeft && pTop < oBottom && pBottom > oTop) {
+                if (ent.type === 'obstacle') {
+                    if (isInvincibleActive) {
+                        ent.el.style.transition = 'transform 0.3s, opacity 0.3s';
+                        ent.el.style.transform += ' scale(1.4)';
+                        ent.el.style.opacity = '0';
+                        setTimeout(() => ent.el.remove(), 300);
                         entities.splice(i, 1);
                         i--;
-                        triggerInvincibility();
-                    } else if (ent.type === 'letter') {
-                        ent.el.remove();
-                        entities.splice(i, 1);
-                        i--;
-                        const justCollectedIdx = collectedCount;
-                        collectedCount++;
-                        updateWordDisplay(justCollectedIdx);
-                        updateSpeedByLevel();
-                        
-                        const flash = document.createElement('div');
-                        flash.className = 'absolute inset-0 bg-white z-[100] pointer-events-none opacity-20';
-                        gameArea.appendChild(flash);
-                        setTimeout(() => {
-                            flash.style.transition = 'opacity 0.2s';
-                            flash.style.opacity = '0';
-                            setTimeout(() => flash.remove(), 200);
-                        }, 50);
+                    } else {
+                        gameOver();
+                        return;
+                    }
+                } else if (ent.type === 'award') {
+                    ent.el.remove();
+                    entities.splice(i, 1);
+                    i--;
+                    triggerInvincibility();
+                } else if (ent.type === 'letter') {
+                    ent.el.remove();
+                    entities.splice(i, 1);
+                    i--;
+                    const justCollectedIdx = collectedCount;
+                    collectedCount++;
+                    updateWordDisplay(justCollectedIdx);
+                    updateSpeedByLevel();
+                    
+                    const flash = document.createElement('div');
+                    flash.className = 'absolute inset-0 bg-white z-[100] pointer-events-none opacity-20';
+                    gameArea.appendChild(flash);
+                    setTimeout(() => {
+                        flash.style.transition = 'opacity 0.2s';
+                        flash.style.opacity = '0';
+                        setTimeout(() => flash.remove(), 200);
+                    }, 50);
 
-                        if (collectedCount === targetWord.length) {
-                            gameWin();
-                            return;
-                        }
+                    if (collectedCount === targetWord.length) {
+                        gameWin();
+                        return;
                     }
                 }
             }
         }
 
-        if (Array.isArray(entities) && entities.length > 0 && entities[0] && entities[0].y < -200) {
-            if (entities[0].el && entities[0].el.remove) entities[0].el.remove();
+        if (entities.length > 0 && entities[0].y < -200) {
+            entities[0].el.remove();
             entities.shift();
         }
 
@@ -2873,17 +2724,17 @@ function startSimbionApp() {
                 isDragging = true;
                 updateDragPosition(e);
             }
-        }, { passive: true });
+        });
         
         window.addEventListener('pointermove', (e) => {
             if (isDragging && gameState === 'playing') {
                 updateDragPosition(e);
             }
-        }, { passive: true });
+        });
         
         window.addEventListener('pointerup', () => {
             isDragging = false;
-        }, { passive: true });
+        });
     }
     
     function updateDragPosition(e) {
@@ -2927,42 +2778,25 @@ function startSimbionApp() {
         runner.style.transform = `translate3d(-50%, ${currentY}px, 0)`;
     }
 
-    const handleScrollSync = (scrollY) => {
+    lenis.on('scroll', (e) => {
         if (window.ScrollTrigger) ScrollTrigger.update();
-        const p = getPageScrollProgress();
+        const p = typeof e.progress === 'number' ? e.progress : getPageScrollProgress();
         updateScrollIndicator(p);
-        updateHeaderSceneState(typeof scrollY === 'number' ? scrollY : (window.pageYOffset || document.documentElement.scrollTop || 0));
+        updateHeaderSceneState(typeof e.scroll === 'number' ? e.scroll : window.pageYOffset);
         updateChatBalloonState();
-    };
-
-    if (lenis && typeof lenis.on === 'function') {
-        lenis.on('scroll', (e) => {
-            const curY = (e && typeof e.scroll === 'number') ? e.scroll : (window.pageYOffset || 0);
-            handleScrollSync(curY);
-        });
-    }
-
-    // Always keep native scroll listener so ScrollTrigger and indicator respond to any scroll input
-    window.addEventListener('scroll', () => {
-        handleScrollSync(window.pageYOffset || document.documentElement.scrollTop || 0);
-    }, { passive: true });
+    });
 
     window.addEventListener('resize', () => {
         measureScrollTrack();
-        handleScrollSync(window.pageYOffset || 0);
+        updateScrollIndicator(getPageScrollProgress());
+        updateHeaderSceneState(window.pageYOffset);
     }, { passive: true });
 
-    if (window.gsap && lenis && typeof lenis.raf === 'function') {
+    if (window.gsap) {
         gsap.ticker.add((time) => {
             lenis.raf(time * 1000);
         });
         gsap.ticker.lagSmoothing(0);
-    } else if (lenis && typeof lenis.raf === 'function') {
-        function fallbackLenisRaf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(fallbackLenisRaf);
-        }
-        requestAnimationFrame(fallbackLenisRaf);
     }
 
     function initScrollIndicator() {
@@ -3003,91 +2837,40 @@ function startSimbionApp() {
             btsRing.style.width = imgWidth + 'px';
             btsRing.style.height = (imgWidth * 0.6) + 'px';
             btsRing.style.transformStyle = 'preserve-3d';
-            btsRing.style.willChange = 'transform';
 
             const rows = [];
             const allItems = []; 
             
-            // 1. ADD CENTER 3D CANVAS inside the ring with Offscreen Canvas Pipeline
+            // 1. ADD CENTER 3D CANVAS inside the ring
+            // It sits at Z=0, meaning images will orbit around it!
             const center3DContainer = document.createElement('div');
             center3DContainer.className = 'absolute top-0 left-0 w-full h-full flex justify-center items-center pointer-events-none';
             center3DContainer.style.transformStyle = 'preserve-3d';
-            center3DContainer.style.willChange = 'transform';
             
             const centerCanvas = document.createElement('canvas');
             const cSize = isMobile ? 360 : 600; // CSS display size
             const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-            const pixelSize = Math.floor(cSize * dpr);
-            
-            centerCanvas.width = pixelSize;
-            centerCanvas.height = pixelSize;
+            centerCanvas.width = Math.floor(cSize * dpr);
+            centerCanvas.height = Math.floor(cSize * dpr);
             centerCanvas.style.width = `${cSize}px`;
             centerCanvas.style.height = `${cSize}px`;
-            centerCanvas.style.transform = "translateY(0%) translateZ(0)"; 
-            centerCanvas.style.willChange = "transform";
             
-            const ctxCenter = centerCanvas.getContext('2d', { alpha: true });
+            // Perfectly centered vertically
+            centerCanvas.style.transform = "translateY(0%)"; 
+            
+            const ctxCenter = centerCanvas.getContext('2d');
             ctxCenter.scale(dpr, dpr);
             ctxCenter.imageSmoothingEnabled = true;
             ctxCenter.imageSmoothingQuality = "high";
             
-            // Offscreen Canvas to offload rasterization and coordinate computations from main thread
-            let offscreenCanvas = null;
-            let offscreenCtx = null;
-            try {
-                if (typeof OffscreenCanvas !== 'undefined') {
-                    offscreenCanvas = new OffscreenCanvas(pixelSize, pixelSize);
-                    offscreenCtx = offscreenCanvas.getContext('2d', { alpha: true });
-                }
-            } catch (e) {
-                offscreenCanvas = null;
-            }
-            if (!offscreenCanvas) {
-                offscreenCanvas = document.createElement('canvas');
-                offscreenCanvas.width = pixelSize;
-                offscreenCanvas.height = pixelSize;
-                offscreenCtx = offscreenCanvas.getContext('2d', { alpha: true });
-            }
-            if (offscreenCtx) {
-                offscreenCtx.imageSmoothingEnabled = true;
-                offscreenCtx.imageSmoothingQuality = "high";
-            }
-
             center3DContainer.appendChild(centerCanvas);
             btsRing.appendChild(center3DContainer);
-
-            // Pre-cached coordinate bounds to avoid per-frame division / layout arithmetic
-            const drawBoundsCache = new Map();
-            function getCachedDrawBounds(imgWidth, imgHeight) {
-                const key = `${imgWidth}x${imgHeight}`;
-                if (drawBoundsCache.has(key)) return drawBoundsCache.get(key);
-                
-                const imgRatio = imgWidth / imgHeight;
-                let drawW = cSize;
-                let drawH = cSize / imgRatio;
-                if (drawH > cSize) {
-                    drawH = cSize;
-                    drawW = cSize * imgRatio;
-                }
-                const dx = (cSize - drawW) / 2;
-                const dy = (cSize - drawH) / 2;
-                const bounds = {
-                    dx, dy, drawW, drawH,
-                    pxDx: Math.floor(dx * dpr),
-                    pxDy: Math.floor(dy * dpr),
-                    pxDrawW: Math.floor(drawW * dpr),
-                    pxDrawH: Math.floor(drawH * dpr)
-                };
-                drawBoundsCache.set(key, bounds);
-                return bounds;
-            }
 
             for (let r = -1; r <= 1; r++) {
                 const rowEl = document.createElement('div');
                 rowEl.className = 'absolute top-0 left-0 w-full h-full flex justify-center items-center';
                 rowEl.style.transformStyle = 'preserve-3d';
-                rowEl.style.transform = `translate3d(0, ${r * rowHeight}px, 0)`;
-                rowEl.style.willChange = 'transform';
+                rowEl.style.transform = `translateY(${r * rowHeight}px)`;
                 
                 const dir = r === 0 ? -1 : 1;
 
@@ -3099,37 +2882,19 @@ function startSimbionApp() {
                     
                     const el = document.createElement('div');
                     el.className = 'absolute top-0 left-0 w-full h-full flex justify-center items-center bts-float';
+                    
                     el.style.transform = `rotateY(${finalAngle}deg) translateZ(${radius}px)`;
                     el.style.backfaceVisibility = 'visible';
-                    el.style.willChange = 'transform';
                     
                     const img = document.createElement('img');
-                    const candidateSources = [
-                        `${imgIndex}.webp`,
-                        `${imgIndex}.jpg`,
-                        `${imgIndex}.png`,
-                        `bts/${imgIndex}.webp`,
-                        `bts/${imgIndex}.jpg`,
-                        `https://raw.githubusercontent.com/simbionfilm/WEB-FINAL/main/${imgIndex}.webp`,
-                        `https://raw.githubusercontent.com/simbionfilm/WEB-FINAL/main/${imgIndex}.jpg`,
-                        `https://raw.githubusercontent.com/simbionfilm/WEB-FINAL/main/${imgIndex}.png`,
-                        `https://raw.githubusercontent.com/simbionfilm/WEB-FINAL/main/public/${imgIndex}.webp`
-                    ];
-                    let srcAttempt = 0;
-                    img.src = candidateSources[0];
-                    img.onerror = () => {
-                        srcAttempt++;
-                        if (srcAttempt < candidateSources.length) {
-                            img.src = candidateSources[srcAttempt];
-                        } else {
-                            img.src = `https://placehold.co/300x200/111111/FFFFFF?text=BTS+${imgIndex}`;
-                        }
-                    };
+                    img.src = `${imgIndex}.webp`;
+                    img.onerror = () => { img.src = `https://raw.githubusercontent.com/simbionfilm/WEB-FINAL/main/${imgIndex}.webp`; };
                     img.alt = `BTS ${imgIndex}`;
                     
                     const applyImgSize = () => {
                         if (img.naturalHeight && img.naturalWidth) {
                             if (img.naturalHeight > img.naturalWidth) {
+                                // Portrait photo: smaller width and height to keep balanced proportions
                                 img.style.maxWidth = `${isMobile ? 48 : 82}px`;
                                 img.style.maxHeight = `${isMobile ? 68 : 110}px`;
                             } else {
@@ -3146,23 +2911,17 @@ function startSimbionApp() {
                     }
 
                     // KINETIC HOVER EFFECT: scale-150 and bouncy transition
-                    img.className = "rounded-none opacity-100 hover:scale-150 cursor-pointer bts-card-optimized shadow-xl object-contain";
+                    img.className = "rounded-none opacity-100 hover:scale-150 cursor-pointer bts-card-optimized shadow-2xl object-contain";
                     img.style.maxWidth = `${imgWidth}px`;
                     img.style.maxHeight = `${isMobile ? 68 : 110}px`;
-                    img.style.transition = "transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)"; 
+                    img.style.transition = "transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease"; 
+                    img.style.transform = "translateZ(0)"; 
                     img.style.willChange = "transform, opacity";
                     
                     el.appendChild(img);
                     rowEl.appendChild(el);
                     
-                    allItems.push({
-                        el,
-                        img,
-                        angle: finalAngle,
-                        dir,
-                        lastOpacity: 1,
-                        pointerEventsActive: true
-                    });
+                    allItems.push({ el, img, angle: finalAngle, dir });
                 }
                 
                 btsRing.appendChild(rowEl);
@@ -3170,18 +2929,12 @@ function startSimbionApp() {
             }
             
             let baseRotation = 0;
-            let lastDrawnFrame = -1;
+            let scrollRotation = 0;
             const minBtsFrame = 76; // ezgif-frame-077.png (0-indexed: 76)
             const maxBtsFrame = 243; // ezgif-frame-244.png (0-indexed: 243)
             let autoPingPongFrame = maxBtsFrame;
             let autoPingPongDirection = -1; // Start by playing from 244 down to 077
             const autoSpeed = 0.5; // Smooth automatic ping-pong speed (~60fps)
-            
-            // Decoupled scroll state: ScrollTrigger listener only records target values (0 calculations in scroll callback)
-            const scrollPhysics = {
-                targetRotation: 0,
-                currentRotation: 0
-            };
             
             ScrollTrigger.create({
                 trigger: "#the-soul",
@@ -3189,8 +2942,7 @@ function startSimbionApp() {
                 end: "bottom top",
                 scrub: isTouchDevice ? 0.25 : 0.5,
                 onUpdate: (self) => {
-                    // Minimalist non-blocking assignment
-                    scrollPhysics.targetRotation = self.progress * 360; 
+                    scrollRotation = self.progress * 360; 
                 }
             });
             
@@ -3205,22 +2957,12 @@ function startSimbionApp() {
 
                 baseRotation -= 0.10; 
                 
-                // Decoupled exponential smooth lerp for scroll rotation (absorbs any scroll burst jitter)
-                scrollPhysics.currentRotation += (scrollPhysics.targetRotation - scrollPhysics.currentRotation) * 0.12;
-                const activeScrollRotation = scrollPhysics.currentRotation;
+                rows.forEach(row => {
+                    const totalRotation = (baseRotation + scrollRotation) * row.dir;
+                    row.el.style.transform = `translateY(${row.y}px) rotateY(${totalRotation.toFixed(2)}deg)`;
+                });
                 
-                // 1. Batch Row Transforms (Hardware-accelerated 3D)
-                if (Array.isArray(rows)) {
-                    for (let r = 0; r < rows.length; r++) {
-                        const row = rows[r];
-                        if (row && row.el) {
-                            const totalRotation = (baseRotation + activeScrollRotation) * (row.dir || 1);
-                            row.el.style.transform = `translate3d(0, ${row.y || 0}px, 0) rotateY(${totalRotation}deg)`;
-                        }
-                    }
-                }
-                
-                // 2. AUTOMATIC PING-PONG 3D SEQUENCE LOOP (244.png <-> 077.png)
+                // AUTOMATIC PING-PONG 3D SEQUENCE LOOP (244.png <-> 077.png)
                 autoPingPongFrame += autoSpeed * autoPingPongDirection;
                 if (autoPingPongFrame >= maxBtsFrame) {
                     autoPingPongFrame = maxBtsFrame;
@@ -3231,60 +2973,41 @@ function startSimbionApp() {
                 }
                 const currentFrameIdx = Math.floor(autoPingPongFrame);
                 
-                // 3. OFFLOADED CANVAS RENDERING PIPELINE (Only render when frame index updates)
-                if (currentFrameIdx !== lastDrawnFrame) {
-                    const frameImg = (typeof window.getNearestSequenceFrame === 'function')
-                        ? window.getNearestSequenceFrame(currentFrameIdx)
-                        : (window.sequenceImages ? window.sequenceImages[currentFrameIdx] : null);
+                // DRAW FRAME to center canvas using nearest-neighbor resolver
+                const frameImg = (typeof window.getNearestSequenceFrame === 'function')
+                    ? window.getNearestSequenceFrame(currentFrameIdx)
+                    : (window.sequenceImages ? window.sequenceImages[currentFrameIdx] : null);
 
-                    if (frameImg && frameImg.complete && frameImg.naturalWidth > 0) {
-                        const bounds = getCachedDrawBounds(frameImg.naturalWidth, frameImg.naturalHeight);
-                        
-                        if (offscreenCtx) {
-                            // Render to Offscreen Canvas buffer first
-                            offscreenCtx.clearRect(0, 0, pixelSize, pixelSize);
-                            offscreenCtx.drawImage(frameImg, bounds.pxDx, bounds.pxDy, bounds.pxDrawW, bounds.pxDrawH);
-                            
-                            // Direct zero-overhead hardware blit to visible DOM canvas
-                            ctxCenter.clearRect(0, 0, cSize, cSize);
-                            ctxCenter.drawImage(offscreenCanvas, 0, 0, cSize, cSize);
-                        } else {
-                            ctxCenter.clearRect(0, 0, cSize, cSize);
-                            ctxCenter.drawImage(frameImg, bounds.dx, bounds.dy, bounds.drawW, bounds.drawH);
-                        }
-                        lastDrawnFrame = currentFrameIdx;
+                if (frameImg && frameImg.complete && frameImg.naturalWidth > 0) {
+                    ctxCenter.clearRect(0, 0, cSize, cSize);
+                    
+                    const imgRatio = frameImg.naturalWidth / frameImg.naturalHeight;
+                    let drawW = cSize;
+                    let drawH = cSize / imgRatio;
+                    if (drawH > cSize) {
+                        drawH = cSize;
+                        drawW = cSize * imgRatio;
                     }
+                    const dx = (cSize - drawW) / 2;
+                    const dy = (cSize - drawH) / 2;
+                    
+                    ctxCenter.drawImage(frameImg, dx, dy, drawW, drawH);
                 }
                 
-                // 4. OPTIMIZED LAYER OPACITY & INTERACTION MANAGEMENT
-                if (Array.isArray(allItems)) {
-                    for (let i = 0; i < allItems.length; i++) {
-                        const item = allItems[i];
-                        if (!item) continue;
-                        const currentRingRot = (baseRotation + activeScrollRotation) * (item.dir || 1);
-                        const globalAngle = ((item.angle || 0) + currentRingRot) % 360;
-                        const rad = (globalAngle * Math.PI) / 180;
-                        const z = Math.cos(rad); 
-                        
-                        const targetOpacity = z < -0.1 ? Math.max(0.25, 1 - Math.abs(z + 0.1) * 0.75) : 1;
-                        if (item.el) {
-                            item.el.style.opacity = targetOpacity;
-                        }
+                // Hardware-composited Depth with opacity write-throttling
+                allItems.forEach(item => {
+                    const currentRingRot = (baseRotation + scrollRotation) * item.dir;
+                    const globalAngle = (item.angle + currentRingRot) % 360;
+                    const rad = globalAngle * Math.PI / 180;
+                    const z = Math.cos(rad); 
+                    
+                    const targetOpacity = z < -0.1 ? Math.max(0.25, 1 - Math.abs(z + 0.1) * 0.75) : 1;
 
-                        // Throttled DOM style write: only update if delta exceeds threshold
-                        if (item.img && Math.abs(targetOpacity - (item.lastOpacity || 0)) >= 0.08) {
-                            item.lastOpacity = targetOpacity;
-                            item.img.style.opacity = targetOpacity;
-                        }
-                        
-                        // Disable pointer events on cards in the far rear to eliminate hit-test overhead
-                        const shouldBeInteractive = z > -0.35;
-                        if (item.el && shouldBeInteractive !== item.pointerEventsActive) {
-                            item.pointerEventsActive = shouldBeInteractive;
-                            item.el.style.pointerEvents = shouldBeInteractive ? 'auto' : 'none';
-                        }
+                    if (item.lastOpacity === undefined || Math.abs(targetOpacity - item.lastOpacity) >= 0.05) {
+                        item.lastOpacity = targetOpacity;
+                        item.img.style.opacity = targetOpacity.toFixed(2);
                     }
-                }
+                });
 
                 reqId = requestAnimationFrame(renderCarousel);
             }
@@ -3312,14 +3035,19 @@ function startSimbionApp() {
         }
 
         gsap.to('.parallax-hero', {
-            yPercent: 30,
-            opacity: 0.15,
-            rotation: 2,
+            yPercent: 35, rotation: 3, ease: "none",
+            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: isTouchDevice ? 0.3 : 1.2 }
+        });
+
+        gsap.to('#hero', {
+            yPercent: 100,
+            opacity: 0,
             ease: "none",
-            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: isTouchDevice ? 0.3 : 1.0 }
+            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }
         });
 
         gsap.to('#about', {
+            yPercent: 30,
             opacity: 0.3,
             ease: "none",
             scrollTrigger: { trigger: "#we-are-made", start: "top bottom", end: "top top", scrub: true }
@@ -3334,8 +3062,8 @@ function startSimbionApp() {
         if (filmTrack) {
             let blurTimeout;
             let velParallaxTimeout;
-            const galleryItemsList = () => (window.gsap && gsap.utils ? gsap.utils.toArray('.gallery-item-inner') : []);
-            const velParallaxItems = () => (window.gsap && gsap.utils ? gsap.utils.toArray('.velocity-parallax') : []);
+            const galleryItemsList = () => gsap.utils.toArray('.gallery-item-inner');
+            const velParallaxItems = () => gsap.utils.toArray('.velocity-parallax');
 
             const trackTl = gsap.timeline({
                 scrollTrigger: {
@@ -3349,90 +3077,73 @@ function startSimbionApp() {
                     invalidateOnRefresh: true,
                     onUpdate: (self) => {
                         if (!self.isActive) return;
-                        const rawVel = self.getVelocity ? self.getVelocity() : 0;
-                        const vel = Math.max(-1400, Math.min(1400, isIOS ? rawVel * 0.75 : rawVel));
+                        const vel = self.getVelocity();
                         const absVel = Math.abs(vel);
 
                         if (!isTouchDevice && absVel > 30) {
-                            const gItems = galleryItemsList();
-                            if (gItems && gItems.length > 0) {
-                                const blurAmount = Math.min(3.5, absVel / 650);
-                                const skewAmount = Math.max(-2.5, Math.min(2.5, -vel / 1200));
-                                gsap.to(gItems, {
-                                    filter: `blur(${blurAmount.toFixed(2)}px)`,
-                                    skewX: `${skewAmount.toFixed(2)}deg`,
-                                    duration: 0.15,
-                                    ease: "power1.out",
+                            const blurAmount = Math.min(3.5, absVel / 650);
+                            const skewAmount = Math.max(-2.5, Math.min(2.5, -vel / 1200));
+                            gsap.to(galleryItemsList(), {
+                                filter: `blur(${blurAmount.toFixed(2)}px)`,
+                                skewX: `${skewAmount.toFixed(2)}deg`,
+                                duration: 0.15,
+                                ease: "power1.out",
+                                overwrite: "auto"
+                            });
+
+                            clearTimeout(blurTimeout);
+                            blurTimeout = setTimeout(() => {
+                                gsap.to(galleryItemsList(), {
+                                    filter: "blur(0px)",
+                                    skewX: "0deg",
+                                    duration: 0.35,
+                                    ease: "power2.out",
                                     overwrite: "auto"
                                 });
-
-                                clearTimeout(blurTimeout);
-                                blurTimeout = setTimeout(() => {
-                                    const refreshedG = galleryItemsList();
-                                    if (refreshedG && refreshedG.length > 0) {
-                                        gsap.to(refreshedG, {
-                                            filter: "blur(0px)",
-                                            skewX: "0deg",
-                                            duration: 0.35,
-                                            ease: "power2.out",
-                                            overwrite: "auto"
-                                        });
-                                    }
-                                }, 80);
-                            }
+                            }, 80);
                         }
 
                         if (absVel > 15) {
                             const pItems = velParallaxItems();
-                            if (pItems && pItems.length > 0) {
-                                pItems.forEach((el) => {
-                                    if (!el) return;
-                                    const depth = parseFloat(el.getAttribute('data-depth')) || 1.0;
-                                    const depthY = parseFloat(el.getAttribute('data-depth-y')) || 1.0;
-                                    const speedDelta = (depth - 1.0);
+                            pItems.forEach((el) => {
+                                const depth = parseFloat(el.getAttribute('data-depth')) || 1.0;
+                                const depthY = parseFloat(el.getAttribute('data-depth-y')) || 1.0;
+                                const speedDelta = (depth - 1.0);
 
-                                    const shiftX = Math.max(-60, Math.min(60, -(vel * speedDelta * (isTouchDevice ? 0.025 : 0.052))));
-                                    const shiftY = Math.max(-20, Math.min(20, (vel / 900) * depthY * (isTouchDevice ? 3 : 6)));
-                                    const scaleShift = 1 + Math.max(-0.03, Math.min(0.04, (absVel / 2500) * speedDelta));
+                                const shiftX = Math.max(-60, Math.min(60, -(vel * speedDelta * (isTouchDevice ? 0.025 : 0.052))));
+                                const shiftY = Math.max(-20, Math.min(20, (vel / 900) * depthY * (isTouchDevice ? 3 : 6)));
+                                const scaleShift = 1 + Math.max(-0.03, Math.min(0.04, (absVel / 2500) * speedDelta));
 
-                                    gsap.to(el, {
-                                        x: shiftX,
-                                        y: shiftY,
-                                        scale: scaleShift,
-                                        duration: 0.18,
-                                        ease: "power1.out",
-                                        overwrite: "auto"
-                                    });
+                                gsap.to(el, {
+                                    x: shiftX,
+                                    y: shiftY,
+                                    scale: scaleShift,
+                                    duration: 0.18,
+                                    ease: "power1.out",
+                                    overwrite: "auto"
                                 });
+                            });
 
-                                clearTimeout(velParallaxTimeout);
-                                velParallaxTimeout = setTimeout(() => {
-                                    const refreshedP = velParallaxItems();
-                                    if (refreshedP && refreshedP.length > 0) {
-                                        gsap.to(refreshedP, {
-                                            x: 0,
-                                            y: 0,
-                                            scale: 1,
-                                            duration: 0.65,
-                                            ease: "power2.out",
-                                            overwrite: "auto"
-                                        });
-                                    }
-                                }, 90);
-                            }
+                            clearTimeout(velParallaxTimeout);
+                            velParallaxTimeout = setTimeout(() => {
+                                gsap.to(velParallaxItems(), {
+                                    x: 0,
+                                    y: 0,
+                                    scale: 1,
+                                    duration: 0.65,
+                                    ease: "power2.out",
+                                    overwrite: "auto"
+                                });
+                            }, 90);
                         }
                     },
                     onLeave: () => {
-                        const gList = galleryItemsList();
-                        if (gList && gList.length > 0) gsap.to(gList, { filter: "blur(0px)", skewX: "0deg", duration: 0.2, overwrite: "auto" });
-                        const vList = velParallaxItems();
-                        if (vList && vList.length > 0) gsap.to(vList, { x: 0, y: 0, scale: 1, duration: 0.35, overwrite: "auto" });
+                        gsap.to(galleryItemsList(), { filter: "blur(0px)", skewX: "0deg", duration: 0.2, overwrite: "auto" });
+                        gsap.to(velParallaxItems(), { x: 0, y: 0, scale: 1, duration: 0.35, overwrite: "auto" });
                     },
                     onLeaveBack: () => {
-                        const gList = galleryItemsList();
-                        if (gList && gList.length > 0) gsap.to(gList, { filter: "blur(0px)", skewX: "0deg", duration: 0.2, overwrite: "auto" });
-                        const vList = velParallaxItems();
-                        if (vList && vList.length > 0) gsap.to(vList, { x: 0, y: 0, scale: 1, duration: 0.35, overwrite: "auto" });
+                        gsap.to(galleryItemsList(), { filter: "blur(0px)", skewX: "0deg", duration: 0.2, overwrite: "auto" });
+                        gsap.to(velParallaxItems(), { x: 0, y: 0, scale: 1, duration: 0.35, overwrite: "auto" });
                     }
                 }
             });
@@ -3446,43 +3157,32 @@ function startSimbionApp() {
             });
         }
 
-        const selTitle = document.getElementById("selected-title");
-        if (selTitle && window.gsap) {
-            gsap.to(selTitle, {
-                opacity: 0,
-                y: -30,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: "#selected-work",
-                    start: "top top",
-                    end: "top+=150",
-                    scrub: true
-                }
-            });
-        }
-
-        if (window.gsap) {
-            const contactLines = (gsap.utils && typeof gsap.utils.toArray === 'function')
-                ? gsap.utils.toArray('.contact-title-line')
-                : Array.from(document.querySelectorAll('.contact-title-line'));
-            if (Array.isArray(contactLines) && contactLines.length > 0) {
-                gsap.fromTo(contactLines,
-                    { y: "110%", filter: "blur(10px)", scale: 1.2 },
-                    {
-                        scrollTrigger: { trigger: "#contact", start: "top 75%" },
-                        y: "0%", filter: "blur(0px)", scale: 1, duration: 1.5, ease: "power4.out", stagger: 0.1
-                    }
-                );
+        gsap.to("#selected-title", {
+            opacity: 0,
+            y: -30,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: "#selected-work",
+                start: "top top",
+                end: "top+=150",
+                scrub: true
             }
-        }
+        });
+
+        gsap.utils.toArray('.contact-title-line').forEach(line => {
+            gsap.fromTo(line,
+                { y: "110%", filter: "blur(10px)", scale: 1.2 },
+                {
+                    scrollTrigger: { trigger: "#contact", start: "top 75%" },
+                    y: "0%", filter: "blur(0px)", scale: 1, duration: 1.5, ease: "power4.out", stagger: 0.1
+                }
+            );
+        });
         
-        const revealQuote = document.querySelector('.reveal-quote');
-        if (revealQuote && window.gsap) {
-            gsap.to(revealQuote, {
-                scrollTrigger: { trigger: revealQuote, start: "top 90%" },
-                y: 0, opacity: 1, duration: 1.5, ease: "expo.out", delay: 0.5
-            });
-        }
+        gsap.to('.reveal-quote', {
+            scrollTrigger: { trigger: '.reveal-quote', start: "top 90%" },
+            y: 0, opacity: 1, duration: 1.5, ease: "expo.out", delay: 0.5
+        });
     }
 
     function initGalleryInteractions() {
@@ -3494,7 +3194,7 @@ function startSimbionApp() {
             inner.addEventListener('mouseenter', () => {
                 gsap.set(item, { zIndex: 100 });
                 gsap.to(inner, { scale: 1.12, duration: 0.35, ease: "power2.out", overwrite: "auto" });
-            }, { passive: true });
+            });
             inner.addEventListener('mouseleave', () => {
                 gsap.to(inner, { 
                     scale: 1, 
@@ -3503,7 +3203,7 @@ function startSimbionApp() {
                     overwrite: "auto",
                     onComplete: () => gsap.set(item, { zIndex: 10 }) 
                 });
-            }, { passive: true });
+            });
 
             inner.addEventListener('touchstart', () => {
                 gsap.set(item, { zIndex: 100 });
@@ -3516,22 +3216,22 @@ function startSimbionApp() {
         });
     }
     
-    try { initGalleryInteractions(); } catch (e) { console.warn(e); }
-    try { initParagraphAnimations(); } catch (e) { console.warn(e); }
-    try { if (window.ScrollTrigger) ScrollTrigger.refresh(); } catch (e) { console.warn(e); }
+    initGalleryInteractions();
+    initParagraphAnimations();
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
 
     if (document.fonts && document.fonts.ready) {
         document.fonts.ready.then(() => {
             setTimeout(() => {
-                try { initParagraphAnimations(); } catch (e) {}
-                try { if (window.ScrollTrigger) ScrollTrigger.refresh(); } catch (e) {}
+                initParagraphAnimations();
+                if (window.ScrollTrigger) ScrollTrigger.refresh();
             }, 60);
-        }).catch(() => {});
+        });
     }
     window.addEventListener('load', () => {
         setTimeout(() => {
-            try { initParagraphAnimations(); } catch (e) {}
-            try { if (window.ScrollTrigger) ScrollTrigger.refresh(); } catch (e) {}
+            initParagraphAnimations();
+            if (window.ScrollTrigger) ScrollTrigger.refresh();
         }, 100);
     });
 
@@ -3539,22 +3239,14 @@ function startSimbionApp() {
     window.addEventListener('resize', () => {
         clearTimeout(resizeDebounce);
         resizeDebounce = setTimeout(() => {
-            try { initParagraphAnimations(); } catch (e) {}
-            try { if (window.ScrollTrigger) ScrollTrigger.refresh(); } catch (e) {}
+            initParagraphAnimations();
+            if (window.ScrollTrigger) ScrollTrigger.refresh();
         }, 200);
-    }, { passive: true });
-}
-
-function safeStartSimbionApp() {
-    try {
-        startSimbionApp();
-    } catch (err) {
-        console.warn("[Simbion App Safe Recovery]:", err && err.stack ? err.stack : err);
-    }
+    });
 }
 
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', safeStartSimbionApp);
+    document.addEventListener('DOMContentLoaded', startSimbionApp);
 } else {
-    safeStartSimbionApp();
+    startSimbionApp();
 }
