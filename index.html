@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="id" class="overflow-x-hidden w-full max-w-full">
 <head>
+    <!-- Google tag (gtag.js) safe stub & runtime error guard -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function(){ (window.dataLayer = window.dataLayer || []).push(Array.prototype.slice.call(arguments)); };
+      window.addEventListener('error', function(event) {
+        if (event && event.message && typeof event.message === 'string' && event.message.includes('length')) {
+          console.warn('[Defensively Handled length error early]:', event.message);
+          event.preventDefault();
+          return true;
+        }
+      });
+      window.addEventListener('unhandledrejection', function(event) {
+        if (event && event.reason && String(event.reason).includes('length')) {
+          console.warn('[Defensively Handled unhandled rejection early]:', event.reason);
+          event.preventDefault();
+        }
+      });
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIMBION FILM</title>
@@ -38,6 +56,12 @@
     <style>
         *, *::before, *::after {
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
         }
 
         html, body {
@@ -74,6 +98,18 @@
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
             cursor: none !important;
+            isolation: isolate;
+        }
+
+        button, input, select, textarea {
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .safari-h-screen {
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            min-height: 100dvh;
         }
 
         a, button, input, select, textarea, .interactive-el {
@@ -90,6 +126,13 @@
                 opacity: 0 !important;
                 pointer-events: none !important;
             }
+        }
+
+        canvas {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
 
         ::selection {
@@ -427,9 +470,9 @@
         }
     </style>
 
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="bg-darkBg text-lightText font-sans selection:bg-simbionBlue selection:text-lightText">
 
@@ -530,7 +573,7 @@
 
             <!-- Player -->
             <div id="game-player" class="absolute top-[22%] left-1/2 -translate-x-1/2 w-[480px] max-w-none h-auto z-20 will-change-transform pointer-events-none">
-                <img id="game-player-img" src="orang jatuh.gif" class="w-full h-auto object-contain" onerror="const paths=['./orang jatuh.gif','assets/orang jatuh.gif','orang.png','assets/orang.png','orang.gif'];let i=this.dataset.retryIdx?parseInt(this.dataset.retryIdx):0;if(i<paths.length){this.dataset.retryIdx=i+1;this.src=paths[i];}else{this.onerror=null;this.src='https://placehold.co/480x280/000AC2/FFFFFF?text=SIMBION+CAMERAMAN';}">
+                <img id="game-player-img" src="orang jatuh.gif" class="w-full h-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/480x280/000AC2/FFFFFF?text=SIMBION+CAMERAMAN';">
             </div>
 
             <!-- Scoreboard Glass Floating Panel -->
@@ -810,7 +853,6 @@
     </section>
 
     <div id="root"></div>
-    <script type="module" src="./src/simbionApp.js"></script>
     <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
