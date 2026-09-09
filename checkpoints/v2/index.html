@@ -267,7 +267,7 @@
         .clip-mask { overflow: visible; display: block; padding: 0.3em 0.2em; } 
 
         @media (max-width: 767px) {
-            .gallery-item { width: 50vw; }
+            .gallery-item { width: 68vw; }
         }
         .gallery-item {
             position: absolute;
@@ -622,8 +622,8 @@
 
     <div class="custom-cursor" id="custom-cursor"></div>
     
-    <!-- Left Scroll Indicator (Hidden on mobile phones, active on Tablet/iPad & Desktop) -->
-    <aside id="left-scroll-indicator" class="hidden sm:flex fixed left-0 sm:left-1 md:left-1.5 lg:left-2 top-[48px] sm:top-[60px] md:top-[75px] bottom-3 sm:bottom-5 md:bottom-8 z-[100] flex-col items-center pointer-events-none opacity-0 select-none w-10 sm:w-14 md:w-20 lg:w-24" aria-label="Page Scroll Progress">
+    <!-- Left Scroll Indicator -->
+    <aside id="left-scroll-indicator" class="fixed left-0 sm:left-1 md:left-1.5 lg:left-2 top-[48px] sm:top-[60px] md:top-[75px] bottom-3 sm:bottom-5 md:bottom-8 z-[100] flex flex-col items-center pointer-events-none opacity-0 select-none w-10 sm:w-14 md:w-20 lg:w-24" aria-label="Page Scroll Progress">
         <div id="scroll-track-container" class="relative w-full h-full flex justify-center pointer-events-none">
             <div id="falling-cameraman-runner" class="absolute left-1/2 -translate-x-1/2 top-0 pointer-events-none flex flex-col items-center z-30 will-change-transform">
                 <div class="relative flex items-center justify-center pointer-events-none">
@@ -777,9 +777,9 @@
     </section>
 
     <!-- About Section with its own 3D Canvas -->
-    <section id="about" class="relative w-full h-[100dvh] bg-darkBg text-lightText flex flex-col justify-center items-center md:items-start px-6 sm:px-12 md:px-20 lg:px-32 z-20 overflow-hidden">
-        <div class="relative w-full max-w-[92vw] sm:max-w-[85vw] md:max-w-[45vw] lg:max-w-[40vw] my-auto flex flex-col items-center md:items-start z-30">
-            <p id="about-desc-text" class="interactive-el text-[3.8vw] sm:text-[3vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-lightText leading-snug cursor-default text-center md:text-justify relative">
+    <section id="about" class="relative w-full h-[100dvh] bg-darkBg text-lightText flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-20 overflow-hidden">
+        <div class="relative w-full max-w-[55vw] md:max-w-[45vw] lg:max-w-[40vw] my-auto flex flex-col z-30">
+            <p id="about-desc-text" class="interactive-el text-[3.8vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-lightText leading-snug cursor-default text-justify relative">
                 SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA. WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US. WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.
             </p>
         </div>
@@ -818,8 +818,8 @@
     </section>
 
     <!-- The Soul Section (BTS Marquee) -->
-    <section id="the-soul" class="relative w-full min-h-[170dvh] bg-darkBg text-lightText flex flex-col justify-start px-0 pt-20 pb-36 md:pt-32 md:pb-48 lg:pt-40 lg:pb-56 z-45 overflow-x-clip overflow-y-visible">
-        <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 mb-20 md:mb-32 lg:mb-40">
+    <section id="the-soul" class="relative w-full min-h-[155dvh] bg-darkBg text-lightText flex flex-col justify-start px-0 pt-20 pb-28 md:pt-32 md:pb-40 lg:pt-40 lg:pb-48 z-45 overflow-x-clip overflow-y-visible">
+        <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 mb-12 md:mb-20 lg:mb-24">
             <div class="w-full relative flex flex-col items-start">
                 <h2 id="soul-title" class="text-4xl sm:text-5xl md:text-7xl lg:text-[7.5vw] font-bold tracking-tighter leading-[0.95] text-lightText w-full max-w-5xl interactive-el hover-text-fx">
                     The soul behind<br class="hidden sm:inline"> every frame.
@@ -832,7 +832,7 @@
             </div>
         </div>
 
-        <div class="relative w-full py-20 md:py-32 lg:py-36 bts-enter flex justify-center items-center overflow-visible mt-8 md:mt-16" style="perspective: 1600px; min-height: 95vh;">
+        <div class="relative w-full py-28 md:py-36 lg:py-44 bts-enter flex justify-center items-center overflow-visible" style="perspective: 1600px; min-height: 95vh;">
             <div id="bts-carousel-ring" class="relative flex justify-center items-center" style="transform-style: preserve-3d; width: 100%; height: 100%;">
                 <!-- Images injected by JS -->
             </div>

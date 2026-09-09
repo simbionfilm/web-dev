@@ -1467,36 +1467,22 @@ function startSimbionApp() {
         if (!track) return;
         let html = '';
         
-        const isMobile = window.innerWidth < 768;
-        
-        let row1 = [], row2 = [], row3 = [], row4 = [];
-        if (isMobile) {
-            // Distribute works into 4 clean rows for mobile so it's spacious and elegant
-            const sorted = [...cmsData.works].sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
-            sorted.forEach((w, idx) => {
-                const rem = idx % 4;
-                if (rem === 0) row1.push(w);
-                else if (rem === 1) row2.push(w);
-                else if (rem === 2) row3.push(w);
-                else row4.push(w);
-            });
-        } else {
-            row1 = cmsData.works.filter(w => w.row === 1).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
-            row2 = cmsData.works.filter(w => w.row === 2).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
-            row3 = cmsData.works.filter(w => w.row === 3).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
-        }
+        const row1 = cmsData.works.filter(w => w.row === 1).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
+        const row2 = cmsData.works.filter(w => w.row === 2).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
+        const row3 = cmsData.works.filter(w => w.row === 3).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
 
-        const itemSpacing = isMobile ? 58 : 18;
-        const startLeft = isMobile ? 95 : 110;
+        const isMobile = window.innerWidth < 768;
+        const itemSpacing = isMobile ? 74 : 18;
+        const startLeft = isMobile ? 100 : 110;
 
         function renderRows(items, topPercent, rowNum) {
             let subHtml = '';
-            const baseDepth = rowNum === 1 ? 0.72 : (rowNum === 2 ? 0.95 : (rowNum === 3 ? 1.18 : 1.38));
+            const baseDepth = rowNum === 1 ? 0.72 : (rowNum === 2 ? 1.0 : 1.38);
             items.forEach((item, idx) => {
                 const leftPos = startLeft + (idx * itemSpacing);
-                const baseRotation = (Math.random() - 0.5) * 5; 
-                const depthFactor = (baseDepth + (idx % 2 === 0 ? 0.05 : -0.05)).toFixed(2);
-                const depthFactorY = ((idx % 3 === 0 ? 0.8 : -0.6) * (rowNum === 2 ? 0.5 : 0.8)).toFixed(2);
+                const baseRotation = (Math.random() - 0.5) * 6; 
+                const depthFactor = (baseDepth + (idx % 2 === 0 ? 0.06 : -0.06)).toFixed(2);
+                const depthFactorY = ((idx % 3 === 0 ? 1.0 : -0.8) * (rowNum === 2 ? 0.6 : 1.0)).toFixed(2);
 
                 subHtml += `
                     <div class="gallery-item cms-gallery-item" style="left: ${leftPos}vw; top: ${topPercent}%;">
@@ -1522,19 +1508,16 @@ function startSimbionApp() {
             return subHtml;
         }
 
-        if (isMobile) {
-            html += renderRows(row1, 9, 1);
-            html += renderRows(row2, 31, 2);
-            html += renderRows(row3, 53, 3);
-            html += renderRows(row4, 75, 4);
-        } else {
-            html += renderRows(row1, 14, 1);
-            html += renderRows(row2, 41, 2);
-            html += renderRows(row3, 68, 3);
-        }
+        const r1Top = isMobile ? 15 : 14;
+        const r2Top = isMobile ? 44 : 41;
+        const r3Top = isMobile ? 73 : 68;
 
-        const maxItems = Math.max(row1.length, row2.length, row3.length, (row4 ? row4.length : 0));
-        const dynamicWidth = startLeft + ((maxItems - 1) * itemSpacing) + (isMobile ? 65 : 60) + 90; 
+        html += renderRows(row1, r1Top, 1);
+        html += renderRows(row2, r2Top, 2);
+        html += renderRows(row3, r3Top, 3);
+
+        const maxItems = Math.max(row1.length, row2.length, row3.length);
+        const dynamicWidth = startLeft + ((maxItems - 1) * itemSpacing) + (isMobile ? 70 : 60) + 90; 
         track.style.width = `${dynamicWidth}vw`;
         track.innerHTML = html;
         
@@ -1673,7 +1656,6 @@ function startSimbionApp() {
     function updateChatBalloonState() {
         const cb = document.getElementById('chat-balloon');
         const cm = document.getElementById('chat-modal');
-        const tail = document.getElementById('chat-balloon-tail');
         if (!cb) return;
         
         if (cm && !cm.classList.contains('opacity-0') && !cm.classList.contains('pointer-events-none')) {
@@ -1688,53 +1670,18 @@ function startSimbionApp() {
             if (isContactVisibleForBalloon) {
                 cb.classList.remove('opacity-0', 'pointer-events-none', 'scale-90', 'translate-y-4');
                 cb.classList.add('opacity-100', 'pointer-events-auto', 'scale-100', 'translate-y-0');
-                
-                // Centered right below "Guess we'll see you at the first PPM"
-                cb.style.position = 'fixed';
-                cb.style.left = '50%';
-                cb.style.right = 'auto';
-                cb.style.bottom = '26%';
-                cb.style.transform = 'translate(-50%, 0)';
-                if (tail) {
-                    tail.style.left = '50%';
-                    tail.style.right = 'auto';
-                    tail.style.transform = 'translateX(-50%) rotate(45deg)';
-                }
             } else {
                 cb.classList.add('opacity-0', 'pointer-events-none', 'scale-90', 'translate-y-4');
                 cb.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100', 'translate-y-0');
-                cb.style.left = '';
-                cb.style.right = '';
-                cb.style.bottom = '';
-                cb.style.transform = '';
             }
         } else {
             cb.classList.remove('opacity-0', 'pointer-events-none', 'scale-90', 'translate-y-4');
             cb.classList.add('opacity-100', 'pointer-events-auto', 'scale-100', 'translate-y-0');
 
             if (isContactVisibleForBalloon) {
-                // Centered right below "Guess we'll see you at the first PPM"
-                cb.style.position = 'fixed';
-                cb.style.left = '50%';
-                cb.style.right = 'auto';
-                cb.style.bottom = '28%';
-                cb.style.transform = 'translate(-50%, 0)';
-                if (tail) {
-                    tail.style.left = '50%';
-                    tail.style.right = 'auto';
-                    tail.style.transform = 'translateX(-50%) rotate(45deg)';
-                }
+                cb.style.bottom = '50%';
             } else {
-                cb.style.position = 'fixed';
-                cb.style.left = '';
-                cb.style.right = '';
                 cb.style.bottom = '';
-                cb.style.transform = '';
-                if (tail) {
-                    tail.style.left = '';
-                    tail.style.right = '1.75rem';
-                    tail.style.transform = 'rotate(45deg)';
-                }
             }
         }
     }
@@ -2896,7 +2843,7 @@ function startSimbionApp() {
             
             const radius = isMobile ? 280 : 600;
             const imgWidth = isMobile ? 70 : 130;
-            const rowHeight = isMobile ? 85 : 185;
+            const rowHeight = isMobile ? 120 : 185;
             
             btsRing.style.width = imgWidth + 'px';
             btsRing.style.height = (imgWidth * 0.6) + 'px';
@@ -3170,23 +3117,17 @@ function startSimbionApp() {
             });
         }
 
-        const isMobileScreen = window.innerWidth < 768;
-
         gsap.to('.parallax-hero', {
-            yPercent: isMobileScreen ? 15 : 35,
-            rotation: isMobileScreen ? 1 : 3,
-            ease: "none",
+            yPercent: 35, rotation: 3, ease: "none",
             scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: isTouchDevice ? 0.3 : 1.2 }
         });
 
-        if (!isMobileScreen) {
-            gsap.to('#hero', {
-                yPercent: 100,
-                opacity: 0,
-                ease: "none",
-                scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }
-            });
-        }
+        gsap.to('#hero', {
+            yPercent: 100,
+            opacity: 0,
+            ease: "none",
+            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }
+        });
 
         gsap.to('#about', {
             yPercent: 30,
