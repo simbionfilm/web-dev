@@ -2853,10 +2853,11 @@ function startSimbionApp() {
             const allItems = []; 
             
             // 1. ADD CENTER 3D CANVAS inside the ring
-            // It sits at Z=0, meaning images will orbit around it!
+            // It sits at Z=0, meaning images will orbit around it with proper depth!
             const center3DContainer = document.createElement('div');
             center3DContainer.className = 'absolute top-0 left-0 w-full h-full flex justify-center items-center pointer-events-none';
             center3DContainer.style.transformStyle = 'preserve-3d';
+            center3DContainer.style.zIndex = Math.round(radius + 10);
             
             const centerCanvas = document.createElement('canvas');
             const cSize = isMobile ? 480 : 850; // CSS display size enlarged for prominent 3D presence
@@ -2881,7 +2882,6 @@ function startSimbionApp() {
                 const rowEl = document.createElement('div');
                 rowEl.className = 'absolute top-0 left-0 w-full h-full flex justify-center items-center pointer-events-none';
                 rowEl.style.transformStyle = 'preserve-3d';
-                rowEl.style.transform = `translateY(${r * rowHeight}px)`;
                 
                 const dir = r === 0 ? -1 : 1;
 
@@ -2893,9 +2893,8 @@ function startSimbionApp() {
                     
                     const el = document.createElement('div');
                     el.className = 'absolute top-0 left-0 w-full h-full flex justify-center items-center bts-float pointer-events-none';
-                    
-                    el.style.transform = `rotateY(${finalAngle}deg) translateZ(${radius}px)`;
-                    el.style.backfaceVisibility = 'visible';
+                    el.style.transformStyle = 'preserve-3d';
+                    el.style.willChange = 'transform, z-index';
                     
                     const card = document.createElement('div');
                     card.className = "bts-laminate-card cursor-pointer pointer-events-auto opacity-100";
@@ -2932,7 +2931,7 @@ function startSimbionApp() {
                     el.appendChild(card);
                     rowEl.appendChild(el);
                     
-                    allItems.push({ el, img: card, angle: finalAngle, dir });
+                    allItems.push({ el, card, baseAngle: finalAngle, dir, rowY: r * rowHeight });
                 }
                 
                 btsRing.appendChild(rowEl);
@@ -2987,31 +2986,34 @@ function startSimbionApp() {
             }
 
             let baseRotation = 0;
-            let scrollRotation = 0;
             let scrollSpinBoost = 0;
             let bts360CurrentFrame = 1;
             const bts360PlaybackSpeed = 0.7; // Continuous ~42fps fluid frame advance
             
-            // Smooth ScrollTrigger-driven rotation that starts exactly when the carousel enters view
-            ScrollTrigger.create({
-                trigger: "#bts-carousel-ring",
-                start: "top 85%",
-                end: "bottom 15%",
-                scrub: isTouchDevice ? 0.3 : 0.6,
-                onUpdate: (self) => {
-                    scrollRotation = self.progress * 720; // 2 full spins when scrolling through carousel
-                    if (typeof self.getVelocity === 'function') {
-                        const v = self.getVelocity();
-                        if (Math.abs(v) > 15) {
-                            scrollSpinBoost = Math.max(-8, Math.min(8, v * 0.004));
-                        }
-                    }
+            // Real-time bidirectional scroll velocity listener (Scroll Up = Reverse, Scroll Down = Accelerate)
+            let lastScrollPos = window.scrollY || window.pageYOffset || 0;
+            window.addEventListener('scroll', () => {
+                const currentPos = window.scrollY || window.pageYOffset || 0;
+                const delta = currentPos - lastScrollPos;
+                lastScrollPos = currentPos;
+                
+                if (Math.abs(delta) > 0.5) {
+                    // delta > 0 (down) accelerates forward; delta < 0 (up) rotates backwards
+                    scrollSpinBoost += delta * 0.045;
+                    scrollSpinBoost = Math.max(-14, Math.min(14, scrollSpinBoost));
                 }
-            });
+            }, { passive: true });
+
+            // Wheel / touchpad delta boost for immediate desktop response
+            window.addEventListener('wheel', (e) => {
+                if (isCarouselVisible && Math.abs(e.deltaY) > 2) {
+                    scrollSpinBoost += (e.deltaY > 0 ? 1 : -1) * Math.min(6, Math.abs(e.deltaY) * 0.02);
+                    scrollSpinBoost = Math.max(-14, Math.min(14, scrollSpinBoost));
+                }
+            }, { passive: true });
             
             let reqId = null;
             let isCarouselVisible = false;
-            let depthFrameCounter = 0;
 
             function renderCarousel() {
                 if (!isCarouselVisible) {
@@ -3022,24 +3024,45 @@ function startSimbionApp() {
                 // Smooth idle auto-rotation
                 baseRotation -= 0.12; 
                 
-                // Natural deceleration from scroll impulse
-                if (Math.abs(scrollSpinBoost) > 0.01) {
+                // Real-time responsive scroll deceleration with kinetic momentum
+                if (Math.abs(scrollSpinBoost) > 0.005) {
                     baseRotation -= scrollSpinBoost;
-                    scrollSpinBoost *= 0.94;
+                    scrollSpinBoost *= 0.92; // Natural organic friction
                 }
                 
-                const currentTotalRot = baseRotation + scrollRotation;
+                const currentTotalRot = baseRotation;
                 
-                rows.forEach(row => {
-                    const totalRotation = currentTotalRot * row.dir;
-                    row.el.style.transform = `translateY(${row.y}px) rotateY(${totalRotation.toFixed(2)}deg)`;
+                // Update 3D Orbital Billboarding coordinates for every photo
+                allItems.forEach(item => {
+                    const currentRingRot = currentTotalRot * item.dir;
+                    const globalAngle = (item.baseAngle + currentRingRot) % 360;
+                    const rad = (globalAngle * Math.PI) / 180;
+                    const x = Math.sin(rad) * radius;
+                    const z = Math.cos(rad) * radius;
+                    
+                    // 3D Smooth Cylindrical Tangent Curve:
+                    // Tilts cards along the circular arc without collapsing to 0px edge-on
+                    const tiltAngle = Math.sin(rad) * 48;
+                    
+                    item.el.style.transform = `translate3d(${x.toFixed(1)}px, ${item.rowY}px, ${z.toFixed(1)}px) rotateY(${tiltAngle.toFixed(1)}deg)`;
+                    item.el.style.zIndex = Math.round(z + radius);
+                    
+                    // Front (z >= 0): 100% solid, NO opacity (targetOpacity = 1.0)
+                    // Back (z < 0): soft depth attenuation
+                    const targetOpacity = z >= 0 ? 1 : Math.max(0.4, 1 + (z / radius) * 0.65);
+                    if (item.lastOpacity === undefined || Math.abs(targetOpacity - item.lastOpacity) >= 0.03) {
+                        item.lastOpacity = targetOpacity;
+                        item.card.style.opacity = targetOpacity.toFixed(2);
+                    }
                 });
                 
-                // Buttery smooth continuous 60fps 3D progression with dynamic scroll boost
-                const dynamicSpeedFactor = 1 + Math.min(2.5, Math.abs(scrollSpinBoost) * 0.4);
-                bts360CurrentFrame += bts360PlaybackSpeed * dynamicSpeedFactor;
+                // 3D sequence frame speed responds dynamically to scroll direction & velocity
+                const dynamicFrameDelta = bts360PlaybackSpeed + (scrollSpinBoost * 0.25);
+                bts360CurrentFrame += dynamicFrameDelta;
                 if (bts360CurrentFrame > bts360TotalFrames) {
                     bts360CurrentFrame = ((bts360CurrentFrame - 1) % bts360TotalFrames) + 1;
+                } else if (bts360CurrentFrame < 1) {
+                    bts360CurrentFrame = bts360TotalFrames + ((bts360CurrentFrame - 1) % bts360TotalFrames);
                 }
                 const currentFrameIdx = Math.floor(bts360CurrentFrame);
                 
@@ -3060,24 +3083,6 @@ function startSimbionApp() {
                     const dy = (cSize - drawH) / 2;
                     
                     ctxCenter.drawImage(frameImg, dx, dy, drawW, drawH);
-                }
-                
-                // Hardware-composited Depth with throttled opacity updates (60fps smooth)
-                depthFrameCounter = (depthFrameCounter + 1) % 3;
-                if (depthFrameCounter === 0) {
-                    allItems.forEach(item => {
-                        const currentRingRot = currentTotalRot * item.dir;
-                        const globalAngle = (item.angle + currentRingRot) % 360;
-                        const rad = globalAngle * Math.PI / 180;
-                        const z = Math.cos(rad); 
-                        
-                        const targetOpacity = z < -0.1 ? Math.max(0.25, 1 - Math.abs(z + 0.1) * 0.75) : 1;
-
-                        if (item.lastOpacity === undefined || Math.abs(targetOpacity - item.lastOpacity) >= 0.06) {
-                            item.lastOpacity = targetOpacity;
-                            item.img.style.opacity = targetOpacity.toFixed(2);
-                        }
-                    });
                 }
 
                 reqId = requestAnimationFrame(renderCarousel);
