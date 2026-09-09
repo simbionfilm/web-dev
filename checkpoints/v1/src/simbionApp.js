@@ -2879,7 +2879,7 @@ function startSimbionApp() {
 
             for (let r = -1; r <= 1; r++) {
                 const rowEl = document.createElement('div');
-                rowEl.className = 'absolute top-0 left-0 w-full h-full flex justify-center items-center pointer-events-none';
+                rowEl.className = 'absolute top-0 left-0 w-full h-full flex justify-center items-center';
                 rowEl.style.transformStyle = 'preserve-3d';
                 rowEl.style.transform = `translateY(${r * rowHeight}px)`;
                 
@@ -2892,7 +2892,7 @@ function startSimbionApp() {
                     const finalAngle = baseAngle + angleOffset;
                     
                     const el = document.createElement('div');
-                    el.className = 'absolute top-0 left-0 w-full h-full flex justify-center items-center bts-float pointer-events-none';
+                    el.className = 'absolute top-0 left-0 w-full h-full flex justify-center items-center bts-float';
                     
                     el.style.transform = `rotateY(${finalAngle}deg) translateZ(${radius}px)`;
                     el.style.backfaceVisibility = 'visible';
@@ -2921,10 +2921,13 @@ function startSimbionApp() {
                         img.onload = applyImgSize;
                     }
 
-                    // KINETIC HOVER EFFECT: scale-150 and bouncy transition via CSS
-                    img.className = "rounded-none opacity-100 cursor-pointer bts-card-optimized shadow-md object-contain pointer-events-auto";
+                    // KINETIC HOVER EFFECT: scale-150 and bouncy transition
+                    img.className = "rounded-none opacity-100 hover:scale-150 cursor-pointer bts-card-optimized shadow-md hover:shadow-xl object-contain";
                     img.style.maxWidth = `${imgWidth}px`;
                     img.style.maxHeight = `${isMobile ? 68 : 110}px`;
+                    img.style.transition = "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)"; 
+                    img.style.transform = "translateZ(0)"; 
+                    img.style.willChange = "transform";
                     
                     el.appendChild(img);
                     rowEl.appendChild(el);
@@ -2938,7 +2941,6 @@ function startSimbionApp() {
             
             let baseRotation = 0;
             let scrollRotation = 0;
-            let scrollVelocityBoost = 0;
             const minBtsFrame = 76; // ezgif-frame-077.png (0-indexed: 76)
             const maxBtsFrame = 243; // ezgif-frame-244.png (0-indexed: 243)
             let autoPingPongFrame = maxBtsFrame;
@@ -2952,12 +2954,6 @@ function startSimbionApp() {
                 scrub: isTouchDevice ? 0.25 : 0.5,
                 onUpdate: (self) => {
                     scrollRotation = self.progress * 360; 
-                    if (typeof self.getVelocity === 'function') {
-                        const v = self.getVelocity();
-                        // Smoothly cap and translate velocity into rotational momentum
-                        const boost = Math.max(-3.5, Math.min(3.5, v * 0.0018));
-                        scrollVelocityBoost = scrollVelocityBoost * 0.7 + boost * 0.3;
-                    }
                 }
             });
             
@@ -2971,23 +2967,15 @@ function startSimbionApp() {
                     return;
                 }
 
-                // Gentle base rotation
                 baseRotation -= 0.10; 
-                
-                // Kinetic momentum impulse from scrolling with natural deceleration
-                if (Math.abs(scrollVelocityBoost) > 0.001) {
-                    baseRotation -= scrollVelocityBoost;
-                    scrollVelocityBoost *= 0.94; // Smooth physical inertia decay
-                }
                 
                 rows.forEach(row => {
                     const totalRotation = (baseRotation + scrollRotation) * row.dir;
                     row.el.style.transform = `translateY(${row.y}px) rotateY(${totalRotation.toFixed(2)}deg)`;
                 });
                 
-                // AUTOMATIC PING-PONG 3D SEQUENCE LOOP with dynamic speed response
-                const speedFactor = 1 + Math.min(2.0, Math.abs(scrollVelocityBoost) * 0.6);
-                autoPingPongFrame += autoSpeed * autoPingPongDirection * speedFactor;
+                // AUTOMATIC PING-PONG 3D SEQUENCE LOOP (244.png <-> 077.png)
+                autoPingPongFrame += autoSpeed * autoPingPongDirection;
                 if (autoPingPongFrame >= maxBtsFrame) {
                     autoPingPongFrame = maxBtsFrame;
                     autoPingPongDirection = -1;
