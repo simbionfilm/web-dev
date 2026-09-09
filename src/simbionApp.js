@@ -2938,25 +2938,26 @@ function startSimbionApp() {
             
             let baseRotation = 0;
             let scrollRotation = 0;
-            let scrollVelocityBoost = 0;
+            let scrollSpinBoost = 0;
             const minBtsFrame = 76; // ezgif-frame-077.png (0-indexed: 76)
             const maxBtsFrame = 243; // ezgif-frame-244.png (0-indexed: 243)
             let autoPingPongFrame = maxBtsFrame;
             let autoPingPongDirection = -1; // Start by playing from 244 down to 077
             const autoSpeed = 0.5; // Smooth automatic ping-pong speed (~60fps)
             
+            // Smooth ScrollTrigger-driven rotation with velocity responsiveness
             ScrollTrigger.create({
                 trigger: "#the-soul",
                 start: "top bottom",
                 end: "bottom top",
-                scrub: isTouchDevice ? 0.25 : 0.5,
+                scrub: isTouchDevice ? 0.3 : 0.6,
                 onUpdate: (self) => {
-                    scrollRotation = self.progress * 360; 
+                    scrollRotation = self.progress * 720; // 2 full spins when scrolling through section
                     if (typeof self.getVelocity === 'function') {
                         const v = self.getVelocity();
-                        // Smoothly cap and translate velocity into rotational momentum
-                        const boost = Math.max(-3.5, Math.min(3.5, v * 0.0018));
-                        scrollVelocityBoost = scrollVelocityBoost * 0.7 + boost * 0.3;
+                        if (Math.abs(v) > 15) {
+                            scrollSpinBoost = Math.max(-8, Math.min(8, v * 0.004));
+                        }
                     }
                 }
             });
@@ -2971,22 +2972,24 @@ function startSimbionApp() {
                     return;
                 }
 
-                // Gentle base rotation
-                baseRotation -= 0.10; 
+                // Smooth idle auto-rotation
+                baseRotation -= 0.12; 
                 
-                // Kinetic momentum impulse from scrolling with natural deceleration
-                if (Math.abs(scrollVelocityBoost) > 0.001) {
-                    baseRotation -= scrollVelocityBoost;
-                    scrollVelocityBoost *= 0.94; // Smooth physical inertia decay
+                // Natural deceleration from scroll impulse
+                if (Math.abs(scrollSpinBoost) > 0.01) {
+                    baseRotation -= scrollSpinBoost;
+                    scrollSpinBoost *= 0.94;
                 }
                 
+                const currentTotalRot = baseRotation + scrollRotation;
+                
                 rows.forEach(row => {
-                    const totalRotation = (baseRotation + scrollRotation) * row.dir;
+                    const totalRotation = currentTotalRot * row.dir;
                     row.el.style.transform = `translateY(${row.y}px) rotateY(${totalRotation.toFixed(2)}deg)`;
                 });
                 
                 // AUTOMATIC PING-PONG 3D SEQUENCE LOOP with dynamic speed response
-                const speedFactor = 1 + Math.min(2.0, Math.abs(scrollVelocityBoost) * 0.6);
+                const speedFactor = 1 + Math.min(2.0, Math.abs(scrollSpinBoost) * 0.5);
                 autoPingPongFrame += autoSpeed * autoPingPongDirection * speedFactor;
                 if (autoPingPongFrame >= maxBtsFrame) {
                     autoPingPongFrame = maxBtsFrame;
@@ -3022,7 +3025,7 @@ function startSimbionApp() {
                 depthFrameCounter = (depthFrameCounter + 1) % 3;
                 if (depthFrameCounter === 0) {
                     allItems.forEach(item => {
-                        const currentRingRot = (baseRotation + scrollRotation) * item.dir;
+                        const currentRingRot = currentTotalRot * item.dir;
                         const globalAngle = (item.angle + currentRingRot) % 360;
                         const rad = globalAngle * Math.PI / 180;
                         const z = Math.cos(rad); 
