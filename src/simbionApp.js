@@ -2987,10 +2987,11 @@ function startSimbionApp() {
 
             let baseRotation = 0;
             let scrollSpinBoost = 0;
+            let currentRadiusExpansion = 0;
             let bts360CurrentFrame = 1;
-            const bts360PlaybackSpeed = 0.7; // Continuous ~42fps fluid frame advance
+            const bts360PlaybackSpeed = 0.55; // Fluid and comfortable frame advance
             
-            // Real-time bidirectional scroll velocity listener (Scroll Up = Reverse, Scroll Down = Accelerate)
+            // Real-time bidirectional scroll velocity listener with gentle speed cap
             let lastScrollPos = window.scrollY || window.pageYOffset || 0;
             window.addEventListener('scroll', () => {
                 const currentPos = window.scrollY || window.pageYOffset || 0;
@@ -2998,17 +2999,17 @@ function startSimbionApp() {
                 lastScrollPos = currentPos;
                 
                 if (Math.abs(delta) > 0.5) {
-                    // delta > 0 (down) accelerates forward; delta < 0 (up) rotates backwards
-                    scrollSpinBoost += delta * 0.045;
-                    scrollSpinBoost = Math.max(-14, Math.min(14, scrollSpinBoost));
+                    // delta > 0 (down) accelerates forward; delta < 0 (up) rotates backwards with gentle cap
+                    scrollSpinBoost += delta * 0.016;
+                    scrollSpinBoost = Math.max(-3.5, Math.min(3.5, scrollSpinBoost));
                 }
             }, { passive: true });
 
-            // Wheel / touchpad delta boost for immediate desktop response
+            // Wheel / touchpad delta boost for comfortable, non-dizzy desktop response
             window.addEventListener('wheel', (e) => {
                 if (isCarouselVisible && Math.abs(e.deltaY) > 2) {
-                    scrollSpinBoost += (e.deltaY > 0 ? 1 : -1) * Math.min(6, Math.abs(e.deltaY) * 0.02);
-                    scrollSpinBoost = Math.max(-14, Math.min(14, scrollSpinBoost));
+                    scrollSpinBoost += (e.deltaY > 0 ? 1 : -1) * Math.min(1.8, Math.abs(e.deltaY) * 0.008);
+                    scrollSpinBoost = Math.max(-3.5, Math.min(3.5, scrollSpinBoost));
                 }
             }, { passive: true });
             
@@ -3021,7 +3022,7 @@ function startSimbionApp() {
                     return;
                 }
 
-                // Smooth idle auto-rotation
+                // Smooth idle auto-rotation (maintained at natural tempo)
                 baseRotation -= 0.12; 
                 
                 // Real-time responsive scroll deceleration with kinetic momentum
@@ -3030,6 +3031,11 @@ function startSimbionApp() {
                     scrollSpinBoost *= 0.92; // Natural organic friction
                 }
                 
+                // Smooth Centrifugal Breathing (radius & spacing expand when spinning fast, then contract back)
+                const targetExpansion = Math.min(25, Math.abs(scrollSpinBoost) * 6.8);
+                currentRadiusExpansion += (targetExpansion - currentRadiusExpansion) * 0.1;
+                const dynamicRadius = radius + currentRadiusExpansion;
+                
                 const currentTotalRot = baseRotation;
                 
                 // Update 3D Orbital Billboarding coordinates for every photo
@@ -3037,19 +3043,20 @@ function startSimbionApp() {
                     const currentRingRot = currentTotalRot * item.dir;
                     const globalAngle = (item.baseAngle + currentRingRot) % 360;
                     const rad = (globalAngle * Math.PI) / 180;
-                    const x = Math.sin(rad) * radius;
-                    const z = Math.cos(rad) * radius;
+                    const x = Math.sin(rad) * dynamicRadius;
+                    const z = Math.cos(rad) * dynamicRadius;
+                    const dynamicRowY = item.rowY * (1 + (currentRadiusExpansion / radius) * 0.3);
                     
                     // 3D Smooth Cylindrical Tangent Curve:
                     // Tilts cards along the circular arc without collapsing to 0px edge-on
                     const tiltAngle = Math.sin(rad) * 48;
                     
-                    item.el.style.transform = `translate3d(${x.toFixed(1)}px, ${item.rowY}px, ${z.toFixed(1)}px) rotateY(${tiltAngle.toFixed(1)}deg)`;
-                    item.el.style.zIndex = Math.round(z + radius);
+                    item.el.style.transform = `translate3d(${x.toFixed(1)}px, ${dynamicRowY.toFixed(1)}px, ${z.toFixed(1)}px) rotateY(${tiltAngle.toFixed(1)}deg)`;
+                    item.el.style.zIndex = Math.round(z + dynamicRadius);
                     
                     // Front (z >= 0): 100% solid, NO opacity (targetOpacity = 1.0)
                     // Back (z < 0): soft depth attenuation
-                    const targetOpacity = z >= 0 ? 1 : Math.max(0.4, 1 + (z / radius) * 0.65);
+                    const targetOpacity = z >= 0 ? 1 : Math.max(0.4, 1 + (z / dynamicRadius) * 0.65);
                     if (item.lastOpacity === undefined || Math.abs(targetOpacity - item.lastOpacity) >= 0.03) {
                         item.lastOpacity = targetOpacity;
                         item.card.style.opacity = targetOpacity.toFixed(2);
