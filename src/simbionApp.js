@@ -2874,6 +2874,16 @@ function startSimbionApp() {
         measureScrollTrack();
         updateScrollIndicator(getPageScrollProgress());
         updateHeaderSceneState(window.pageYOffset);
+        updateChatBalloonState();
+    }, { passive: true });
+
+    window.addEventListener('orientationchange', () => {
+        setTimeout(() => {
+            measureScrollTrack();
+            updateScrollIndicator(getPageScrollProgress());
+            updateHeaderSceneState(window.pageYOffset);
+            updateChatBalloonState();
+        }, 150);
     }, { passive: true });
 
     if (window.gsap) {
@@ -3405,7 +3415,7 @@ function startSimbionApp() {
                     duration: 0.35, 
                     ease: "power2.out", 
                     overwrite: "auto",
-                    onComplete: () => gsap.set(item, { zIndex: 10 }) 
+                    onComplete: () => gsap.set(item, { zIndex: 30 }) 
                 });
             });
 
@@ -3415,7 +3425,7 @@ function startSimbionApp() {
             }, { passive: true });
 
             inner.addEventListener('touchend', () => {
-                gsap.to(inner, { scale: 1, duration: 0.3, ease: "power2.out", onComplete: () => gsap.set(item, { zIndex: 10 }) });
+                gsap.to(inner, { scale: 1, duration: 0.3, ease: "power2.out", onComplete: () => gsap.set(item, { zIndex: 30 }) });
             }, { passive: true });
         });
     }

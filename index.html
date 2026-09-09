@@ -272,7 +272,7 @@
         .gallery-item {
             position: absolute;
             transition: z-index 0.3s;
-            z-index: 10;
+            z-index: 30;
             will-change: transform;
             cursor: none !important;
             width: 42vw;
@@ -811,10 +811,10 @@
 
     <!-- Selected Works Section -->
     <section id="selected-work" class="relative bg-darkBg z-40 w-full h-[100dvh] overflow-hidden flex flex-col">
-        <div class="absolute top-20 md:top-24 left-6 md:left-12 z-50 pointer-events-none">
-            <div id="selected-title" class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-lightText uppercase pointer-events-auto w-fit">
-                <div class="velocity-line interactive-el hover-text-fx" data-text="SELECTED"></div>
-                <div class="velocity-line interactive-el hover-text-fx" data-text="WORKS"></div>
+        <div class="absolute top-20 md:top-24 left-6 md:left-12 z-20 pointer-events-none">
+            <div id="selected-title" class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-lightText uppercase pointer-events-none w-fit">
+                <div class="velocity-line interactive-el hover-text-fx pointer-events-auto" data-text="SELECTED"></div>
+                <div class="velocity-line interactive-el hover-text-fx pointer-events-auto" data-text="WORKS"></div>
             </div>
         </div>
         <div class="relative w-full flex-1 overflow-hidden">
