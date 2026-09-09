@@ -2945,14 +2945,14 @@ function startSimbionApp() {
             let autoPingPongDirection = -1; // Start by playing from 244 down to 077
             const autoSpeed = 0.5; // Smooth automatic ping-pong speed (~60fps)
             
-            // Smooth ScrollTrigger-driven rotation with velocity responsiveness
+            // Smooth ScrollTrigger-driven rotation that starts exactly when the carousel enters view
             ScrollTrigger.create({
-                trigger: "#the-soul",
-                start: "top bottom",
-                end: "bottom top",
+                trigger: "#bts-carousel-ring",
+                start: "top 85%",
+                end: "bottom 15%",
                 scrub: isTouchDevice ? 0.3 : 0.6,
                 onUpdate: (self) => {
-                    scrollRotation = self.progress * 720; // 2 full spins when scrolling through section
+                    scrollRotation = self.progress * 720; // 2 full spins when scrolling through carousel
                     if (typeof self.getVelocity === 'function') {
                         const v = self.getVelocity();
                         if (Math.abs(v) > 15) {
