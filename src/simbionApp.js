@@ -2958,22 +2958,22 @@ function startSimbionApp() {
                 };
             }
 
-            // Progressive keyframe preload first, then full sequence
-            for (let i = 1; i <= bts360TotalFrames; i += 3) {
+            // High-speed concurrent frame preloader
+            for (let i = 1; i <= bts360TotalFrames; i += 2) {
                 loadBts360Frame(i);
             }
             setTimeout(() => {
                 for (let i = 1; i <= bts360TotalFrames; i++) {
                     loadBts360Frame(i);
                 }
-            }, 300);
+            }, 100);
 
             function getNearestBts360Frame(targetIdx) {
                 const clamped = Math.max(1, Math.min(bts360TotalFrames, targetIdx));
                 if (bts360Images[clamped - 1] && bts360Images[clamped - 1].complete && bts360Images[clamped - 1].naturalWidth > 0) {
                     return bts360Images[clamped - 1];
                 }
-                for (let offset = 1; offset <= 25; offset++) {
+                for (let offset = 1; offset <= 30; offset++) {
                     const up = ((clamped - 1 + offset) % bts360TotalFrames) + 1;
                     if (bts360Images[up - 1] && bts360Images[up - 1].complete && bts360Images[up - 1].naturalWidth > 0) {
                         return bts360Images[up - 1];
@@ -2989,6 +2989,8 @@ function startSimbionApp() {
             let baseRotation = 0;
             let scrollRotation = 0;
             let scrollSpinBoost = 0;
+            let bts360CurrentFrame = 1;
+            const bts360PlaybackSpeed = 0.7; // Continuous ~42fps fluid frame advance
             
             // Smooth ScrollTrigger-driven rotation that starts exactly when the carousel enters view
             ScrollTrigger.create({
@@ -3033,10 +3035,13 @@ function startSimbionApp() {
                     row.el.style.transform = `translateY(${row.y}px) rotateY(${totalRotation.toFixed(2)}deg)`;
                 });
                 
-                // Synchronized 360° 3D frame resolution (360 deg = 212 frames)
-                const normalizedPos = ((-currentTotalRot / 360) * bts360TotalFrames) % bts360TotalFrames;
-                const safePos = (normalizedPos + bts360TotalFrames) % bts360TotalFrames;
-                const currentFrameIdx = Math.floor(safePos) + 1;
+                // Buttery smooth continuous 60fps 3D progression with dynamic scroll boost
+                const dynamicSpeedFactor = 1 + Math.min(2.5, Math.abs(scrollSpinBoost) * 0.4);
+                bts360CurrentFrame += bts360PlaybackSpeed * dynamicSpeedFactor;
+                if (bts360CurrentFrame > bts360TotalFrames) {
+                    bts360CurrentFrame = ((bts360CurrentFrame - 1) % bts360TotalFrames) + 1;
+                }
+                const currentFrameIdx = Math.floor(bts360CurrentFrame);
                 
                 // DRAW FRAME to center canvas using dedicated 360 3D sequence resolver
                 const frameImg = getNearestBts360Frame(currentFrameIdx);
