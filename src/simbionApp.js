@@ -2859,7 +2859,7 @@ function startSimbionApp() {
             center3DContainer.style.transformStyle = 'preserve-3d';
             
             const centerCanvas = document.createElement('canvas');
-            const cSize = isMobile ? 360 : 600; // CSS display size
+            const cSize = isMobile ? 480 : 850; // CSS display size enlarged for prominent 3D presence
             const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
             centerCanvas.width = Math.floor(cSize * dpr);
             centerCanvas.height = Math.floor(cSize * dpr);
@@ -2897,10 +2897,14 @@ function startSimbionApp() {
                     el.style.transform = `rotateY(${finalAngle}deg) translateZ(${radius}px)`;
                     el.style.backfaceVisibility = 'visible';
                     
+                    const card = document.createElement('div');
+                    card.className = "bts-laminate-card cursor-pointer pointer-events-auto opacity-100";
+                    
                     const img = document.createElement('img');
                     img.src = `https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/bts/${imgIndex}.webp`;
                     img.onerror = () => { img.src = `${imgIndex}.webp`; };
                     img.alt = `BTS ${imgIndex}`;
+                    img.className = "rounded-none object-contain block";
                     
                     const applyImgSize = () => {
                         if (img.naturalHeight && img.naturalWidth) {
@@ -2921,29 +2925,70 @@ function startSimbionApp() {
                         img.onload = applyImgSize;
                     }
 
-                    // KINETIC HOVER EFFECT: scale-150 and bouncy transition via CSS
-                    img.className = "rounded-none opacity-100 cursor-pointer bts-card-optimized shadow-md object-contain pointer-events-auto";
                     img.style.maxWidth = `${imgWidth}px`;
                     img.style.maxHeight = `${isMobile ? 68 : 110}px`;
                     
-                    el.appendChild(img);
+                    card.appendChild(img);
+                    el.appendChild(card);
                     rowEl.appendChild(el);
                     
-                    allItems.push({ el, img, angle: finalAngle, dir });
+                    allItems.push({ el, img: card, angle: finalAngle, dir });
                 }
                 
                 btsRing.appendChild(rowEl);
                 rows.push({ el: rowEl, dir, y: r * rowHeight }); 
             }
             
+            // BTS Dedicated 360 Sequence Loader (Frames 001 - 212)
+            const bts360TotalFrames = 212;
+            const bts360Images = new Array(bts360TotalFrames);
+            const bts360BaseUrl = "https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/360%203d/ezgif-frame-";
+
+            function loadBts360Frame(idx) {
+                if (idx < 1 || idx > bts360TotalFrames) return;
+                if (bts360Images[idx - 1]) return;
+                
+                const img = new Image();
+                img.decoding = "async";
+                img.crossOrigin = "anonymous";
+                const p3 = String(idx).padStart(3, '0');
+                img.src = `${bts360BaseUrl}${p3}.webp`;
+                img.onload = () => {
+                    bts360Images[idx - 1] = img;
+                };
+            }
+
+            // Progressive keyframe preload first, then full sequence
+            for (let i = 1; i <= bts360TotalFrames; i += 3) {
+                loadBts360Frame(i);
+            }
+            setTimeout(() => {
+                for (let i = 1; i <= bts360TotalFrames; i++) {
+                    loadBts360Frame(i);
+                }
+            }, 300);
+
+            function getNearestBts360Frame(targetIdx) {
+                const clamped = Math.max(1, Math.min(bts360TotalFrames, targetIdx));
+                if (bts360Images[clamped - 1] && bts360Images[clamped - 1].complete && bts360Images[clamped - 1].naturalWidth > 0) {
+                    return bts360Images[clamped - 1];
+                }
+                for (let offset = 1; offset <= 25; offset++) {
+                    const up = ((clamped - 1 + offset) % bts360TotalFrames) + 1;
+                    if (bts360Images[up - 1] && bts360Images[up - 1].complete && bts360Images[up - 1].naturalWidth > 0) {
+                        return bts360Images[up - 1];
+                    }
+                    const down = ((clamped - 1 - offset + bts360TotalFrames) % bts360TotalFrames) + 1;
+                    if (bts360Images[down - 1] && bts360Images[down - 1].complete && bts360Images[down - 1].naturalWidth > 0) {
+                        return bts360Images[down - 1];
+                    }
+                }
+                return null;
+            }
+
             let baseRotation = 0;
             let scrollRotation = 0;
             let scrollSpinBoost = 0;
-            const minBtsFrame = 76; // ezgif-frame-077.png (0-indexed: 76)
-            const maxBtsFrame = 243; // ezgif-frame-244.png (0-indexed: 243)
-            let autoPingPongFrame = maxBtsFrame;
-            let autoPingPongDirection = -1; // Start by playing from 244 down to 077
-            const autoSpeed = 0.5; // Smooth automatic ping-pong speed (~60fps)
             
             // Smooth ScrollTrigger-driven rotation that starts exactly when the carousel enters view
             ScrollTrigger.create({
@@ -2988,22 +3033,13 @@ function startSimbionApp() {
                     row.el.style.transform = `translateY(${row.y}px) rotateY(${totalRotation.toFixed(2)}deg)`;
                 });
                 
-                // AUTOMATIC PING-PONG 3D SEQUENCE LOOP with dynamic speed response
-                const speedFactor = 1 + Math.min(2.0, Math.abs(scrollSpinBoost) * 0.5);
-                autoPingPongFrame += autoSpeed * autoPingPongDirection * speedFactor;
-                if (autoPingPongFrame >= maxBtsFrame) {
-                    autoPingPongFrame = maxBtsFrame;
-                    autoPingPongDirection = -1;
-                } else if (autoPingPongFrame <= minBtsFrame) {
-                    autoPingPongFrame = minBtsFrame;
-                    autoPingPongDirection = 1;
-                }
-                const currentFrameIdx = Math.floor(autoPingPongFrame);
+                // Synchronized 360° 3D frame resolution (360 deg = 212 frames)
+                const normalizedPos = ((-currentTotalRot / 360) * bts360TotalFrames) % bts360TotalFrames;
+                const safePos = (normalizedPos + bts360TotalFrames) % bts360TotalFrames;
+                const currentFrameIdx = Math.floor(safePos) + 1;
                 
-                // DRAW FRAME to center canvas using nearest-neighbor resolver
-                const frameImg = (typeof window.getNearestSequenceFrame === 'function')
-                    ? window.getNearestSequenceFrame(currentFrameIdx)
-                    : (window.sequenceImages ? window.sequenceImages[currentFrameIdx] : null);
+                // DRAW FRAME to center canvas using dedicated 360 3D sequence resolver
+                const frameImg = getNearestBts360Frame(currentFrameIdx);
 
                 if (frameImg && frameImg.complete && frameImg.naturalWidth > 0) {
                     ctxCenter.clearRect(0, 0, cSize, cSize);
