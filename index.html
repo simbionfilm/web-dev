@@ -410,11 +410,16 @@
             }
         }
 
-        .bts-laminate-card:hover {
-            transform: scale(1.18) translateZ(20px) !important;
-            box-shadow: 0 16px 32px -6px rgba(0, 0, 0, 0.88),
-                        0 4px 12px -2px rgba(0, 0, 0, 0.6) !important;
-            z-index: 100;
+        @media (hover: hover) and (pointer: fine) {
+            .bts-laminate-card:hover {
+                transform: scale(1.18) translateZ(20px) !important;
+                box-shadow: 0 16px 32px -6px rgba(0, 0, 0, 0.88),
+                            0 4px 12px -2px rgba(0, 0, 0, 0.6) !important;
+                z-index: 100;
+            }
+        }
+        .bts-laminate-card:active {
+            transform: scale(1.08) translateZ(10px) !important;
         }
 
         .speed-line {
@@ -750,7 +755,7 @@
 
     <!-- YouTube Video Modal -->
     <div id="video-modal" class="fixed inset-0 z-[200] bg-darkBg flex items-center justify-center opacity-0 pointer-events-none transition-all duration-500">
-        <button id="close-modal" class="absolute top-6 right-8 text-lightText text-xs font-mono tracking-[0.3em] uppercase z-10 p-4 interactive-el">
+        <button id="close-modal" class="absolute top-6 right-6 md:top-8 md:right-8 text-lightText text-xs font-mono tracking-[0.3em] uppercase z-10 min-w-[44px] min-h-[44px] flex items-center justify-center p-3.5 interactive-el active:scale-95 transition-transform" style="top: max(1.5rem, env(safe-area-inset-top)); right: max(1.5rem, env(safe-area-inset-right));">
             CLOSE [X]
         </button>
         <div class="w-[95vw] md:w-[80vw] aspect-video max-w-6xl bg-darkBg rounded-2xl overflow-hidden relative border border-white/10 transform scale-95 transition-transform duration-500 modal-inner">
@@ -779,7 +784,7 @@
     <!-- About Section with its own 3D Canvas -->
     <section id="about" class="relative w-full h-[100dvh] bg-darkBg text-lightText flex flex-col justify-center items-center md:items-start px-6 sm:px-12 md:px-20 lg:px-32 z-20 overflow-hidden">
         <div class="relative w-full max-w-[92vw] sm:max-w-[85vw] md:max-w-[45vw] lg:max-w-[40vw] my-auto flex flex-col items-center md:items-start z-30">
-            <p id="about-desc-text" class="interactive-el text-[3.8vw] sm:text-[3vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-lightText leading-snug cursor-default text-center md:text-justify relative">
+            <p id="about-desc-text" class="interactive-el text-[3.8vw] sm:text-[3vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-lightText leading-snug cursor-default text-justify relative">
                 SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA. WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US. WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.
             </p>
         </div>

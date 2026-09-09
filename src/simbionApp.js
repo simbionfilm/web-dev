@@ -1689,7 +1689,7 @@ function startSimbionApp() {
                 cb.classList.remove('opacity-0', 'pointer-events-none', 'scale-90', 'translate-y-4');
                 cb.classList.add('opacity-100', 'pointer-events-auto', 'scale-100', 'translate-y-0');
                 
-                // Centered right below "Guess we'll see you at the first PPM"
+                // Centered right below "Guess we'll see you at the first PPM" on mobile only
                 cb.style.position = 'fixed';
                 cb.style.left = '50%';
                 cb.style.right = 'auto';
@@ -1707,34 +1707,25 @@ function startSimbionApp() {
                 cb.style.right = '';
                 cb.style.bottom = '';
                 cb.style.transform = '';
-            }
-        } else {
-            cb.classList.remove('opacity-0', 'pointer-events-none', 'scale-90', 'translate-y-4');
-            cb.classList.add('opacity-100', 'pointer-events-auto', 'scale-100', 'translate-y-0');
-
-            if (isContactVisibleForBalloon) {
-                // Centered right below "Guess we'll see you at the first PPM"
-                cb.style.position = 'fixed';
-                cb.style.left = '50%';
-                cb.style.right = 'auto';
-                cb.style.bottom = '28%';
-                cb.style.transform = 'translate(-50%, 0)';
-                if (tail) {
-                    tail.style.left = '50%';
-                    tail.style.right = 'auto';
-                    tail.style.transform = 'translateX(-50%) rotate(45deg)';
-                }
-            } else {
-                cb.style.position = 'fixed';
-                cb.style.left = '';
-                cb.style.right = '';
-                cb.style.bottom = '';
-                cb.style.transform = '';
                 if (tail) {
                     tail.style.left = '';
-                    tail.style.right = '1.75rem';
-                    tail.style.transform = 'rotate(45deg)';
+                    tail.style.right = '';
+                    tail.style.transform = '';
                 }
+            }
+        } else {
+            // PC / Desktop & Tablet: Kept completely in original bottom-right position
+            cb.classList.remove('opacity-0', 'pointer-events-none', 'scale-90', 'translate-y-4');
+            cb.classList.add('opacity-100', 'pointer-events-auto', 'scale-100', 'translate-y-0');
+            cb.style.position = '';
+            cb.style.left = '';
+            cb.style.right = '';
+            cb.style.bottom = '';
+            cb.style.transform = '';
+            if (tail) {
+                tail.style.left = '';
+                tail.style.right = '';
+                tail.style.transform = '';
             }
         }
     }
@@ -1804,7 +1795,31 @@ function startSimbionApp() {
 
     function initVideoTriggers() {
         document.querySelectorAll('.video-trigger').forEach(trigger => {
+            let touchStartX = 0, touchStartY = 0, isTouchDrag = false;
+
+            trigger.addEventListener('touchstart', (e) => {
+                if (e.touches && e.touches.length > 0) {
+                    touchStartX = e.touches[0].clientX;
+                    touchStartY = e.touches[0].clientY;
+                    isTouchDrag = false;
+                }
+            }, { passive: true });
+
+            trigger.addEventListener('touchmove', (e) => {
+                if (e.touches && e.touches.length > 0) {
+                    const dx = Math.abs(e.touches[0].clientX - touchStartX);
+                    const dy = Math.abs(e.touches[0].clientY - touchStartY);
+                    if (dx > 8 || dy > 8) {
+                        isTouchDrag = true;
+                    }
+                }
+            }, { passive: true });
+
             trigger.addEventListener('click', (e) => {
+                if (isTouchDrag) {
+                    isTouchDrag = false;
+                    return;
+                }
                 e.preventDefault();
                 const videoId = trigger.getAttribute('data-video-id');
                 if (modalIframe) modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
@@ -3044,6 +3059,48 @@ function startSimbionApp() {
             let bts360CurrentFrame = 1;
             const bts360PlaybackSpeed = 0.55; // Fluid and comfortable frame advance
             
+            // Direct Touch Swipe & Drag Gestures for Mobile & Tablet (Zero interference with Desktop)
+            let touchStartX = 0;
+            let lastTouchX = 0;
+            let lastTouchTime = 0;
+            let touchVelocity = 0;
+            let isTouchingRing = false;
+
+            const soulTouchTarget = document.getElementById('the-soul');
+            if (soulTouchTarget) {
+                soulTouchTarget.addEventListener('touchstart', (e) => {
+                    if (e.touches && e.touches.length > 0) {
+                        isTouchingRing = true;
+                        touchStartX = e.touches[0].clientX;
+                        lastTouchX = touchStartX;
+                        lastTouchTime = performance.now();
+                        touchVelocity = 0;
+                    }
+                }, { passive: true });
+
+                soulTouchTarget.addEventListener('touchmove', (e) => {
+                    if (!isTouchingRing || !e.touches || e.touches.length === 0) return;
+                    const currentX = e.touches[0].clientX;
+                    const deltaX = currentX - lastTouchX;
+                    const now = performance.now();
+                    const dt = Math.max(1, now - lastTouchTime);
+
+                    touchVelocity = (deltaX / dt) * 14;
+                    baseRotation += deltaX * (isMobile ? 0.42 : 0.32);
+
+                    lastTouchX = currentX;
+                    lastTouchTime = now;
+                }, { passive: true });
+
+                soulTouchTarget.addEventListener('touchend', () => {
+                    if (!isTouchingRing) return;
+                    isTouchingRing = false;
+                    if (Math.abs(touchVelocity) > 0.2) {
+                        scrollSpinBoost = Math.max(-2.2, Math.min(2.2, -touchVelocity * 0.2));
+                    }
+                }, { passive: true });
+            }
+
             // Real-time bidirectional scroll velocity listener with gentle speed cap
             let lastScrollPos = window.scrollY || window.pageYOffset || 0;
             window.addEventListener('scroll', () => {
