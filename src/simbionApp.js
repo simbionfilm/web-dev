@@ -2860,7 +2860,7 @@ function startSimbionApp() {
             center3DContainer.style.zIndex = Math.round(radius + 10);
             
             const centerCanvas = document.createElement('canvas');
-            const cSize = isMobile ? 480 : 850; // CSS display size enlarged for prominent 3D presence
+            const cSize = isMobile ? 560 : 1000; // CSS display size enlarged for grand 3D presence
             const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
             centerCanvas.width = Math.floor(cSize * dpr);
             centerCanvas.height = Math.floor(cSize * dpr);
@@ -2999,17 +2999,17 @@ function startSimbionApp() {
                 lastScrollPos = currentPos;
                 
                 if (Math.abs(delta) > 0.5) {
-                    // delta > 0 (down) accelerates forward; delta < 0 (up) rotates backwards with gentle cap
+                    // delta > 0 (down) accelerates forward; delta < 0 (up) rotates backwards with strict speed cap
                     scrollSpinBoost += delta * 0.016;
-                    scrollSpinBoost = Math.max(-3.5, Math.min(3.5, scrollSpinBoost));
+                    scrollSpinBoost = Math.max(-1.8, Math.min(1.8, scrollSpinBoost));
                 }
             }, { passive: true });
 
             // Wheel / touchpad delta boost for comfortable, non-dizzy desktop response
             window.addEventListener('wheel', (e) => {
                 if (isCarouselVisible && Math.abs(e.deltaY) > 2) {
-                    scrollSpinBoost += (e.deltaY > 0 ? 1 : -1) * Math.min(1.8, Math.abs(e.deltaY) * 0.008);
-                    scrollSpinBoost = Math.max(-3.5, Math.min(3.5, scrollSpinBoost));
+                    scrollSpinBoost += (e.deltaY > 0 ? 1 : -1) * Math.min(0.9, Math.abs(e.deltaY) * 0.008);
+                    scrollSpinBoost = Math.max(-1.8, Math.min(1.8, scrollSpinBoost));
                 }
             }, { passive: true });
             
@@ -3028,11 +3028,11 @@ function startSimbionApp() {
                 // Real-time responsive scroll deceleration with kinetic momentum
                 if (Math.abs(scrollSpinBoost) > 0.005) {
                     baseRotation -= scrollSpinBoost;
-                    scrollSpinBoost *= 0.92; // Natural organic friction
+                    scrollSpinBoost *= 0.88; // Natural organic friction, settles comfortably
                 }
                 
                 // Smooth Centrifugal Breathing (radius & spacing expand when spinning fast, then contract back)
-                const targetExpansion = Math.min(25, Math.abs(scrollSpinBoost) * 6.8);
+                const targetExpansion = Math.min(25, Math.abs(scrollSpinBoost) * 12.0);
                 currentRadiusExpansion += (targetExpansion - currentRadiusExpansion) * 0.1;
                 const dynamicRadius = radius + currentRadiusExpansion;
                 
