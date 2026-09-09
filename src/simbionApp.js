@@ -1714,18 +1714,23 @@ function startSimbionApp() {
                 }
             }
         } else {
-            // PC / Desktop & Tablet: Kept completely in original bottom-right position
+            // PC / Desktop & Tablet: Exactly restored from V2
             cb.classList.remove('opacity-0', 'pointer-events-none', 'scale-90', 'translate-y-4');
             cb.classList.add('opacity-100', 'pointer-events-auto', 'scale-100', 'translate-y-0');
             cb.style.position = '';
             cb.style.left = '';
             cb.style.right = '';
-            cb.style.bottom = '';
             cb.style.transform = '';
             if (tail) {
                 tail.style.left = '';
                 tail.style.right = '';
                 tail.style.transform = '';
+            }
+
+            if (isContactVisibleForBalloon) {
+                cb.style.bottom = '50%';
+            } else {
+                cb.style.bottom = '';
             }
         }
     }
