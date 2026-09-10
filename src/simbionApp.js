@@ -49,15 +49,22 @@ try {
 window.globalHighScores = [];
 window.isFirebaseReady = false;
 
-// Structured error handler according to Firebase guidelines
+// Structured error handler according to Firebase guidelines with circular-safe protection
 function handleFirestoreError(error, operationType, path) {
-    const errInfo = {
-        error: error instanceof Error ? error.message : String(error),
-        operationType: operationType,
-        path: path,
-        timestamp: new Date().toISOString()
-    };
-    console.warn("Firestore Notification:", JSON.stringify(errInfo));
+    try {
+        const errorMsg = error && typeof error === 'object'
+            ? (error.message ? String(error.message) : (error.code ? String(error.code) : 'Unknown Firestore Error'))
+            : String(error || 'Unknown Error');
+        const errInfo = {
+            error: errorMsg,
+            operationType: String(operationType || ''),
+            path: String(path || ''),
+            timestamp: new Date().toISOString()
+        };
+        console.warn("Firestore Notification:", JSON.stringify(errInfo));
+    } catch {
+        console.warn("Firestore Notification:", String(error));
+    }
 }
 
 if (db) {
