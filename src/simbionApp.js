@@ -839,13 +839,13 @@ function startSimbionApp() {
             processQueue();
         }
 
-        // Tier 1: Immediate Keyframes (every 8th frame for instant coarse scrub response)
+        // Tier 1: Immediate Keyframes (every 4th frame for instant smooth coarse scrub response)
         const tier1Keyframes = [1];
-        for (let i = 8; i <= totalFrames; i += 8) tier1Keyframes.push(i);
+        for (let i = 4; i <= totalFrames; i += 4) tier1Keyframes.push(i);
         enqueueIdleFrames(tier1Keyframes);
 
-        // Preload the initial 15 frames immediately for instant zero-lag intro on page load
-        preloadUpcomingFrames(1, 1, 15);
+        // Preload the initial 25 frames immediately for instant zero-lag intro on touch/mobile
+        preloadUpcomingFrames(1, 1, 25);
 
         // Tier 2: Secondary Keyframes (every 4th frame)
         setTimeout(() => {
@@ -985,10 +985,6 @@ function startSimbionApp() {
             const renderH = nativeH * fitFactor;
 
             ctxAbout.save();
-            ctxAbout.imageSmoothingEnabled = true;
-            if ('imageSmoothingQuality' in ctxAbout) {
-                ctxAbout.imageSmoothingQuality = "high";
-            }
             ctxAbout.translate(currentX, currentY);
             ctxAbout.rotate(rotationRad);
             ctxAbout.drawImage(img, -renderW / 2, -renderH / 2, renderW, renderH);
@@ -1001,7 +997,7 @@ function startSimbionApp() {
             trigger: "#about",
             start: "top bottom",
             end: "bottom top",
-            scrub: isTouchDevice ? 0.18 : 0.6,
+            scrub: isTouchDevice ? true : 0.6,
             onUpdate: (self) => {
                 isAboutVisible = true;
                 aboutFrameIdx = (window.sequenceTotalFrames - 1) * self.progress;
@@ -3255,7 +3251,7 @@ function startSimbionApp() {
             yPercent: isMobileScreen ? 15 : 35,
             rotation: isMobileScreen ? 1 : 3,
             ease: "none",
-            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: isTouchDevice ? 0.3 : 1.2 }
+            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: isTouchDevice ? true : 1.2 }
         });
 
         if (!isMobileScreen) {
