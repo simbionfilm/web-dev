@@ -310,9 +310,16 @@
             will-change: transform;
         }
 
-        .text-mask-wrap, .statement-mask, .about-mask {
+        .text-mask-wrap, .about-mask {
             display: inline-block;
             overflow: hidden;
+            vertical-align: baseline;
+            padding-top: 0.14em;
+            padding-bottom: 0.14em;
+        }
+        .statement-mask {
+            display: inline-block;
+            overflow: visible;
             vertical-align: baseline;
             padding-top: 0.14em;
             padding-bottom: 0.14em;
@@ -324,7 +331,7 @@
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
         }
-        .statement-word, .about-word {
+        .about-word {
             display: inline-block;
             will-change: transform, color;
             cursor: pointer;
@@ -332,8 +339,43 @@
             transition: font-style 0.25s ease;
             user-select: none;
         }
+        .statement-word {
+            display: inline-block;
+            will-change: transform;
+            cursor: default;
+            -webkit-font-smoothing: antialiased;
+            user-select: none;
+            color: inherit;
+        }
+        /* Kinetic Drift Effect ala theartofcinema.xyz with dynamic 4,3,2,1 rows */
+        .statement-row {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: baseline;
+            width: max-content;
+            max-width: 100%;
+            margin-bottom: 0.18em;
+            white-space: nowrap;
+        }
+        .statement-drift-word {
+            display: inline-block;
+            will-change: transform;
+            margin: 0 0.36em;
+        }
+        .statement-drift-1 {
+            margin-left: 0.85em;
+            margin-right: 0.35em;
+        }
+        .statement-drift-2 {
+            margin-right: 0.88em;
+            margin-left: 0.35em;
+        }
+        .statement-drift-3 {
+            margin-left: 0.98em;
+            margin-right: 0.35em;
+        }
         @media (hover: hover) {
-            .statement-word:hover, .about-word:hover {
+            .about-word:hover {
                 color: #0616C6 !important;
                 font-style: italic !important;
             }
@@ -862,10 +904,10 @@
         </div>
     </section>
 
-    <!-- Statement Section with its own 3D Canvas -->
-    <section id="statement" data-id="project-fit" class="relative w-full min-h-[100dvh] py-12 md:py-20 bg-darkBg text-lightText flex flex-col justify-center items-start px-8 md:px-20 lg:px-32 z-48 overflow-hidden">
-        <div class="relative w-full max-w-[92vw] sm:max-w-[85vw] md:max-w-[54vw] lg:max-w-[48vw] my-auto flex flex-col z-20">
-            <p id="statement-desc-text" data-alias="fit-desc-text" class="interactive-el text-[3.8vw] sm:text-[3vw] md:text-[22px] lg:text-[28px] xl:text-[34px] font-bold uppercase tracking-tight text-lightText leading-snug text-justify cursor-default relative">
+    <!-- Statement Section with its own 3D Canvas (Layout & Typography matching theartofcinema.xyz) -->
+    <section id="statement" data-id="project-fit" class="relative w-full min-h-[140dvh] py-24 sm:py-32 md:py-44 bg-darkBg text-lightText flex flex-col justify-center items-start px-6 sm:px-12 md:px-16 lg:px-20 z-48 overflow-hidden">
+        <div class="relative w-full md:w-[65vw] lg:w-[68vw] max-w-[940px] my-auto flex flex-col z-20">
+            <p id="statement-desc-text" data-alias="fit-desc-text" class="interactive-el uppercase text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[44px] font-bold tracking-normal text-lightText opacity-90 leading-snug md:leading-[1.28] lg:leading-[1.30] cursor-default relative">
                 EVERY PROJECT DESERVES ITS OWN FIT. WE TAILOR EACH ONE FROM SCRATCH, CAREFULLY STITCHING EVERY FRAME TOGETHER WITH PASSION, PURPOSE, AND DEDICATION. WE BELIEVE GREAT WORK COMES FROM BRINGING TOGETHER THE RIGHT PEOPLE, IDEAS, AND PERSPECTIVES THAT ALIGN WITH THE VISION. EVERY DETAIL MATTERS, EVERY FRAME HAS A PURPOSE, AND EVERY PROJECT DESERVES THE CARE TO MAKE IT FEEL TRULY ITS OWN.
             </p>
         </div>

@@ -385,7 +385,7 @@ function startSimbionApp() {
         setupInteractiveParagraph('about-desc-text', '.about-word');
     }
 
-    // Animate Statement text on scroll
+    // Animate Statement text on scroll with Kinetic Word Drift Effect (ala theartofcinema.xyz)
     function animateStatementScroll() {
         const para = document.getElementById('statement-desc-text') || document.getElementById('fit-desc-text');
         if (!para || !window.gsap) return;
@@ -402,9 +402,73 @@ function startSimbionApp() {
             para._textTl = null;
         }
 
-        para.innerHTML = words.map(word => 
-            `<span class="statement-mask"><span class="statement-slide"><span class="statement-word">${word}</span></span></span> `
-        ).join('');
+        if (para._driftTweens) {
+            para._driftTweens.forEach(t => {
+                if (t.scrollTrigger) t.scrollTrigger.kill();
+                t.kill();
+            });
+            para._driftTweens = [];
+        }
+
+        // Curated rows with smart word-length grouping (short words get 4 words, long words get 3, 2, or 1 word)
+        // AND each row is guaranteed to have at least one ANCHOR word (word0) that stays still as a layout reference!
+        const curatedLines = [
+            // Row 1: 3 words
+            [ { text: "EVERY", drift: 0 }, { text: "PROJECT", drift: 1 }, { text: "DESERVES", drift: 2 } ],
+            // Row 2: 4 words (short words)
+            [ { text: "ITS", drift: 1 }, { text: "OWN", drift: 0 }, { text: "FIT.", drift: 2 }, { text: "WE", drift: 3 } ],
+            // Row 3: 3 words (medium words)
+            [ { text: "TAILOR", drift: 2 }, { text: "EACH", drift: 0 }, { text: "ONE", drift: 1 } ],
+            // Row 4: 2 words (long word scratch)
+            [ { text: "FROM", drift: 0 }, { text: "SCRATCH,", drift: 3 } ],
+            // Row 5: 2 words (long complex words)
+            [ { text: "CAREFULLY", drift: 0 }, { text: "STITCHING", drift: 2 } ],
+            // Row 6: 3 words
+            [ { text: "EVERY", drift: 1 }, { text: "FRAME", drift: 0 }, { text: "TOGETHER", drift: 2 } ],
+            // Row 7: 2 words
+            [ { text: "WITH", drift: 0 }, { text: "PASSION,", drift: 1 } ],
+            // Row 8: 3 words (long words)
+            [ { text: "PURPOSE,", drift: 3 }, { text: "AND", drift: 0 }, { text: "DEDICATION.", drift: 2 } ],
+            // Row 9: 4 words (punchy short words)
+            [ { text: "WE", drift: 1 }, { text: "BELIEVE", drift: 0 }, { text: "GREAT", drift: 2 }, { text: "WORK", drift: 3 } ],
+            // Row 10: 3 words
+            [ { text: "COMES", drift: 0 }, { text: "FROM", drift: 1 }, { text: "BRINGING", drift: 2 } ],
+            // Row 11: 1 word (impact anchor)
+            [ { text: "TOGETHER", drift: 0 } ],
+            // Row 12: 4 words (short words)
+            [ { text: "THE", drift: 0 }, { text: "RIGHT", drift: 1 }, { text: "PEOPLE,", drift: 2 }, { text: "IDEAS,", drift: 3 } ],
+            // Row 13: 2 words (long word perspectives)
+            [ { text: "AND", drift: 0 }, { text: "PERSPECTIVES", drift: 2 } ],
+            // Row 14: 4 words (short connective words)
+            [ { text: "THAT", drift: 3 }, { text: "ALIGN", drift: 0 }, { text: "WITH", drift: 1 }, { text: "THE", drift: 2 } ],
+            // Row 15: 1 word (anchor word)
+            [ { text: "VISION.", drift: 0 } ],
+            // Row 16: 3 words
+            [ { text: "EVERY", drift: 0 }, { text: "DETAIL", drift: 1 }, { text: "MATTERS,", drift: 2 } ],
+            // Row 17: 4 words (short snappy words)
+            [ { text: "EVERY", drift: 1 }, { text: "FRAME", drift: 0 }, { text: "HAS", drift: 2 }, { text: "A", drift: 3 } ],
+            // Row 18: 1 word (anchor word)
+            [ { text: "PURPOSE,", drift: 0 } ],
+            // Row 19: 3 words
+            [ { text: "AND", drift: 0 }, { text: "EVERY", drift: 1 }, { text: "PROJECT", drift: 2 } ],
+            // Row 20: 3 words
+            [ { text: "DESERVES", drift: 3 }, { text: "THE", drift: 0 }, { text: "CARE", drift: 1 } ],
+            // Row 21: 4 words (short words)
+            [ { text: "TO", drift: 0 }, { text: "MAKE", drift: 1 }, { text: "IT", drift: 2 }, { text: "FEEL", drift: 3 } ],
+            // Row 22: 3 words
+            [ { text: "TRULY", drift: 2 }, { text: "ITS", drift: 0 }, { text: "OWN.", drift: 1 } ]
+        ];
+
+        let rowsHtml = curatedLines.map(row => {
+            const chunkHtml = row.map(item => {
+                const r = item.drift; // 0 is STAY/ANCHOR, 1 is left, 2 is right, 3 is far-left
+                const driftClass = r > 0 ? `statement-drift-${r}` : 'statement-anchor';
+                return `<span class="statement-drift-word ${driftClass} word${r}"><span class="statement-slide"><span class="statement-word">${item.text}</span></span></span>`;
+            }).join(' ');
+            return `<span class="statement-row">${chunkHtml}</span>`;
+        });
+
+        para.innerHTML = rowsHtml.join('');
 
         const slideElements = Array.from(para.querySelectorAll('.statement-slide'));
         if (slideElements.length === 0) return;
@@ -418,7 +482,7 @@ function startSimbionApp() {
             if (prevTop === null) {
                 prevTop = top;
                 currentLine.push(el);
-            } else if (Math.abs(top - prevTop) > 6) {
+            } else if (Math.abs(top - prevTop) > 8) {
                 lines.push(currentLine);
                 currentLine = [el];
                 prevTop = top;
@@ -428,14 +492,15 @@ function startSimbionApp() {
         });
         if (currentLine.length > 0) lines.push(currentLine);
 
-        gsap.set(slideElements, { yPercent: 110, opacity: 0.15, rotateX: -15 });
+        gsap.set(slideElements, { yPercent: 110, opacity: 0, rotateX: -10 });
 
+        // Timeline for line-by-line reveal
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: "#statement",
-                start: "top 75%",
-                end: "top 18%",
-                scrub: isTouchDevice ? 0.3 : 1.0,
+                start: "top 80%",
+                end: "top 30%",
+                scrub: isTouchDevice ? 0.3 : 0.8,
                 invalidateOnRefresh: true
             }
         });
@@ -448,11 +513,63 @@ function startSimbionApp() {
                 stagger: 0.02,
                 duration: 1,
                 ease: "power3.out"
-            }, lineIndex * 0.3);
+            }, lineIndex * 0.25);
         });
 
         para._textTl = tl;
-        setupInteractiveParagraph('statement-desc-text', '.statement-word');
+
+        // Kinetic Word Drift Scrub (Faster slide with tight scroll range & instant scrub)
+        const driftTweens = [];
+        const isCoarse = window.matchMedia("(pointer: coarse)").matches;
+        const driftMult = isCoarse ? 0.80 : 1.25;
+
+        // Individual word trigger mapping with shorter scroll range for brisk and rapid drift
+        para.querySelectorAll('.word1').forEach(el => {
+            const tw = gsap.to(el, {
+                x: `${-0.50 * driftMult}em`,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 78%",
+                    end: "top 22%",
+                    scrub: 0.03,
+                    invalidateOnRefresh: true
+                }
+            });
+            driftTweens.push(tw);
+        });
+
+        para.querySelectorAll('.word2').forEach(el => {
+            const tw = gsap.to(el, {
+                x: `${0.60 * driftMult}em`,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 78%",
+                    end: "top 22%",
+                    scrub: 0.03,
+                    invalidateOnRefresh: true
+                }
+            });
+            driftTweens.push(tw);
+        });
+
+        para.querySelectorAll('.word3').forEach(el => {
+            const tw = gsap.to(el, {
+                x: `${-0.70 * driftMult}em`,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 78%",
+                    end: "top 22%",
+                    scrub: 0.03,
+                    invalidateOnRefresh: true
+                }
+            });
+            driftTweens.push(tw);
+        });
+
+        para._driftTweens = driftTweens;
     }
 
     // Crazy 3D Character Physics for "WE ARE WHAT WE'VE MADE"
@@ -1138,14 +1255,27 @@ function startSimbionApp() {
             const isMobile = window.innerWidth < 768;
             ctxStatement.clearRect(0, 0, statementWidth, statementHeight);
 
-            const baseScale = isMobile ? 0.35 : 0.40;
+            // Fade-in opacity when entering (smooth fade from 0 to 1 during early scroll)
+            const fadeInAlpha = Math.max(0, Math.min(1, p / 0.16));
+            // Fade-out when leaving near bottom
+            const fadeOutAlpha = p > 0.88 ? Math.max(0, (1 - p) / 0.12) : 1;
+            const finalAlpha = fadeInAlpha * fadeOutAlpha;
+            if (finalAlpha <= 0.001) return;
+
+            const baseScale = isMobile ? 0.22 : 0.28;
             const scaleFactor = Math.min(1, p * 2.0);
-            const scaleMultiplier = 1.40 - (0.40 * scaleFactor);
+            const scaleMultiplier = 1.08 - (0.08 * scaleFactor);
             const currentScale = baseScale * scaleMultiplier;
 
             const baseOffsetX = isMobile ? 0.95 : 0.88;
             const currentX = statementWidth * (baseOffsetX - 0.08 * scaleFactor);
-            const currentY = statementHeight * (p <= 0.5 ? (-0.05 + 0.55 * (p / 0.5)) : 0.50) + (isMobile ? 20 : 10);
+
+            // Position shifted downwards so the top never gets clipped when entering
+            const startSafeY = statementHeight * (isMobile ? 0.26 : 0.20);
+            const midSafeY = statementHeight * 0.50;
+            const currentY = (p <= 0.5) 
+                ? (startSafeY + (midSafeY - startSafeY) * (p / 0.5))
+                : midSafeY + (isMobile ? 20 : 10);
             const rotationRad = (6 * (1 - scaleFactor) * Math.PI) / 180;
 
             const aspect = (img.naturalWidth || 512) / (img.naturalHeight || 600);
@@ -1153,6 +1283,7 @@ function startSimbionApp() {
             let renderW = renderH * aspect;
 
             ctxStatement.save();
+            ctxStatement.globalAlpha = finalAlpha;
             ctxStatement.imageSmoothingEnabled = true;
             if ('imageSmoothingQuality' in ctxStatement) {
                 ctxStatement.imageSmoothingQuality = "high";
