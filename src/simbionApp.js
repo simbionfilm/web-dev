@@ -3245,16 +3245,17 @@ function startSimbionApp() {
             });
         }
 
-        const isMobileScreen = window.innerWidth < 768;
+        const isTouchScreen = isTouchDevice || window.innerWidth < 1025;
 
         gsap.to('.parallax-hero', {
-            yPercent: isMobileScreen ? 15 : 35,
-            rotation: isMobileScreen ? 1 : 3,
+            yPercent: isTouchScreen ? 15 : 35,
+            rotation: isTouchScreen ? 1 : 3,
             ease: "none",
-            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: isTouchDevice ? true : 1.2 }
+            scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: isTouchScreen ? true : 1.2 }
         });
 
-        if (!isMobileScreen) {
+        // Hero exit pushdown is exclusively for Desktop PC with mouse wheel (preserves Desktop V2, eliminates tablet/mobile jank)
+        if (!isTouchScreen) {
             gsap.to('#hero', {
                 yPercent: 100,
                 opacity: 0,
