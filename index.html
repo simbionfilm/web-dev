@@ -267,15 +267,15 @@
         .clip-mask { overflow: visible; display: block; padding: 0.3em 0.2em; } 
 
         @media (max-width: 767px) {
-            .gallery-item { width: 50vw; }
+            .gallery-item { width: 55vw; }
         }
         .gallery-item {
             position: absolute;
-            transition: z-index 0.3s;
-            z-index: 30;
+            transition: z-index 0.2s;
+            z-index: 50;
             will-change: transform;
             cursor: none !important;
-            width: 42vw;
+            width: 52vw;
             aspect-ratio: 16 / 9;
         }
         .gallery-item-inner {
@@ -294,7 +294,7 @@
             backface-visibility: hidden;
         }
         @media (min-width: 768px) {
-            .gallery-item { width: 15vw; }
+            .gallery-item { width: 18.75vw; }
         }
 
         .bts-float {
@@ -782,11 +782,13 @@
     </section>
 
     <!-- About Section with its own 3D Canvas -->
-    <section id="about" class="relative w-full h-[100dvh] bg-darkBg text-lightText flex flex-col justify-center items-center md:items-start px-6 sm:px-12 md:px-20 lg:px-32 z-20 overflow-hidden">
-        <div class="relative w-full max-w-[92vw] sm:max-w-[85vw] md:max-w-[45vw] lg:max-w-[40vw] my-auto flex flex-col items-center md:items-start z-30">
-            <p id="about-desc-text" class="interactive-el text-[3.8vw] sm:text-[3vw] md:text-[20px] lg:text-[24px] xl:text-[28px] font-bold uppercase tracking-tight text-lightText leading-snug cursor-default text-justify relative">
-                SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA. WE STARTED FROM THE GROUND UP, DRIVEN BY A GROUP OF PASSIONATE FILMMAKERS WITH A SHARED LOVE FOR THE CRAFT AND A CURIOSITY FOR WHERE IT CAN TAKE US. WORKING INDEPENDENTLY HAS ALWAYS BEEN PART OF WHO WE ARE. IT KEEPS US CLOSE TO THE WORK, OPEN TO DIFFERENT PERSPECTIVES, AND CONNECTED TO THE PEOPLE WE WORK WITH.
-            </p>
+    <section id="about" class="relative w-full min-h-[100dvh] py-20 md:py-28 bg-darkBg text-lightText flex flex-col justify-center items-center px-6 sm:px-12 md:px-16 lg:px-24 z-20 overflow-hidden">
+        <div class="relative w-full max-w-[94vw] sm:max-w-[88vw] md:max-w-[82vw] lg:max-w-[1100px] xl:max-w-[1200px] mx-auto my-auto flex flex-col items-center justify-center z-30">
+            <div id="about-desc-text" class="interactive-el text-[16px] sm:text-[19px] md:text-[22px] lg:text-[25px] xl:text-[28px] font-bold uppercase tracking-tight text-lightText leading-relaxed md:leading-[1.38] cursor-default text-justify [text-align-last:justify] relative w-full">
+                <p class="about-p">
+                    SIMBION IS AN INDEPENDENT FILMMAKING BOUTIQUE BASED IN SOUTH JAKARTA, INDONESIA. WE ARE A MULTIDISCIPLINARY COLLECTIVE OF PASSIONATE FILMMAKERS, BROUGHT TOGETHER BY A SHARED LOVE FOR THE CRAFT AND A BELIEF IN MAKING WORK THAT FEELS HONEST AND DISTINCTIVE. OUR WORK MOVES ACROSS FILM, MUSIC VIDEO, FASHION, ART, AND VISUAL CULTURE, BRINGING DIFFERENT PERSPECTIVES AND DISCIPLINES INTO THE SAME FRAME. EVERY STORY TAKES US SOMEWHERE DIFFERENT. THROUGH THE PEOPLE WE MEET, THE PLACES WE GO, AND THE IDEAS WE CHASE, EACH PROJECT BECOMES PART OF A LARGER JOURNEY THAT CONTINUES TO SHAPE WHO WE ARE AS FILMMAKERS.
+                </p>
+            </div>
         </div>
         <!-- 3D Canvas 1 in About -->
         <canvas id="about-3d-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
@@ -811,13 +813,29 @@
 
     <!-- Selected Works Section -->
     <section id="selected-work" class="relative bg-darkBg z-40 w-full h-[100dvh] overflow-hidden flex flex-col">
-        <div class="absolute top-20 md:top-24 left-6 md:left-12 z-20 pointer-events-none">
+        <div class="absolute top-20 md:top-24 left-6 md:left-12 right-6 md:right-12 z-20 pointer-events-none flex flex-col">
             <div id="selected-title" class="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-[7vw] font-bold tracking-tighter leading-[0.9] text-lightText uppercase pointer-events-none w-fit">
                 <div class="velocity-line interactive-el hover-text-fx pointer-events-auto" data-text="SELECTED"></div>
                 <div class="velocity-line interactive-el hover-text-fx pointer-events-auto" data-text="WORKS"></div>
             </div>
+            <!-- Row aligned with paragraph first line -->
+            <div class="mt-6 sm:mt-8 md:mt-12 lg:mt-14 w-full flex flex-col sm:flex-row justify-between items-start select-none pointer-events-none gap-3 sm:gap-6">
+                <!-- Selected Works Narrative (Under letter S of WORKS, lowered vertically, compact box, tightened line-height) -->
+                <div id="selected-desc" class="ml-[100px] sm:ml-[150px] md:ml-[230px] lg:ml-[24vw] w-[85vw] sm:w-[50vw] max-w-sm sm:max-w-md md:max-w-lg lg:max-w-[490px] select-none pointer-events-none">
+                    <p class="font-semibold text-[15.5px] sm:text-[17px] md:text-[18.5px] lg:text-[20px] text-lightText/90 leading-snug md:leading-[1.38] text-left">
+                        Every project leaves something behind.
+                        A moment, a frame, a story, or sometimes just a feeling. Over the years, we’ve collected them through the people we’ve met and the stories we’ve had the chance to tell.
+                    </p>
+                </div>
+                <!-- Right Corner Note (Aligned with first line of paragraph) -->
+                <div id="selected-right-note" class="self-start sm:self-auto ml-auto text-right select-none pointer-events-none">
+                    <p class="font-semibold text-[15.5px] sm:text-[17px] md:text-[18.5px] lg:text-[20px] text-lightText/90 leading-snug md:leading-[1.38] whitespace-nowrap">
+                        Here are some of them.
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="relative w-full flex-1 overflow-hidden">
+        <div class="relative w-full flex-1 overflow-hidden z-30 pointer-events-auto">
             <div class="film-track" id="film-track"></div>
         </div>
     </section>
@@ -830,7 +848,7 @@
                     The soul behind<br class="hidden sm:inline"> every frame.
                 </h2>
                 <div class="w-full mt-10 sm:mt-14 md:mt-20 lg:mt-24 flex justify-end">
-                    <p id="soul-desc" class="text-sm md:text-base lg:text-lg tracking-wide leading-relaxed text-gray-300 max-w-xl font-normal text-justify">
+                    <p id="soul-desc" class="text-[15.5px] sm:text-[17px] md:text-[18.5px] lg:text-[20px] font-semibold tracking-normal leading-snug md:leading-[1.38] text-lightText/90 max-w-xl text-left md:text-justify">
                         We craft every frame with passion and purpose. We believe that behind every beautiful frame are people who care deeply about what they create and share a vision of what it could become. Great work begins when different minds and talents come together with purpose.
                     </p>
                 </div>

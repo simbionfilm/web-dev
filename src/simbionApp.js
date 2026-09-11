@@ -314,26 +314,29 @@ function startSimbionApp() {
 
     // Animate About Us paragraph line by line
     function animateAboutText() {
-        const para = document.getElementById('about-desc-text');
-        if (!para || !window.gsap) return;
+        const container = document.getElementById('about-desc-text');
+        if (!container || !window.gsap) return;
 
-        if (!para.dataset.originalText) {
-            para.dataset.originalText = para.textContent.trim().replace(/\s+/g, ' ');
-        }
-        const rawText = para.dataset.originalText;
-        const words = rawText.split(' ');
+        const pElements = Array.from(container.querySelectorAll('.about-p'));
+        if (pElements.length === 0) return;
 
-        if (para._textTl) {
-            if (para._textTl.scrollTrigger) para._textTl.scrollTrigger.kill();
-            para._textTl.kill();
-            para._textTl = null;
+        if (container._textTl) {
+            if (container._textTl.scrollTrigger) container._textTl.scrollTrigger.kill();
+            container._textTl.kill();
+            container._textTl = null;
         }
 
-        para.innerHTML = words.map(word => 
-            `<span class="about-mask"><span class="about-slide"><span class="about-word">${word}</span></span></span> `
-        ).join('');
+        pElements.forEach(p => {
+            if (!p.dataset.originalText) {
+                p.dataset.originalText = p.textContent.trim().replace(/\s+/g, ' ');
+            }
+            const words = p.dataset.originalText.split(' ');
+            p.innerHTML = words.map(word => 
+                `<span class="about-mask"><span class="about-slide"><span class="about-word">${word}</span></span></span> `
+            ).join('');
+        });
 
-        const slideElements = Array.from(para.querySelectorAll('.about-slide'));
+        const slideElements = Array.from(container.querySelectorAll('.about-slide'));
         if (slideElements.length === 0) return;
 
         let lines = [];
@@ -375,10 +378,10 @@ function startSimbionApp() {
                 stagger: 0.02,
                 duration: 1,
                 ease: "power3.out"
-            }, lineIndex * 0.3);
+            }, lineIndex * 0.25);
         });
 
-        para._textTl = tl;
+        container._textTl = tl;
         setupInteractiveParagraph('about-desc-text', '.about-word');
     }
 
@@ -1446,10 +1449,10 @@ function startSimbionApp() {
 
         const floatElements = gsap.utils.toArray('.idle-float');
         floatElements.forEach((el, i) => {
-            const yDist = (i % 2 === 0 ? 14 : -14) + gsap.utils.random(-6, 6);
-            const xDist = (i % 3 === 0 ? 10 : -10) + gsap.utils.random(-5, 5);
-            const rotDist = (i % 2 === 0 ? 2.5 : -2.5) + gsap.utils.random(-1, 1);
-            const dur = gsap.utils.random(8.0, 14.0);
+            const yDist = (i % 2 === 0 ? 22 : -22) + gsap.utils.random(-6, 6);
+            const xDist = (i % 3 === 0 ? 12 : -12) + gsap.utils.random(-4, 4);
+            const rotDist = (i % 2 === 0 ? 3.0 : -3.0) + gsap.utils.random(-1, 1);
+            const dur = gsap.utils.random(3.2, 4.8);
 
             const tw = gsap.to(el, {
                 y: yDist,
@@ -1459,8 +1462,9 @@ function startSimbionApp() {
                 ease: "sine.inOut",
                 repeat: -1,
                 yoyo: true,
-                delay: (i * 0.3) % 2.5
+                delay: (i * 0.25) % 2.0
             });
+            el._idleTween = tw;
             idleFloatTweens.push(tw);
         });
     }
@@ -1489,7 +1493,7 @@ function startSimbionApp() {
             row3 = cmsData.works.filter(w => w.row === 3).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
         }
 
-        const itemSpacing = isMobile ? 58 : 18;
+        const itemSpacing = isMobile ? 68 : 22.5;
         const startLeft = isMobile ? 95 : 110;
 
         function renderRows(items, topPercent, rowNum) {
@@ -1507,9 +1511,9 @@ function startSimbionApp() {
                             <div class="parallax-wrap w-full h-full" data-mx="${(idx % 2 === 0 ? -4 : 5)}" data-my="${(idx % 3 === 0 ? 6 : -5)}">
                                 <div class="velocity-parallax w-full h-full" data-depth="${depthFactor}" data-depth-y="${depthFactorY}">
                                     <div class="idle-float w-full h-full">
-                                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden rounded-sm group cursor-pointer bg-darkBg video-trigger border border-white/10 hover:border-simbionBlue/60 active:scale-95 transition-all duration-500" data-video-id="${item.videoId}">
-                                            <img src="https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg" alt="${item.title}" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-all duration-700 ease-out">
-                                            <div class="absolute inset-x-0 bottom-0 p-3 md:p-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0 text-left pointer-events-none z-20">
+                                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden rounded-sm group cursor-pointer bg-darkBg video-trigger border border-white/10 hover:border-simbionBlue/60 active:scale-95 transition-colors duration-150" data-video-id="${item.videoId}">
+                                            <img src="https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg" alt="${item.title}" class="w-full h-full object-cover opacity-80 group-hover:opacity-95 transition-opacity duration-200 ease-out">
+                                            <div class="absolute inset-x-0 bottom-0 p-3 md:p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 text-left pointer-events-none z-20">
                                                 <div class="absolute inset-0 -z-10 bg-gradient-to-t from-darkBg/95 via-darkBg/60 to-transparent"></div>
                                                 <span class="text-[7px] md:text-[9px] text-simbionBlue tracking-[0.2em] font-bold font-mono block uppercase">${item.year} — ${item.artist}</span>
                                                 <h3 class="text-[10px] md:text-sm font-bold tracking-tight text-lightText mt-0.5 md:mt-1 uppercase">${item.title}</h3>
@@ -1537,7 +1541,7 @@ function startSimbionApp() {
         }
 
         const maxItems = Math.max(row1.length, row2.length, row3.length, (row4 ? row4.length : 0));
-        const dynamicWidth = startLeft + ((maxItems - 1) * itemSpacing) + (isMobile ? 65 : 60) + 90; 
+        const dynamicWidth = startLeft + ((maxItems - 1) * itemSpacing) + (isMobile ? 80 : 75) + 100; 
         track.style.width = `${dynamicWidth}vw`;
         track.innerHTML = html;
         
@@ -3400,7 +3404,7 @@ function startSimbionApp() {
             });
         }
 
-        gsap.to("#selected-title", {
+        gsap.to(["#selected-title", "#selected-desc", "#selected-right-note"], {
             opacity: 0,
             y: -30,
             ease: "power2.out",
@@ -3408,7 +3412,13 @@ function startSimbionApp() {
                 trigger: "#selected-work",
                 start: "top top",
                 end: "top+=150",
-                scrub: true
+                scrub: true,
+                onUpdate: (self) => {
+                    const titleWrap = document.querySelector("#selected-work .absolute.top-20");
+                    if (titleWrap) {
+                        titleWrap.style.pointerEvents = self.progress > 0.05 ? "none" : "auto";
+                    }
+                }
             }
         });
 
@@ -3432,31 +3442,73 @@ function startSimbionApp() {
         const galleryItems = document.querySelectorAll('.gallery-item');
         galleryItems.forEach((item) => {
             const inner = item.querySelector('.gallery-item-inner');
+            const idleFloatEl = item.querySelector('.idle-float');
             if (!inner || !window.gsap) return;
             
             inner.addEventListener('mouseenter', () => {
                 gsap.set(item, { zIndex: 100 });
-                gsap.to(inner, { scale: 1.12, duration: 0.35, ease: "power2.out", overwrite: "auto" });
+                gsap.to(inner, { scale: 1.15, duration: 0.18, ease: "power2.out", overwrite: "auto" });
+                if (idleFloatEl && idleFloatEl._idleTween) {
+                    idleFloatEl._idleTween.pause();
+                }
             });
             inner.addEventListener('mouseleave', () => {
                 gsap.to(inner, { 
                     scale: 1, 
-                    duration: 0.35, 
+                    duration: 0.22, 
                     ease: "power2.out", 
                     overwrite: "auto",
-                    onComplete: () => gsap.set(item, { zIndex: 30 }) 
+                    onComplete: () => {
+                        gsap.set(item, { zIndex: 50 });
+                        if (idleFloatEl && idleFloatEl._idleTween) {
+                            idleFloatEl._idleTween.resume();
+                        }
+                    }
                 });
             });
 
             inner.addEventListener('touchstart', () => {
                 gsap.set(item, { zIndex: 100 });
-                gsap.to(inner, { scale: 1.08, duration: 0.2, ease: "power2.out" });
+                gsap.to(inner, { scale: 1.1, duration: 0.15, ease: "power2.out", overwrite: "auto" });
             }, { passive: true });
 
             inner.addEventListener('touchend', () => {
-                gsap.to(inner, { scale: 1, duration: 0.3, ease: "power2.out", onComplete: () => gsap.set(item, { zIndex: 30 }) });
+                gsap.to(inner, { scale: 1, duration: 0.2, ease: "power2.out", overwrite: "auto", onComplete: () => gsap.set(item, { zIndex: 50 }) });
             }, { passive: true });
         });
+
+        // Mouse Parallax Floating on Selected Works
+        const selectedWorkSection = document.getElementById('selected-work');
+        if (selectedWorkSection && !window.matchMedia('(pointer: coarse)').matches) {
+            let pRaf = null;
+            let targetNormX = 0;
+            let targetNormY = 0;
+
+            const onMouseMove = (e) => {
+                targetNormX = (e.clientX / window.innerWidth) - 0.5;
+                targetNormY = (e.clientY / window.innerHeight) - 0.5;
+
+                if (!pRaf) {
+                    pRaf = requestAnimationFrame(() => {
+                        const wraps = selectedWorkSection.querySelectorAll('.parallax-wrap');
+                        wraps.forEach((wrap) => {
+                            const mx = parseFloat(wrap.dataset.mx) || 5;
+                            const my = parseFloat(wrap.dataset.my) || 5;
+                            gsap.to(wrap, {
+                                x: targetNormX * mx * 7,
+                                y: targetNormY * my * 7,
+                                duration: 0.8,
+                                ease: "power2.out",
+                                overwrite: "auto"
+                            });
+                        });
+                        pRaf = null;
+                    });
+                }
+            };
+
+            selectedWorkSection.addEventListener('mousemove', onMouseMove, { passive: true });
+        }
     }
     
     initGalleryInteractions();
