@@ -2219,6 +2219,33 @@ function startSimbionApp() {
         }
     }
 
+    const isTouchMode = isTouchDevice || window.innerWidth < 1025;
+    const playHintDesktop = document.getElementById('play-hint-desktop');
+    const playHintTouch = document.getElementById('play-hint-touch');
+    const startBtn = document.getElementById('start-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const playAgainBtn = document.getElementById('play-again-btn');
+
+    if (isTouchMode) {
+        if (playHintDesktop) playHintDesktop.classList.add('hidden');
+        if (playHintTouch) {
+            playHintTouch.classList.remove('hidden');
+            playHintTouch.classList.add('inline-flex');
+        }
+        if (startBtn) startBtn.innerText = '[ TAP TO START ]';
+        if (restartBtn) restartBtn.innerText = '[ TAP TO TRY AGAIN ]';
+        if (playAgainBtn) playAgainBtn.innerText = '[ TAP TO PLAY AGAIN ]';
+    } else {
+        if (playHintDesktop) playHintDesktop.classList.remove('hidden');
+        if (playHintTouch) {
+            playHintTouch.classList.add('hidden');
+            playHintTouch.classList.remove('inline-flex');
+        }
+        if (startBtn) startBtn.innerText = '[ CLICK OR PRESS SPACE TO START ]';
+        if (restartBtn) restartBtn.innerText = '[ CLICK OR PRESS SPACE TO TRY AGAIN ]';
+        if (playAgainBtn) playAgainBtn.innerText = '[ CLICK OR PRESS SPACE TO PLAY AGAIN ]';
+    }
+
     let hintInterval;
     let hintTimeout;
     
@@ -2237,7 +2264,7 @@ function startSimbionApp() {
     const logoTrigger = document.querySelector('nav img[alt="SIMBION FILM"]');
     if (logoTrigger) {
         logoTrigger.parentElement.addEventListener('click', (e) => {
-            if (window.innerWidth < 768) {
+            if (isTouchMode || window.innerWidth < 1025) {
                 e.preventDefault();
                 openGame();
             }
@@ -2246,9 +2273,7 @@ function startSimbionApp() {
 
     if (playHint) {
         playHint.addEventListener('click', () => {
-            if (window.innerWidth < 768) {
-                openGame();
-            }
+            openGame();
         });
     }
 
