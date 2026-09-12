@@ -419,12 +419,17 @@ function startSimbionApp() {
             span.classList.add('word' + Math.floor(4 * Math.random()));
         });
 
+        const isNarrow = window.innerWidth < 768;
+        const offset1 = isNarrow ? "-0.45em" : "-0.8em";
+        const offset2 = isNarrow ? "0.9em" : "1.6em";
+        const offset3 = isNarrow ? "-1.35em" : "-2.4em";
+
         // 3. theartofcinema.xyz GSAP scrub animations:
-        // word1: x: "-0.8em", ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
+        // word1: x: "-0.8em" (mobile: "-0.45em"), ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
         const word1List = para.querySelectorAll('.word1');
         word1List.forEach(e => {
             const tween = gsap.to(e, {
-                x: "-0.8em",
+                x: offset1,
                 ease: "none",
                 scrollTrigger: {
                     trigger: e,
@@ -436,11 +441,11 @@ function startSimbionApp() {
             if (tween.scrollTrigger) para._statementTriggers.push(tween.scrollTrigger);
         });
 
-        // word2: x: "1.6em", ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
+        // word2: x: "1.6em" (mobile: "0.9em"), ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
         const word2List = para.querySelectorAll('.word2');
         word2List.forEach(e => {
             const tween = gsap.to(e, {
-                x: "1.6em",
+                x: offset2,
                 ease: "none",
                 scrollTrigger: {
                     trigger: e,
@@ -452,11 +457,11 @@ function startSimbionApp() {
             if (tween.scrollTrigger) para._statementTriggers.push(tween.scrollTrigger);
         });
 
-        // word3: x: "-2.4em", ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
+        // word3: x: "-2.4em" (mobile: "-1.35em"), ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
         const word3List = para.querySelectorAll('.word3');
         word3List.forEach(e => {
             const tween = gsap.to(e, {
-                x: "-2.4em",
+                x: offset3,
                 ease: "none",
                 scrollTrigger: {
                     trigger: e,
@@ -1522,7 +1527,8 @@ function startSimbionApp() {
         }
 
         const itemSpacing = isMobile ? 68 : 22.5;
-        const startLeft = isMobile ? 95 : 110;
+        // Ensure thumbnail items start safely off-screen (102vw on mobile, 108vw on desktop/tablet)
+        const startLeft = isMobile ? 104 : 108;
 
         function renderRows(items, topPercent, rowNum) {
             let subHtml = '';
@@ -3339,23 +3345,32 @@ function startSimbionApp() {
             let velParallaxTimeout;
             const galleryItemsList = () => gsap.utils.toArray('.gallery-item-inner');
             const velParallaxItems = () => gsap.utils.toArray('.velocity-parallax');
+            const selectedHeaderEls = ["#selected-title", "#selected-desc", "#selected-right-note"];
+
+            const isTouchScreen = isTouchDevice || window.innerWidth < 1025;
+            const totalScrollDistance = Math.max(isTouchScreen ? 900 : 1300, (filmTrack.scrollWidth - window.innerWidth) * (isTouchScreen ? 1.15 : 1.35));
 
             const trackTl = gsap.timeline({
                 scrollTrigger: {
                     id: "filmTrackTrigger",
                     trigger: "#selected-work",
                     start: "top top",
-                    end: () => "+=" + Math.max(isTouchDevice ? 800 : 1200, (filmTrack.scrollWidth - window.innerWidth) * (isTouchDevice ? 1.1 : 1.35)),
-                    scrub: isTouchDevice ? 0.4 : 1.3,
+                    end: () => "+=" + totalScrollDistance,
+                    scrub: isTouchScreen ? 0.35 : 1.1,
                     pin: true,
                     anticipatePin: 1,
                     invalidateOnRefresh: true,
                     onUpdate: (self) => {
+                        const titleWrap = document.querySelector("#selected-work .absolute.top-20");
+                        if (titleWrap) {
+                            titleWrap.style.pointerEvents = self.progress > 0.1 ? "none" : "auto";
+                        }
+
                         if (!self.isActive) return;
                         const vel = self.getVelocity();
                         const absVel = Math.abs(vel);
 
-                        if (!isTouchDevice && absVel > 30) {
+                        if (!isTouchScreen && absVel > 30) {
                             const blurAmount = Math.min(3.5, absVel / 650);
                             const skewAmount = Math.max(-2.5, Math.min(2.5, -vel / 1200));
                             gsap.to(galleryItemsList(), {
@@ -3385,8 +3400,8 @@ function startSimbionApp() {
                                 const depthY = parseFloat(el.getAttribute('data-depth-y')) || 1.0;
                                 const speedDelta = (depth - 1.0);
 
-                                const shiftX = Math.max(-60, Math.min(60, -(vel * speedDelta * (isTouchDevice ? 0.025 : 0.052))));
-                                const shiftY = Math.max(-20, Math.min(20, (vel / 900) * depthY * (isTouchDevice ? 3 : 6)));
+                                const shiftX = Math.max(-60, Math.min(60, -(vel * speedDelta * (isTouchScreen ? 0.025 : 0.052))));
+                                const shiftY = Math.max(-20, Math.min(20, (vel / 900) * depthY * (isTouchScreen ? 3 : 6)));
                                 const scaleShift = 1 + Math.max(-0.03, Math.min(0.04, (absVel / 2500) * speedDelta));
 
                                 gsap.to(el, {
@@ -3423,32 +3438,25 @@ function startSimbionApp() {
                 }
             });
 
+            // PHASE 1: Fade out judul dan paragraf hingga 100% tuntas terlebih dahulu
+            trackTl.to(selectedHeaderEls, {
+                opacity: 0,
+                y: -35,
+                duration: 0.35,
+                ease: "power2.inOut",
+                stagger: 0.04
+            }, 0);
+
+            // PHASE 2: Thumbnail video BARU MULAI meluncur setelah teks benar-benar fade out
             trackTl.to(filmTrack, {
                 x: () => {
                     const maxMove = filmTrack.scrollWidth - window.innerWidth;
                     return maxMove > 0 ? -maxMove : 0;
                 }, 
+                duration: 1.0,
                 ease: "none"
-            });
+            }, 0.38);
         }
-
-        gsap.to(["#selected-title", "#selected-desc", "#selected-right-note"], {
-            opacity: 0,
-            y: -30,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: "#selected-work",
-                start: "top top",
-                end: "top+=150",
-                scrub: true,
-                onUpdate: (self) => {
-                    const titleWrap = document.querySelector("#selected-work .absolute.top-20");
-                    if (titleWrap) {
-                        titleWrap.style.pointerEvents = self.progress > 0.05 ? "none" : "auto";
-                    }
-                }
-            }
-        });
 
         gsap.utils.toArray('.contact-title-line').forEach(line => {
             gsap.fromTo(line,

@@ -372,6 +372,11 @@
         #statement .word0 {
             will-change: transform;
         }
+        @media (max-width: 767px) {
+            #statement .word1 { padding: 0 0 0 0.45em; }
+            #statement .word2 { padding: 0 0.9em 0 0; }
+            #statement .word3 { padding: 0 0 0 1.35em; }
+        }
         @media (hover: hover) {
             .about-word:hover {
                 color: #0616C6 !important;
@@ -861,15 +866,15 @@
             <!-- Row aligned with paragraph first line -->
             <div class="mt-6 sm:mt-8 md:mt-12 lg:mt-14 w-full flex flex-col sm:flex-row justify-between items-start select-none pointer-events-none gap-3 sm:gap-6">
                 <!-- Selected Works Narrative (Under letter S of WORKS, lowered vertically, compact box, tightened line-height) -->
-                <div id="selected-desc" class="ml-[100px] sm:ml-[150px] md:ml-[230px] lg:ml-[24vw] w-[85vw] sm:w-[50vw] max-w-sm sm:max-w-md md:max-w-lg lg:max-w-[490px] select-none pointer-events-none">
-                    <p class="font-semibold text-[15.5px] sm:text-[17px] md:text-[18.5px] lg:text-[20px] text-lightText/90 leading-snug md:leading-[1.38] text-left">
+                <div id="selected-desc" class="ml-0 sm:ml-[100px] md:ml-[180px] lg:ml-[24vw] w-full sm:w-[50vw] max-w-sm sm:max-w-md md:max-w-lg lg:max-w-[490px] select-none pointer-events-none">
+                    <p class="font-semibold text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] text-lightText/90 leading-snug md:leading-[1.38] text-left">
                         Every project leaves something behind.
                         A moment, a frame, a story, or sometimes just a feeling. Over the years, we’ve collected them through the people we’ve met and the stories we’ve had the chance to tell.
                     </p>
                 </div>
                 <!-- Right Corner Note (Aligned with first line of paragraph) -->
-                <div id="selected-right-note" class="self-start sm:self-auto ml-auto text-right select-none pointer-events-none">
-                    <p class="font-semibold text-[15.5px] sm:text-[17px] md:text-[18.5px] lg:text-[20px] text-lightText/90 leading-snug md:leading-[1.38] whitespace-nowrap">
+                <div id="selected-right-note" class="self-start sm:self-auto sm:ml-auto text-left sm:text-right select-none pointer-events-none">
+                    <p class="font-semibold text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] text-lightText/90 leading-snug md:leading-[1.38] whitespace-nowrap">
                         Here are some of them.
                     </p>
                 </div>
