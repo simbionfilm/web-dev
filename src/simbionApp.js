@@ -419,12 +419,17 @@ function startSimbionApp() {
             span.classList.add('word' + Math.floor(4 * Math.random()));
         });
 
+        const isNarrow = window.innerWidth < 768;
+        const offset1 = isNarrow ? "-0.45em" : "-0.8em";
+        const offset2 = isNarrow ? "0.9em" : "1.6em";
+        const offset3 = isNarrow ? "-1.35em" : "-2.4em";
+
         // 3. theartofcinema.xyz GSAP scrub animations:
-        // word1: x: "-0.8em", ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
+        // word1: x: "-0.8em" (mobile: "-0.45em"), ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
         const word1List = para.querySelectorAll('.word1');
         word1List.forEach(e => {
             const tween = gsap.to(e, {
-                x: "-0.8em",
+                x: offset1,
                 ease: "none",
                 scrollTrigger: {
                     trigger: e,
@@ -436,11 +441,11 @@ function startSimbionApp() {
             if (tween.scrollTrigger) para._statementTriggers.push(tween.scrollTrigger);
         });
 
-        // word2: x: "1.6em", ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
+        // word2: x: "1.6em" (mobile: "0.9em"), ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
         const word2List = para.querySelectorAll('.word2');
         word2List.forEach(e => {
             const tween = gsap.to(e, {
-                x: "1.6em",
+                x: offset2,
                 ease: "none",
                 scrollTrigger: {
                     trigger: e,
@@ -452,11 +457,11 @@ function startSimbionApp() {
             if (tween.scrollTrigger) para._statementTriggers.push(tween.scrollTrigger);
         });
 
-        // word3: x: "-2.4em", ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
+        // word3: x: "-2.4em" (mobile: "-1.35em"), ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
         const word3List = para.querySelectorAll('.word3');
         word3List.forEach(e => {
             const tween = gsap.to(e, {
-                x: "-2.4em",
+                x: offset3,
                 ease: "none",
                 scrollTrigger: {
                     trigger: e,
@@ -1311,7 +1316,7 @@ function startSimbionApp() {
     // CMS Data and Secrets
     const SECRET_KEYWORD = "fundamental"; 
     const ADMIN_PASSWORD = "simbiosismutualisme"; 
-    const CMS_DATA_VERSION = "2026_difki_belum_selesai";
+    const CMS_DATA_VERSION = "2026_difki_belum_selesai_selalu_between_mak_youremine";
 
     const defaultCMS = {
         recentRelease: {
@@ -1324,9 +1329,9 @@ function startSimbionApp() {
             { title: "ANTARA", artist: "STEREOWALL", year: "2026", videoId: "7KA1LaIy804", row: 1 },
             { title: "SEANDAINYA", artist: "DIFKI KHALIF & PRINSA MANDAGIE", year: "2026", videoId: "7UJ1DoYP-Qw", row: 1 },
             { title: "BERI AKU KESEMPATAN", artist: "STEVAN PASARIBU", year: "2025", videoId: "2x_EYv5H68o", row: 1 },
-            { title: "GELANG", artist: "THE MARSOEDI FT. RIZKA NADIYAH", year: "2025", videoId: "9NhXdGxEQA0", row: 1 },
-            { title: "PUTUSIN AKU DONG", artist: "PROJECT POP", year: "2025", videoId: "cI8VzJE1tNg", row: 1 },
             { title: "TERJEBAK IMAJINASI", artist: "STEREOWALL", year: "2024", videoId: "4vevtQBeH78", row: 1 },
+            { title: "PUTUSIN AKU DONG", artist: "PROJECT POP", year: "2025", videoId: "cI8VzJE1tNg", row: 1 },
+            { title: "GELANG", artist: "THE MARSOEDI FT. RIZKA NADIYAH", year: "2025", videoId: "9NhXdGxEQA0", row: 1 },
             
             { title: "JALAN TENGAH", artist: "MIKHA TAMBAYONG & RAYI PUTRA", year: "2026", videoId: "GM71bWErDoo", row: 2 },
             { title: "TIBA TIBA KAU", artist: "DNANDA", year: "2026", videoId: "8ma_y-Xmo-Q", row: 2 },
@@ -1337,8 +1342,8 @@ function startSimbionApp() {
 
             { title: "AKU BUTUH PERAWATAN", artist: "SITI BADRIAH", year: "2024", videoId: "JhjB7e1twX8", row: 3 },
             { title: "SELALU UNTUK SELAMANYA", artist: "STEVAN PASARIBU & HANIN DHIYA", year: "2024", videoId: "0NMZVR4TaDk", row: 3 },
-            { title: "SATU TUJU", artist: "MAHALINI X RIZKY FEBIAN", year: "2022", videoId: "g89VhNDBrsY", row: 3 },
             { title: "YOU'RE MINE", artist: "RIZKY FEBIAN & MAHALINI", year: "2022", videoId: "mvvddC6NZT4", row: 3 },
+            { title: "SATU TUJU", artist: "MAHALINI X RIZKY FEBIAN", year: "2022", videoId: "g89VhNDBrsY", row: 3 },
             { title: "AMINLAH BERSAMAKU", artist: "RIZKY FEBIAN", year: "2022", videoId: "Za2t7fFrkUw", row: 3 },
             { title: "HINGGA TUA BERSAMA", artist: "RIZKY FEBIAN", year: "2022", videoId: "b5ZQob-mDGM", row: 3 }
         ]
@@ -1467,115 +1472,34 @@ function startSimbionApp() {
         }
     }
 
-    let idleFloatTweens = [];
-
-    function initIdleFloat() {
-        if (!window.gsap) return;
-        idleFloatTweens.forEach(t => t.kill());
-        idleFloatTweens = [];
-        gsap.killTweensOf('.idle-float');
-
-        const floatElements = gsap.utils.toArray('.idle-float');
-        floatElements.forEach((el, i) => {
-            const yDist = (i % 2 === 0 ? 22 : -22) + gsap.utils.random(-6, 6);
-            const xDist = (i % 3 === 0 ? 12 : -12) + gsap.utils.random(-4, 4);
-            const rotDist = (i % 2 === 0 ? 3.0 : -3.0) + gsap.utils.random(-1, 1);
-            const dur = gsap.utils.random(3.2, 4.8);
-
-            const tw = gsap.to(el, {
-                y: yDist,
-                x: xDist,
-                rotation: rotDist,
-                duration: dur,
-                ease: "sine.inOut",
-                repeat: -1,
-                yoyo: true,
-                delay: (i * 0.25) % 2.0
-            });
-            el._idleTween = tw;
-            idleFloatTweens.push(tw);
-        });
-    }
-
     function renderSelectedWorks() {
         const track = document.getElementById('film-track');
         if (!track) return;
-        let html = '';
         
-        const isMobile = window.innerWidth < 768;
+        // Use all works sorted by year
+        const sortedWorks = [...cmsData.works].sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
         
-        let row1 = [], row2 = [], row3 = [], row4 = [];
-        if (isMobile) {
-            // Distribute works into 4 clean rows for mobile so it's spacious and elegant
-            const sorted = [...cmsData.works].sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
-            sorted.forEach((w, idx) => {
-                const rem = idx % 4;
-                if (rem === 0) row1.push(w);
-                else if (rem === 1) row2.push(w);
-                else if (rem === 2) row3.push(w);
-                else row4.push(w);
-            });
-        } else {
-            row1 = cmsData.works.filter(w => w.row === 1).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
-            row2 = cmsData.works.filter(w => w.row === 2).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
-            row3 = cmsData.works.filter(w => w.row === 3).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
-        }
-
-        const itemSpacing = isMobile ? 68 : 22.5;
-        const startLeft = isMobile ? 95 : 110;
-
-        function renderRows(items, topPercent, rowNum) {
-            let subHtml = '';
-            const baseDepth = rowNum === 1 ? 0.72 : (rowNum === 2 ? 0.95 : (rowNum === 3 ? 1.18 : 1.38));
-            items.forEach((item, idx) => {
-                const leftPos = startLeft + (idx * itemSpacing);
-                const baseRotation = (Math.random() - 0.5) * 5; 
-                const depthFactor = (baseDepth + (idx % 2 === 0 ? 0.05 : -0.05)).toFixed(2);
-                const depthFactorY = ((idx % 3 === 0 ? 0.8 : -0.6) * (rowNum === 2 ? 0.5 : 0.8)).toFixed(2);
-
-                subHtml += `
-                    <div class="gallery-item cms-gallery-item" style="left: ${leftPos}vw; top: ${topPercent}%;">
-                        <div class="w-full h-full" style="transform: rotate(${baseRotation}deg);">
-                            <div class="parallax-wrap w-full h-full" data-mx="${(idx % 2 === 0 ? -4 : 5)}" data-my="${(idx % 3 === 0 ? 6 : -5)}">
-                                <div class="velocity-parallax w-full h-full" data-depth="${depthFactor}" data-depth-y="${depthFactorY}">
-                                    <div class="idle-float w-full h-full">
-                                        <div class="gallery-item-inner block relative w-full h-full overflow-hidden rounded-sm group cursor-pointer bg-darkBg video-trigger border border-white/10 hover:border-simbionBlue/60 active:scale-95 transition-colors duration-150" data-video-id="${item.videoId}">
-                                            <img src="https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg" alt="${item.title}" class="w-full h-full object-cover opacity-80 group-hover:opacity-95 transition-opacity duration-200 ease-out">
-                                            <div class="absolute inset-x-0 bottom-0 p-3 md:p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 text-left pointer-events-none z-20">
-                                                <div class="absolute inset-0 -z-10 bg-gradient-to-t from-darkBg/95 via-darkBg/60 to-transparent"></div>
-                                                <span class="text-[7px] md:text-[9px] text-simbionBlue tracking-[0.2em] font-bold font-mono block uppercase">${item.year} — ${item.artist}</span>
-                                                <h3 class="text-[10px] md:text-sm font-bold tracking-tight text-lightText mt-0.5 md:mt-1 uppercase">${item.title}</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+        let gridHtml = '<div class="cinema-medias-grid" id="cinema-medias-grid">';
+        sortedWorks.forEach((item) => {
+            gridHtml += `
+                <div class="gallery-item cms-gallery-item" data-title="${item.title.toUpperCase()}">
+                    <div class="gallery-item-inner block relative w-full h-full overflow-hidden rounded-sm group cursor-pointer bg-darkBg video-trigger border border-white/10 hover:border-simbionBlue/60 active:scale-95 transition-colors duration-150" data-video-id="${item.videoId}">
+                        <img src="https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg" alt="${item.title}" class="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity duration-200 ease-out">
+                        <div class="absolute inset-x-0 bottom-0 p-3 md:p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 text-left pointer-events-none z-20">
+                            <div class="absolute inset-0 -z-10 bg-gradient-to-t from-darkBg/95 via-darkBg/60 to-transparent"></div>
+                            <span class="text-[7px] md:text-[9px] text-simbionBlue tracking-[0.2em] font-bold font-mono block uppercase">${item.year} — ${item.artist}</span>
+                            <h3 class="text-[10px] md:text-sm font-bold tracking-tight text-lightText mt-0.5 md:mt-1 uppercase">${item.title}</h3>
                         </div>
                     </div>
-                `;
-            });
-            return subHtml;
-        }
+                </div>
+            `;
+        });
+        gridHtml += '</div>';
 
-        if (isMobile) {
-            html += renderRows(row1, 9, 1);
-            html += renderRows(row2, 31, 2);
-            html += renderRows(row3, 53, 3);
-            html += renderRows(row4, 75, 4);
-        } else {
-            html += renderRows(row1, 14, 1);
-            html += renderRows(row2, 41, 2);
-            html += renderRows(row3, 68, 3);
-        }
-
-        const maxItems = Math.max(row1.length, row2.length, row3.length, (row4 ? row4.length : 0));
-        const dynamicWidth = startLeft + ((maxItems - 1) * itemSpacing) + (isMobile ? 80 : 75) + 100; 
-        track.style.width = `${dynamicWidth}vw`;
-        track.innerHTML = html;
+        track.innerHTML = gridHtml;
+        track.style.width = 'max-content';
         
         initVideoTriggers();
-        initGalleryInteractions();
-        initIdleFloat();
     }
 
     renderRecentRelease();
@@ -3334,104 +3258,159 @@ function startSimbionApp() {
         }
 
         const filmTrack = document.getElementById("film-track");
-        if (filmTrack) {
-            let blurTimeout;
-            let velParallaxTimeout;
-            const galleryItemsList = () => gsap.utils.toArray('.gallery-item-inner');
-            const velParallaxItems = () => gsap.utils.toArray('.velocity-parallax');
+        const cinemaGrid = document.getElementById("cinema-medias-grid");
+        if (filmTrack && cinemaGrid) {
+            const allGalleryCards = gsap.utils.toArray('#film-track .gallery-item');
+            const winW = window.innerWidth;
 
-            const trackTl = gsap.timeline({
+            // Deterministic pseudo-random generator based on card index (always 100% consistent across refreshes)
+            const getPseudoRandom = (seed, multiplier = 1) => {
+                const x = Math.sin(seed * 12.9898 + multiplier * 78.233) * 43758.5453;
+                return (x - Math.floor(x)) - 0.5; // range: -0.5 to 0.5
+            };
+
+            // Specific manual offsets mapped strictly by EXACT TITLE for 100% accuracy
+            // Positive X = right on screen, Negative X = left on screen
+            // Positive Y = down on screen, Negative Y = up on screen
+            const titleOffsets = {
+                "PUTUSIN AKU DONG":     { xPercent: 65,  yPercent: 55 },  // geser ke KANAN BAWAH tegas
+                "TERJEBAK IMAJINASI":   { xPercent: -85, yPercent: 45 },  // geser ke KIRI lagi
+                "GELANG":               { xPercent: -25, yPercent: 35 },  // geser ke KIRI lagi
+                "ANTARA":               { xPercent: 45,  yPercent: -35 }, // geser ke KANAN
+                "MERAYAKAN HARI INI":   { xPercent: 70,  yPercent: 65 },  // geser ke BAWAH
+                "SELALU UNTUK SELAMANYA": { xPercent: 10, yPercent: -15 }, // diletakkan tepat di antara Mak Comblang dan You're Mine
+                "AKU BUTUH PERAWATAN":  { xPercent: 120, yPercent: 40 },  // geser ke KANAN BANYAK
+                "MAK COMBLANG":         { xPercent: -70, yPercent: 0 },   // geser ke KIRI
+                "BELUM SELESAI":        { xPercent: -45, yPercent: -50 }, // ke kiri atas
+                "SEANDAINYA":           { xPercent: -25, yPercent: -35 }, // ke kiri atas
+                "BERI AKU KESEMPATAN":  { xPercent: 0,   yPercent: 35 },  // ke bawah
+                "JALAN TENGAH":         { xPercent: 0,   yPercent: 35 },  // ke bawah
+                "KISAH KASIH DI JAKARTA": { xPercent: 0, yPercent: -35 }, // ke atas
+                "YOU'RE MINE":          { xPercent: 45,  yPercent: -35 }, // ke kanan atas
+                "HINGGA TUA BERSAMA":   { xPercent: 40,  yPercent: 0 }    // ke kanan
+            };
+
+            // 1. Organic, lively initial jitter + title-based manual adjustments
+            allGalleryCards.forEach((card, idx) => {
+                const cardNum = idx + 1;
+                const title = (card.getAttribute('data-title') || '').toUpperCase().trim();
+                const manual = titleOffsets[title] || { xPercent: 0, yPercent: 0 };
+                
+                gsap.set(card, {
+                    x: getPseudoRandom(cardNum, 1.1) * 0.16 * winW,
+                    y: getPseudoRandom(cardNum, 2.3) * 0.10 * winW,
+                    xPercent: manual.xPercent,
+                    yPercent: manual.yPercent
+                });
+            });
+
+            // 2. Exact total scroll distance calculation synced to full natural exit of all 19 cards
+            const getScrollDistance = () => {
+                const maxMove = filmTrack.scrollWidth - window.innerWidth;
+                return Math.max(winW * 1.8, maxMove);
+            };
+
+            const scrollTween = gsap.to(filmTrack, {
+                x: () => {
+                    const maxMove = filmTrack.scrollWidth - window.innerWidth;
+                    return maxMove > 0 ? -maxMove : 0;
+                },
+                ease: "none",
                 scrollTrigger: {
                     id: "filmTrackTrigger",
                     trigger: "#selected-work",
                     start: "top top",
-                    end: () => "+=" + Math.max(isTouchDevice ? 800 : 1200, (filmTrack.scrollWidth - window.innerWidth) * (isTouchDevice ? 1.1 : 1.35)),
-                    scrub: isTouchDevice ? 0.4 : 1.3,
+                    end: () => "+=" + getScrollDistance(),
+                    scrub: isTouchDevice ? 0.6 : 1.2,
                     pin: true,
                     anticipatePin: 1,
-                    invalidateOnRefresh: true,
-                    onUpdate: (self) => {
-                        if (!self.isActive) return;
-                        const vel = self.getVelocity();
-                        const absVel = Math.abs(vel);
-
-                        if (!isTouchDevice && absVel > 30) {
-                            const blurAmount = Math.min(3.5, absVel / 650);
-                            const skewAmount = Math.max(-2.5, Math.min(2.5, -vel / 1200));
-                            gsap.to(galleryItemsList(), {
-                                filter: `blur(${blurAmount.toFixed(2)}px)`,
-                                skewX: `${skewAmount.toFixed(2)}deg`,
-                                duration: 0.15,
-                                ease: "power1.out",
-                                overwrite: "auto"
-                            });
-
-                            clearTimeout(blurTimeout);
-                            blurTimeout = setTimeout(() => {
-                                gsap.to(galleryItemsList(), {
-                                    filter: "blur(0px)",
-                                    skewX: "0deg",
-                                    duration: 0.35,
-                                    ease: "power2.out",
-                                    overwrite: "auto"
-                                });
-                            }, 80);
-                        }
-
-                        if (absVel > 15) {
-                            const pItems = velParallaxItems();
-                            pItems.forEach((el) => {
-                                const depth = parseFloat(el.getAttribute('data-depth')) || 1.0;
-                                const depthY = parseFloat(el.getAttribute('data-depth-y')) || 1.0;
-                                const speedDelta = (depth - 1.0);
-
-                                const shiftX = Math.max(-60, Math.min(60, -(vel * speedDelta * (isTouchDevice ? 0.025 : 0.052))));
-                                const shiftY = Math.max(-20, Math.min(20, (vel / 900) * depthY * (isTouchDevice ? 3 : 6)));
-                                const scaleShift = 1 + Math.max(-0.03, Math.min(0.04, (absVel / 2500) * speedDelta));
-
-                                gsap.to(el, {
-                                    x: shiftX,
-                                    y: shiftY,
-                                    scale: scaleShift,
-                                    duration: 0.18,
-                                    ease: "power1.out",
-                                    overwrite: "auto"
-                                });
-                            });
-
-                            clearTimeout(velParallaxTimeout);
-                            velParallaxTimeout = setTimeout(() => {
-                                gsap.to(velParallaxItems(), {
-                                    x: 0,
-                                    y: 0,
-                                    scale: 1,
-                                    duration: 0.65,
-                                    ease: "power2.out",
-                                    overwrite: "auto"
-                                });
-                            }, 90);
-                        }
-                    },
-                    onLeave: () => {
-                        gsap.to(galleryItemsList(), { filter: "blur(0px)", skewX: "0deg", duration: 0.2, overwrite: "auto" });
-                        gsap.to(velParallaxItems(), { x: 0, y: 0, scale: 1, duration: 0.35, overwrite: "auto" });
-                    },
-                    onLeaveBack: () => {
-                        gsap.to(galleryItemsList(), { filter: "blur(0px)", skewX: "0deg", duration: 0.2, overwrite: "auto" });
-                        gsap.to(velParallaxItems(), { x: 0, y: 0, scale: 1, duration: 0.35, overwrite: "auto" });
-                    }
+                    invalidateOnRefresh: true
                 }
             });
 
-            trackTl.to(filmTrack, {
-                x: () => {
-                    const maxMove = filmTrack.scrollWidth - window.innerWidth;
-                    return maxMove > 0 ? -maxMove : 0;
-                }, 
-                ease: "none"
+            // 3. True Hourglass / Vortex Scatter Dynamism:
+            // When cards are at Right Entry (100%+) or Left Exit (-15%), they dramatically expand/scatter UP & DOWN.
+            // When cards enter Center Viewport (40%-60%), they converge/pinch tightly into their precise, elegant center composition.
+            allGalleryCards.forEach((card, idx) => {
+                const inner = card.querySelector('.gallery-item-inner') || card;
+                const rowModulo = idx % 3; // 0 = row 1 (top), 1 = row 2 (mid), 2 = row 3 (bottom)
+                
+                // Deterministic vertical expansion: top rows scatter UP (-), bottom rows scatter DOWN (+)
+                let rowDirection = -1; // row 1 scatters up
+                if (rowModulo === 1) {
+                    rowDirection = getPseudoRandom(idx + 1, 9.1) > 0 ? 0.7 : -0.7; // row 2 alternates
+                } else if (rowModulo === 2) {
+                    rowDirection = 1; // row 3 scatters down
+                }
+
+                const enterY = (rowDirection * (120 + Math.abs(getPseudoRandom(idx + 1, 4.9)) * 140)); // up to ±260% vertical divergence
+                const exitY = (rowDirection * (130 + Math.abs(getPseudoRandom(idx + 1, 6.4)) * 150));
+                
+                const enterRot = getPseudoRandom(idx + 1, 3.7) * 45;
+                const exitRot = getPseudoRandom(idx + 1, 5.2) * 45;
+                const enterScale = 0.82;
+                const exitScale = 0.82;
+
+                // Single unified timeline mapped across the card's entire journey across screen
+                // Start: when left of card is at 92% of viewport (already noticeably inside frame)
+                // End: when right of card reaches 8% of viewport (scatters deep before exiting left)
+                const cardTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: card,
+                        containerAnimation: scrollTween,
+                        start: "left 96%",
+                        end: "right 4%",
+                        scrub: isTouchDevice ? 0.6 : 1.0
+                    }
+                });
+
+                // Phase 1 (Entry): Stays scattered deep inside frame (from 96% down to ~56% center viewport)
+                cardTl.fromTo(inner, 
+                    { 
+                        rotation: enterRot, 
+                        yPercent: enterY, 
+                        scale: enterScale, 
+                        opacity: 0.75,
+                        force3D: true 
+                    },
+                    { 
+                        rotation: 0, 
+                        yPercent: 0, 
+                        scale: 1, 
+                        opacity: 1,
+                        ease: "power2.out", 
+                        duration: 0.44, 
+                        force3D: true 
+                    }
+                )
+                // Phase 2 (Center sweet spot): Clean, focused center convergence (56% to 44% center viewport)
+                .to(inner, 
+                    { 
+                        rotation: 0, 
+                        yPercent: 0, 
+                        scale: 1, 
+                        opacity: 1,
+                        ease: "none", 
+                        duration: 0.12, 
+                        force3D: true 
+                    }
+                )
+                // Phase 3 (Exit): Starts scattering much earlier while still deep inside frame (~44% out to 4%)
+                .to(inner, 
+                    { 
+                        rotation: exitRot, 
+                        yPercent: exitY, 
+                        scale: exitScale, 
+                        opacity: 0.75,
+                        ease: "power2.in", 
+                        duration: 0.44, 
+                        force3D: true 
+                    }
+                );
             });
         }
 
+        const isSmallScreen = window.innerWidth <= 1024 || isTouchDevice;
         gsap.to(["#selected-title", "#selected-desc", "#selected-right-note"], {
             opacity: 0,
             y: -30,
@@ -3439,7 +3418,7 @@ function startSimbionApp() {
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
-                end: "top+=150",
+                end: isSmallScreen ? "top+=90" : "top+=150",
                 scrub: true,
                 onUpdate: (self) => {
                     const titleWrap = document.querySelector("#selected-work .absolute.top-20");
@@ -3470,15 +3449,11 @@ function startSimbionApp() {
         const galleryItems = document.querySelectorAll('.gallery-item');
         galleryItems.forEach((item) => {
             const inner = item.querySelector('.gallery-item-inner');
-            const idleFloatEl = item.querySelector('.idle-float');
             if (!inner || !window.gsap) return;
             
             inner.addEventListener('mouseenter', () => {
                 gsap.set(item, { zIndex: 100 });
                 gsap.to(inner, { scale: 1.15, duration: 0.18, ease: "power2.out", overwrite: "auto" });
-                if (idleFloatEl && idleFloatEl._idleTween) {
-                    idleFloatEl._idleTween.pause();
-                }
             });
             inner.addEventListener('mouseleave', () => {
                 gsap.to(inner, { 
@@ -3488,9 +3463,6 @@ function startSimbionApp() {
                     overwrite: "auto",
                     onComplete: () => {
                         gsap.set(item, { zIndex: 50 });
-                        if (idleFloatEl && idleFloatEl._idleTween) {
-                            idleFloatEl._idleTween.resume();
-                        }
                     }
                 });
             });
@@ -3504,39 +3476,6 @@ function startSimbionApp() {
                 gsap.to(inner, { scale: 1, duration: 0.2, ease: "power2.out", overwrite: "auto", onComplete: () => gsap.set(item, { zIndex: 50 }) });
             }, { passive: true });
         });
-
-        // Mouse Parallax Floating on Selected Works
-        const selectedWorkSection = document.getElementById('selected-work');
-        if (selectedWorkSection && !window.matchMedia('(pointer: coarse)').matches) {
-            let pRaf = null;
-            let targetNormX = 0;
-            let targetNormY = 0;
-
-            const onMouseMove = (e) => {
-                targetNormX = (e.clientX / window.innerWidth) - 0.5;
-                targetNormY = (e.clientY / window.innerHeight) - 0.5;
-
-                if (!pRaf) {
-                    pRaf = requestAnimationFrame(() => {
-                        const wraps = selectedWorkSection.querySelectorAll('.parallax-wrap');
-                        wraps.forEach((wrap) => {
-                            const mx = parseFloat(wrap.dataset.mx) || 5;
-                            const my = parseFloat(wrap.dataset.my) || 5;
-                            gsap.to(wrap, {
-                                x: targetNormX * mx * 7,
-                                y: targetNormY * my * 7,
-                                duration: 0.8,
-                                ease: "power2.out",
-                                overwrite: "auto"
-                            });
-                        });
-                        pRaf = null;
-                    });
-                }
-            };
-
-            selectedWorkSection.addEventListener('mousemove', onMouseMove, { passive: true });
-        }
     }
     
     function initParagraphAnimations() {

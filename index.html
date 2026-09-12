@@ -266,18 +266,6 @@
         }
         .clip-mask { overflow: visible; display: block; padding: 0.3em 0.2em; } 
 
-        @media (max-width: 767px) {
-            .gallery-item { width: 55vw; }
-        }
-        .gallery-item {
-            position: absolute;
-            transition: z-index 0.2s;
-            z-index: 50;
-            will-change: transform;
-            cursor: none !important;
-            width: 52vw;
-            aspect-ratio: 16 / 9;
-        }
         .gallery-item-inner {
             will-change: transform, filter;
             -webkit-backface-visibility: hidden;
@@ -293,21 +281,72 @@
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
         }
-        @media (min-width: 768px) {
-            .gallery-item { width: 18.75vw; }
-        }
 
         .bts-float {
             will-change: transform;
         }
         
+        /* 100% identical to theartofcinema.xyz mwg_effect033 */
         .film-track {
             height: 100%;
             position: absolute;
             top: 0;
             left: 0;
-            display: block;
+            display: flex;
+            align-items: center;
+            width: max-content;
+            white-space: nowrap;
+            padding: 0 110vw;
             will-change: transform;
+        }
+
+        .cinema-medias-grid {
+            display: grid;
+            grid-template-rows: repeat(3, auto);
+            grid-auto-flow: column;
+            align-items: center;
+            gap: 4vw;
+            height: auto;
+            position: relative;
+        }
+
+        .gallery-item {
+            display: block;
+            position: relative;
+            flex-shrink: 0;
+            width: 14.5vw;
+            min-width: 14.5vw;
+            height: 10vw;
+            min-height: 10vw;
+            will-change: transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            cursor: none !important;
+            transition: z-index 0.2s;
+            z-index: 50;
+        }
+
+        .gallery-item-inner {
+            will-change: transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .film-track {
+                padding: 0 100vw;
+            }
+            .cinema-medias-grid {
+                gap: 6vw;
+            }
+            .gallery-item {
+                width: 34vw;
+                min-width: 34vw;
+                height: 24vw;
+                min-height: 24vw;
+            }
         }
 
         .text-mask-wrap, .about-mask {
@@ -371,6 +410,11 @@
         }
         #statement .word0 {
             will-change: transform;
+        }
+        @media (max-width: 767px) {
+            #statement .word1 { padding: 0 0 0 0.45em; }
+            #statement .word2 { padding: 0 0.9em 0 0; }
+            #statement .word3 { padding: 0 0 0 1.35em; }
         }
         @media (hover: hover) {
             .about-word:hover {
@@ -933,7 +977,7 @@
     </section>
 
     <div id="root"></div>
-    <script type="module" src="./src/simbionApp.js"></script>
+    <script type="module" src="./src/simbionApp.js?v=4.4"></script>
     <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
