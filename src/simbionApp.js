@@ -419,17 +419,12 @@ function startSimbionApp() {
             span.classList.add('word' + Math.floor(4 * Math.random()));
         });
 
-        const isNarrow = window.innerWidth < 768;
-        const offset1 = isNarrow ? "-0.45em" : "-0.8em";
-        const offset2 = isNarrow ? "0.9em" : "1.6em";
-        const offset3 = isNarrow ? "-1.35em" : "-2.4em";
-
         // 3. theartofcinema.xyz GSAP scrub animations:
-        // word1: x: "-0.8em" (mobile: "-0.45em"), ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
+        // word1: x: "-0.8em", ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
         const word1List = para.querySelectorAll('.word1');
         word1List.forEach(e => {
             const tween = gsap.to(e, {
-                x: offset1,
+                x: "-0.8em",
                 ease: "none",
                 scrollTrigger: {
                     trigger: e,
@@ -441,11 +436,11 @@ function startSimbionApp() {
             if (tween.scrollTrigger) para._statementTriggers.push(tween.scrollTrigger);
         });
 
-        // word2: x: "1.6em" (mobile: "0.9em"), ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
+        // word2: x: "1.6em", ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
         const word2List = para.querySelectorAll('.word2');
         word2List.forEach(e => {
             const tween = gsap.to(e, {
-                x: offset2,
+                x: "1.6em",
                 ease: "none",
                 scrollTrigger: {
                     trigger: e,
@@ -457,11 +452,11 @@ function startSimbionApp() {
             if (tween.scrollTrigger) para._statementTriggers.push(tween.scrollTrigger);
         });
 
-        // word3: x: "-2.4em" (mobile: "-1.35em"), ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
+        // word3: x: "-2.4em", ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
         const word3List = para.querySelectorAll('.word3');
         word3List.forEach(e => {
             const tween = gsap.to(e, {
-                x: offset3,
+                x: "-2.4em",
                 ease: "none",
                 scrollTrigger: {
                     trigger: e,
@@ -1526,10 +1521,8 @@ function startSimbionApp() {
             row3 = cmsData.works.filter(w => w.row === 3).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
         }
 
-        const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
-        const itemSpacing = isMobile ? 68 : (isTablet ? 30 : 22.5);
-        // Start thumbnail position: off-screen on mobile/tablet to avoid overlapping text
-        const startLeft = isMobile ? 106 : (isTablet ? 112 : 110);
+        const itemSpacing = isMobile ? 68 : 22.5;
+        const startLeft = isMobile ? 95 : 110;
 
         function renderRows(items, topPercent, rowNum) {
             let subHtml = '';
@@ -3439,7 +3432,6 @@ function startSimbionApp() {
             });
         }
 
-        const isSmallScreen = window.innerWidth <= 1024 || isTouchDevice;
         gsap.to(["#selected-title", "#selected-desc", "#selected-right-note"], {
             opacity: 0,
             y: -30,
@@ -3447,7 +3439,7 @@ function startSimbionApp() {
             scrollTrigger: {
                 trigger: "#selected-work",
                 start: "top top",
-                end: isSmallScreen ? "top+=90" : "top+=150",
+                end: "top+=150",
                 scrub: true,
                 onUpdate: (self) => {
                     const titleWrap = document.querySelector("#selected-work .absolute.top-20");
