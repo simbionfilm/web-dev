@@ -385,16 +385,18 @@ function startSimbionApp() {
         setupInteractiveParagraph('about-desc-text', '.about-word');
     }
 
-    // Animate Statement text on scroll with Kinetic Word Drift Effect (ala theartofcinema.xyz)
+    // Animate Statement text on scroll (Exact Implementation from theartofcinema.xyz - mwg_effect029)
     function animateStatementScroll() {
         const para = document.getElementById('statement-desc-text') || document.getElementById('fit-desc-text');
         if (!para || !window.gsap) return;
 
-        if (!para.dataset.originalText) {
-            para.dataset.originalText = para.textContent.trim().replace(/\s+/g, ' ');
+        // Clean previous triggers if any
+        if (para._statementTriggers) {
+            para._statementTriggers.forEach(st => st.kill());
+            para._statementTriggers = [];
+        } else {
+            para._statementTriggers = [];
         }
-        const rawText = para.dataset.originalText;
-        const words = rawText.split(' ');
 
         if (para._textTl) {
             if (para._textTl.scrollTrigger) para._textTl.scrollTrigger.kill();
@@ -402,174 +404,69 @@ function startSimbionApp() {
             para._textTl = null;
         }
 
-        if (para._driftTweens) {
-            para._driftTweens.forEach(t => {
-                if (t.scrollTrigger) t.scrollTrigger.kill();
-                t.kill();
-            });
-            para._driftTweens = [];
+        if (!para.dataset.originalText) {
+            para.dataset.originalText = para.textContent.trim().replace(/\s+/g, ' ');
         }
+        const rawText = para.dataset.originalText;
+        const words = rawText.split(' ');
 
-        // Curated rows with smart word-length grouping (short words get 4 words, long words get 3, 2, or 1 word)
-        // AND each row is guaranteed to have at least one ANCHOR word (word0) that stays still as a layout reference!
-        const curatedLines = [
-            // Row 1: 3 words
-            [ { text: "EVERY", drift: 0 }, { text: "PROJECT", drift: 1 }, { text: "DESERVES", drift: 2 } ],
-            // Row 2: 4 words (short words)
-            [ { text: "ITS", drift: 1 }, { text: "OWN", drift: 0 }, { text: "FIT.", drift: 2 }, { text: "WE", drift: 3 } ],
-            // Row 3: 3 words (medium words)
-            [ { text: "TAILOR", drift: 2 }, { text: "EACH", drift: 0 }, { text: "ONE", drift: 1 } ],
-            // Row 4: 2 words (long word scratch)
-            [ { text: "FROM", drift: 0 }, { text: "SCRATCH,", drift: 3 } ],
-            // Row 5: 2 words (long complex words)
-            [ { text: "CAREFULLY", drift: 0 }, { text: "STITCHING", drift: 2 } ],
-            // Row 6: 3 words
-            [ { text: "EVERY", drift: 1 }, { text: "FRAME", drift: 0 }, { text: "TOGETHER", drift: 2 } ],
-            // Row 7: 2 words
-            [ { text: "WITH", drift: 0 }, { text: "PASSION,", drift: 1 } ],
-            // Row 8: 3 words (long words)
-            [ { text: "PURPOSE,", drift: 3 }, { text: "AND", drift: 0 }, { text: "DEDICATION.", drift: 2 } ],
-            // Row 9: 4 words (punchy short words)
-            [ { text: "WE", drift: 1 }, { text: "BELIEVE", drift: 0 }, { text: "GREAT", drift: 2 }, { text: "WORK", drift: 3 } ],
-            // Row 10: 3 words
-            [ { text: "COMES", drift: 0 }, { text: "FROM", drift: 1 }, { text: "BRINGING", drift: 2 } ],
-            // Row 11: 1 word (impact anchor)
-            [ { text: "TOGETHER", drift: 0 } ],
-            // Row 12: 4 words (short words)
-            [ { text: "THE", drift: 0 }, { text: "RIGHT", drift: 1 }, { text: "PEOPLE,", drift: 2 }, { text: "IDEAS,", drift: 3 } ],
-            // Row 13: 2 words (long word perspectives)
-            [ { text: "AND", drift: 0 }, { text: "PERSPECTIVES", drift: 2 } ],
-            // Row 14: 4 words (short connective words)
-            [ { text: "THAT", drift: 3 }, { text: "ALIGN", drift: 0 }, { text: "WITH", drift: 1 }, { text: "THE", drift: 2 } ],
-            // Row 15: 1 word (anchor word)
-            [ { text: "VISION.", drift: 0 } ],
-            // Row 16: 3 words
-            [ { text: "EVERY", drift: 0 }, { text: "DETAIL", drift: 1 }, { text: "MATTERS,", drift: 2 } ],
-            // Row 17: 4 words (short snappy words)
-            [ { text: "EVERY", drift: 1 }, { text: "FRAME", drift: 0 }, { text: "HAS", drift: 2 }, { text: "A", drift: 3 } ],
-            // Row 18: 1 word (anchor word)
-            [ { text: "PURPOSE,", drift: 0 } ],
-            // Row 19: 3 words
-            [ { text: "AND", drift: 0 }, { text: "EVERY", drift: 1 }, { text: "PROJECT", drift: 2 } ],
-            // Row 20: 3 words
-            [ { text: "DESERVES", drift: 3 }, { text: "THE", drift: 0 }, { text: "CARE", drift: 1 } ],
-            // Row 21: 4 words (short words)
-            [ { text: "TO", drift: 0 }, { text: "MAKE", drift: 1 }, { text: "IT", drift: 2 }, { text: "FEEL", drift: 3 } ],
-            // Row 22: 3 words
-            [ { text: "TRULY", drift: 2 }, { text: "ITS", drift: 0 }, { text: "OWN.", drift: 1 } ]
-        ];
+        // 1. theartofcinema.xyz mapping: split by space into inline-block spans
+        para.innerHTML = words.map(w => `<span>${w}</span>`).join(' ');
 
-        let rowsHtml = curatedLines.map(row => {
-            const chunkHtml = row.map(item => {
-                const r = item.drift; // 0 is STAY/ANCHOR, 1 is left, 2 is right, 3 is far-left
-                const driftClass = r > 0 ? `statement-drift-${r}` : 'statement-anchor';
-                return `<span class="statement-drift-word ${driftClass} word${r}"><span class="statement-slide"><span class="statement-word">${item.text}</span></span></span>`;
-            }).join(' ');
-            return `<span class="statement-row">${chunkHtml}</span>`;
+        // 2. theartofcinema.xyz class distribution: each span gets word0, word1, word2, or word3
+        // Note: word0 acts as stationary anchor; word1, word2, word3 drift with padding offset
+        para.querySelectorAll('span').forEach(span => {
+            span.classList.add('word' + Math.floor(4 * Math.random()));
         });
 
-        para.innerHTML = rowsHtml.join('');
-
-        const slideElements = Array.from(para.querySelectorAll('.statement-slide'));
-        if (slideElements.length === 0) return;
-
-        let lines = [];
-        let currentLine = [];
-        let prevTop = null;
-
-        slideElements.forEach(el => {
-            const top = Math.round(el.getBoundingClientRect().top);
-            if (prevTop === null) {
-                prevTop = top;
-                currentLine.push(el);
-            } else if (Math.abs(top - prevTop) > 8) {
-                lines.push(currentLine);
-                currentLine = [el];
-                prevTop = top;
-            } else {
-                currentLine.push(el);
-            }
-        });
-        if (currentLine.length > 0) lines.push(currentLine);
-
-        gsap.set(slideElements, { yPercent: 110, opacity: 0, rotateX: -10 });
-
-        // Timeline for line-by-line reveal
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: "#statement",
-                start: "top 80%",
-                end: "top 30%",
-                scrub: isTouchDevice ? 0.3 : 0.8,
-                invalidateOnRefresh: true
-            }
-        });
-
-        lines.forEach((lineWords, lineIndex) => {
-            tl.to(lineWords, {
-                yPercent: 0,
-                opacity: 1,
-                rotateX: 0,
-                stagger: 0.02,
-                duration: 1,
-                ease: "power3.out"
-            }, lineIndex * 0.25);
-        });
-
-        para._textTl = tl;
-
-        // Kinetic Word Drift Scrub (Faster slide with tight scroll range & instant scrub)
-        const driftTweens = [];
-        const isCoarse = window.matchMedia("(pointer: coarse)").matches;
-        const driftMult = isCoarse ? 0.80 : 1.25;
-
-        // Individual word trigger mapping with shorter scroll range for brisk and rapid drift
-        para.querySelectorAll('.word1').forEach(el => {
-            const tw = gsap.to(el, {
-                x: `${-0.50 * driftMult}em`,
+        // 3. theartofcinema.xyz GSAP scrub animations:
+        // word1: x: "-0.8em", ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
+        const word1List = para.querySelectorAll('.word1');
+        word1List.forEach(e => {
+            const tween = gsap.to(e, {
+                x: "-0.8em",
                 ease: "none",
                 scrollTrigger: {
-                    trigger: el,
-                    start: "top 78%",
-                    end: "top 22%",
-                    scrub: 0.03,
-                    invalidateOnRefresh: true
+                    trigger: e,
+                    start: "top 80%",
+                    end: "bottom 60%",
+                    scrub: 0.2
                 }
             });
-            driftTweens.push(tw);
+            if (tween.scrollTrigger) para._statementTriggers.push(tween.scrollTrigger);
         });
 
-        para.querySelectorAll('.word2').forEach(el => {
-            const tw = gsap.to(el, {
-                x: `${0.60 * driftMult}em`,
+        // word2: x: "1.6em", ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
+        const word2List = para.querySelectorAll('.word2');
+        word2List.forEach(e => {
+            const tween = gsap.to(e, {
+                x: "1.6em",
                 ease: "none",
                 scrollTrigger: {
-                    trigger: el,
-                    start: "top 78%",
-                    end: "top 22%",
-                    scrub: 0.03,
-                    invalidateOnRefresh: true
+                    trigger: e,
+                    start: "top 80%",
+                    end: "bottom 60%",
+                    scrub: 0.2
                 }
             });
-            driftTweens.push(tw);
+            if (tween.scrollTrigger) para._statementTriggers.push(tween.scrollTrigger);
         });
 
-        para.querySelectorAll('.word3').forEach(el => {
-            const tw = gsap.to(el, {
-                x: `${-0.70 * driftMult}em`,
+        // word3: x: "-2.4em", ease: "none", start: "top 80%", end: "bottom 60%", scrub: 0.2
+        const word3List = para.querySelectorAll('.word3');
+        word3List.forEach(e => {
+            const tween = gsap.to(e, {
+                x: "-2.4em",
                 ease: "none",
                 scrollTrigger: {
-                    trigger: el,
-                    start: "top 78%",
-                    end: "top 22%",
-                    scrub: 0.03,
-                    invalidateOnRefresh: true
+                    trigger: e,
+                    start: "top 80%",
+                    end: "bottom 60%",
+                    scrub: 0.2
                 }
             });
-            driftTweens.push(tw);
+            if (tween.scrollTrigger) para._statementTriggers.push(tween.scrollTrigger);
         });
-
-        para._driftTweens = driftTweens;
     }
 
     // Crazy 3D Character Physics for "WE ARE WHAT WE'VE MADE"
@@ -3639,6 +3536,15 @@ function startSimbionApp() {
             };
 
             selectedWorkSection.addEventListener('mousemove', onMouseMove, { passive: true });
+        }
+    }
+    
+    function initParagraphAnimations() {
+        animateAboutText();
+        animateStatementScroll();
+        initWeAreCrazy();
+        if (typeof init3DCanvasSequence === 'function') {
+            init3DCanvasSequence();
         }
     }
     

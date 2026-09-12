@@ -347,32 +347,30 @@
             user-select: none;
             color: inherit;
         }
-        /* Kinetic Drift Effect ala theartofcinema.xyz with dynamic 4,3,2,1 rows */
-        .statement-row {
-            display: flex;
-            flex-wrap: nowrap;
-            align-items: baseline;
-            width: max-content;
-            max-width: 100%;
-            margin-bottom: 0.18em;
-            white-space: nowrap;
+        /* Paragraf Statement Kinetic Drift ala theartofcinema.xyz (mwg_effect029) */
+        #statement .statement-paragraph {
+            text-transform: uppercase;
+            width: 100%;
+            cursor: default;
+            user-select: none;
         }
-        .statement-drift-word {
+        #statement .statement-paragraph span {
             display: inline-block;
+        }
+        #statement .word1 {
+            padding: 0 0 0 0.8em;
             will-change: transform;
-            margin: 0 0.36em;
         }
-        .statement-drift-1 {
-            margin-left: 0.85em;
-            margin-right: 0.35em;
+        #statement .word2 {
+            padding: 0 1.6em 0 0;
+            will-change: transform;
         }
-        .statement-drift-2 {
-            margin-right: 0.88em;
-            margin-left: 0.35em;
+        #statement .word3 {
+            padding: 0 0 0 2.4em;
+            will-change: transform;
         }
-        .statement-drift-3 {
-            margin-left: 0.98em;
-            margin-right: 0.35em;
+        #statement .word0 {
+            will-change: transform;
         }
         @media (hover: hover) {
             .about-word:hover {
@@ -907,7 +905,7 @@
     <!-- Statement Section with its own 3D Canvas (Layout & Typography matching theartofcinema.xyz) -->
     <section id="statement" data-id="project-fit" class="relative w-full min-h-[140dvh] py-24 sm:py-32 md:py-44 bg-darkBg text-lightText flex flex-col justify-center items-start px-6 sm:px-12 md:px-16 lg:px-20 z-48 overflow-hidden">
         <div class="relative w-full md:w-[65vw] lg:w-[68vw] max-w-[940px] my-auto flex flex-col z-20">
-            <p id="statement-desc-text" data-alias="fit-desc-text" class="interactive-el uppercase text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[44px] font-bold tracking-normal text-lightText opacity-90 leading-snug md:leading-[1.28] lg:leading-[1.30] cursor-default relative">
+            <p id="statement-desc-text" data-alias="fit-desc-text" class="statement-paragraph interactive-el uppercase text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[44px] font-bold tracking-normal text-lightText opacity-90 leading-snug md:leading-[1.28] lg:leading-[1.30] cursor-default relative">
                 EVERY PROJECT DESERVES ITS OWN FIT. WE TAILOR EACH ONE FROM SCRATCH, CAREFULLY STITCHING EVERY FRAME TOGETHER WITH PASSION, PURPOSE, AND DEDICATION. WE BELIEVE GREAT WORK COMES FROM BRINGING TOGETHER THE RIGHT PEOPLE, IDEAS, AND PERSPECTIVES THAT ALIGN WITH THE VISION. EVERY DETAIL MATTERS, EVERY FRAME HAS A PURPOSE, AND EVERY PROJECT DESERVES THE CARE TO MAKE IT FEEL TRULY ITS OWN.
             </p>
         </div>
