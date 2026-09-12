@@ -1485,11 +1485,6 @@ function startSimbionApp() {
                 <div class="gallery-item cms-gallery-item" data-title="${item.title.toUpperCase()}">
                     <div class="gallery-item-inner block relative w-full h-full overflow-hidden rounded-sm group cursor-pointer bg-darkBg video-trigger border border-white/10 hover:border-simbionBlue/60 active:scale-95 transition-colors duration-150" data-video-id="${item.videoId}">
                         <img src="https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg" alt="${item.title}" class="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity duration-200 ease-out">
-                        <div class="absolute inset-x-0 bottom-0 p-3 md:p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 text-left pointer-events-none z-20">
-                            <div class="absolute inset-0 -z-10 bg-gradient-to-t from-darkBg/95 via-darkBg/60 to-transparent"></div>
-                            <span class="text-[7px] md:text-[9px] text-simbionBlue tracking-[0.2em] font-bold font-mono block uppercase">${item.year} — ${item.artist}</span>
-                            <h3 class="text-[10px] md:text-sm font-bold tracking-tight text-lightText mt-0.5 md:mt-1 uppercase">${item.title}</h3>
-                        </div>
                     </div>
                 </div>
             `;
