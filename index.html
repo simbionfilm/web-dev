@@ -68,7 +68,8 @@
         .lenis.lenis-smooth { scroll-behavior: auto !important; }
         .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
         .lenis.lenis-stopped { overflow: hidden; }
-        .lenis.lenis-smooth iframe { pointer-events: none; }
+        .lenis.lenis-smooth iframe:not(#modal-iframe) { pointer-events: none; }
+        #modal-iframe { pointer-events: auto !important; }
         @media (pointer: coarse), (hover: none), (max-width: 1024px) {
             html, body {
                 -webkit-overflow-scrolling: touch;
@@ -129,6 +130,27 @@
         ::selection {
             background-color: #0616C6;
             color: white;
+        }
+
+        /* Lenis smooth scrolling iframe protection bypass when modal open */
+        body.modal-open, body.modal-open * {
+            cursor: auto !important;
+        }
+        body.modal-open .custom-cursor {
+            display: none !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+        #video-modal {
+            z-index: 999999 !important;
+        }
+        #video-modal .modal-inner {
+            z-index: 999999 !important;
+            pointer-events: auto !important;
+        }
+        #video-modal iframe {
+            pointer-events: auto !important;
+            z-index: 999999 !important;
         }
 
         .custom-cursor {
@@ -977,7 +999,7 @@
     </section>
 
     <div id="root"></div>
-    <script type="module" src="./src/simbionApp.js?v=4.5"></script>
+    <script type="module" src="./src/simbionApp.js?v=4.7"></script>
     <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
