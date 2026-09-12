@@ -1526,9 +1526,10 @@ function startSimbionApp() {
             row3 = cmsData.works.filter(w => w.row === 3).sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
         }
 
-        const itemSpacing = isMobile ? 68 : 22.5;
-        // Ensure thumbnail items start safely off-screen (102vw on mobile, 108vw on desktop/tablet)
-        const startLeft = isMobile ? 104 : 108;
+        const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
+        const itemSpacing = isMobile ? 68 : (isTablet ? 30 : 22.5);
+        // Start thumbnail position: off-screen on mobile/tablet to avoid overlapping text
+        const startLeft = isMobile ? 106 : (isTablet ? 112 : 110);
 
         function renderRows(items, topPercent, rowNum) {
             let subHtml = '';
@@ -3345,32 +3346,23 @@ function startSimbionApp() {
             let velParallaxTimeout;
             const galleryItemsList = () => gsap.utils.toArray('.gallery-item-inner');
             const velParallaxItems = () => gsap.utils.toArray('.velocity-parallax');
-            const selectedHeaderEls = ["#selected-title", "#selected-desc", "#selected-right-note"];
-
-            const isTouchScreen = isTouchDevice || window.innerWidth < 1025;
-            const totalScrollDistance = Math.max(isTouchScreen ? 900 : 1300, (filmTrack.scrollWidth - window.innerWidth) * (isTouchScreen ? 1.15 : 1.35));
 
             const trackTl = gsap.timeline({
                 scrollTrigger: {
                     id: "filmTrackTrigger",
                     trigger: "#selected-work",
                     start: "top top",
-                    end: () => "+=" + totalScrollDistance,
-                    scrub: isTouchScreen ? 0.35 : 1.1,
+                    end: () => "+=" + Math.max(isTouchDevice ? 800 : 1200, (filmTrack.scrollWidth - window.innerWidth) * (isTouchDevice ? 1.1 : 1.35)),
+                    scrub: isTouchDevice ? 0.4 : 1.3,
                     pin: true,
                     anticipatePin: 1,
                     invalidateOnRefresh: true,
                     onUpdate: (self) => {
-                        const titleWrap = document.querySelector("#selected-work .absolute.top-20");
-                        if (titleWrap) {
-                            titleWrap.style.pointerEvents = self.progress > 0.1 ? "none" : "auto";
-                        }
-
                         if (!self.isActive) return;
                         const vel = self.getVelocity();
                         const absVel = Math.abs(vel);
 
-                        if (!isTouchScreen && absVel > 30) {
+                        if (!isTouchDevice && absVel > 30) {
                             const blurAmount = Math.min(3.5, absVel / 650);
                             const skewAmount = Math.max(-2.5, Math.min(2.5, -vel / 1200));
                             gsap.to(galleryItemsList(), {
@@ -3400,8 +3392,8 @@ function startSimbionApp() {
                                 const depthY = parseFloat(el.getAttribute('data-depth-y')) || 1.0;
                                 const speedDelta = (depth - 1.0);
 
-                                const shiftX = Math.max(-60, Math.min(60, -(vel * speedDelta * (isTouchScreen ? 0.025 : 0.052))));
-                                const shiftY = Math.max(-20, Math.min(20, (vel / 900) * depthY * (isTouchScreen ? 3 : 6)));
+                                const shiftX = Math.max(-60, Math.min(60, -(vel * speedDelta * (isTouchDevice ? 0.025 : 0.052))));
+                                const shiftY = Math.max(-20, Math.min(20, (vel / 900) * depthY * (isTouchDevice ? 3 : 6)));
                                 const scaleShift = 1 + Math.max(-0.03, Math.min(0.04, (absVel / 2500) * speedDelta));
 
                                 gsap.to(el, {
@@ -3438,25 +3430,33 @@ function startSimbionApp() {
                 }
             });
 
-            // PHASE 1: Fade out judul dan paragraf hingga 100% tuntas terlebih dahulu
-            trackTl.to(selectedHeaderEls, {
-                opacity: 0,
-                y: -35,
-                duration: 0.35,
-                ease: "power2.inOut",
-                stagger: 0.04
-            }, 0);
-
-            // PHASE 2: Thumbnail video BARU MULAI meluncur setelah teks benar-benar fade out
             trackTl.to(filmTrack, {
                 x: () => {
                     const maxMove = filmTrack.scrollWidth - window.innerWidth;
                     return maxMove > 0 ? -maxMove : 0;
                 }, 
-                duration: 1.0,
                 ease: "none"
-            }, 0.38);
+            });
         }
+
+        const isSmallScreen = window.innerWidth <= 1024 || isTouchDevice;
+        gsap.to(["#selected-title", "#selected-desc", "#selected-right-note"], {
+            opacity: 0,
+            y: -30,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: "#selected-work",
+                start: "top top",
+                end: isSmallScreen ? "top+=90" : "top+=150",
+                scrub: true,
+                onUpdate: (self) => {
+                    const titleWrap = document.querySelector("#selected-work .absolute.top-20");
+                    if (titleWrap) {
+                        titleWrap.style.pointerEvents = self.progress > 0.05 ? "none" : "auto";
+                    }
+                }
+            }
+        });
 
         gsap.utils.toArray('.contact-title-line').forEach(line => {
             gsap.fromTo(line,
