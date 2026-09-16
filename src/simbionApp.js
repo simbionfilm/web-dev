@@ -1320,16 +1320,17 @@ function startSimbionApp() {
     // CMS Data and Secrets
     const SECRET_KEYWORD = "fundamental"; 
     const ADMIN_PASSWORD = "simbiosismutualisme"; 
-    const CMS_DATA_VERSION = "2026_difki_belum_selesai_selalu_between_mak_youremine";
+    const CMS_DATA_VERSION = "2026_hanin_cinta_ini_membunuhku_recent_and_gallery";
 
     const defaultCMS = {
         recentRelease: {
-            title: "DIFKI KHALIF — BELUM SELESAI",
-            videoId: "Zwc_1gSKLzM",
-            link: "https://www.youtube.com/watch?v=Zwc_1gSKLzM&list=RDZwc_1gSKLzM&start_radio=1"
+            title: "HANIN DHIYA — CINTA INI MEMBUNUHKU",
+            videoId: "8n-nAfpFQvc",
+            link: "https://www.youtube.com/watch?v=8n-nAfpFQvc&list=RD8n-nAfpFQvc&start_radio=1"
         },
         works: [
             { title: "BELUM SELESAI", artist: "DIFKI KHALIF", year: "2026", videoId: "Zwc_1gSKLzM", row: 1 },
+            { title: "CINTA INI MEMBUNUHKU", artist: "HANIN DHIYA", year: "2024", videoId: "8n-nAfpFQvc", row: 1 },
             { title: "ANTARA", artist: "STEREOWALL", year: "2026", videoId: "7KA1LaIy804", row: 1 },
             { title: "SEANDAINYA", artist: "DIFKI KHALIF & PRINSA MANDAGIE", year: "2026", videoId: "7UJ1DoYP-Qw", row: 1 },
             { title: "BERI AKU KESEMPATAN", artist: "STEVAN PASARIBU", year: "2025", videoId: "2x_EYv5H68o", row: 1 },
@@ -3275,6 +3276,7 @@ function startSimbionApp() {
                 "PUTUSIN AKU DONG":     { xPercent: 65,  yPercent: 55 },  // geser ke KANAN BAWAH tegas
                 "TERJEBAK IMAJINASI":   { xPercent: -85, yPercent: 45 },  // geser ke KIRI lagi
                 "GELANG":               { xPercent: -25, yPercent: 35 },  // geser ke KIRI lagi
+                "CINTA INI MEMBUNUHKU": { xPercent: 5,   yPercent: -45 }, // tepat di sebelah kiri ANTARA
                 "ANTARA":               { xPercent: 45,  yPercent: -35 }, // geser ke KANAN
                 "MERAYAKAN HARI INI":   { xPercent: 70,  yPercent: 65 },  // geser ke BAWAH
                 "SELALU UNTUK SELAMANYA": { xPercent: 10, yPercent: -15 }, // diletakkan tepat di antara Mak Comblang dan You're Mine
