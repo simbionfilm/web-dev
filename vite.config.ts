@@ -24,13 +24,11 @@ function logoUploadPlugin(): Plugin {
                 }
                 const destPath = path.resolve(publicDir, filename);
                 fs.writeFileSync(destPath, buffer);
-
                 // Also copy to dist if dist exists
                 const distDir = path.resolve(__dirname, 'dist');
                 if (fs.existsSync(distDir)) {
                   fs.writeFileSync(path.resolve(distDir, filename), buffer);
                 }
-
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ success: true, filename, size: buffer.length }));
                 return;

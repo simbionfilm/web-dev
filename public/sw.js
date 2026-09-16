@@ -1,5 +1,5 @@
 // Simbion Film High-Performance Asset & 3D Frame Caching Service Worker (100% Free)
-const CACHE_NAME = 'simbion-cache-v1';
+const CACHE_NAME = 'simbion-cache-v3';
 
 // Static core assets to pre-cache immediately on install
 const PRECACHE_ASSETS = [
@@ -79,7 +79,6 @@ self.addEventListener('fetch', (event) => {
                     }
                     return networkResponse;
                 }).catch(() => cachedResponse);
-
                 return cachedResponse || fetchPromise;
             });
         })

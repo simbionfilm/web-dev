@@ -1,6 +1,5 @@
 // Ultra-lightweight 3D Vector Crystallized Cameraman Sequence Engine (60 High-Res Frames)
 // Mathematical 3D Gyroscopic Rotation with Realtime Scroll Control
-
 function generate3DSequenceFrames(totalFrames = 60) {
     const frames = [];
     for (let f = 0; f < totalFrames; f++) {
@@ -108,14 +107,12 @@ function generate3DSequenceFrames(totalFrames = 60) {
                 <circle cx="35" cy="0" r="${camReelSize}" fill="url(#crystalGrad_${f})" stroke="#ffffff" stroke-width="5"/>
                 <circle cx="35" cy="0" r="10" fill="#ffffff"/>
             </g>
-
             <!-- Camera Main Body -->
             <rect x="${-camWidth/2}" y="-20" width="${camWidth}" height="70" rx="16" fill="url(#crystalGrad_${f})" stroke="#8ab0ff" stroke-width="7"/>
             <rect x="${-camWidth/2 + 10}" y="-10" width="${camWidth - 20}" height="20" rx="6" fill="#010636"/>
-
             <!-- Front Lens Cone with 3D Depth Direction -->
             <polygon points="${camWidth/2 - 5},-10 ${camWidth/2 + 45*cosA + 15},-28 ${camWidth/2 + 45*cosA + 15},58 ${camWidth/2 - 5},40" 
-                     fill="url(#crystalGrad_${f})" stroke="#ffffff" stroke-width="5"/>
+                      fill="url(#crystalGrad_${f})" stroke="#ffffff" stroke-width="5"/>
             <!-- Viewfinder / Mattebox -->
             <rect x="${-camWidth/2 - 22}" y="0" width="22" height="32" rx="4" fill="#00094b" stroke="#7096ff" stroke-width="3"/>
         </g>

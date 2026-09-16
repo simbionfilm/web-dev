@@ -107,6 +107,7 @@ window.submitScoreToFirebase = async function(name, time) {
 };
 
 function startSimbionApp() {
+
     if (window.__simbionInitialized) return;
     window.__simbionInitialized = true;
 
@@ -121,7 +122,10 @@ function startSimbionApp() {
         });
     }
 
-    const isTouchDevice = window.matchMedia("(pointer: coarse), (hover: none), (max-width: 1024px)").matches;
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+
+    
+
 
     // Shooting Preloader Logic
     const loader = document.getElementById('fake-loader');
@@ -1781,14 +1785,12 @@ function startSimbionApp() {
                 }
                 e.preventDefault();
                 const videoId = trigger.getAttribute('data-video-id');
-                if (modalIframe) modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&enablejsapi=1`;
+                if (modalIframe) modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
                 if (videoModal) {
                     videoModal.classList.remove('opacity-0', 'pointer-events-none');
-                    videoModal.classList.add('pointer-events-auto');
                     const inner = videoModal.querySelector('.modal-inner');
                     if(inner) setTimeout(() => inner.classList.remove('scale-95'), 10);
                 }
-                document.body.classList.add('modal-open');
                 document.body.style.overflow = 'hidden';
             });
         });
@@ -1800,9 +1802,7 @@ function startSimbionApp() {
             if(inner) inner.classList.add('scale-95');
             setTimeout(() => {
                 videoModal.classList.add('opacity-0', 'pointer-events-none');
-                videoModal.classList.remove('pointer-events-auto');
                 if (modalIframe) modalIframe.src = '';
-                document.body.classList.remove('modal-open');
             }, 300);
         }
         document.body.style.overflow = '';
@@ -3489,6 +3489,7 @@ function startSimbionApp() {
     initGalleryInteractions();
     initParagraphAnimations();
     if (window.ScrollTrigger) ScrollTrigger.refresh();
+                            if (window.lenis) window.lenis.start();
 
     if (document.fonts && document.fonts.ready) {
         document.fonts.ready.then(() => {

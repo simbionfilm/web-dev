@@ -7,19 +7,25 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-J5F2G2P7HR');
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMBION FILM</title>
+    <title>SIMBION Film Boutique</title>
+    <meta name="description" content="Simbion independent filmmaking boutique website featuring cinematic motion, interactive video showcase, client collaborators infinite marquee, and custom film experiences.">
+    <meta property="og:title" content="SIMBION Film Boutique">
+    <meta property="og:description" content="Simbion independent filmmaking boutique website featuring cinematic motion, interactive video showcase, client collaborators infinite marquee, and custom film experiences.">
     
-    <link rel="icon" type="image/png" href="faviconbluewhite.png">
+    <link rel="icon" type="image/png" href="https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/web%20asset/faviconbluewhite.png">
+    
+    <script>
+      window.portfolioData = window.portfolioData || [];
+      var portfolioData = window.portfolioData;
+    </script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
-
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -43,33 +49,29 @@
             }
         }
     </script>
-
     <style>
         *, *::before, *::after {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
-
         html {
             -webkit-text-size-adjust: 100%;
             text-size-adjust: 100%;
         }
-
         html, body {
             width: 100%;
             max-width: 100%;
             overflow-x: hidden;
+            overflow-y: auto !important;
             position: relative;
             margin: 0;
             padding: 0;
+            scroll-behavior: auto;
         }
-
         html.lenis, html.lenis.lenis-smooth { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto !important; }
         .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-        .lenis.lenis-stopped { overflow: hidden; }
-        .lenis.lenis-smooth iframe:not(#modal-iframe) { pointer-events: none; }
-        #modal-iframe { pointer-events: auto !important; }
+        .lenis.lenis-smooth iframe { pointer-events: none; }
         @media (pointer: coarse), (hover: none), (max-width: 1024px) {
             html, body {
                 -webkit-overflow-scrolling: touch;
@@ -82,7 +84,6 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-
         body {
             background-color: #0f0f0f;
             color: #EDEDED;
@@ -92,22 +93,18 @@
             cursor: none !important;
             isolation: isolate;
         }
-
         button, input, select, textarea {
             -webkit-appearance: none;
             appearance: none;
         }
-
         .safari-h-screen {
             min-height: 100vh;
             min-height: -webkit-fill-available;
             min-height: 100dvh;
         }
-
         a, button, input, select, textarea, .interactive-el {
             cursor: none !important;
         }
-
         /* Hide custom cursor on mobile, iPad, tablets, and touch devices */
         @media (pointer: coarse), (hover: none), (max-width: 1024px) {
             body, a, button, input, select, textarea, .interactive-el, .gallery-item, .video-trigger, .we-are-container {
@@ -119,40 +116,16 @@
                 pointer-events: none !important;
             }
         }
-
         canvas {
             -webkit-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
         }
-
         ::selection {
             background-color: #0616C6;
             color: white;
         }
-
-        /* Lenis smooth scrolling iframe protection bypass when modal open */
-        body.modal-open, body.modal-open * {
-            cursor: auto !important;
-        }
-        body.modal-open .custom-cursor {
-            display: none !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
-        }
-        #video-modal {
-            z-index: 999999 !important;
-        }
-        #video-modal .modal-inner {
-            z-index: 999999 !important;
-            pointer-events: auto !important;
-        }
-        #video-modal iframe {
-            pointer-events: auto !important;
-            z-index: 999999 !important;
-        }
-
         .custom-cursor {
             position: fixed;
             top: 0;
@@ -165,10 +138,32 @@
             z-index: 9999;
             mix-blend-mode: difference;
             transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
-            transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1), height 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), height 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform, width, height;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-
+        .custom-cursor.cursor-hover-active {
+            width: auto;
+            min-width: 70px;
+            height: 28px;
+            padding: 0 14px;
+            border-radius: 14px;
+            mix-blend-mode: normal;
+            background-color: rgba(222, 222, 222, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        .custom-cursor.cursor-hover-active::after {
+            content: attr(data-label);
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #0a0a0a;
+            white-space: nowrap;
+        }
         .header-blur-mask {
             position: fixed;
             top: 0;
@@ -183,7 +178,6 @@
             background: transparent;
             border-bottom: 1px solid rgba(222, 222, 222, 0.01);
         }
-
         @keyframes floatSlow {
             0%, 100% { transform: translateY(0px) translateX(0px); }
             50% { transform: translateY(-6px) translateX(-3px); }
@@ -191,7 +185,6 @@
         .floating-widget {
             animation: floatSlow 6s ease-in-out infinite;
         }
-
         .slot-wrapper {
             display: inline-block;
             overflow: hidden; 
@@ -217,7 +210,6 @@
             line-height: 1;
             text-align: center;
         }
-
         .hover-text-fx {
             display: inline-block;
             position: relative;
@@ -230,7 +222,6 @@
             transform: translateZ(0);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), font-style 0.4s ease;
         }
-
         @media (hover: hover) {
             .hover-text-fx:hover, .contact-title-line:hover {
                 font-style: italic !important;
@@ -243,7 +234,6 @@
                 color: #0616C6 !important;
             }
         }
-
         .we-are-container { 
             cursor: pointer;
             perspective: 1200px;
@@ -272,7 +262,6 @@
             will-change: transform;
             -webkit-backface-visibility: hidden;
         }
-
         ::-webkit-scrollbar { display: none; }
         .custom-scroll::-webkit-scrollbar {
             display: block !important;
@@ -303,7 +292,6 @@
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
         }
-
         .bts-float {
             will-change: transform;
         }
@@ -321,7 +309,6 @@
             padding: 0 110vw;
             will-change: transform;
         }
-
         .cinema-medias-grid {
             display: grid;
             grid-template-rows: repeat(3, auto);
@@ -331,7 +318,6 @@
             height: auto;
             position: relative;
         }
-
         .gallery-item {
             display: block;
             position: relative;
@@ -348,14 +334,12 @@
             transition: z-index 0.2s;
             z-index: 50;
         }
-
         .gallery-item-inner {
             will-change: transform;
             transform: translateZ(0);
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
         }
-
         @media (max-width: 768px) {
             .film-track {
                 padding: 0 100vw;
@@ -370,7 +354,6 @@
                 min-height: 24vw;
             }
         }
-
         .text-mask-wrap, .about-mask {
             display: inline-block;
             overflow: hidden;
@@ -444,7 +427,6 @@
                 font-style: italic !important;
             }
         }
-
         .falling-cameraman-blue {
             filter: url(#simbion-blue-filter);
             -webkit-filter: url(#simbion-blue-filter);
@@ -452,7 +434,6 @@
             pointer-events: none;
             user-select: none;
         }
-
         @keyframes vinyl-spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
@@ -464,7 +445,6 @@
             background: radial-gradient(circle at center, #1c1c1c 0%, #0f0f0f 55%, #050505 100%);
             box-shadow: 0 4px 14px rgba(10, 10, 10, 0.8), inset 0 0 4px rgba(222, 222, 222, 0.12);
         }
-
         @keyframes scene-float {
             0%, 55%, 100% { transform: translateY(0px); }
             70% { transform: translateY(-3.5px); }
@@ -488,7 +468,6 @@
         .bts-float-anim-1 { animation: btsFloatA 5.2s ease-in-out infinite; will-change: transform; }
         .bts-float-anim-2 { animation: btsFloatB 6.1s ease-in-out infinite 0.8s; will-change: transform; }
         .bts-float-anim-3 { animation: btsFloatC 5.7s ease-in-out infinite 1.6s; will-change: transform; }
-
         /* Refined Muted Photo Paper Frame (Clean, Thin, No Glow) */
         .bts-laminate-card {
             position: relative;
@@ -508,18 +487,16 @@
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, opacity 0.25s linear;
             overflow: hidden;
         }
-
         @media (min-width: 768px) {
             .bts-laminate-card {
                 padding: 4px;
                 border-radius: 2px;
             }
         }
-
         @media (hover: hover) and (pointer: fine) {
             .bts-laminate-card:hover {
                 transform: scale(1.18) translateZ(20px) !important;
-                box-shadow: 0 16px 32px -6px rgba(0, 0, 0, 0.88),
+                box-shadow: 0 16px 32px -6px rgba(0, 0, 0, 0.88), 
                             0 4px 12px -2px rgba(0, 0, 0, 0.6) !important;
                 z-index: 100;
             }
@@ -527,7 +504,6 @@
         .bts-laminate-card:active {
             transform: scale(1.08) translateZ(10px) !important;
         }
-
         .speed-line {
             position: absolute;
             top: 0;
@@ -597,13 +573,12 @@
             animation: shieldAuraPulse 0.3s ease-in-out infinite !important;
         }
     </style>
-
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
 </head>
 <body class="bg-darkBg text-lightText font-sans selection:bg-simbionBlue selection:text-lightText">
-
     <svg xmlns="http://www.w3.org/2000/svg" class="absolute w-0 h-0 overflow-hidden pointer-events-none opacity-0" aria-hidden="true" style="position: absolute; width: 0; height: 0; pointer-events: none;">
         <defs>
             <filter id="simbion-blue-filter" color-interpolation-filters="sRGB" x="0%" y="0%" width="100%" height="100%">
@@ -615,7 +590,6 @@
             </filter>
         </defs>
     </svg>
-
     <div id="play-hint" class="fixed top-5 md:top-6 left-1/2 -translate-x-1/2 z-[105] opacity-0 transition-all duration-500 font-mono text-[8px] md:text-[9px] text-lightText/90 bg-[#0a0a0a]/90 border border-white/15 backdrop-blur-md px-3 md:px-3.5 py-1.5 rounded-full flex items-center justify-center transform -translate-y-2 select-none shadow-sm pointer-events-auto cursor-pointer">
         <span id="play-hint-desktop" class="tracking-[0.25em] text-lightText/80">[ SPACE ] TO PLAY</span>
         <span id="play-hint-touch" class="hidden items-center gap-1.5 tracking-[0.18em] text-lightText font-semibold">
@@ -626,7 +600,6 @@
             <span>[ TAP TO PLAY ]</span>
         </span>
     </div>
-
     <!-- Mini Game Overlay -->
     <div id="game-overlay" class="fixed inset-0 z-[99999] bg-[#0a0a0a] hidden items-stretch justify-center pointer-events-auto overflow-hidden">
         <div class="relative w-full h-[100dvh] overflow-hidden bg-[#0a0a0a] flex flex-col items-center" id="game-area" style="touch-action: none; cursor: none !important;">
@@ -671,7 +644,6 @@
                     </div>
                     <div id="score-list-mobile-over" class="flex flex-col gap-1.5 font-mono text-[11px] text-white max-h-28 overflow-y-auto"></div>
                 </div>
-
                 <p class="font-mono text-xs md:text-xl text-white tracking-[0.25em] md:tracking-[0.3em] uppercase animate-pulse font-bold cursor-pointer text-center" id="restart-btn">[ TAP OR PRESS SPACE TO TRY AGAIN ]</p>
             </div>
             
@@ -680,11 +652,10 @@
                 <p class="font-mono text-sm md:text-2xl font-bold mb-3 md:mb-6 text-center px-4" id="final-time-msg">TIME: 0.00s</p>
                 
                 <div class="flex flex-col items-center mb-3" id="game-win-input-area">
-                    <span class="font-mono text-xs text-[#000AC2] font-bold tracking-widest uppercase mb-1">★ TOP 10 HIGHSCORE! ★</span>
+                    <span class="font-mono text-xs text-[#000AC2] font-bold tracking-widest uppercase mb-1">  TOP 10 HIGHSCORE!  </span>
                     <input type="text" id="player-name-input-win" placeholder="ENTER NAME" class="bg-transparent border-b-2 border-[#000AC2] text-black font-mono text-center text-lg md:text-2xl outline-none mb-2 md:mb-3 uppercase py-1 w-56 md:w-80 focus:border-black transition-colors placeholder:text-black/40" autocomplete="off" maxlength="12">
                     <p class="font-mono text-[11px] md:text-xs opacity-60 tracking-widest text-center px-4 mb-3">[ PRESS ENTER TO RECORD ]</p>
                 </div>
-
                 <div class="w-full max-w-[280px] md:hidden bg-black/5 border border-black/10 rounded-xl p-3 mb-4 shadow-sm">
                     <div class="pb-2 border-b border-black/10 flex items-center justify-between mb-2">
                         <span class="font-mono text-[#000AC2] font-black text-xs tracking-widest uppercase">HIGHSCORES</span>
@@ -695,15 +666,12 @@
                     </div>
                     <div id="score-list-mobile-win" class="flex flex-col gap-1.5 font-mono text-[11px] text-black max-h-28 overflow-y-auto"></div>
                 </div>
-
                 <p class="font-mono text-xs md:text-xl text-black tracking-[0.25em] md:tracking-[0.3em] uppercase animate-pulse font-bold cursor-pointer text-center" id="play-again-btn">[ TAP OR PRESS SPACE TO PLAY AGAIN ]</p>
             </div>
-
             <!-- Player -->
             <div id="game-player" class="absolute top-[22%] left-1/2 -translate-x-1/2 w-[480px] max-w-none h-auto z-20 will-change-transform pointer-events-none">
-                <img id="game-player-img" src="orang jatuh.gif" class="w-full h-auto object-contain" onerror="const paths=['./orang jatuh.gif','assets/orang jatuh.gif','orang.png','assets/orang.png','orang.gif'];let i=this.dataset.retryIdx?parseInt(this.dataset.retryIdx):0;if(i<paths.length){this.dataset.retryIdx=i+1;this.src=paths[i];}else{this.onerror=null;this.src='https://placehold.co/480x280/000AC2/FFFFFF?text=SIMBION+CAMERAMAN';}">
+                <img id="game-player-img" src="https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/game%20asset/orang%20jatuh.gif" class="w-full h-auto object-contain" onerror="const paths=['./orang jatuh.gif','assets/orang jatuh.gif','orang.png','assets/orang.png','orang.gif'];let i=this.dataset.retryIdx?parseInt(this.dataset.retryIdx):0;if(i<paths.length){this.dataset.retryIdx=i+1;this.src=paths[i];}else{this.onerror=null;this.src='https://placehold.co/480x280/000AC2/FFFFFF?text=SIMBION+CAMERAMAN';}">
             </div>
-
             <!-- Scoreboard Glass Floating Panel -->
             <div id="scoreboard-panel" class="absolute top-6 right-6 w-64 md:w-72 bg-black/40 backdrop-blur-xl border border-white/20 rounded-2xl flex-col z-50 p-4 hidden md:flex shadow-2xl pointer-events-auto transition-opacity duration-500 ease-in-out" style="cursor: auto; max-height: 80vh;">
                 <div class="pb-3 border-b border-white/20 flex items-center justify-between">
@@ -717,12 +685,11 @@
             </div>
         </div>
     </div>
-
     <!-- Preloader -->
     <div id="fake-loader" class="fixed inset-0 z-[9999] bg-simbionBlue flex flex-col items-center justify-center overflow-hidden">
         <div class="relative z-10 flex flex-col items-center justify-center w-full h-full text-center">
             <div id="loader-img-wrap" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto will-change-transform flex flex-col items-center justify-center pointer-events-none relative">
-                <img src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Loading Cameraman" class="w-full h-auto object-contain pointer-events-none" onerror="this.onerror=null; this.src='https://placehold.co/600x400/000AC2/FFFFFF?text=SIMBION+FILM';">
+                <img src="https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/web%20asset/ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Loading Cameraman" class="w-full h-auto object-contain pointer-events-none" onerror="this.onerror=null; this.src='https://placehold.co/600x400/000AC2/FFFFFF?text=SIMBION+FILM';">
                 
                 <div id="loader-text-wrap" class="absolute bottom-6 sm:bottom-10 md:bottom-14 lg:bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none whitespace-nowrap z-20">
                     <span id="loader-text" class="text-xs sm:text-sm md:text-base font-mono font-bold tracking-[0.3em] uppercase text-lightText/95">CAMERA ROLL</span>
@@ -730,7 +697,6 @@
             </div>
         </div>
     </div>
-
     <div class="custom-cursor" id="custom-cursor"></div>
     
     <!-- Left Scroll Indicator (Hidden on mobile phones, active on Tablet/iPad & Desktop) -->
@@ -748,7 +714,6 @@
     </aside>
     
     <div class="header-blur-mask"></div>
-
     <!-- Chat Widget -->
     <div id="chat-balloon" class="fixed bottom-12 md:bottom-16 right-6 md:right-10 z-[105] group cursor-pointer interactive-el floating-widget transition-all duration-700 ease-in-out origin-bottom-right opacity-0 md:opacity-100 pointer-events-none md:pointer-events-auto transform translate-y-4 md:translate-y-0 scale-90 md:scale-100">
         <div id="chat-balloon-inner" class="relative bg-simbionBlue text-lightText px-3 py-1.5 rounded-xl group-hover:scale-105 transition-all duration-300 flex items-center gap-1.5 border border-white/10">
@@ -757,7 +722,6 @@
             <span class="text-[8px] md:text-[9px] font-medium font-mono tracking-widest uppercase text-lightText mt-[1px]">ANYTHING ON YOUR MIND?</span>
         </div>
     </div>
-
     <div id="chat-modal" class="fixed bottom-12 md:bottom-16 right-6 md:right-10 z-[110] w-[calc(100vw-3rem)] md:w-96 opacity-0 pointer-events-none transition-all duration-500 transform translate-y-8 scale-95 origin-bottom-right">
         <div class="bg-darkBg border border-white/20 rounded-3xl p-6 flex flex-col gap-5">
             <div class="flex justify-between items-center border-b border-white/10 pb-4">
@@ -772,19 +736,17 @@
                 <input type="hidden" name="access_key" value="37b802f2-c5e1-4645-b47f-d69dc4ca3aec">
                 <input type="email" id="chat-email" name="email" required placeholder="Your email, please" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-lightText tracking-wide interactive-el">
                 <input type="text" id="chat-subject" name="subject" required placeholder="What are we making?" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-lightText tracking-wide interactive-el">
-                <textarea id="chat-body" name="message" required rows="3" placeholder="Tell us what’s on your mind" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-lightText tracking-wide resize-none interactive-el"></textarea>
+                <textarea id="chat-body" name="message" required rows="3" placeholder="Tell us what s on your mind" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs focus:border-simbionBlue outline-none text-lightText tracking-wide resize-none interactive-el"></textarea>
                 <button type="submit" id="chat-submit-btn" class="bg-simbionBlue text-lightText font-bold text-xs font-mono uppercase tracking-widest px-6 py-3.5 rounded-xl hover:bg-simbionBlue mt-2 interactive-el">
                     SEND MESSAGE
                 </button>
             </form>
         </div>
     </div>
-
     <!-- Notification Toast -->
     <div id="custom-toast" class="fixed top-8 left-1/2 -translate-x-1/2 z-[350] bg-darkBg border border-white/20 text-lightText px-6 py-3 rounded-2xl opacity-0 pointer-events-none transition-all duration-300 transform -translate-y-4">
         <span id="toast-message" class="text-xs font-mono uppercase tracking-widest">Notification</span>
     </div>
-
     <!-- Confirm Modal -->
     <div id="custom-confirm-modal" class="fixed inset-0 z-[320] bg-darkBg/95 backdrop-blur-md flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 p-4">
         <div class="bg-darkBg border border-white/20 rounded-3xl w-full max-w-sm p-6 text-lightText text-center transform scale-95 transition-transform duration-300 modal-inner">
@@ -796,7 +758,6 @@
             </div>
         </div>
     </div>
-
     <!-- Password Modal for CMS Access -->
     <div id="password-modal" class="fixed inset-0 z-[300] bg-darkBg/95 backdrop-blur-md flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 p-4 overflow-y-auto">
         <div class="bg-darkBg border border-white/20 rounded-3xl w-full max-w-md p-6 text-lightText relative text-center my-auto transform scale-95 transition-transform duration-300 modal-inner">
@@ -811,7 +772,6 @@
             </form>
         </div>
     </div>
-
     <!-- CMS Modal -->
     <div id="cms-modal" data-lenis-prevent class="fixed inset-0 z-[250] bg-darkBg/95 backdrop-blur-md flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 p-4 md:p-8 overflow-y-auto">
         <div data-lenis-prevent class="bg-darkBg border border-white/20 rounded-3xl w-full max-w-4xl p-6 md:p-8 text-lightText relative my-auto transform scale-95 transition-transform duration-300 modal-inner max-h-[90vh] flex flex-col">
@@ -822,7 +782,6 @@
                 </div>
                 <button id="close-cms" class="text-xs font-mono bg-white/10 px-4 py-2 rounded-xl hover:bg-white/20 uppercase interactive-el">CLOSE [ESC]</button>
             </div>
-
             <div class="overflow-y-auto flex-1 pr-1 custom-scroll" data-lenis-prevent>
                 <div class="mb-8 p-4 bg-darkBg rounded-2xl border border-white/10">
                     <h3 class="text-xs font-mono uppercase tracking-widest text-simbionBlue mb-4">New Release Widget</h3>
@@ -841,7 +800,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div>
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-xs font-mono uppercase tracking-widest text-simbionBlue">Selected Works List (<span id="cms-count">0</span> Items)</h3>
@@ -850,7 +808,6 @@
                     <div id="cms-items-container" data-lenis-prevent class="space-y-4 max-h-[50vh] overflow-y-auto pr-2 custom-scroll"></div>
                 </div>
             </div>
-
             <div class="mt-6 pt-6 border-t border-white/10 flex justify-end items-center gap-4 shrink-0">
                 <button id="cms-reset-scores" class="text-xs font-mono text-amber-400/80 hover:text-amber-400 hover:underline px-3 py-2 interactive-el">Reset Local Highscores</button>
                 <button id="cms-reset" class="text-xs font-mono text-red-400 hover:underline px-3 py-2 interactive-el">Reset Defaults</button>
@@ -858,7 +815,6 @@
             </div>
         </div>
     </div>
-
     <!-- YouTube Video Modal -->
     <div id="video-modal" class="fixed inset-0 z-[200] bg-darkBg flex items-center justify-center opacity-0 pointer-events-none transition-all duration-500">
         <button id="close-modal" class="absolute top-6 right-6 md:top-8 md:right-8 text-lightText text-xs font-mono tracking-[0.3em] uppercase z-10 min-w-[44px] min-h-[44px] flex items-center justify-center p-3.5 interactive-el active:scale-95 transition-transform" style="top: max(1.5rem, env(safe-area-inset-top)); right: max(1.5rem, env(safe-area-inset-right));">
@@ -868,25 +824,21 @@
             <iframe id="modal-iframe" src="" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </div>
-
     <!-- Navigation Header -->
     <nav class="fixed top-0 w-full z-[100] p-6 mix-blend-difference flex justify-between items-start pointer-events-none text-xs md:text-sm tracking-widest text-lightText">
         <div class="pointer-events-auto flex flex-col gap-1">
             <a href="#hero" class="">
-                <img src="LOGOmuter.gif" alt="SIMBION FILM" class="h-[17px] md:h-[23px] w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/120x30/0a0a0a/dedede?text=SIMBION';">
+                <img src="https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/web%20asset/LOGO_SIMBION%20MUTER.gif" alt="SIMBION FILM" class="h-[17px] md:h-[23px] w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/120x30/0a0a0a/dedede?text=SIMBION';">
             </a>
         </div>
     </nav>
-
     <div id="recent-release-container"></div>
-
     <!-- Hero Section -->
     <section id="hero" class="relative w-full h-[100dvh] min-h-[600px] flex flex-col justify-center items-center px-6 md:px-12 bg-darkBg z-10 overflow-hidden">
         <div class="absolute inset-0 flex items-center justify-center parallax-hero z-10 pointer-events-none opacity-100 mix-blend-normal">
-            <img id="hero-main-gif" src="ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto object-contain will-change-transform" onerror="this.onerror=null; this.src='https://placehold.co/650x450/0a0a0a/dedede?text=SIMBION+FILM';">
+            <img id="hero-main-gif" src="https://emjwdjdzbatvzljsouav.supabase.co/storage/v1/object/public/web%20asset/web%20asset/ORANGSHOOTINGALPHACREDIT-ezgif.com-video-to-gif-converter.gif" alt="Filmmaking GIF" class="w-[65vw] md:w-[46vw] max-w-3xl h-auto object-contain will-change-transform" onerror="this.onerror=null; this.src='https://placehold.co/650x450/0a0a0a/dedede?text=SIMBION+FILM';">
         </div>
     </section>
-
     <!-- About Section with its own 3D Canvas -->
     <section id="about" class="relative w-full min-h-[100dvh] py-20 md:py-28 bg-darkBg text-lightText flex flex-col justify-center items-center px-6 sm:px-12 md:px-16 lg:px-24 z-20 overflow-hidden">
         <div class="relative w-full max-w-[94vw] sm:max-w-[88vw] md:max-w-[82vw] lg:max-w-[1100px] xl:max-w-[1200px] mx-auto my-auto flex flex-col items-center justify-center z-30">
@@ -899,7 +851,6 @@
         <!-- 3D Canvas 1 in About -->
         <canvas id="about-3d-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
     </section>
-
     <!-- We Are Section with its own 3D Canvas -->
     <section id="we-are-made" class="relative w-full h-[100dvh] bg-darkBg flex flex-col justify-center items-center px-3 sm:px-6 md:px-24 z-20 overflow-hidden">
         <div class="we-are-container relative z-10 my-auto flex flex-col items-center justify-center gap-2 md:gap-4 select-none w-full max-w-7xl">
@@ -916,7 +867,6 @@
         <!-- 3D Canvas 2 in We Are -->
         <canvas id="we-are-3d-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-20"></canvas>
     </section>
-
     <!-- Selected Works Section -->
     <section id="selected-work" class="relative bg-darkBg z-40 w-full h-[100dvh] overflow-hidden flex flex-col">
         <div class="absolute top-20 md:top-24 left-6 md:left-12 right-6 md:right-12 z-20 pointer-events-none flex flex-col">
@@ -930,7 +880,7 @@
                 <div id="selected-desc" class="ml-[100px] sm:ml-[150px] md:ml-[230px] lg:ml-[24vw] w-[85vw] sm:w-[50vw] max-w-sm sm:max-w-md md:max-w-lg lg:max-w-[490px] select-none pointer-events-none">
                     <p class="font-semibold text-[15.5px] sm:text-[17px] md:text-[18.5px] lg:text-[20px] text-lightText/90 leading-snug md:leading-[1.38] text-left">
                         Every project leaves something behind.
-                        A moment, a frame, a story, or sometimes just a feeling. Over the years, we’ve collected them through the people we’ve met and the stories we’ve had the chance to tell.
+                        A moment, a frame, a story, or sometimes just a feeling. Over the years, we ve collected them through the people we ve met and the stories we ve had the chance to tell.
                     </p>
                 </div>
                 <!-- Right Corner Note (Aligned with first line of paragraph) -->
@@ -945,7 +895,6 @@
             <div class="film-track" id="film-track"></div>
         </div>
     </section>
-
     <!-- The Soul Section (BTS Marquee) -->
     <section id="the-soul" class="relative w-full min-h-[170dvh] bg-darkBg text-lightText flex flex-col justify-start px-0 pt-20 pb-36 md:pt-32 md:pb-48 lg:pt-40 lg:pb-56 z-45 overflow-x-clip overflow-y-visible">
         <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 mb-20 md:mb-32 lg:mb-40">
@@ -960,14 +909,12 @@
                 </div>
             </div>
         </div>
-
         <div class="relative w-full py-20 md:py-32 lg:py-36 bts-enter flex justify-center items-center overflow-visible mt-8 md:mt-16" style="perspective: 1600px; min-height: 95vh;">
             <div id="bts-carousel-ring" class="relative flex justify-center items-center" style="transform-style: preserve-3d; width: 100%; height: 100%;">
                 <!-- Images injected by JS -->
             </div>
         </div>
     </section>
-
     <!-- Statement Section with its own 3D Canvas (Layout & Typography matching theartofcinema.xyz) -->
     <section id="statement" data-id="project-fit" class="relative w-full min-h-[140dvh] py-24 sm:py-32 md:py-44 bg-darkBg text-lightText flex flex-col justify-center items-start px-6 sm:px-12 md:px-16 lg:px-20 z-48 overflow-hidden">
         <div class="relative w-full md:w-[65vw] lg:w-[68vw] max-w-[940px] my-auto flex flex-col z-20">
@@ -978,7 +925,6 @@
         <!-- 3D Canvas 3 in Statement -->
         <canvas id="statement-3d-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
     </section>
-
     <!-- Contact Section -->
     <section id="contact" class="relative w-full h-[100dvh] bg-darkBg flex flex-col justify-between px-4 md:px-12 py-16 z-[60]">
         <div class="relative z-10 flex flex-col items-center text-center w-full my-auto">
@@ -986,7 +932,7 @@
                 <div class="clip-mask w-full flex justify-center"><div class="velocity-line contact-title-line block uppercase text-[12vw] md:text-[9vw] text-lightText interactive-el hover-text-fx" data-text="READY TO"></div></div>
                 <div class="clip-mask w-full flex justify-center"><div class="velocity-line contact-title-line block uppercase text-[12vw] md:text-[9vw] text-lightText interactive-el hover-text-fx" data-text="ROLL?"></div></div>
             </div>
-            <p class="text-[10px] md:text-sm tracking-[0.2em] md:tracking-[0.3em] text-lightText/70 opacity-0 transform translate-y-4 reveal-quote mt-10 interactive-el hover-text-fx font-mono">( Guess we’ll see you at the first PPM )</p>
+            <p class="text-[10px] md:text-sm tracking-[0.2em] md:tracking-[0.3em] text-lightText/70 opacity-0 transform translate-y-4 reveal-quote mt-10 interactive-el hover-text-fx font-mono">( Guess we ll see you at the first PPM )</p>
         </div>
         <div id="footer-bottom" class="w-full px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-6 z-10 text-[10px] tracking-[0.15em] text-mutedText font-mono uppercase">
             <div class="flex gap-8"><a href="https://mail.google.com/mail/?view=cm&fs=1&to=play@simbionfilm.com" target="_blank" rel="noopener noreferrer" class="interactive-el hover-text-fx text-lightText hover:text-simbionBlue">play@simbionfilm.com</a></div>
@@ -997,9 +943,8 @@
             <div class="hover-text-fx text-lightText/50">&copy; 2026 Simbion Film</div>
         </div>
     </section>
-
     <div id="root"></div>
-    <script type="module" src="./src/simbionApp.js?v=4.7"></script>
+    <script type="module" src="./src/simbionApp.js?v=4.9"></script>
     <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>

@@ -1,5 +1,4 @@
 // Precise vector representations and file path resolvers for the 11 film equipment assets
-
 function svgData(svg) {
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg.trim());
 }
@@ -103,19 +102,16 @@ const videoCameraSVG = svgData(`
     <circle cx="160" cy="160" r="12" fill="black"/>
     <circle cx="120" cy="120" r="12" fill="black"/>
     <circle cx="200" cy="120" r="12" fill="black"/>
-
     <circle cx="320" cy="120" r="75" fill="white"/>
     <circle cx="320" cy="120" r="20" fill="black"/>
     <circle cx="320" cy="80" r="12" fill="black"/>
     <circle cx="320" cy="160" r="12" fill="black"/>
     <circle cx="280" cy="120" r="12" fill="black"/>
     <circle cx="360" cy="120" r="12" fill="black"/>
-
     <!-- Camera Body -->
     <rect x="10" y="210" width="370" height="230" rx="35" fill="white"/>
     <circle cx="240" cy="430" r="12" fill="black"/>
     <rect x="265" y="420" width="80" height="20" rx="10" fill="black"/>
-
     <!-- Front Lens Cone -->
     <polygon points="390,260 495,210 495,430 390,380" fill="white"/>
 </svg>
@@ -213,7 +209,7 @@ export const filmAwardSVG = svgData(`
     <ellipse cx="472" cy="270" rx="26" ry="14" transform="rotate(15 472 270)" fill="white"/>
     <ellipse cx="467" cy="190" rx="26" ry="14" transform="rotate(-10 467 190)" fill="white"/>
     <ellipse cx="432" cy="120" rx="26" ry="14" transform="rotate(-35 432 120)" fill="white"/>
-
+    
     <!-- Center Film Reel Trophy -->
     <circle cx="256" cy="256" r="105" fill="white"/>
     <circle cx="256" cy="256" r="32" fill="black"/>
