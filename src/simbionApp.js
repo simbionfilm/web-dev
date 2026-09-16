@@ -3287,7 +3287,7 @@ function startSimbionApp() {
                 "PUTUSIN AKU DONG":     { xPercent: 65,  yPercent: 55 },  // geser ke KANAN BAWAH tegas
                 "TERJEBAK IMAJINASI":   { xPercent: -85, yPercent: 45 },  // geser ke KIRI lagi
                 "GELANG":               { xPercent: -25, yPercent: 35 },  // geser ke KIRI lagi
-                "CINTA INI MEMBUNUHKU": { xPercent: 0,   yPercent: -35 }, // tepat di sebelah kiri ANTARA
+                "CINTA INI MEMBUNUHKU": { xPercent: -85, yPercent: 20 }, // tepat di sebelah kiri ANTARA dengan jarak proporsional
                 "ANTARA":               { xPercent: 45,  yPercent: -35 }, // geser ke KANAN
                 "MERAYAKAN HARI INI":   { xPercent: 70,  yPercent: 65 },  // geser ke BAWAH
                 "SELALU UNTUK SELAMANYA": { xPercent: 10, yPercent: -15 }, // diletakkan tepat di antara Mak Comblang dan You're Mine
