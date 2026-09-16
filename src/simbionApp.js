@@ -1481,11 +1481,11 @@ function startSimbionApp() {
         const track = document.getElementById('film-track');
         if (!track) return;
         
-        // Use all works sorted by year
-        const sortedWorks = [...cmsData.works].sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
+        // Use works array directly
+        const works = [...cmsData.works];
         
         let gridHtml = '<div class="cinema-medias-grid" id="cinema-medias-grid">';
-        sortedWorks.forEach((item) => {
+        works.forEach((item) => {
             gridHtml += `
                 <div class="gallery-item cms-gallery-item" data-title="${item.title.toUpperCase()}">
                     <div class="gallery-item-inner block relative w-full h-full overflow-hidden rounded-sm group cursor-pointer bg-darkBg video-trigger border border-white/10 hover:border-simbionBlue/60 active:scale-95 transition-colors duration-150" data-video-id="${item.videoId}">
